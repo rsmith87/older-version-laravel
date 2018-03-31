@@ -9,8 +9,9 @@ class CreateRoleUserTable extends Migration
   {
     Schema::create('role_user', function (Blueprint $table) {
       $table->increments('id');
-      $table->longtext('role_id');
-      $table->longtext('user_id');
+      $table->integer('role_id');
+      $table->integer('user_id');
+      $table->timestamps();
     });
   }
   public function down()

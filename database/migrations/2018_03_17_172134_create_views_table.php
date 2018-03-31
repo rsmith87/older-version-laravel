@@ -14,10 +14,10 @@ class CreateViewsTable extends Migration
     {
         Schema::create('views', function (Blueprint $table) {
             $table->increments('id');
-            $table->longtext('u_id');
-            $table->longtext('view_type');
-            $table->longtext('view_data');
-
+            $table->integer('u_id');
+            $table->longText('view_type');
+            $table->longText('view_data');
+            $table->timestamps();
             
         });
     }

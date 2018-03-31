@@ -14,16 +14,16 @@ class CreateDocumentTable extends Migration
     {
         Schema::create('document', function (Blueprint $table) {
           $table->increments('id');
-          $table->longtext('name');
-          $table->longtext('description');
-          $table->longtext('location');
-          $table->longtext('path');
-          $table->longtext('case_id');
-          $table->longtext('client_id');
-          $table->longtext('contact_id');
-          $table->longtext('firm_id');
-          $table->longtext('user_id');
-          $table>timestamps();
+          $table->longText('name');
+          $table->longText('description');
+          $table->longText('location');
+          $table->longText('path');
+          $table->integer('case_id');
+          $table->integer('client_id');
+          $table->integer('contact_id');
+          $table->integer('firm_id');
+          $table->integer('user_id');
+          $table->timestamps();
         });
     }
 

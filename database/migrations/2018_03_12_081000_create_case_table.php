@@ -14,23 +14,24 @@ class CreateCaseTable extends Migration
     {
       Schema::create('case', function (Blueprint $table) {
         $table->increments('id');
-        $table->longtext('status');        
-        $table->longtext('number');
-        $table->longtext('name');
-        $table->longtext('description');        
-        $table->longtext('court_name');
-        $table->longtext('opposing_councel');
-        $table->longtext('claim_reference_number');
-        $table->longtext('location');
-        $table->longtext('created_at');
-        $table->text('open_date');
-        $table->text('close_date');
+        $table->text('status');        
+        $table->longText('number');
+        $table->longText('name');
+        $table->longText('description');        
+        $table->longText('court_name');
+        $table->longText('opposing_councel');
+        $table->longText('claim_reference_number');
+        $table->longText('location');
+        $table->dateTime('created_at');
+        $table->dateTime('open_date');
+        $table->dateTime('close_date');
         $table->text('statute_of_limitations');
         $table->text('is_billable');
-        $table->longtext('billing_type');
-        $table->longtext('billing_rate', 4, 2);
-        $table->longtext('firm_id');
-        $table->longtext('u_id');
+        $table->text('billing_type');
+        $table->text('billing_rate', 4, 2);
+        $table->integer('firm_id');
+        $table->integer('u_id');
+        $table->timestamps();
       });
     }
 

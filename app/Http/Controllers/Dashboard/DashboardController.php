@@ -38,10 +38,10 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-      if(empty($this->user->roles())){
-          $this->user->roles()->attach(Role::where('name', 'administrator')->first());
+      if(null === $this->user->roles()){
+        \DB::table('role_users')->insert(['role_id' => 1, 'user_id' => \Auth::id()]);
       }    
-      if(empty(Settings::where('user_id', \Auth::id())->first())){
+      if(null === Settings::where('user_id', \Auth::id())->first()){
         Settings::create([
           'user_id' => \Auth::id(),
           'theme' => 'flatly',

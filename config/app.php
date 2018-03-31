@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://legality-codenerd33.codeanyapp.com',
+    'url' => 'http://legaleeze-php-7-2-codenerd33.codeanyapp.com/',
 
     /*
     |--------------------------------------------------------------------------

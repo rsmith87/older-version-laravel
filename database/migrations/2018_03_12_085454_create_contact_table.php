@@ -14,18 +14,19 @@ class CreateContactTable extends Migration
     {
         Schema::create('contact', function (Blueprint $table) {
           $table->increments('id');
-          $table->longtext('prefix');
-          $table->longtext('first_name');
-          $table->longtext('last_name');
-          $table->longtext('company');
-          $table->longtext('company_title');
-          $table->longtext('phone');
-          $table->longtext('email');
-          $table->longtext('address');
-          $table->longtext('case_id');
-          $table->longtext('firm_id');  
-          $table->longtext('is_client');
-          $table->longtext('user_id');
+          $table->longText('prefix');
+          $table->longText('first_name');
+          $table->longText('last_name');
+          $table->longText('company');
+          $table->longText('company_title');
+          $table->longText('phone');
+          $table->longText('email');
+          $table->longText('address');
+          $table->integer('case_id');
+          $table->integer('firm_id');  
+          $table->integer('is_client');
+          $table->integer('user_id');
+          $table->timestamps();
         });
     }
 

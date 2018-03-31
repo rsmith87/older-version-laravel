@@ -14,7 +14,7 @@ class CreateViewTypesTable extends Migration
     {
         Schema::create('view_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->longtext('type');
+            $table->longText('type');
         });
     }
 
