@@ -1,0 +1,106 @@
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:00.205Z]: #= VoiceClient: ============================Startup============================
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:00.208Z]: #= VoiceClient: State -> INITIALISED
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.155Z]: #= VoiceClient: + Found render device Digital Audio (S/PDIF) (High Definition Audio Device)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.155Z]: #= VoiceClient: + Found render device Headset Earphone (Razer Kraken 7.1 Chroma)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.155Z]: #= VoiceClient: + Found render device Digital Audio (S/PDIF) (High Definition Audio Device)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.155Z]: #= VoiceClient: + Found render device Default System Device
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.155Z]: #= VoiceClient: + Found render device No Device
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.155Z]: #= VoiceClient: + Render device changed from Unknown -> Headset Earphone (Razer Kraken 7.1 Chroma)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.268Z]: #= VoiceClient: + Found capture device Headset Microphone (Razer Kraken 7.1 Chroma)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.268Z]: #= VoiceClient: + Found capture device Default System Device
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.268Z]: #= VoiceClient: + Found capture device No Device
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:03.268Z]: #= VoiceClient: + Capture device changed from Unknown -> Headset Microphone (Razer Kraken 7.1 Chroma)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:09.104Z]: #= VoiceClient: Auto-Join Enabled Flags 0000 -> 0004
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:09.104Z]: #= VoiceClient: Channel Enabled Flags 0000 -> 0004
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:31.110Z]: #= VoiceClient: ChatSystem switching to new PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:31.110Z]: #= VoiceClient: RequestJoinChannel -> PARTY : _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:31.110Z]: #= VoiceClient: __SetTargetActiveChannelType(UNKNOWN -> PARTY) : -2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:31.111Z]: #= VoiceClient: + region: us, url: __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:31.111Z]: #= VoiceClient: State -> CREATING_CONNECTOR
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.322Z]: #= VoiceClient: State -> CREATED_CONNECTOR
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.355Z]: #= VoiceClient: State -> LOGGING_IN
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.372Z]: #= VoiceClient: SetVolume(52)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.372Z]: #= VoiceClient: SetMicVolume(50)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.372Z]: #= VoiceClient: SetMicMute(1)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.388Z]: #= VoiceClient: + login_state_logging_in
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.555Z]: #= VoiceClient: + account uri = .74d43580a8a3_2018031603403337813600.
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.555Z]: #= VoiceClient: State -> LOGGED_IN
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.555Z]: #= VoiceClient: + login_state_logged_in
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.571Z]: #= VoiceClient: State -> CREATING_SESSIONGROUP
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.671Z]: #= VoiceClient: State -> CREATED_SESSIONGROUP
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.688Z]: #= VoiceClient: SetVolume(60)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.688Z]: #= VoiceClient: SetMicVolume(48)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.688Z]: #= VoiceClient: SetMicMute(0)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.838Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> JOINING
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.838Z]: #= VoiceClient: + session_media_connecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:33.938Z]: #= VoiceClient: + session_media_connected : _?__EvQ==__?_ <200>:  ChannelSession _?__EvQ==__?_-> IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:34.105Z]: #= VoiceClient: + Participant added : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:40:34.105Z]: #= VoiceClient: + Participant added : URI .1c1b0de2ea13_2018031603365308870000., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.776Z]: #= VoiceClient: ChatSystem leaving PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.776Z]: #= VoiceClient: RequestLeaveChannel -> _?__EvQ==__?_ from IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.776Z]: #= VoiceClient: __SetTargetActiveChannelType(PARTY -> UNKNOWN) : 1
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.776Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> PENDING_REMOVE
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.843Z]: #= VoiceClient: + session_media_disconnecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.909Z]: #= VoiceClient: + Participant removed : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__ (spoke 104 times)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.909Z]: #= VoiceClient: + session_media_disconnected : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:46:30.926Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> REMOVED (session __?__)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:22.877Z]: #= VoiceClient: ChatSystem switching to new PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:22.877Z]: #= VoiceClient: RequestJoinChannel -> PARTY : _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:22.877Z]: #= VoiceClient: __SetTargetActiveChannelType(UNKNOWN -> PARTY) : -2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:22.994Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> JOINING
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:22.994Z]: #= VoiceClient: + session_media_connecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:23.110Z]: #= VoiceClient: + session_media_connected : _?__EvQ==__?_ <200>:  ChannelSession _?__EvQ==__?_-> IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:23.317Z]: #= VoiceClient: + Participant added : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T03:47:23.317Z]: #= VoiceClient: + Participant added : URI .1c1b0de2ea13_2018031603365308870000., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.362Z]: #= VoiceClient: __SetTargetActiveChannelType(PARTY -> TEAM) : 5
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.363Z]: #= VoiceClient: ChatSystem leaving PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.363Z]: #= VoiceClient: RequestLeaveChannel -> _?__EvQ==__?_ from IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.363Z]: #= VoiceClient: __SetTargetActiveChannelType(TEAM -> UNKNOWN) : 2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.363Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> PENDING_REMOVE
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.434Z]: #= VoiceClient: + session_media_disconnecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.534Z]: #= VoiceClient: + Participant removed : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__ (spoke 374 times)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.534Z]: #= VoiceClient: + session_media_disconnected : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:44.548Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> REMOVED (session __?__)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.363Z]: #= VoiceClient: ChatSystem switching to new PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.363Z]: #= VoiceClient: RequestJoinChannel -> PARTY : _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.363Z]: #= VoiceClient: __SetTargetActiveChannelType(UNKNOWN -> PARTY) : -2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.506Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> JOINING
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.506Z]: #= VoiceClient: + session_media_connecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.649Z]: #= VoiceClient: + session_media_connected : _?__EvQ==__?_ <200>:  ChannelSession _?__EvQ==__?_-> IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.834Z]: #= VoiceClient: + Participant added : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:46.834Z]: #= VoiceClient: + Participant added : URI .1c1b0de2ea13_2018031603365308870000., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.491Z]: #= VoiceClient: __SetTargetActiveChannelType(PARTY -> TEAM) : 5
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.492Z]: #= VoiceClient: ChatSystem leaving PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.492Z]: #= VoiceClient: RequestLeaveChannel -> _?__EvQ==__?_ from IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.492Z]: #= VoiceClient: __SetTargetActiveChannelType(TEAM -> UNKNOWN) : 2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.492Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> PENDING_REMOVE
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.534Z]: #= VoiceClient: + session_media_disconnecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.606Z]: #= VoiceClient: + Participant removed : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__ (spoke 1 times)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.606Z]: #= VoiceClient: + session_media_disconnected : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:47.620Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> REMOVED (session __?__)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.134Z]: #= VoiceClient: __SetTargetActiveChannelType(UNKNOWN -> TEAM) : 5
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.134Z]: #= VoiceClient: __SetTargetActiveChannelType(TEAM -> UNKNOWN) : 2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.491Z]: #= VoiceClient: ChatSystem switching to new PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.491Z]: #= VoiceClient: RequestJoinChannel -> PARTY : _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.491Z]: #= VoiceClient: __SetTargetActiveChannelType(UNKNOWN -> PARTY) : -2
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.591Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> JOINING
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.591Z]: #= VoiceClient: + session_media_connecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.692Z]: #= VoiceClient: + session_media_connected : _?__EvQ==__?_ <200>:  ChannelSession _?__EvQ==__?_-> IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.863Z]: #= VoiceClient: + Participant added : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T04:15:49.863Z]: #= VoiceClient: + Participant added : URI .1c1b0de2ea13_2018031603365308870000., Channel _?__EvQ==__?_, Session __?__
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.459Z]: #= VoiceClient: ChatSystem leaving PARTY channel: _?__EvQ==__?_
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.459Z]: #= VoiceClient: RequestLeaveChannel -> _?__EvQ==__?_ from IN_SESSION
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.459Z]: #= VoiceClient: __SetTargetActiveChannelType(PARTY -> UNKNOWN) : 1
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.459Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> PENDING_REMOVE
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.550Z]: #= VoiceClient: + session_media_disconnecting : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.609Z]: #= VoiceClient: + Participant removed : URI .74d43580a8a3_2018031603403337813600., Channel _?__EvQ==__?_, Session __?__ (spoke 538 times)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.609Z]: #= VoiceClient: + session_media_disconnected : _?__EvQ==__?_ <0>
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T05:22:52.626Z]: #= VoiceClient: + ChannelSession _?__EvQ==__?_-> REMOVED (session __?__)
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.668Z]: #= VoiceClient: Auto-Join Enabled Flags 0004 -> 0000
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.668Z]: #= VoiceClient: Channel Enabled Flags 0004 -> 0000
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.668Z]: #= VoiceClient: State -> REMOVING_SESSIONGROUP
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.725Z]: #= VoiceClient: State -> LOGGED_IN
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.727Z]: #= VoiceClient: State -> LOGGING_OUT
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.755Z]: #= VoiceClient: + login_state_logging_out
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.755Z]: #= VoiceClient: State -> CREATED_CONNECTOR
+[9832] [NRM] [Game] [External(0)] [External()] [2018-03-16T06:24:44.755Z]: #= VoiceClient: + login_state_logged_out <200>
