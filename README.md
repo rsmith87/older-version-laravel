@@ -1,0 +1,3 @@
+# Legaleeze
+
+Legaleeze Laravel
