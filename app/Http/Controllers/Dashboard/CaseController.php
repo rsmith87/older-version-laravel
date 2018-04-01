@@ -30,7 +30,7 @@ class CaseController extends Controller
   {
     
     $request->user()->authorizeRoles(['auth_user', 'administrator']);
-    $not_allowed = $request->user()->hasRole('auth_user');
+    $not_allowed = $request->user()->hasRole('administrator');
     
 
     $firm_id = $this->settings->firm_id;

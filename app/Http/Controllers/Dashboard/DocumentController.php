@@ -30,8 +30,8 @@ class DocumentController extends Controller
   
     public function index(Request $request)
     {
-      $request->user()->authorizeRoles(['auth_user', 'administrator']);
-      $not_allowed = $request->user()->hasRole('auth_user');  
+      $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
+      $not_allowed = $request->user()->hasRole('administrator');      
       
       $documents = Document::where('user_id', \Auth::id())->with('wysiwyg')->get();
       $my_clients = Contact::where(['user_id' => \Auth::id(), 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();

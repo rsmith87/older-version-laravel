@@ -53,9 +53,8 @@ class DashboardController extends Controller
      if(!$this->settings->firm_id){
         return redirect('/dashboard/firm')->with('status', 'First, let\'s setup your firm.  Input the fields below to start.');
       }      
-      $request->user()->authorizeRoles(['auth_user', 'administrator']);
-      $not_allowed = $request->user()->hasRole('auth_user');
-      
+      $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
+      $not_allowed = $request->user()->hasRole('administrator');      
 
       
       if(!View::where('u_id', \Auth::id())->first()){
@@ -87,7 +86,7 @@ class DashboardController extends Controller
     public function reports(Request $request)
     {
       $request->user()->authorizeRoles(['auth_user', 'administrator']);
-      $not_allowed = $request->user()->hasRole('auth_user');  
+      $not_allowed = $request->user()->hasRole('administrator');  
       return view('dashboard/reports', ['user_name' => $this->user['name'], 'theme' => $this->settings->theme, 'role' => $not_allowed]);
     }
   

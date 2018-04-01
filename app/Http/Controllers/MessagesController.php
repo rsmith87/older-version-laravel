@@ -41,6 +41,8 @@ class MessagesController extends Controller
     {
         // All threads, ignore deleted/archived participants
         //$threads = Thread::getAllLatest()->get();
+        $not_allowed = $request->user()->hasRole('administrator');      
+
       
         // All threads that user is participating in
         $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
@@ -49,7 +51,7 @@ class MessagesController extends Controller
         //$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
         $users = User::where('id', '!=', Auth::id())->get();
 
-        return view('messenger.index', ['threads' => $threads, 'users' => $users, 'theme' => $this->settings->theme, 'role' => $this->role]);
+        return view('messenger.index', ['threads' => $threads, 'users' => $users, 'theme' => $this->settings->theme, 'role' => $not_allowed]);
     }
 
     /**
@@ -60,7 +62,7 @@ class MessagesController extends Controller
      */
     public function show($id, Request $request)
     {
-        $not_allowed = $request->user()->hasRole('auth_user');
+        $not_allowed = $request->user()->hasRole('administrator');
       
         try {
             $thread = Thread::findOrFail($id);
@@ -79,7 +81,7 @@ class MessagesController extends Controller
 
         $thread->markAsRead($userId);
 
-        return view('messenger.show', ['users' => $users, 'thread' => $thread, 'theme' => $this->settings->theme, 'role' => $this->role]);
+        return view('messenger.show', ['users' => $users, 'thread' => $thread, 'theme' => $this->settings->theme, 'role' => $not_allowed]);
     }
 
     /**

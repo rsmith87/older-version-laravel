@@ -10,6 +10,7 @@ use App\Role;
 use Mail;
 use Password;
 use App\Settings;
+use App\Contact;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -33,15 +34,19 @@ class FirmController extends Controller
   public function index(Request $request)
     {
     
-      $request->user()->authorizeRoles('administrator');
+      $not_allowed =  $request->user()->authorizeRoles(['administrator']);
 
-      $not_allowed = $request->user()->hasRole('auth_user');
+			
+				
+			//print_r($request->user()->roles());
       $settings = User::where('id', \Auth::id())->with('settings')->first();
       //print_r($settings);
    
        $theme = $this->settings->theme;
      
       $firm_id = $this->settings->firm_id;
+		  $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
+			
       //$firm_id = Settings::where('user_id', \Auth::id())->first();
 
       $firm = Firm::where('id', $firm_id)->first();
@@ -81,6 +86,7 @@ class FirmController extends Controller
         'f_id' => $firm_id,
         'role' => $not_allowed,
         'firm_staff' => $firm_staff,
+				'clients' => !empty($clients) ? $clients : null,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
       ]);
@@ -122,6 +128,7 @@ class FirmController extends Controller
   public function add_user(Request $request)
   {
       $data = $request->all();
+
     
     if(!isset($data['existing_name'])){
 
@@ -142,7 +149,12 @@ class FirmController extends Controller
     $s->theme = $this->settings->theme;
     $s->user_id = $id->id;
     $s->save();
-    $u = $u->roles()->attach(Role::where('name', 'auth_user')->first());
+			
+		if(isset($data['client'])){
+    $u = $u->roles()->attach(Role::where('name', 'client')->first());
+		}	else {
+    $u = $u->roles()->attach(Role::where('name', 'auth_user')->first());			
+		}
 
 		$this->sendResetLinkEmail($request);
     $status = 'User created and an email was sent to user\'s email address provided.';
@@ -160,12 +172,43 @@ class FirmController extends Controller
 
      
   }
+	
+	public function create_client_login(Request $request)
+	{
+		$data = $request->all();
+		$name = $data['client_name'];
+		$email = $data['email'];
+		//generate a password for the new users
+		$pw = $this->generatePassword();
+    $u = new User;
+    $u->name = $data['client_name'];
+    $u->email = $data['email'];
+    $u->f_id = $this->settings->firm_id;
+    $u->password = $pw;
+    $u->save();    
+		
+    $id = User::where('email', $data['email'])->first();
+    
+    $s = new Settings;
+    $s->firm_id = $this->settings->firm_id;
+    $s->theme = $this->settings->theme;
+    $s->user_id = $id->id;
+    $s->save();
+    $u = $u->roles()->attach(Role::where('name', 'client')->first());		
+		
+		$this->sendResetLinkEmail($request);
+
+		return redirect('/dashboard/settings')->with('status', 'Client {{ $name }} added and reset password email sent!');
+
+	}
+
+	public static function generatePassword()
+	{
+		// Generate random string and encrypt it. 
+		return bcrypt(str_random(35));
+	}
   
-    public static function generatePassword()
-    {
-      // Generate random string and encrypt it. 
-      return bcrypt(str_random(35));
-    }
+
 
   
 }

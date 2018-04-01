@@ -57,6 +57,7 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('/dashboard/firm', 'Dashboard\FirmController@index');
   Route::post('/dashboard/firm/add', 'Dashboard\FirmController@add');
   Route::post('/dashboard/firm/user/add', 'Dashboard\FirmController@add_user');
+  Route::post('/dashboard/firm/user/client/add', 'Dashboard\FirmController@add');
   
   Route::get('/dashboard/calendar', 'Dashboard\EventController@index');
   Route::post('/dashboard/calendar/event/add', 'Dashboard\EventController@add');
@@ -85,7 +86,7 @@ Route::group(['middleware' => ['web']], function () {
       Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
       Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
       Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-      Route::post('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
+      Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
   }); 
   
   

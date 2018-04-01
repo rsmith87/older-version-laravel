@@ -21,8 +21,9 @@ class EventController extends Controller
   
   public function index(Request $request)
   {
-    $request->user()->authorizeRoles(['auth_user', 'administrator']);
-    $not_allowed = $request->user()->hasRole('auth_user');  
+    $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
+    $not_allowed = $request->user()->hasRole('administrator');      
+ 
     
     $events = Event::where('u_id', $this->user->id)->get();
     

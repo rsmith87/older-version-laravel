@@ -33,9 +33,10 @@ class ContactController extends Controller
     public function index(Request $request)
     {
       $request->user()->authorizeRoles(['auth_user', 'administrator']);
+      $not_allowed = $request->user()->hasRole('administrator');  
 
-      $not_allowed = $request->user()->hasRole('auth_user');
-
+     
+      
       $columns = [];
       $views = View::where(['u_id' => $this->user_id, 'view_type' => 'contact'])->get();
 
@@ -73,7 +74,7 @@ class ContactController extends Controller
     {
       $request->user()->authorizeRoles(['auth_user', 'administrator']);
 
-      $not_allowed = $request->user()->hasRole('auth_user');
+      $not_allowed = $request->user()->hasRole('administrator');  
       
       $columns = [];
       $views = View::where(['u_id' => $this->user->id, 'view_type' => 'client'])->get();

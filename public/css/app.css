@@ -444,6 +444,9 @@ table td button.btn-sm {
 table td button.btn-sm svg {
   margin-right: 3px;
 }
+.firm .panel {
+  height: 100vh;
+}
 .settings .panel {
   height: 100vh;
   margin: 0 20px;

@@ -1,5 +1,5 @@
 <h2>Add a new message</h2>
-<form action="{{ route('messages.update', $thread->id) }}" method="post">
+<form action="{{ route('messages.update', $thread->id) }}">
     {{ method_field('put') }}
     {{ csrf_field() }}
         

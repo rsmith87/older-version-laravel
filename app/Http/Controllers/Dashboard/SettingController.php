@@ -24,8 +24,8 @@ class SettingController extends Controller
     
     public function index(Request $request)
     {
-      $request->user()->authorizeRoles(['auth_user', 'administrator']);
-      $not_allowed = $request->user()->hasRole('auth_user');
+      $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
+      $not_allowed = $request->user()->hasRole('administrator');
       //gets all themes so we have the list to check against to add selected class to select element
       $themes = \DB::table('theme')->get();
    
@@ -182,6 +182,9 @@ class SettingController extends Controller
       $user->save();
       return redirect('/dashboard/settings')->with('status', 'Table size updated successfully!');
     }      
+  
+
+
 }
 
 

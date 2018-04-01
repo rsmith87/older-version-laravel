@@ -8,6 +8,7 @@
   <nav class="nav nav-pills" id="navbar-interior">
 		<a class="nav-item nav-link btn btn-info" href="#firm-info"><i class="fas fa-building"></i> Firm information</a>
     <a class="nav-item nav-link btn btn-info" href="#add-user"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add user</a>
+    <a class="nav-item nav-link btn btn-info" href="#add-client-user"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add client user</a>		
     <a class="nav-item nav-link btn btn-info" href="#current-users"><i class="fas fa-users"></i> Current users</a>
   </nav>  	
  
@@ -123,6 +124,56 @@
 </div>
 </div>
 	</div>
+	
+	<hr />
+	
+<div id="add-client-user" class="col-12">
+  <div class="panel panel-default">
+    <div class="panel-heading" style="overflow:hidden;">
+        <h2 class="pull-left ml-3 mt-3">
+         <i class="fas fa-user-plus"></i>Give a client login access
+        </h2>
+     </div>
+
+     <div class="panel-body">
+			<fieldset>
+			<form class="form-horizontal" method="post" action="/dashboard/firm/user/add">
+				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+				<input type="hidden" name="client" value="1">
+				<input type="hidden" name="id" >
+
+			<div class="col-sm-12"><!-- Text input-->
+			<div class="form-group">
+				<label class="col-sm-12 control-label" for="firm_name">Name</label>
+				<div class="col-sm-12">
+					 <input type="hidden" name="client_id" />
+					 <input type="text" name="name" class="form-control" id="client_name" placeholder="Client name" />										
+				</div>
+			</div>
+			</div>
+				<div class='col-sm-12'>
+			<div class="form-group">
+				<label class="col-sm-12 control-label" for="firm_name">Email address</label>
+				<div class="col-sm-12">
+					<input id="new_client_user_email" name="email" type="text" placeholder="Email address" class="form-control input-md" required="true">
+				</div>
+			</div>
+			</div>	
+			<div class="col-sm-12 mt-4"><!-- Button -->
+			<div class="form-group">
+				<div class="col-md-4">
+					<button id="submit" name="submit" class="btn btn-success">Submit</button>
+				</div>
+			</div>
+			</div>		
+				</form>
+			 </fieldset>
+</div>
+</div>
+	</div>
+
+	
+	
 		<hr />
 	<div id="current-users" class="col-12">
 		
@@ -206,4 +257,27 @@
 
 </div>
 @endforeach
+<script src="{{ asset('js/autocomplete.js') }}"></script>
+<script type="text/javascript">
+var clients = {!! json_encode($clients->toArray()) !!};
+for(var i = 0; i<clients.length; i++){
+		clients[i].data = clients[i]['id'];
+		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+}
+	
+	$('input[id="client_name"]').autocomplete({
+    lookup: clients,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+		 
+  });
+</script>
 @endsection
