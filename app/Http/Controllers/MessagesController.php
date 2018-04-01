@@ -45,16 +45,16 @@ class MessagesController extends Controller
     public function index(Request $request, $id = NULL)
     {
         // All threads, ignore deleted/archived participants
-<<<<<<< HEAD
+
         //$threads = Thread::getAllLatest()->get();
         $not_allowed = $request->user()->hasRole('administrator');      
 
-=======
-        $threads = Thread::getAllLatest()->get();
->>>>>>> 0791ff3368e4979f0475f40b32152bd9e307a1a8
+
+        //$threads = Thread::getAllLatest()->get();
+
       
         // All threads that user is participating in
-        ///$threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
         //$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
