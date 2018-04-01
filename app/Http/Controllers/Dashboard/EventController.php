@@ -12,12 +12,20 @@ use App\Http\Controllers\Controller;
 
 class EventController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->user = \Auth::user();
-      $this->settings = Settings::where('user_id', \Auth::id())->first();    
-  } 
+	    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = \Auth::user();
+            $this->user_id = $this->user['id'];
+            $this->settings = Settings::where('user_id', $this->user_id)->first();
+            return $next($request);
+        });
+    } 
   
   public function index(Request $request)
   {

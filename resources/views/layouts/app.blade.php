@@ -3,14 +3,18 @@
   <head>
     <title>Legality</title>
     <meta name="viewport" content="width=device-width, user-scalable=false;">
-<meta name="robots" content="noindex">
+		<meta name="robots" content="noindex">
+		<meta name="google-signin-client_id" content="{{ env('GOOGLE_CLIENT_ID') }}">
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/app.css" rel="stylesheet" type="text/css">
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>    
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="//apis.google.com/js/platform.js" async defer></script>		
 
+
+		
   </head>
   <body class="home">
     <div class="container">
@@ -60,8 +64,8 @@
 							<div class="col-md-12">
 								Login via
 								<div class="social-buttons">
-									<a href="#" class="btn btn-fb"><i data-fa-transform="grow-x" class="fa fa-facebook"></i> Facebook</a>
-									<a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+									<a href="/login/facebook" class="btn btn-fb"><i data-fa-transform="grow-x" class="fa fa-facebook"></i> Facebook</a>
+									<a href="/login/google" class="btn btn-google"><i class="fa fa-google"></i> Google</a>
 								</div>
                                 or
 								 <form class="form" role="form" method="post" action="/login" accept-charset="UTF-8" id="login-nav">

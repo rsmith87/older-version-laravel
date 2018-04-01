@@ -14,17 +14,19 @@ use App\Http\Controllers\Controller;
 
 class DocumentController extends Controller
 {
-    /**
+	    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->user = \Auth::user();
-        $this->settings = Settings::where('user_id', \Auth::id())->first();
-        $this->s3 = \Storage::disk('s3');
+        $this->middleware(function ($request, $next) {
+            $this->user = \Auth::user();
+            $this->user_id = $this->user['id'];
+            $this->settings = Settings::where('user_id', $this->user_id)->first();
+            return $next($request);
+        });
     }
 
   

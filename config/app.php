@@ -155,7 +155,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Illuminate\Notifications\NotificationServiceProvider::class,
       
         /*
          * Roberto Added Service Providers
@@ -212,7 +212,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'auth.password.tokens' => Illuminate\Auth\Passwords\TokenRepositoryInterface::class,
-      'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
+        'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
+        'Notification' => Illuminate\Support\Facades\Notification::class,    
 
     ],
 

@@ -22,6 +22,8 @@ Route::get('/register', function() {
 Route::get('/password/reset', function() {
   return view('auth/password/reset');
 });
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -37,7 +39,7 @@ Route::group(['middleware' => ['web']], function () {
   
   Route::auth();
   
- 
+  Route::get('/logout', 'Auth\LoginController@logout');
 
   Route::get('/home', 'HomeController@index');
   

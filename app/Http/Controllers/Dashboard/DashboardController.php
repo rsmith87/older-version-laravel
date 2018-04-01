@@ -24,9 +24,13 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->user = \Auth::user();
-        $this->settings = Settings::where('user_id', \Auth::id())->first();
+        $this->middleware(function ($request, $next) {
+            $this->user = \Auth::user();
+           // print_r();
+            $this->settings = Settings::where('user_id', $this->user['id'])->first();
+            return $next($request);
+        });
+        //$this->user = \Auth::user();
     }
   
   

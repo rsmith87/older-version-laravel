@@ -19,23 +19,20 @@ use App\Role;
 class MessagesController extends Controller
 {
   
-    /**
+	    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-      if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
-    // Ignores notices and reports all other kinds... and warnings
-    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
-    // error_reporting(E_ALL ^ E_WARNING); // Maybe this is enough
-}
-        $this->middleware('auth');
-        $this->user = \Auth::user();
-        $this->settings = Settings::where('user_id', \Auth::id())->first();
-        $this->role = $request->user()->hasRole('auth_user');
-        //->s3 = \Storage::disk('s3');
+        $this->middleware(function ($request, $next) {
+            $this->user = \Auth::user();
+            $this->user_id = $this->user['id'];
+            $this->settings = Settings::where('user_id', $this->user_id)->first();
+            $this->role = $this->user->hasRole('auth_user');
+            return $next($request);
+        });
     }
     /**
      * Show all of the message threads to the user.

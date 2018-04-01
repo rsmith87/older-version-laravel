@@ -7,12 +7,19 @@ use App\View;
 use Laravel\Passport\HasApiToken;
 use Illuminate\Database\Eloquent\Model;
 use Cmgmyr\Messenger\Traits\Messagable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification as Notification;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Notifications\RoutesNotifications;
+use App\Notifications\ResetPasswordNotification;
+use App\Notifications\ResetEmailNotification;
 
 
 class User extends Authenticatable 
   
 {
-    use Messagable;
+    use Messagable, Notifiable;
+
   
     public $timestamps = false;
     /**
@@ -89,5 +96,21 @@ class User extends Authenticatable
     public function settings()
     {
       return $this->hasOne('App\Settings', 'user_id', 'id');
+    }
+  
+      public static function generatePassword()
+    {
+      // Generate random string and encrypt it. 
+      return bcrypt(str_random(35));
+    }
+    public static function sendWelcomeEmail($user)
+    {
+      // Generate a new reset password token
+      Notification::send($user, new InvoicePaid());
+
+      
+      // Send email
+      //$user->notify(new ResetPasswordNotification($user));
+
     }
 }

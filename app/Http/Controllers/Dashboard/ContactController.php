@@ -17,17 +17,19 @@ use App\Http\Controllers\Controller;
 
 class ContactController extends Controller
 {
-    /**
+	    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->user = \Auth::user();
-        $this->user_id = \Auth::id();
-        $this->settings = Settings::where('user_id', $this->user_id)->first();
+        $this->middleware(function ($request, $next) {
+            $this->user = \Auth::user();
+            $this->user_id = $this->user['id'];
+            $this->settings = Settings::where('user_id', $this->user_id)->first();
+            return $next($request);
+        });
     }
   
     public function index(Request $request)

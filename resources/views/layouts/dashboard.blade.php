@@ -45,7 +45,8 @@
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/messages"><i class="fas fa-comment-alt fa-fw fa-sm"></i>Messaging</a></li>
 			  @if($role)
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/marketing"><i class="fas fa-dollar-sign fa-fw fa-sm"></i>Marketing</a></li>
-				@endif
+				<li class="nav-item btn-primary"><a class='nav-link' href="/dashboard/invoices"><i class="fas fa-file-alt fa-fw fa-sm"></i>Invoices</a></li>
+				 @endif
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/tasks"><i class="fas fa-tasks fa-fw fa-sm"></i>Tasks</a></li>
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/documents"><i class="fas fa-file fa-fw fa-sm"></i>Documents</a></li>
 				 @if($role)

@@ -135,7 +135,7 @@ return [
     |
     */
 
-    'domain' => null,
+    'domain' => "legality-codenerd33.codeanyapp.com",
 
     /*
     |--------------------------------------------------------------------------

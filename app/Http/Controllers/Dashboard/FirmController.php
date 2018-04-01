@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
+use Illuminate\Notifications;
 use App\Firm;
 use App\Http\Requests;
 use App\User;
@@ -11,11 +12,14 @@ use Mail;
 use Password;
 use App\Settings;
 use App\Contact;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Http\Controllers\Controller;
+use App\Notifications\ResetPasswordNotification;
+use App\Notifications\ResetEmailNotification;
 
 class FirmController extends Controller
 {
@@ -23,14 +27,23 @@ class FirmController extends Controller
 
     protected $subject = "Your Account Password";
 
-  public function __construct(Guard $auth, PasswordBroker $passwords)
-  {
-      $this->middleware('auth');
-      $this->user = \Auth::user();
-      $this->auth = $auth;
-      $this->passwords = $passwords;
-      $this->settings = Settings::where('user_id', \Auth::id())->first();    
-  }  
+
+	    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = \Auth::user();
+            $this->user_id = $this->user['id'];
+					  $this->passwords = Password::broker();
+            $this->settings = Settings::where('user_id', $this->user_id)->first();
+            return $next($request);
+        });
+    }
+	
   public function index(Request $request)
     {
     
@@ -140,6 +153,7 @@ class FirmController extends Controller
     $u->email = $data['email'];
     $u->f_id = $this->settings->firm_id;
     $u->password = $pw;
+			
     $u->save();    
     
     $id = User::where('email', $data['email'])->first();
@@ -155,8 +169,11 @@ class FirmController extends Controller
 		}	else {
     $u = $u->roles()->attach(Role::where('name', 'auth_user')->first());			
 		}
+		
 
-		$this->sendResetLinkEmail($request);
+		
+		
+		
     $status = 'User created and an email was sent to user\'s email address provided.';
     }
     else {   
@@ -196,7 +213,9 @@ class FirmController extends Controller
     $s->save();
     $u = $u->roles()->attach(Role::where('name', 'client')->first());		
 		
-		$this->sendResetLinkEmail($request);
+		foreach($u as $t){
+			$this->sendPasswordResetNotification($request);
+		};
 
 		return redirect('/dashboard/settings')->with('status', 'Client {{ $name }} added and reset password email sent!');
 
@@ -208,7 +227,10 @@ class FirmController extends Controller
 		return bcrypt(str_random(35));
 	}
   
-
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 
   
 }

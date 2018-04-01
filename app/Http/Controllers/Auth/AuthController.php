@@ -93,6 +93,11 @@ class AuthController extends Controller
       return $user;
       }
   
+    public function logout()
+    {
+      
+    }
+  
 
     
 }
