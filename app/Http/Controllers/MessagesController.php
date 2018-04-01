@@ -26,6 +26,11 @@ class MessagesController extends Controller
      */
     public function __construct(Request $request)
     {
+      if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    // Ignores notices and reports all other kinds... and warnings
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+    // error_reporting(E_ALL ^ E_WARNING); // Maybe this is enough
+}
         $this->middleware('auth');
         $this->user = \Auth::user();
         $this->settings = Settings::where('user_id', \Auth::id())->first();
@@ -40,12 +45,16 @@ class MessagesController extends Controller
     public function index(Request $request, $id = NULL)
     {
         // All threads, ignore deleted/archived participants
+<<<<<<< HEAD
         //$threads = Thread::getAllLatest()->get();
         $not_allowed = $request->user()->hasRole('administrator');      
 
+=======
+        $threads = Thread::getAllLatest()->get();
+>>>>>>> 0791ff3368e4979f0475f40b32152bd9e307a1a8
       
         // All threads that user is participating in
-        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        ///$threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
         //$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();

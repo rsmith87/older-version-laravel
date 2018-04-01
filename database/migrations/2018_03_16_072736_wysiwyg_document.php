@@ -14,9 +14,9 @@ class WysiwygDocument extends Migration
    {
         Schema::create('ck_data', function (Blueprint $table) {
           $table->increments('id');
-          $table->longtext('name');
-          $table->longtext('data');
-          $table->longtext('document_id');
+          $table->longText('name');
+          $table->longText('data');
+          $table->integer('document_id');
         });
     }
 

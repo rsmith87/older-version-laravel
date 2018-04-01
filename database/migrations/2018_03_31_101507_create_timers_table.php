@@ -15,11 +15,11 @@ class CreateTimersTable extends Migration
         Schema::create('timers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->datetime('start');
-            $table->datetime('timer');
-            $table->datetime('stop');
+            $table->dateTime('start');
+            $table->dateTime('timer');
+            $table->dateTime('stop');
             $table->integer('case_id');
-            $table->datetime('request_time');
+            $table->dateTime('request_time');
             $table->timestamps();
         });
     }

@@ -14,13 +14,14 @@ class Settings extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
           $table->increments('id');
-          $table->longtext('user_id');
-          $table->longtext('theme');
-          $table->longtext('table_color');
-          $table->longtext('state_of_bar');
-          $table->longtext('bar_number');
-          $table->longtext('practice_areas');
-          $table->longtext('firm_id');
+          $table->integer('user_id');
+          $table->text('theme');
+          $table->text('table_color');
+          $table->text('table_sizea');
+          $table->longText('state_of_bar');
+          $table->longText('bar_number');
+          $table->longText('practice_areas');
+          $table->integer('firm_id');
         });
     }
 

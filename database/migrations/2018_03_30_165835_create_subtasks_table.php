@@ -15,8 +15,8 @@ class CreateSubtasksTable extends Migration
         Schema::create('subtask', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('user_id');
-          $table->longtext('subtask_name');
-          $table->longtext('task_description');
+          $table->longText('subtask_name');
+          $table->longText('task_description');
           $table->integer('f_id');
           $table->integer('c_id');
           $table->integer('t_id');

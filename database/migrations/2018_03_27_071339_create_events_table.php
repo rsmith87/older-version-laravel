@@ -14,16 +14,16 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->longtext('name');
-            $table->longtext('description');
-            $table->longtext('start_date');
-            $table->longtext('end_date');
-            $table->longtext('start_time');
-            $table->longtext('end_time');
-            $table->longtext('u_id');
-            $table->longtext('co_id');
-            $table->longtext('c_id');
-            $table->longtext('f_id');
+            $table->longText('name');
+            $table->longText('description');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->integer('u_id');
+            $table->integer('co_id');
+            $table->integer('c_id');
+            $table->integer('f_id');
             $table->timestamps();
         });
     }
