@@ -19,8 +19,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 		<script src="{{ asset('js/timer.js') }}"></script>
-		<!-- development version, includes helpful console warnings -->
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 		
 
@@ -35,26 +33,25 @@
 			<div class="collapse navbar-collapse" id="navbarColor01">
 
        <ul class="navbar-nav mr-auto">
-				@if($role)
+				
         <li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/cases"><i data-fa-transform="grow-2" class="fas fa-briefcase fa-fw fa-sm"></i>Cases</a></li>
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/firm"><i class="fas fa-building fa-fw fa-sm"></i>Firm</a></li>
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/clients"><i data-fa-transform="grow-2" class="fas fa-users fa-fw fa-sm"></i>Clients</a></li>
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/contacts"><i class="fas fa-address-card fa-fw fa-sm"></i>Contacts</a></li>
-				@endif 
+				
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/calendar"><i class="fas fa-calendar-alt fa-sm fa-fw"></i>Calendar</a></li>
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/messages"><i class="fas fa-comment-alt fa-fw fa-sm"></i>Messaging</a></li>
-			  @if($role)
+			  
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/marketing"><i class="fas fa-dollar-sign fa-fw fa-sm"></i>Marketing</a></li>
 				<li class="nav-item btn-primary"><a class='nav-link' href="/dashboard/invoices"><i class="fas fa-file-alt fa-fw fa-sm"></i>Invoices</a></li>
-				 @endif
+				
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/tasks"><i class="fas fa-tasks fa-fw fa-sm"></i>Tasks</a></li>
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/documents"><i class="fas fa-file fa-fw fa-sm"></i>Documents</a></li>
-				 @if($role)
+				
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/reports"><i class="fas fa-chart-line fa-sm fa-fw"></i>Reports</a></li>				
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/settings"><i class="fas fa-cog fa-sm fa-fw"></i>Settings</a></li>
 				 <li> @include('dashboard.includes.navtasks')</li>
-				 @endif
-				
+				 
 
 				
       </ul>

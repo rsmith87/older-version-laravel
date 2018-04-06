@@ -6,7 +6,6 @@ use App\Http\Requests;
 use App\User;
 use App\Settings;
 use App\Task;
-use App\Role;
 use App\Document;
 use App\WysiwygDocument;
 use App\View;
@@ -26,8 +25,8 @@ class DashboardController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->user = \Auth::user();
-           // print_r();
-            $this->settings = Settings::where('user_id', $this->user['id'])->first();
+
+          $this->settings = Settings::where('user_id', $this->user['id'])->first();
             return $next($request);
         });
         //$this->user = \Auth::user();
@@ -42,10 +41,11 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-      if(null === $this->user->roles()){
-        \DB::table('role_users')->insert(['role_id' => 1, 'user_id' => \Auth::id()]);
+      if($this->user->created_at === $this->user->updated_at){
+        //how to tell if new user, but doesn't discriminate between users for roles
       }    
-      if(null === Settings::where('user_id', \Auth::id())->first()){
+      
+      if(null !== Settings::where('user_id', \Auth::id())->first()){
         Settings::create([
           'user_id' => \Auth::id(),
           'theme' => 'flatly',
@@ -53,12 +53,11 @@ class DashboardController extends Controller
           'table_size' => 'lg',
         ]);
       }
-      //print_r($this->settings);
-     if(!$this->settings->firm_id){
+     
+     if(!isset($this->settings->firm_id)){
         return redirect('/dashboard/firm')->with('status', 'First, let\'s setup your firm.  Input the fields below to start.');
       }      
-      $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
-      $not_allowed = $request->user()->hasRole('administrator');      
+    
 
       
       if(!View::where('u_id', \Auth::id())->first()){
@@ -81,7 +80,7 @@ class DashboardController extends Controller
       }
  
       
-      return view('dashboard/dashboard', ['user_name' => $this->user['name'], 'theme' => $this->settings->theme, 'user' => $this->user, 'role' => $not_allowed]);
+      return view('dashboard/dashboard', ['user_name' => $this->user['name'], 'theme' => $this->settings->theme, 'firm_id' => $this->settings->firm_id, 'user' => $this->user]);
     }
   
   
@@ -89,9 +88,8 @@ class DashboardController extends Controller
   
     public function reports(Request $request)
     {
-      $request->user()->authorizeRoles(['auth_user', 'administrator']);
-      $not_allowed = $request->user()->hasRole('administrator');  
-      return view('dashboard/reports', ['user_name' => $this->user['name'], 'theme' => $this->settings->theme, 'role' => $not_allowed]);
+
+      return view('dashboard/reports', ['user_name' => $this->user['name'], 'firm_id' => $this->settings->firm_id, 'theme' => $this->settings->theme]);
     }
   
 

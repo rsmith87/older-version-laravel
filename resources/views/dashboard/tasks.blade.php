@@ -7,15 +7,25 @@
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add task</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>
   </nav>    
-  
-  	@include('dashboard.includes.alerts')
-  
+    
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-3 mb-5">
+        <h1 class="pull-left ml-3 mb-2">
           <i class="fas fa-tasks"></i> Tasks
         </h1>
+   			<div class="clearfix"></div>
+        <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
+						@include('dashboard.includes.alerts')	
+			@if (count($tasks) === 0)
+       <div class="alert alert-warning alert-dismissible fade in" role="alert">
+        No tasks for this user, yet! <strong>Add a new task above!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+       @endif				
      </div>
+		 @if(count($tasks) > 0)
      <div class="panel-body">
         <table class="table table-responsive table-hover table-{{ $table_color }} table-{{ $table_size }}">
           <thead> 
@@ -42,12 +52,7 @@
          @endforeach
           </tbody> 
        </table>
-<div id="app-2">
-  <span v-bind:title="message">
-    Hover your mouse over me for a few seconds
-    to see my dynamically bound title!
-  </span>
-</div>
+			@endif
      </div>
   </div>   
   </div>

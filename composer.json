@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.4.36",
         "league/flysystem-aws-s3-v3": "~1.0",
         "guzzlehttp/guzzle": "^6.3",
         "aloha/twilio":"*",
@@ -15,7 +15,10 @@
         "cmgmyr/messenger": "~2.0",
         "snowfire/beautymail": "dev-master",
         "cyber-duck/laravel-excel": "^1.2",
-        "laravel/socialite": "3.*"
+        "laravel/socialite": "3.*",
+        "laravel/cashier": "~7.0",
+        "sander-van-hooft/laravel-invoicable": "dev-master",
+        "barryvdh/laravel-debugbar": "v2.4.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -52,7 +55,7 @@
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
-            "php artisan optimize"
+            
         ]
     },
     "config": {

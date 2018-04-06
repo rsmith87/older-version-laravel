@@ -30,7 +30,9 @@ class LawCase extends Model
         'statute_of_limitations', 
         'is_billable', 
         'billing_type', 
+        'rate_type',
         'billing_rate',
+        'hours',
         'firm_id', 
         'u_id'
     ];
@@ -47,12 +49,17 @@ class LawCase extends Model
         return $this->hasMany('App\Contact', 'case_id');
     }
  
-        /**
+     /**
      * Get all of the contacts for the case.
      */
     public function documents()
     {
         return $this->hasMany('App\Document', 'case_id');
+    }
+  
+    public function tasks()
+    {
+      return $this->hasMany('App\Task', 'c_id');
     }
   
   

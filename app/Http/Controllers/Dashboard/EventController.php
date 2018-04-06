@@ -29,13 +29,15 @@ class EventController extends Controller
   
   public function index(Request $request)
   {
-    $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
-    $not_allowed = $request->user()->hasRole('administrator');      
- 
-    
+
     $events = Event::where('u_id', $this->user->id)->get();
     
-    return view('dashboard/calendar', ['user_name' => $this->user['name'], 'events' => $events, 'theme' => $this->settings->theme, 'role' => $not_allowed]);
+    return view('dashboard/calendar', [
+			'user_name' => $this->user['name'], 
+			'events' => $events, 
+			'theme' => $this->settings->theme,
+			'firm_id' => $this->settings->firm_id,
+		]);
   }
   
   private function fix_date($dts, $dte)

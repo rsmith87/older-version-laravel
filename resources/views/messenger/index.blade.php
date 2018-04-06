@@ -7,11 +7,16 @@
   </nav>
 
     @include('messenger.partials.flash')
+    <h1 class="mb-2 ml-3"><i class="fas fa-quote-left"></i> Messages</h1>
+   				<div class="clearfix"></div>
+        <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
+						@include('dashboard.includes.alerts')  
   <div class="col-sm-6 col-12">
-      <h1 class="mb-5"><i class="fas fa-quote-left"></i> Messages</h1>
-   
+      
     <div class="col-12">
+      <div class="mt-3">
     @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
+      </div>
     </div>
   </div>
   

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://legaleeze-php-7-2-codenerd33.codeanyapp.com/',
+    'url' => 'legality-codenerd33.codeanyapp.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,8 +164,9 @@ return [
         Aloha\Twilio\Support\Laravel\ServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
-
-
+        Laravel\Cashier\CashierServiceProvider::class,  
+        Barryvdh\Debugbar\ServiceProvider::class,
+        SanderVanHooft\Invoicable\InvoicableServiceProvider::class,
     ],
 
     /*

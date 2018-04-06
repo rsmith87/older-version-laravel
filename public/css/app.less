@@ -14,7 +14,8 @@ body.home {
   opacity:1;
 }
 .alert {
-  margin: 70px 20px -50px;
+  margin: 0 20px;
+	overflow:hidden;
 }
 .fontawesome-i2svg-active body {
   display: initial;
@@ -103,6 +104,9 @@ body.home {
 
 .panel-heading {
   overflow: hidden;
+	h1{
+		width:100%;
+	}
 }
 .panel-heading button {
   margin-right: 5px;
@@ -498,12 +502,15 @@ table td button.btn-sm svg {
   .col-12{
     overflow: hidden;
   }
-  .col-sm-4{
+	.col-sm-3, .col-sm-4, .col-sm-6{
     float: left;
   }
   #firm-info, #add-user, #current-users{
     height: 100vh;
   } 
+	#firm-submit{
+		text-align:center;
+	}
 }
 nav .btn-primary:not(:disabled):not(.disabled):active,
 nav .btn-primary:not(:disabled):not(.disabled):hover,
@@ -741,4 +748,13 @@ nav .show > .btn-primary.dropdown-toggle {
 
 .subtask-row td:nth-child(2){
 	padding-left:40px;
+}
+
+.case, .document, .contact{
+	.col-sm-6{
+		float:left;
+	}
+	label{
+		font-weight:bold;
+	}
 }

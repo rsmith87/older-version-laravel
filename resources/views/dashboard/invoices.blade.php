@@ -8,61 +8,50 @@
     <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> My Cases</a>
   </nav>  
   
-  	@include('dashboard.includes.alerts')
-  <div class="col-md-6">
+
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h2 style="margin-top:0;margin-bottom:0;" class="pull-left">
+        <h1  class="pull-left ml-3">
           <i class="fa fa-file-alt"></i> Invoices
-        </h2>
-        <!--<button type="button" class="btn btn-warning pull-right">Compose Mail</button>-->
-     </div>
+        </h1>
+				<div class="clearfix"></div>
+        <p class="ml-3 mb-2">Use Invoices to create invoices based off completed cases!  You can then create an account for the billable client to allow acccess to online payment.</p>
+     	 	@include('dashboard.includes.alerts')
+				@if(count($my_cases) === 0)
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+			  You haven't created an Invoice yet! <strong>Create one from the case page!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+				@endif
+		 </div>
      <div class="panel-body">
-        <canvas id="myChart" width="400" height="400"></canvas>
-<script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
-</script>
-
-     </div>
-  </div>   
+			 @if(count($my_cases) > 0)
+       <table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+          <thead> 
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+							<th>Invoice Amount</th>
+            </tr> 
+          </thead> 
+          <tbody> 
+          @foreach ($my_cases as $case)
+            <tr> 
+              <td>{{ $case->id }}</td>
+              <td>{{ $case->name }}</td> 
+							<td>$ {{ (float)$case->hours * (float)$case->rate }}.00</td>
+            </tr> 
+         	@endforeach
+          </tbody> 
+       </table>
+			 @endif
+		</div>
+				
   </div>
 
-</div>
+ </div>
+
 
 @endsection

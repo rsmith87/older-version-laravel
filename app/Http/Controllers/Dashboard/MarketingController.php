@@ -30,24 +30,16 @@ class MarketingController extends Controller
 public function index(Request $request)
     {
     
-      $not_allowed =  $request->user()->authorizeRoles(['administrator']);
 
-			
-				
-			//print_r($request->user()->roles());
-      $settings = User::where('id', \Auth::id())->with('settings')->first();
-      //print_r($settings);
-   
-      $theme = $this->settings->theme;
-     
-      $firm_id = $this->settings->firm_id;
+
+
 		  
     
     //print_r($this->user);
       return view('dashboard/marketing', [
         'user_name' => $this->user['name'],  
-        'theme' => $theme,
-        'role' => $not_allowed,
+        'theme' => $this->settings->theme,
+    		'firm_id' => $this->settings->firm_id,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
       ]);

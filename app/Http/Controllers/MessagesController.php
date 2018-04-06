@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
-use App\Role;
 
 class MessagesController extends Controller
 {
@@ -30,7 +29,6 @@ class MessagesController extends Controller
             $this->user = \Auth::user();
             $this->user_id = $this->user['id'];
             $this->settings = Settings::where('user_id', $this->user_id)->first();
-            $this->role = $this->user->hasRole('auth_user');
             return $next($request);
         });
     }
@@ -44,7 +42,6 @@ class MessagesController extends Controller
         // All threads, ignore deleted/archived participants
 
         //$threads = Thread::getAllLatest()->get();
-        $not_allowed = $request->user()->hasRole('administrator');      
 
 
         //$threads = Thread::getAllLatest()->get();
@@ -57,7 +54,12 @@ class MessagesController extends Controller
         //$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
         $users = User::where('id', '!=', Auth::id())->get();
 
-        return view('messenger.index', ['threads' => $threads, 'users' => $users, 'theme' => $this->settings->theme, 'role' => $not_allowed]);
+        return view('messenger.index', [
+					'threads' => $threads, 
+					'users' => $users, 
+					'theme' => $this->settings->theme,
+					'firm_id' => $this->settings->firm_id,
+				]);
     }
 
     /**
@@ -68,7 +70,6 @@ class MessagesController extends Controller
      */
     public function show($id, Request $request)
     {
-        $not_allowed = $request->user()->hasRole('administrator');
       
         try {
             $thread = Thread::findOrFail($id);
@@ -87,7 +88,12 @@ class MessagesController extends Controller
 
         $thread->markAsRead($userId);
 
-        return view('messenger.show', ['users' => $users, 'thread' => $thread, 'theme' => $this->settings->theme, 'role' => $not_allowed]);
+        return view('messenger.show', [
+					'users' => $users, 
+					'thread' => $thread, 
+					'theme' => $this->settings->theme,
+					'firm_id' => $this->settings->firm_id,
+				]);
     }
 
     /**
@@ -99,7 +105,7 @@ class MessagesController extends Controller
     {
         $users = User::where('id', '!=', Auth::id())->get();
 
-        return view('messenger.create', ['users' => $users,  'theme' => $this->settings->theme, 'role' => $this->role]);
+        return view('messenger.create', ['users' => $users,  'theme' => $this->settings->theme]);
     }
 
     /**

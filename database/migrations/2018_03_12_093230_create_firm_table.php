@@ -14,12 +14,15 @@ class CreateFirmTable extends Migration
     {
         Schema::create('firm', function (Blueprint $table) {
           $table->increments('id');
-          $table->longText('firm_name');
-          $table->longText('firm_address');
-          $table->longText('firm_phone');
-          $table->longText('firm_fax');
-          $table->longText('firm_email');
-          $table->longText('team');
+          $table->longText('name');
+          $table->longText('address_1');
+          $table->longText('address_2');
+          $table->text('city');
+          $table->text('state');
+          $table->text('zip');
+          $table->longText('phone');
+          $table->longText('fax');
+          $table->longText('email');
           $table->longText('social_media');
           $table->timestamps();
         });

@@ -30,6 +30,7 @@ class PasswordController extends Controller
         $this->middleware('guest');
     }
   
+  
     public function getReset($token = null)
     {
       if (is_null($token))

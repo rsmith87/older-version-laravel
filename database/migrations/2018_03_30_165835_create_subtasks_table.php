@@ -34,6 +34,6 @@ class CreateSubtasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subtasks');
+        Schema::dropIfExists('subtask');
     }
 }

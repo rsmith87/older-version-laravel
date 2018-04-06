@@ -14,7 +14,8 @@ body.home {
   opacity: 1;
 }
 .alert {
-  margin: 70px 20px -50px;
+  margin: 0 20px;
+  overflow: hidden;
 }
 .fontawesome-i2svg-active body {
   display: initial;
@@ -96,6 +97,9 @@ body.home {
 }
 .panel-heading {
   overflow: hidden;
+}
+.panel-heading h1 {
+  width: 100%;
 }
 .panel-heading button {
   margin-right: 5px;
@@ -464,13 +468,18 @@ table td button.btn-sm svg {
 .firm .col-12 {
   overflow: hidden;
 }
-.firm .col-sm-4 {
+.firm .col-sm-3,
+.firm .col-sm-4,
+.firm .col-sm-6 {
   float: left;
 }
 .firm #firm-info,
 .firm #add-user,
 .firm #current-users {
   height: 100vh;
+}
+.firm #firm-submit {
+  text-align: center;
 }
 nav .btn-primary:not(:disabled):not(.disabled):active,
 nav .btn-primary:not(:disabled):not(.disabled):hover,
@@ -675,4 +684,14 @@ nav .show > .btn-primary.dropdown-toggle {
 }
 .subtask-row td:nth-child(2) {
   padding-left: 40px;
+}
+.case .col-sm-6,
+.document .col-sm-6,
+.contact .col-sm-6 {
+  float: left;
+}
+.case label,
+.document label,
+.contact label {
+  font-weight: bold;
 }

@@ -12,7 +12,6 @@
     <a class="nav-item nav-link btn btn-info" href="#current-users"><i class="fas fa-users"></i> Current users</a>
   </nav>  	
  
-		@include('dashboard.includes.alerts')
 
 	  <div class="col-12" id="firm-info">
    <div class="panel panel-default">
@@ -20,57 +19,90 @@
         <h1 style="mb-5" class="pull-left">
          <i class="fas fa-address-card"></i> Firm information
         </h1>
+					@include('dashboard.includes.alerts')
+
      </div>
      <div class="panel-body">
 			<fieldset>
 			<form class="form-horizontal" method="post" action="/dashboard/firm/add">
 				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-			<div class="col-sm-4"><!-- Text input-->
+			<div class="col-sm-3"><!-- Text input-->
 			<div class="form-group">
 				<label class="col-sm-12 control-label" for="firm_name">Name</label>
 				<div class="col-sm-12">
-					<input id="firm_name" name="firm_name" type="text" value="{{ $f_name }}" placeholder="Firm Name" class="form-control input-md" required="true">
+					<input id="firm_name" name="name" type="text" value="{{ $firm['name'] }}" placeholder="Firm Name" class="form-control input-md" required="true">
 				</div>
 			</div>
 			</div>
-			<div class="col-sm-4"><!-- Text input-->
-			<div class="form-group">
-				<label class="col-sm-12 control-label" for="firm_address">Address</label>
-				<div class="col-sm-12">
-					<input id="firm_address" name="firm_address" type="text" value="{{ $f_address }}" placeholder="Firm Address" class="form-control input-md" required="true">
-				</div>
-			</div>
-			</div>
-			<div class="col-sm-4"><!-- Text input-->
+			<div class="col-sm-3"><!-- Text input-->
 			<div class="form-group">
 				<label class="col-sm-12 control-label" for="firm_phone">Phone</label>
 				<div class="col-sm-12">
-					<input id="firm_phone" name="firm_phone" type="text" value="{{ $f_phone }}" placeholder="Phone" class="form-control input-md">
+					<input id="firm_phone" name="phone" type="text" value="{{ $firm['phone'] }}" placeholder="Phone" class="form-control input-md">
 				</div>
 			</div>
 			</div>
-			<div class="col-sm-4 col-"><!-- Text input-->
+			<div class="col-sm-6"><!-- Text input-->
+			<div class="form-group">
+				<label class="col-sm-12 control-label" for="firm_address">Address 1</label>
+				<div class="col-sm-12">
+					<input id="firm_address" name="address_1" type="text" value="{{ $firm['address_1'] }}" placeholder="Address Line 1" class="form-control input-md" required="true">
+				</div>
+			</div>
+			</div>				
+			<div class="col-sm-3"><!-- Text input-->
 			<div class="form-group">
 				<label class="col-sm-12 control-label" for="firm_fax">Fax Number</label>
 				<div class="col-sm-12">
-					<input id="firm_fax" name="firm_fax" type="text" value="{{ $f_fax }}" placeholder="Fax" class="form-control input-md">
+					<input id="firm_fax" name="fax" type="text" value="{{ $firm['fax'] }}" placeholder="Fax" class="form-control input-md">
 				</div>
 			</div>
 			</div>
-			<div class="col-sm-4"><!-- Text input-->
+			<div class="col-sm-3"><!-- Text input-->
 			<div class="form-group">
 				<label class="col-sm-12 control-label" for="firm_email">Email</label>
 				<div class="col-sm-12">
-					<input id="firm_email" name="firm_email" type="text" value="{{ $f_email }}" placeholder="Firm Email address" class="form-control input-md" required="true">  </div>
+					<input id="firm_email" name="email" type="text" value="{{ $firm['email'] }}" placeholder="Firm Email address" class="form-control input-md" required="true">  </div>
 			</div>
-			</div>
-				</div>
-			<div class="col-sm-4 mt-4"><!-- Button -->
+			</div>				
+			<div class="col-sm-6"><!-- Text input-->
 			<div class="form-group">
-				<div class="col-md-4">
-					<button id="submit" name="submit" class="btn btn-success">Submit</button>
+				<label class="col-sm-12 control-label" for="firm_address">Address 2</label>
+				<div class="col-sm-12">
+					<input id="firm_address" name="address_2" type="text" value="{{ $firm['address_2'] }}" placeholder="Address Line 2" class="form-control input-md">
 				</div>
+			</div>
+			</div>				
+			<div class="col-sm-6 offset-sm-6"><!-- Text input-->
+			<div class="form-group">
+				<label class="col-sm-12 control-label" for="firm_address">City</label>
+				<div class="col-sm-12">
+					<input id="firm_address" name="city" type="text" value="{{ $firm['city'] }}" placeholder="City" class="form-control input-md" required="true">
+				</div>
+			</div>
+			</div>	
+			<div class="col-sm-6 offset-sm-6"><!-- Text input-->
+			<div class="form-group">
+				<label class="col-sm-12 control-label" for="firm_address">State</label>
+				<div class="col-sm-12">
+					<input id="firm_address" name="state" type="text" value="{{ $firm['state'] }}" placeholder="State" class="form-control input-md" required="true">
+				</div>
+			</div>
+			</div>	
+			<div class="col-sm-6 offset-sm-6"><!-- Text input-->
+			<div class="form-group">
+				<label class="col-sm-12 control-label" for="firm_address">Zip</label>
+				<div class="col-sm-12">
+					<input id="firm_address" name="zip" type="text" value="{{ $firm['zip'] }}" placeholder="Zip" class="form-control input-md" required="true">
+				</div>
+			</div>
+			</div>					
+			
+				</div>
+			<div class="col-sm-6 offset-sm-3 mt-4" id="firm-submit"><!-- Button -->
+			<div class="form-group">
+					<button id="submit" name="submit" class="btn btn-success btn-lg">Submit</button>
 			</div>
 			</div>
 			</fieldset>
@@ -119,8 +151,8 @@
 				</div>
 			</div>
 			</div>		
-				</form>
-			 </fieldset>
+		</form>
+	 </fieldset>
 </div>
 </div>
 	</div>
@@ -195,6 +227,7 @@
             </tr> 
           </thead> 
           <tbody> 
+						@if(count($firm_staff) > 0)
           @foreach ($firm_staff as $user)
             <tr> 
               <td>{{ $user->id }}</td>
@@ -202,6 +235,7 @@
 							<td>{{ $user->email }}</td>
             </tr> 
          @endforeach
+						@endif
           </tbody> 
        </table>
 			 

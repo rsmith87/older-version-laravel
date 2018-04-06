@@ -32,16 +32,23 @@ class Contact extends Model
   
     public function documents()
     {
-        return $this->hasMany('App\Document', 'contact_id', 'id');
+        return $this->hasMany('App\Document', 'contact_id');
     }
-    public function documents_client()
+  
+    public function documentsclients()
     {
-        return $this->hasMany('App\Document', 'client_id', 'id');
-    }
+        return $this->hasMany('App\Document', 'client_id');
+    }  
   
     public function getTableColumns() {
         return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
     }
+  
+    public function tasks()
+    {
+      return $this->hasMany('App\Task', 'contact_client_id');
+    }
+  
   
   
 }

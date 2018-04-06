@@ -17,7 +17,7 @@ class Settings extends Migration
           $table->integer('user_id');
           $table->text('theme');
           $table->text('table_color');
-          $table->text('table_sizea');
+          $table->text('table_size');
           $table->longText('state_of_bar');
           $table->longText('bar_number');
           $table->longText('practice_areas');

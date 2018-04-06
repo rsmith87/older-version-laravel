@@ -7,7 +7,6 @@ use Illuminate\Notifications;
 use App\Firm;
 use App\Http\Requests;
 use App\User;
-use App\Role;
 use Mail;
 use Password;
 use App\Settings;
@@ -37,67 +36,38 @@ class FirmController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->user = \Auth::user();
-            $this->user_id = $this->user['id'];
 					  $this->passwords = Password::broker();
-            $this->settings = Settings::where('user_id', $this->user_id)->first();
+            $this->settings = Settings::where('user_id', $this->user['id'])->first();
             return $next($request);
         });
     }
 	
   public function index(Request $request)
     {
-    
-      $not_allowed =  $request->user()->authorizeRoles(['administrator']);
-
+    	if(!isset($this->settings)){
+				$clients = 0;
+				$firm = 0;
+				$firm_staff = 0;
+				Settings::create([
+				  'user_id' => \Auth::id(),
+					'theme' => 'flatly',
+					'table_color' => 'light',
+					'table_size' => 'lg',
+				]);
+			}
+		  else {
+			  $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
+      	$firm = Firm::where('id', $this->settings->firm_id)->first();
+       	$firm_staff = User::where('f_id', $this->settings->firm_id)->select()->get();
+			}
 			
-				
-			//print_r($request->user()->roles());
-      $settings = User::where('id', \Auth::id())->with('settings')->first();
-      //print_r($settings);
-   
-       $theme = $this->settings->theme;
-     
-      $firm_id = $this->settings->firm_id;
-		  $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
-			
-      //$firm_id = Settings::where('user_id', \Auth::id())->first();
-
-      $firm = Firm::where('id', $firm_id)->first();
-      $firm_staff = User::where('f_id', $firm_id)->select()->get();
-    
-      
-      if ($firm)
-      {
-        $f_name = $firm->firm_name;
-        $f_address = $firm->firm_address;
-        $f_phone = $firm->firm_phone;
-        $f_fax = $firm->firm_fax;
-        $f_email = $firm->firm_email;
-        
-      }
-      else
-      {
-        $firm = "";
-        $f_name = "";
-        $f_address = "";
-        $f_phone = "";
-        $f_fax = "";
-        $f_email = "";
-        
-      }
-    
-    //print_r($this->user);
+    	$this->settings = Settings::where('user_id', \Auth::id())->first();
       return view('dashboard/firm', [
         'user_name' => $this->user['name'],  
-        'theme' => $theme,
+        'theme' => $this->settings->theme,
         'firm' => $firm,
-        'f_name' => $f_name,
-        'f_address' => $f_address,
-        'f_phone' => $f_phone,
-        'f_fax' => $f_fax,
-        'f_email' => $f_email,
-        'f_id' => $firm_id,
-        'role' => $not_allowed,
+        'f_id' => $this->settings->firm_id,
+				'firm_id' => $this->settings->firm_id,
         'firm_staff' => $firm_staff,
 				'clients' => !empty($clients) ? $clients : null,
         'table_color' => $this->settings->table_color,
@@ -112,7 +82,6 @@ class FirmController extends Controller
       
       if(empty($this->settings->firm_id)){
         $id = \DB::table('firm')->max('id') + 1;
-        //$settings = $this->settings;
         $this->settings->firm_id = $id;
         $this->settings->save();         
       }
@@ -126,11 +95,15 @@ class FirmController extends Controller
         'id' => $id, 
       ],
       [
-        'firm_name' => $data['firm_name'], 
-        'firm_address' => $data['firm_address'],
-        'firm_phone' => $data['firm_phone'],
-        'firm_fax' => $data['firm_fax'],
-        'firm_email' => $data['firm_email'],
+        'name' => $data['name'], 
+        'address_1' => $data['address_1'],
+				'address_2' => $data['address_2'],
+				'city' => $data['city'],
+				'state' => $data['state'],
+				'zip' => $data['zip'],
+        'phone' => $data['phone'],
+        'fax' => $data['fax'],
+        'email' => $data['email'],
       ]);
       
       return redirect('/dashboard/firm')->with('status', 'Firm updated!');
@@ -165,9 +138,7 @@ class FirmController extends Controller
     $s->save();
 			
 		if(isset($data['client'])){
-    $u = $u->roles()->attach(Role::where('name', 'client')->first());
 		}	else {
-    $u = $u->roles()->attach(Role::where('name', 'auth_user')->first());			
 		}
 		
 
@@ -211,11 +182,10 @@ class FirmController extends Controller
     $s->theme = $this->settings->theme;
     $s->user_id = $id->id;
     $s->save();
-    $u = $u->roles()->attach(Role::where('name', 'client')->first());		
 		
-		foreach($u as $t){
-			$this->sendPasswordResetNotification($request);
-		};
+		//foreach($u as $t){
+			//$this->sendPasswordResetNotification($request);
+		//};
 
 		return redirect('/dashboard/settings')->with('status', 'Client {{ $name }} added and reset password email sent!');
 

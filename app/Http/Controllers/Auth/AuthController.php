@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
-use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 
 class AuthController extends Controller
@@ -25,7 +25,7 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use ThrottlesLogins, RegistersUsers, AuthenticatesUsers;
 
     /**
      * Where to redirect users after login / registration.
@@ -84,11 +84,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-      
-        $role = Role::where('name', 'administrator')->first();
-        $user->roles()->attach($role);
-
-
+     
  
       return $user;
       }

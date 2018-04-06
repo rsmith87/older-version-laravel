@@ -108,10 +108,24 @@ $(function(){
       $this.val("1");
     }
   });
+  
+    var pathArray = window.location.pathname.split( '/' );
+
   $('table tr td').click(function(){
     var $this = $(this);
     
     $id = $this.parent().find('td:nth-child(1)').text();
+    if(pathArray[2] == 'cases'){
+      window.location="/dashboard/cases/case/"+$id;
+    } else if (pathArray[2] == 'contacts'){
+      window.location="/dashboard/contacts/contact/"+$id;
+    } else if (pathArray[2] == 'clients'){
+      window.location='/dashboard/clients/client/'+$id;
+    } else if (pathArray[2] == 'documents'){
+      window.location='/dashboard/documents/document/'+$id;
+    } else if (pathArray[2] == 'invoices'){
+      window.location='/dashboard/invoices/invoice/'+$id;
+    }
     
     if($this.hasClass('st')){
       $('#subtask-modal-' + $id).modal({
@@ -128,31 +142,15 @@ $(function(){
         backdrop: true,
     });
     }
-    $('#case-modal-' + $id).modal({
-      keyboard: true,
-      show: true,
-      focus: true,
-      backdrop: true,
-    });
 
-    $('#contact-modal-' + $id).modal({
-      keyboard: true,
-      show: true,
-      focus: true,
-      backdrop: true,
-    });   
+
     $('#user-modal-' + $id).modal({
       keyboard: true,
       show: true,
       focus: true,
       background: false,
     });
-    $('#document-modal-' + $id).modal({
-      keyboard: true,
-      show: true,
-      focus: true,
-      backdrop: true,
-    });   
+ 
    
   });
   
@@ -215,7 +213,6 @@ $(function(){
 
 
   
-  var pathArray = window.location.pathname.split( '/' );
  // console.log(pathArray[2]);
   if(pathArray[2] == 'firm'){
     //$('body .container.dashboard').scrollspy({ target: '#navbar-interior' });

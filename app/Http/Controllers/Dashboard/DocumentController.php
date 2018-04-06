@@ -25,6 +25,7 @@ class DocumentController extends Controller
             $this->user = \Auth::user();
             $this->user_id = $this->user['id'];
             $this->settings = Settings::where('user_id', $this->user_id)->first();
+					  $this->s3 = \Storage::disk('s3');
             return $next($request);
         });
     }
@@ -32,8 +33,7 @@ class DocumentController extends Controller
   
     public function index(Request $request)
     {
-      $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
-      $not_allowed = $request->user()->hasRole('administrator');      
+
       
       $documents = Document::where('user_id', \Auth::id())->with('wysiwyg')->get();
       $my_clients = Contact::where(['user_id' => \Auth::id(), 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
@@ -44,9 +44,8 @@ class DocumentController extends Controller
       return view('dashboard/documents', [
         'user_name' => $this->user['name'], 
         'documents' => $documents, 
-        'f_id' => $this->user->firm_id,
+        'firm_id' => $this->user->firm_id,
         'theme' => $this->settings->theme,
-        'role' => $not_allowed,
         'cases' => $cases,
         'clients' => $clients,
         'contacts' => $contacts,
@@ -151,6 +150,29 @@ $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
       ]);
              
       return redirect('/dashboard/documents')->with('status', 'Document created successfully!');  */    
+    }
+	
+	 	public function single(Request $request, $id)
+    {
+
+      
+      $documents = Document::where(['id' => $id, 'firm_id' => $this->settings->firm_id])->with('wysiwyg')->first();
+      $my_clients = Contact::where(['user_id' => \Auth::id(), 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
+      $my_contacts = Contact::where(['user_id' => \Auth::id(), 'firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
+      $cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
+      $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
+      $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
+      return view('dashboard/document', [
+        'user_name' => $this->user['name'], 
+        'document' => $documents, 
+        'firm_id' => $this->user->firm_id,
+        'theme' => $this->settings->theme,
+        'cases' => $cases,
+        'clients' => $clients,
+        'contacts' => $contacts,
+        'table_color' => $this->settings->table_color,
+        'table_size' => $this->settings->table_size,
+      ]);
     }
   
     public function upload(Request $request)

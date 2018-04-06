@@ -22,13 +22,13 @@ class CreateCaseTable extends Migration
         $table->longText('opposing_councel');
         $table->longText('claim_reference_number');
         $table->longText('location');
-        $table->dateTime('created_at');
         $table->dateTime('open_date');
         $table->dateTime('close_date');
         $table->text('statute_of_limitations');
         $table->text('is_billable');
         $table->text('billing_type');
         $table->text('billing_rate', 4, 2);
+        $table->string('hours');
         $table->integer('firm_id');
         $table->integer('u_id');
         $table->timestamps();

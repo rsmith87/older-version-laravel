@@ -33,8 +33,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
       
-      $request->user()->authorizeRoles(['auth_user', 'administrator', 'client']);
-      $not_allowed = $request->user()->hasRole('administrator');      
+   
       $tasks = Task::where('user_id', \Auth::id())->with('subtasks')->get();
       $subtasks = Subtask::where('user_id', \Auth::id())->get();
       $cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
@@ -44,11 +43,11 @@ class TaskController extends Controller
         'subtasks' => $subtasks,
         'user_name' => $this->user['name'], 
         'theme' => $this->settings->theme, 
-        'role' => $not_allowed,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
         'cases' => $cases,
         'contacts' => $contacts,
+				'firm_id' => $this->settings->firm_id,
       ]
      );
       
