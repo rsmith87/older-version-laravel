@@ -7,7 +7,10 @@ $(function(){
 });
   
 
-
+  $('table thead th').each(function(){
+    var $this = $(this);
+    $this.find('div').append('<div class="arrow-up"></div>')
+  })
 
    var timer = new Timer();
 

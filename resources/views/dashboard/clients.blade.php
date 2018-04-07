@@ -11,7 +11,7 @@
 	
    <div class="panel panel-default">
     <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-3 mb-2">
+        <h1 class="pull-left ml-3 mt-4 mb-2">
          <i class="fas fa-users fa-fw fa-lg"></i> Clients
         </h1>
 				<div class="clearfix"></div>
@@ -105,9 +105,29 @@
 					</div> 
 					
 					<div class="col-sm-6 col-xs-12">
-						<label>Address</label>
-						<input type="text" class="form-control" name="address" aria-label="Address">
+						<label>Address 1</label>
+						<input type="text" class="form-control" name="address_1" aria-label="Address">
 					</div> 
+					
+					<div class="col-sm-6 col-xs-12">
+						<label>Address 2</label>
+						<input type="text" class="form-control" name="address_2" aria-label="Address">
+					</div> 	
+					
+					<div class="col-sm-6 col-xs-12">
+						<label>City</label>
+						<input type="text" class="form-control" name="city" aria-label="Address">
+					</div> 	 
+					
+						<div class="col-sm-6 col-xs-12">
+						<label>State</label>
+						<input type="text" class="form-control" name="state" aria-label="Address">
+					</div>
+					
+					<div class="col-sm-6 col-xs-12">
+						<label>Zip</label>
+						<input type="text" class="form-control" name="zip" aria-label="Address">
+					</div> 	 
 					
 					<div class="col-sm-12 col-xs-12">
 						<label>Case</label>

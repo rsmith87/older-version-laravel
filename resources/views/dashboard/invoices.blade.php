@@ -11,13 +11,13 @@
 
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h1  class="pull-left ml-3">
+        <h1  class="pull-left mt-4 ml-3">
           <i class="fa fa-file-alt"></i> Invoices
         </h1>
 				<div class="clearfix"></div>
         <p class="ml-3 mb-2">Use Invoices to create invoices based off completed cases!  You can then create an account for the billable client to allow acccess to online payment.</p>
      	 	@include('dashboard.includes.alerts')
-				@if(count($my_cases) === 0)
+				@if(count($orders) === 0)
 				<div class="alert alert-warning alert-dismissible fade in" role="alert">
 			  You haven't created an Invoice yet! <strong>Create one from the case page!</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -27,7 +27,7 @@
 				@endif
 		 </div>
      <div class="panel-body">
-			 @if(count($my_cases) > 0)
+			 @if(count($orders) > 0)
        <table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
           <thead> 
             <tr>
@@ -37,12 +37,14 @@
             </tr> 
           </thead> 
           <tbody> 
-          @foreach ($my_cases as $case)
+          @foreach ($orders as $order)
+						@foreach($order->Invoices as $i)
             <tr> 
-              <td>{{ $case->id }}</td>
-              <td>{{ $case->name }}</td> 
-							<td>$ {{ (float)$case->hours * (float)$case->rate }}.00</td>
+              <td>{{ $i->id }}</td>
+              <td>{{ $i->receiver_info }}</td> 
+							<td>$ {{ $i->total }}.00</td>
             </tr> 
+						@endforeach
          	@endforeach
           </tbody> 
        </table>

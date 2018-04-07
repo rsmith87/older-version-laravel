@@ -31,6 +31,7 @@ class CreateCaseTable extends Migration
         $table->string('hours');
         $table->integer('firm_id');
         $table->integer('u_id');
+        $table->integer('order_id')
         $table->timestamps();
       });
     }

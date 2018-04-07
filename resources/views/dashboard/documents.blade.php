@@ -12,7 +12,7 @@
 	<div class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading" style="overflow:hidden;">
-				<h1 class="ml-3">
+				<h1 class="ml-3 mt-4">
 					<i class="fas fa-file"></i> Documents
 				</h1>
 			</div>

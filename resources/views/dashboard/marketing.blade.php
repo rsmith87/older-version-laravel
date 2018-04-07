@@ -12,9 +12,9 @@
   <div class="col-md-6">
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h2 style="margin-top:0;margin-bottom:0;" class="pull-left">
-          <span class="glyphicon glyphicon-envelope" style="padding-right:10px;top:4px;"></span>Reports
-        </h2>
+        <h1 class="pull-left mt-4 ml-3 mb-2">
+          <span class="glyphicon glyphicon-envelope" style="padding-right:10px;top:4px;"></span >Reports
+        </h1>
         <!--<button type="button" class="btn btn-warning pull-right">Compose Mail</button>-->
      </div>
      <div class="panel-body">

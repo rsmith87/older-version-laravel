@@ -16,7 +16,6 @@ class CreateUsersTable extends Migration
         $table->increments('id');
         $table->longText('name');
         $table->longText('email');
-        $table->integer('f_id');
         $table->text('provider');
         $table->longText('provider_id');
         $table->longText('password', 60);

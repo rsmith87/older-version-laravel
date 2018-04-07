@@ -12,7 +12,7 @@
 	
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-4 mb-5"> 
+        <h1 class="pull-left ml-4 mt-4 mb-5"> 
          <i class="fas fa-cloud-upload-alt"></i> Document
         </h1>
      </div>

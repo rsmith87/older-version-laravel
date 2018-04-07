@@ -10,7 +10,7 @@
     
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-3 mb-2">
+        <h1 class="pull-left ml-3 mt-4 mb-2">
           <i class="fas fa-tasks"></i> Tasks
         </h1>
    			<div class="clearfix"></div>
@@ -29,7 +29,7 @@
      <div class="panel-body">
         <table class="table table-responsive table-hover table-{{ $table_color }} table-{{ $table_size }}">
           <thead> 
-            <tr class="bg-light">
+            <tr>
               <th>Id</th>
               <th>Name</th>
               <th>Due date</th>

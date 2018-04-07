@@ -1,17 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
 
-@extends('layouts.dashboard')
+    <title>Receipt</title>
 
-@section('content')
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #fff;
+            background-image: none;
+            font-size: 12px;
+        }
+        address{
+            margin-top:15px;
+        }
+        h2 {
+            font-size:28px;
+            color:#cccccc;
+        }
+        .container {
+            padding-top:30px;
+        }
+        .invoice-head td {
+            padding: 0 8px;
+        }
+        .invoice-body{
+            background-color:transparent;
+        }
+        .logo {
+            padding-bottom: 10px;
+        }
+        .table th {
+            vertical-align: bottom;
+            font-weight: bold;
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+        }
+        .table td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 1px solid #dddddd;
+        }
+        .well {
+            margin-top: 15px;
+        }
+    </style>
+</head>
 
-<div class="container dashboard invoice-single col-sm-10 col-xs-12 offset-sm-2">
-    <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add case</a>
-    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> My Cases</a>
-  </nav>  
-  
+<body>
 
-
-    <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
@@ -105,8 +146,4 @@
          
         </table>
     </div>
-     </div>
-
-
-
 

@@ -9,22 +9,19 @@
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-clock"></i> Add hours</a>		
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Bill client</a>
 	</nav>  	
-	
-	@include('dashboard.includes.alerts')
 
 	<div class="panel panel-default">
 		<div class="panel-heading" style="overflow:hidden;">
-			<h1 class="pull-left ml-3 mb-2">
+			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-briefcase"></i> Case
 			</h1>
 			<div class="clearfix"></div>
-			<p class="ml-3 mb-2">
+			<p class="ml-3 mb-4">
 				Case information for {{ $case->name }}
 			</p>							
 			@include('dashboard.includes.alerts')
 		</div>
 		<div class="panel-body">
-			<div class="container">
 			<div class="col-sm-6 col-12">
 				<label>Status</label>
 				<p>{{ ucfirst($case->status) }}</p>
@@ -73,7 +70,7 @@
 										<th>Name</th> 
 										<th>Phone Number</th>
 										<th>Email</th>
-										<th>Relationship</th>
+
 									</tr> 
 								</thead> 
 								<tbody> 
@@ -103,6 +100,7 @@
 										<th>Name</th> 
 										<th>Phone Number</th>
 										<th>Email</th>
+										<th>Relationship</th>										
 									</tr> 
 								</thead> 
 								<tbody> 
@@ -166,8 +164,6 @@
 						 </tbody>
 				 </table>
 				 @endif
-				
-			</div>
 		</div>
 	</div>
 </div>
@@ -184,22 +180,24 @@
 				<hr />
 				<form role="form" method="post" action="/dashboard/invoices/invoice/create">
 					<input type="hidden" name="case_id" value="{{ $case->id }}"/>
+					<input type="hidden" name="invoicable_id" value="{{ !empty($invoicable_id) ? $invoicable_id : "" }}" />
+					<input type="hidden" name="total_amount" value="{{ $invoice_amount }}.00" />
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-12">
 						<label>Amount</label>
-						<input type="text" class="form-control" value="{{ $invoice_amount }}" name="amount" />
+						<input type="text" class="form-control" value="{{ $invoice_amount }}.00" name="amount" />
 					</div>
-					<div class="col-12">
-						<label>Client</label>
+					<div class="col-12 mb-2">
+						<label class="mt-2">Client</label>
 						@if(!empty($clients))
 							@foreach($clients as $client)
 								<input type="hidden" name="client_id" value="{{ $client->id }}" />
-								<input type="text" class="form-control" name="contact_name" value="{{ $client->first_name }} {{ $client->last_name }}" />
+								<input type="text" class="form-control" class="mb-3" name="contact_name" value="{{ $client->first_name }} {{ $client->last_name }}" />
 							@endforeach
 						@else
 							<input type="hidden" name="client_id" />
 							<p>Enter a contact name to start creating one now!</p>
-							<input type="text" class="form-control" name="contact_name" />	
+							<input type="text" class="form-control" class="mb-3" name="contact_name" />	
 						@endif
 					</div>
 					<div class="col-12">

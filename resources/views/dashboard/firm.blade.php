@@ -16,7 +16,7 @@
 	  <div class="col-12" id="firm-info">
    <div class="panel panel-default">
     <div class="panel-heading" style="overflow:hidden;">
-        <h1 style="mb-5" class="pull-left">
+        <h1  class="mb-3 mt-4">
          <i class="fas fa-address-card"></i> Firm information
         </h1>
 					@include('dashboard.includes.alerts')

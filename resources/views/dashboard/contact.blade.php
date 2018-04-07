@@ -4,19 +4,14 @@
 
 <div class="container dashboard contact col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit client</a>
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add client</a>		
- 		@if($contact->is_client === 1 )
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate client to case</a>		
- 		@else
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate contact to case</a>				
-		@endif
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit {{ Request::segment(3) }}</a>	
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate  {{ Request::segment(3) }} to case</a>				
 	</nav>  	
 
 	
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-4 mb-2"> 
+        <h1 class="pull-left ml-4 mt-4 mb-2"> 
           <i class="fas fa-briefcase"></i> {{ ucfirst(Request::segment(3)) }} 
         </h1>
 				@include('dashboard.includes.alerts')
@@ -29,16 +24,21 @@
 			 <label>Name</label>
 			 <p>{{ $contact->first_name }} {{ $contact->last_name }}</p>
 			 <label>Address</label>
-			 <p>{{ $contact->address }}</p>
-			 <label>Company</label>
-			 <p>{{ $contact->company }}</p>
-
-				 </div>
-				 <div class="col-sm-6 col-12">					 
-			 <label>Company title</label>
-			 <p>{{ $contact->company_title }}</p>
+			 <p>{{ $contact->address_1 }}
+					 {{ $contact->address_2 }}<br />
+					 {{ $contact->city }}<br />
+					 {{ $contact->state }}<br />
+					 {{ $contact->zip }}</p>
 					 <label>Phone</label>
 					 <p>{{ $contact->phone }}</p>
+
+				 </div>
+				 <div class="col-sm-6 col-12">	
+			 <label>Company</label>
+			 <p>{{ $contact->company }}</p>					 
+			 <label>Company title</label>
+			 <p>{{ $contact->company_title }}</p>
+
 					 <label>Email</label>
 					 <p>{{ $contact->email }}</p>
 				 </div>
@@ -156,14 +156,35 @@
 						</div> 
 						
 						<div class="col-sm-6 col-xs-12">
-							<label>Address</label>
-							<input type="text" class="form-control" value="{{ $contact->address }}" name="address" aria-label="Address">
+							<label>Address 1</label>
+							<input type="text" class="form-control" value="{{ $contact->address_1 }}" name="address_1" aria-label="Address">
 						</div> 
-						
+
+					<div class="col-sm-6 col-xs-12">
+						<label>Address 2</label>
+						<input type="text" class="form-control" name="address_2" value="{{ $contact->address_2 }}" aria-label="Address">
+					</div> 	
+					
+					<div class="col-sm-6 col-xs-12">
+						<label>City</label>
+						<input type="text" class="form-control" name="city" value="{{ $contact->city }}" aria-label="Address">
+					</div> 	 
+					
 						<div class="col-sm-6 col-xs-12">
+						<label>State</label>
+						<input type="text" class="form-control" name="state" value="{{ $contact->state }}" aria-label="Address">
+					</div>
+					
+					<div class="col-sm-6 col-xs-12">
+						<label>Zip</label>
+						<input type="text" class="form-control" name="zip" value="{{ $contact->zip }}" aria-label="Address">
+					</div> 	 
+						<div class="clearfix"></div>
+						<hr />
+						<div class="col-sm-12 col-xs-12">
 							<label>Case</label>
 							<input type="hidden" name="case_id" value="{{ !empty($contact->case_id) ? $contact->case_id : '' }}" />		
-							<input type="text" name="case_name" value="{{ $contact->case_id != 0 || !empty($array_cases[$contact->case_id]) ? $array_cases[$contact->case_id] : '' }}" class="form-control" />
+							<input type="text" name="case_name" value="{{ $contact->case_id != 0 || !empty($array_cases[$contact->case_id]) ? $array_cases[$contact->case_id] : '' }}" class="form-control mb-4" />
 						</div>
 						
 						<div class="col-sm-12">

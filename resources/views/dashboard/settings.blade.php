@@ -10,20 +10,20 @@
    <a class="nav-item nav-link btn btn-info" href="#stripe-settings"><i class="fab fa-cc-stripe"></i> Stripe settings</a>		
   </nav>  
 	
-	@include('dashboard.includes.alerts')
-	
-	<div class="col-12" id="general-settings">
    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h2 style="margin-top:0;margin-bottom:0;">
-          <i class="fa fa-cog"></i> General settings
-        </h2>
-     </div>
+      <div class="panel-heading" style="overflow:hidden;">
+        <h1 class="pull-left ml-3 mt-4 mb-2">
+          <i class="fas fa-cog"></i> Settings
+        </h1>
+   			<div class="clearfix"></div>
+        <p class="ml-3 mb-2">Change views, update Stripe info and more!.</p>							
+						@include('dashboard.includes.alerts')			
+     </div>	
      <div class="panel-body">
        
      </div>
   </div>   
-	</div>
+
 
 	<div class="col-12" id="theme-settings">
    <div class="panel panel-default">

@@ -33,6 +33,7 @@ class LawCase extends Model
         'rate_type',
         'billing_rate',
         'hours',
+        'order_id',
         'firm_id', 
         'u_id'
     ];
@@ -48,8 +49,7 @@ class LawCase extends Model
     {
         return $this->hasMany('App\Contact', 'case_id');
     }
- 
-     /**
+    /**
      * Get all of the contacts for the case.
      */
     public function documents()
@@ -60,6 +60,11 @@ class LawCase extends Model
     public function tasks()
     {
       return $this->hasMany('App\Task', 'c_id');
+    }
+  
+    public function order()
+    {
+      return $this->hasOne('App\Order', 'id', 'order_id');
     }
   
   

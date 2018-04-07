@@ -9,28 +9,27 @@ use App\LawCase;
 use App\Contact;
 use App\Settings;
 use App\View;
+use App\Order;
 use App\Http\Controllers\Controller;
 use Carbon;
 
 class CaseController extends Controller
 {
   
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-            $this->user_id = $this->user['id'];
-            $this->settings = Settings::where('user_id', $this->user_id)->first();
-            return $next($request);
-        });
-      
-
-    }
+  /**
+  * Create a new controller instance.
+  *
+  * @return void
+  */
+  public function __construct()
+  {
+    $this->middleware(function ($request, $next) {
+      $this->user = \Auth::user();
+      $this->user_id = $this->user['id'];
+      $this->settings = Settings::where('user_id', $this->user_id)->first();
+    return $next($request);
+    });
+  }
   
   public function index(Request $request)
   {
@@ -38,7 +37,6 @@ class CaseController extends Controller
       return redirect('/dashboard/firm/')->with('status', 'You must provide your firm information before proceeding.');
     }
     
-
     $all_case_data = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('contacts')->with('documents')->with('tasks')->get();
     $columns = [];
     $views = View::where(['u_id' => $this->user_id, 'view_type' => 'case'])->get();
@@ -55,7 +53,6 @@ class CaseController extends Controller
     
     $cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('contacts')->with('documents')->get();
    
-    //$cases->statute_of_limitations =  \Carbon\Carbon::parse($cases->statute_of_limitations)->format('m/d/Y');
     $status_values = ["select one", "active", "inactive"];
     
     return view('dashboard/cases', 
@@ -76,7 +73,6 @@ class CaseController extends Controller
   public function add(Request $request)
   {
     $data = $request->all();
-  print_r($data);
          
     if(array_key_exists('id', $data)){
       $id = $data['id'];
@@ -120,6 +116,8 @@ class CaseController extends Controller
     return redirect('/dashboard/cases')->with('status', 'Case '.$data['name'].' has been updated!');
     }
   
+  
+  
   public function case($id, Request $request)
   {
     $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id])->with('contacts')->with('documents')->first();
@@ -127,10 +125,8 @@ class CaseController extends Controller
       return redirect('/dashboard/cases')->withError('You don\'t have access to this case.');
     }
     if($requested_case->billing_type === 'fixed'){
-      print_r("FIXED");
       $invoice_amount = $requested_case->billing_rate;
     } else {
-      print_r("HOURLY");
       $invoice_amount = $requested_case->billing_rate * $requested_case->hours;
     }
     $clients = Contact::where(['case_id' => $id, 'is_client' => 1])->get();
@@ -149,13 +145,17 @@ class CaseController extends Controller
     
   }
   
+  
   public function add_hours(Request $request)
   {
     $data = $request->all();
-    $case_hours = LawCase::where('id', $data['case_id'])->select('hours')->first();
+    $case = LawCase::where('id', $data['case_id'])->select(['hours', 'billing_rate'])->first();
 
-    $new_hours = $case_hours->hours + $data['hours_worked'];
+    $new_hours = $case->hours + $data['hours_worked'];
     LawCase::where('id' , $data['case_id'])->update(['hours' => $new_hours]);
+    if(!empty(Order::where('case_id', $data['case_id'])->first())){
+     Order::where('case_id', $data['case_id'])->update(['total_amount' => $case->hours * $case->billing_rate]);
+    }
     return redirect('/dashboard/cases/case/'.$data['case_id'])->with('status', 'Hours updated');
   }
   

@@ -3,16 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use SanderVanHooft\Invoicable\IsInvoicable\IsInvoicableTrait;
 
 class Order extends Model
 {
-  
-   use IsInvoicableTrait; // enables the ->invoices() Eloquent relationship
-  
+    
    protected $fillable = [
     'id',
-    'cost',
+    'amount',
+    'total_amount',
     'client_id',     
     'case_id',    
     'firm_id',
@@ -22,21 +20,22 @@ class Order extends Model
   
   public function firm()
   {
-    return $this->hasOne('App\Firm', 'firm_id', 'id');
+    return $this->hasOne('App\Firm', 'id', 'firm_id');
   }
   
   public function lawcase()
   {
-    return $this->hasOne('App\LawCase', 'case_id');
+    return $this->hasOne('App\LawCase', 'id', 'case_id');
   }
   
   public function client()
   {
-    return $this->hasOne('App\Contact', 'client_id');
+    return $this->hasOne('App\Contact', 'id', 'client_id');
   }  
   
   public function invoices()
   {
-    return $this->hasMany('App\Invoice', 'reference', 'reference');
+    return $this->hasMany('App\Invoice', 'invoicable_id', 'case_id');
   }
+  
 }

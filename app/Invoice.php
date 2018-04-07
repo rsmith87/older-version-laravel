@@ -23,6 +23,8 @@ class Invoice extends Model
     'sender_info',
     'payment_info',
     'note',
+    'created_at',
+    'updated_at',
   ];
 
   public function firm()
@@ -43,6 +45,11 @@ class Invoice extends Model
   public function order()
   {
     return $this->hasOne('App\Order', 'reference', 'reference');
+  }
+  
+  public function invoicelines()
+  {
+    return $this->hasMany('App\InvoiceLine', 'invoice_id', 'id');
   }
     
 }

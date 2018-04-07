@@ -21,7 +21,11 @@ class CreateContactTable extends Migration
           $table->longText('company_title');
           $table->longText('phone');
           $table->longText('email');
-          $table->longText('address');
+          $table->longText('address_1');
+          $table->longText('address_2');
+          $table->longText('city');
+          $table->longText('state');
+          $table->longText('zip');
           $table->integer('case_id');
           $table->integer('firm_id');  
           $table->integer('is_client');

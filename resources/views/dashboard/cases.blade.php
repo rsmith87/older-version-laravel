@@ -11,7 +11,7 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading" style="overflow:hidden;">
-			<h1 class="pull-left ml-3 mb-2">
+			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-briefcase"></i> Cases
 			</h1>
 			<div class="clearfix"></div>
