@@ -14,6 +14,7 @@ $(function(){
 
    var timer = new Timer();
 
+
   
    $('.nav-clock .startButton').click(function () {
 

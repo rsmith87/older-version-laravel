@@ -166,7 +166,9 @@ return [
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,  
         Barryvdh\Debugbar\ServiceProvider::class,
-        SanderVanHooft\Invoicable\InvoicableServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        
     ],
 
     /*
@@ -215,7 +217,7 @@ return [
         'auth.password.tokens' => Illuminate\Auth\Passwords\TokenRepositoryInterface::class,
         'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
         'Notification' => Illuminate\Support\Facades\Notification::class,    
-
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
     ],
 
 ];

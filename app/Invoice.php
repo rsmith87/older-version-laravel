@@ -25,16 +25,12 @@ class Invoice extends Model
     'note',
     'created_at',
     'updated_at',
+    'user_id',
   ];
-
-  public function firm()
-  {
-    return $this->hasOne('App\Firm', 'firm_id', 'id');
-  }
   
   public function lawcase()
   {
-    return $this->hasOne('App\LawCase', 'case_id', 'id');
+    return $this->hasOne('App\LawCase', 'invoicable_id', 'id');
   }
   
   public function client()

@@ -18,7 +18,10 @@
         "laravel/socialite": "3.*",
         "laravel/cashier": "~7.0",
         "sander-van-hooft/laravel-invoicable": "dev-master",
-        "barryvdh/laravel-debugbar": "v2.4.3"
+        "barryvdh/laravel-debugbar": "v2.4.3",
+        "exodusanto/administrator": " 5.4.*",
+        "spatie/laravel-permission": "^2.9",
+        "cartalyst/stripe-laravel": "6.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

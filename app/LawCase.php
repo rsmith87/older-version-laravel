@@ -64,8 +64,10 @@ class LawCase extends Model
   
     public function order()
     {
-      return $this->hasOne('App\Order', 'id', 'order_id');
+      return $this->hasOne('App\Order', 'case_id', 'id');
     }
+   
+  
   
   
 }

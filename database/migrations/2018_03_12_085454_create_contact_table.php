@@ -29,6 +29,7 @@ class CreateContactTable extends Migration
           $table->integer('case_id');
           $table->integer('firm_id');  
           $table->integer('is_client');
+          $table->integer('has_login');
           $table->integer('user_id');
           $table->timestamps();
         });

@@ -9,7 +9,6 @@ class Firm extends Model
  
   
     protected $table = "firm";
-    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +35,9 @@ class Firm extends Model
     {
       return $this->hasMany('App\User', 'f_id');
     }
+  
+   public function stripe()
+   {
+     return $this->hasOne('App\FirmStripe', 'firm_id');
+   }
 }

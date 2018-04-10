@@ -4,21 +4,32 @@
 
 <div class="container dashboard col-sm-10 col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add case</a>
-    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> My Cases</a>
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-user"></i> Clients by month</a>
+    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Cases by month</a>
+    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-dollar-sign"></i> Payments by month</a> 
+    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-clock"></i> Hours worked by week</a>        
   </nav>  
   
-  	@include('dashboard.includes.alerts')
-  <div class="col-md-6">
+
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h2 style="margin-top:0;margin-bottom:0;" class="pull-left">
-          <span class="glyphicon glyphicon-envelope" style="padding-right:10px;top:4px;"></span>Reports
-        </h2>
-        <!--<button type="button" class="btn btn-warning pull-right">Compose Mail</button>-->
+        <h1 class="pull-left ml-3 mt-4 mb-2">
+          <i class="fas fa-chart-line"></i> Reports
+        </h1>
+      	@include('dashboard.includes.alerts')
      </div>
      <div class="panel-body">
-        <canvas id="myChart" width="400" height="400"></canvas>
+        <div class="col-sm-6 col-12">
+          <canvas id="myChart" width="400" height="400"></canvas>
+       </div>
+       <div class="col-sm-6 col-12">
+         
+       </div>
+     </div>
+  </div>   
+  </div>
+
+
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
@@ -58,11 +69,4 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-
-     </div>
-  </div>   
-  </div>
-
-</div>
-
 @endsection

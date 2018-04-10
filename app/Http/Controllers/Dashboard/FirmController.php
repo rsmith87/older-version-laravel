@@ -36,32 +36,61 @@ class FirmController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->user = \Auth::user();
+						if(!$this->user->hasPermissionTo('view firm')){
+							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+						}					
 					  $this->passwords = Password::broker();
             $this->settings = Settings::where('user_id', $this->user['id'])->first();
+			
             return $next($request);
         });
     }
 	
   public function index(Request $request)
     {
+			
     	if(!isset($this->settings)){
-				$clients = 0;
-				$firm = 0;
-				$firm_staff = 0;
 				Settings::create([
-				  'user_id' => \Auth::id(),
+				  'user_id' => $this->user['id'],
 					'theme' => 'flatly',
 					'table_color' => 'light',
 					'table_size' => 'lg',
 				]);
+				$firm_staff = [];
+				$clients = [];
 			}
 		  else {
+				$firm_staff = [];
+				$names = [];
 			  $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
+				$c = json_decode($clients, true);
       	$firm = Firm::where('id', $this->settings->firm_id)->first();
-       	$firm_staff = User::where('f_id', $this->settings->firm_id)->select()->get();
+				$firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
+				
+				//prepping data for client/user compare to list clients in client area and users in user area on firm page
+				foreach($c as $test){
+					$names[] = $test['first_name'] . " " . $test['last_name'];
+				}
+				
+				//loop through each user id that came from settings
+				foreach($firm_users as $user){
+						$users = json_decode(User::where('id', $user->user_id)->get(), true);
+					
+					//loop through each user data info
+					foreach($users as $u){
+						
+						//if the user array name has the same name from the clients above
+						//then dont add it to array firm_staff
+						if(!in_array($u['name'], $names)){
+							$firm_staff[] = $u;
+						}
+						
+					}
+				}
 			}
 			
-    	$this->settings = Settings::where('user_id', \Auth::id())->first();
+	
+    	$this->settings = Settings::where('user_id', $this->user['id'])->first();
       return view('dashboard/firm', [
         'user_name' => $this->user['name'],  
         'theme' => $this->settings->theme,
@@ -69,7 +98,7 @@ class FirmController extends Controller
         'f_id' => $this->settings->firm_id,
 				'firm_id' => $this->settings->firm_id,
         'firm_staff' => $firm_staff,
-				'clients' => !empty($clients) ? $clients : null,
+				'clients' => $clients,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
       ]);
@@ -117,19 +146,19 @@ class FirmController extends Controller
 
     
     if(!isset($data['existing_name'])){
-
+		
    //generate a password for the new users
     $pw = $this->generatePassword();
     //add new user to database
     $u = new User;
     $u->name = $data['name'];
     $u->email = $data['email'];
-    $u->f_id = $this->settings->firm_id;
     $u->password = $pw;
 			
     $u->save();    
     
     $id = User::where('email', $data['email'])->first();
+    $id->assignRole('authenticated_user');			
     
     $s = new Settings;
     $s->firm_id = $this->settings->firm_id;
@@ -164,30 +193,34 @@ class FirmController extends Controller
 	public function create_client_login(Request $request)
 	{
 		$data = $request->all();
-		$name = $data['client_name'];
-		$email = $data['email'];
-		//generate a password for the new users
-		$pw = $this->generatePassword();
-    $u = new User;
-    $u->name = $data['client_name'];
-    $u->email = $data['email'];
-    $u->f_id = $this->settings->firm_id;
-    $u->password = $pw;
-    $u->save();    
+		$contact = Contact::where('id', $data['client_id'])->first();
+				
+		User::updateOrCreate([
+			'name' => $contact->first_name . " " . $contact->last_name,
+		],[
+			'email' => $contact->email,
+			'password' => $this->generatePassword(),
+			
+		]); 
 		
-    $id = User::where('email', $data['email'])->first();
-    
-    $s = new Settings;
-    $s->firm_id = $this->settings->firm_id;
-    $s->theme = $this->settings->theme;
-    $s->user_id = $id->id;
-    $s->save();
+    $id = User::where('email', $contact->email)->first();
+		$contact->update(['has_login'=>$id->id]);
+    $id->assignRole('client');
 		
-		//foreach($u as $t){
-			//$this->sendPasswordResetNotification($request);
-		//};
+		Settings::updateOrCreate([
+			'user_id' => $id->id,
+		],[
+			'theme' => $this->settings->theme,
+			'table_color' => $this->settings->table_color,
+			'table_size' => $this->settings->table_size,
+			'firm_id' => $this->settings->firm_id,
+		]);
+		
+	
+		$email_send = $id->sendPasswordResetNotification($id);
+		
 
-		return redirect('/dashboard/settings')->with('status', 'Client {{ $name }} added and reset password email sent!');
+		return redirect('/dashboard/firm')->with('status', 'Client '.$id->name.' added and reset password email sent!');
 
 	}
 
@@ -197,10 +230,5 @@ class FirmController extends Controller
 		return bcrypt(str_random(35));
 	}
   
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ResetPasswordNotification($token));
-    }
-
   
 }

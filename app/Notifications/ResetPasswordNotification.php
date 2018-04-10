@@ -18,7 +18,7 @@ class ResetPasswordNotification extends Notification
      */
     public function __construct()
     {
-        //
+        
     }
 
     /**
@@ -40,10 +40,11 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiiable)
     {
+      print_r($notifiiable);
         // Generate a new reset password token
-        $this->token = app('auth.password.broker')->createToken(\Auth::user());
+        $this->token = app('auth.password.broker')->createToken($notifiiable);
         return (new MailMessage)
-            ->line('You are receiving this email because we received a password reset request for your account.')
+            ->line('An account has been created for you by your legal representative!  Finish the setup process by resetting your password below.')
             ->action('Reset Password', url('password/reset', $this->token)) // <- this url
             ->line('If you did not request a password reset, no further action is required.');
     }

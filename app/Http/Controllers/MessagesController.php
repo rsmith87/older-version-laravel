@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\User;
+use App\LawCase;
+use App\Contact;
 use Carbon\Carbon;
 use App\Settings;
 use Cmgmyr\Messenger\Models\Message;
@@ -27,8 +29,10 @@ class MessagesController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->user = \Auth::user();
-            $this->user_id = $this->user['id'];
-            $this->settings = Settings::where('user_id', $this->user_id)->first();
+						if(!$this->user->hasPermissionTo('view messages')){
+							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+						}	
+            $this->settings = Settings::where('user_id', $this->user['id'])->first();
             return $next($request);
         });
     }
@@ -48,12 +52,22 @@ class MessagesController extends Controller
 
       
         // All threads that user is participating in
-        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        $threads = Thread::forUser($this->user['id'])->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
         //$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
-        $users = User::where('id', '!=', Auth::id())->get();
+			
+			
+        $users = User::where('id',  '!=', $this->user['id'])->get();
+				if($this->user->hasRole('client')){
+							$contact = Contact::where('has_login', $this->user['id'])->first();
+		
+									$case = LawCase::where('id', $contact->case_id)->first();
 
+        	$users = User::where('id', $case->u_id)->get();
+			 	
+				
+				}
         return view('messenger.index', [
 					'threads' => $threads, 
 					'users' => $users, 

@@ -13,6 +13,8 @@ use Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DashboardController extends Controller
 {
@@ -24,10 +26,9 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-
+          $this->user = \Auth::user();    
           $this->settings = Settings::where('user_id', $this->user['id'])->first();
-            return $next($request);
+          return $next($request);
         });
         //$this->user = \Auth::user();
     }
@@ -84,12 +85,14 @@ class DashboardController extends Controller
     }
   
   
-    
-  
-    public function reports(Request $request)
+    public function create_roles_and_permissions()
     {
-
-      return view('dashboard/reports', ['user_name' => $this->user['name'], 'firm_id' => $this->settings->firm_id, 'theme' => $this->settings->theme]);
+      //print_r($this->user->getRoleNames());
+      //give master admin administrator role
+     // User::find(9)->assignRole('client');
+      return redirect('/dashboard')->with('status', 'Roles and permissions created!');
+     
+      
     }
   
 

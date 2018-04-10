@@ -10,7 +10,7 @@ class Order extends Model
    protected $fillable = [
     'id',
     'amount',
-    'total_amount',
+    'amount_remaining',
     'client_id',     
     'case_id',    
     'firm_id',

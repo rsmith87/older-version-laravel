@@ -25,8 +25,8 @@
   </div>   
 
 
-	<div class="col-12" id="theme-settings">
-   <div class="panel panel-default">
+
+   <div class="panel panel-default" id="theme-settings">
       <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left">
           <i class="fas fa-object-group"></i> Theme settings
@@ -79,12 +79,11 @@
   
      </div>
   </div>   
-	</div>
 
 
-	<div class="col-12" id="table-data-selectors">
 
-   <div class="panel panel-default">
+
+   <div class="panel panel-default" id="table-data-selectors">
       <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left">
           <i class="fas fa-table"></i> Table data selectors
@@ -205,21 +204,24 @@
      </div>
 
 	</div>
-  </div>
  
 
-<div class="col-12" id="stripe-settings">
-   <div class="panel panel-default">
+
+
+   <div class="panel panel-default" id="stripe-settings">
       <div class="panel-heading">
         <h2 style="margin-top:0;margin-bottom:0;">
           <i class="fab fa-cc-stripe"></i> Stripe settings
         </h2>
      </div>
      <div class="panel-body">
-       
+			 @if(count($fs) > 0)
+			 	<p>You have successfully authenticated Legalease and Stripe!  If you'd like to authenticate again, or are having issues with payments click the link below</p>
+			 @endif
+			 <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}" /></a>
      </div>
   </div>   
-	</div>
+	
 
 </div>
 

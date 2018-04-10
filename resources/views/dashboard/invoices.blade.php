@@ -4,8 +4,8 @@
 
 <div class="container dashboard col-sm-10 col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add case</a>
-    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> My Cases</a>
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fas fa-file-alt"></i> My invoices</a>
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-briefcase"></i> My cases</a>
   </nav>  
   
 
@@ -26,25 +26,30 @@
         </div>
 				@endif
 		 </div>
-     <div class="panel-body">
+     <div class="panel-body">	 
 			 @if(count($orders) > 0)
        <table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
           <thead> 
             <tr>
               <th>Id</th>
-              <th>Name</th>
+              <th>Client</th>
 							<th>Invoice Amount</th>
             </tr> 
           </thead> 
           <tbody> 
           @foreach ($orders as $order)
-						@foreach($order->Invoices as $i)
+						@foreach($order->Invoices as $i)												
             <tr> 
               <td>{{ $i->id }}</td>
               <td>{{ $i->receiver_info }}</td> 
 							<td>$ {{ $i->total }}.00</td>
             </tr> 
 						@endforeach
+						<tr>
+							<td></td>
+							<td></td>
+							<td>Total invoiced:  ${{ number_format($order->amount, 2) }}</td>
+						</tr>						
          	@endforeach
           </tbody> 
        </table>

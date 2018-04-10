@@ -10,6 +10,9 @@ body {
 body.home {
   display: block;
 }
+body.modal-open {
+  padding-right: 0 !important;
+}
 .in {
   opacity: 1;
 }
@@ -197,7 +200,8 @@ table.table-dark a {
 .dashboard.home .col-md-6 {
   float: left;
 }
-.modal .col-sm-6 {
+.modal .col-sm-6,
+.modal .col-sm-12 {
   float: left;
   margin-bottom: 10px;
 }
@@ -454,10 +458,10 @@ table td button.btn-sm svg {
 .settings .panel {
   height: 100vh;
   margin: 0 20px;
-  margin-top: 70px;
+  padding-top: 70px;
 }
 .settings .panel:first-of-type {
-  margin-top: 0;
+  padding-top: 0;
 }
 .settings .form-group input[type=checkbox] {
   display: block;
@@ -542,6 +546,9 @@ nav .show > .btn-primary.dropdown-toggle {
 .modal {
   text-align: center;
   z-index: 1050;
+}
+.modal.show {
+  padding-right: 0 !important;
 }
 @media screen and (min-width: 768px) {
   .modal:before {

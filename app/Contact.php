@@ -14,7 +14,24 @@ class Contact extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'prefix', 'first_name', 'last_name', 'company', 'company_title', 'phone', 'email', 'address_1', 'address_2', 'city', 'state', 'zip', 'case_id', 'firm_id', 'is_client', 'user_id'
+      'id', 
+      'prefix', 
+      'first_name', 
+      'last_name', 
+      'company', 
+      'company_title', 
+      'phone', 
+      'email', 
+      'address_1', 
+      'address_2', 
+      'city', 
+      'state', 
+      'zip', 
+      'case_id', 
+      'firm_id', 
+      'is_client', 
+      'has_login',
+      'user_id',
     ];
 
     /**

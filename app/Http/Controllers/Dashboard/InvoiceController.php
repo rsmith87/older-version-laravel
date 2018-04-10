@@ -22,24 +22,33 @@ use App\Http\Controllers\Controller;
 
 class InvoiceController extends Controller
 {
-	    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-            $this->user_id = \Auth::id();
-            $this->settings = Settings::where('user_id', $this->user_id)->first();
-            return $next($request);
-        });
-    }
-  
+	/**
+	* Create a new controller instance.
+	*
+	* @return void
+	*/
+	public function __construct()
+	{
+		$this->middleware(function ($request, $next) {
+		$this->user = \Auth::user();
+		if(!$this->user->hasPermissionTo('view invoices')){
+			return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+		}		
+		$this->settings = Settings::where('user_id', $this->user['id'])->first();
+			return $next($request);
+		});
+	}
+
 	public function index(Request $request)
 	{
-		$orders = Order::where('user_id', $this->user_id)->with('invoices')->get();
+		if(!$this->user->hasRole('client')){
+			$orders = Order::where('user_id', $this->user['id'])->with('invoices')->get();
+		} 
+		else {
+			$contact = Contact::where('has_login', $this->user['id'])->first();
+			$orders = Order::where('client_id', $contact->id)->get();
+		}
+
 		return view('dashboard/invoices', [
 			'user_name' => $this->user['name'],  
 			'theme' => $this->settings->theme,
@@ -48,66 +57,58 @@ class InvoiceController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
 		]);
-  }
-	
-	public function view(Request $request, $id)
-	{
-		
-		
-		$firm = Firm::where('id', $this->settings->firm_id)->first();
-
-
 	}
-	
+
 	public function create(Request $request)
 	{		
 
 		$data = $request->all();
-		
+
 		//find id to use
 		if(array_key_exists('id', $data)){
-      $id = $data['id'];
+			$id = $data['order_id'];
 			$invoice_id = $data['invoice_id'];
 			$invoice_line_id = $data['invoice_line_id'];
-    }
-    else {
-      $id = \DB::table('orders')->max('id') + 1;
+		}
+		else {
+			$id = \DB::table('orders')->max('id') + 1;
 			$invoice_id = \DB::table('invoices')->max('id') + 1;
 			$invoice_line_id = \DB::table('invoice_lines')->max('id') + 1;
-    }
-		
+		}
+
 		//getting data to populate the DB
 		$case = LawCase::where('id', $data['case_id'])->first();
 		$firm = Firm::where('id', $this->settings->firm_id)->first();
 		$client = Contact::where('id', $data['client_id'])->first();
 		$amount = $data['amount'];
-		$firm_address = $firm->address_1 . " " . $firm->address_2 . " " . $firm->city 
-				. " " . $firm->state . " " . $firm->zip;
-		$mycases = Order::where('user_id', $this->user_id)->get();
-		
+		$firm_address = $firm->address_1 . " " . $firm->address_2 . " " . $firm->city . " " . $firm->state . " " . $firm->zip;
+		$mycase = Order::where(['user_id' => $this->user['id'], 'case_id' => $data['case_id']])->first();
 
-		//create an order and an invoice when it is converted over
-		//TODO: Need to reference the total amount so we can see how much is owed on the order 
-		//TODO: -- add a hidden field of total amount so it can pass over AND make it where update on "add hours" action on case IF case_id = invoicable_id
-		//TODO: -- after checks to see if it exists first
-		//Order can have multiple invoices
-		//invoices can have multiple lines - not fully set up only using 1 line
-		//one order per client
-		
-		//$ordered_case = LawCase::where('order_id', $)
-		$order = Order::updateOrCreate([
-				'id' => $id,
+		$bill_type = $case->billing_type;
+		if($bill_type === 'hourly'){
+			$total_amount  = $case->hours * $case->billing_rate;
+		}
+		else {
+			$total_amount = $case->billing_rate;
+		}
+
+		$amount_remaining = $total_amount - $data['amount'];
+
+		if(count($mycase) > 0){
+			$orig_amount = $mycase->amount + floatval($data['amount']);
+		}
+		Order::updateOrCreate([
+			'case_id' => $data['case_id'],
 		],
 		[
-			'amount' => floatval($data['amount']),
-			'total_amount' => floatval($data['total_amount']),
-			'case_id' => $data['case_id'],
+			'amount' => $orig_amount,
+			'amount_remaining' => floatval($amount_remaining),
 			'firm_id' => $this->settings->firm_id,
 			'client_id' => $data['client_id'],
-			'user_id' => \Auth::id(),
+			'user_id' => $this->user['id'],
 		]);
-		
-		$invoice = Invoice::updateOrCreate([
+
+		Invoice::updateOrCreate([
 			'id' => $invoice_id,
 		],
 		[
@@ -118,11 +119,12 @@ class InvoiceController extends Controller
 			'currency' => 'USD',
 			'status' => 'invoiced',
 			'receiver_info' => $client->first_name . ' ' . $client->last_name,
-			'sender_info' => \Auth::user()->name . '<br />' . 'Re: '. $case->name,
+			'sender_info' => $this->user['name'] . '<br />' . 'Re: '. $case->name,
 			'payment_info' => 'stripe',
 			'note' => '',
+			'user_id' => $this->user['id'],
 		]);
-		
+
 		InvoiceLine::updateOrCreate([
 			'id' => $invoice_line_id,
 		],[
@@ -130,15 +132,12 @@ class InvoiceController extends Controller
 			'amount' => $data['amount'],
 			'tax' => 0,
 			'tax_percentage' => 0,
-			'description' => $client->id . ": " .$client->first_name . " " . $client->last_name ,
+			'description' => $client->id . ": " .$client->first_name . " " . $client->last_name,
 		]);
-		
 
-	
-		
 		return redirect('/dashboard/invoices')->with('message', 'Your invoice is being generated and a link to the invoice will show when it is ready.');
 	}
-	
+
 	public function invoice_view($id)
 	{
 		$invoice = Invoice::where('id', $id)->with('invoicelines')->first();
@@ -148,7 +147,7 @@ class InvoiceController extends Controller
 				$client = $contact;
 			} 
 		}
-		
+
 		return view('vendor.invoicable.receipt', [
 			'invoice' => $invoice,
 			'client' => $client,
@@ -160,6 +159,6 @@ class InvoiceController extends Controller
 			'table_size' => $this->settings->table_size,			
 		]);
 	}
-    
+
 }
 

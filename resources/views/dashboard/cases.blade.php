@@ -6,7 +6,6 @@
 	
 	<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add case</a>
-		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> My Cases</a>
 	</nav>  	
 	
 	<div class="panel panel-default">
@@ -113,7 +112,7 @@
 						<label>Close date</label>
 						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="close_date" name="close_date" aria-label="Close date">
 					</div>
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-xs-12 mt-4">
 						<label>Statute of Limitations</span>
 						<input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
 					</div>
@@ -125,7 +124,7 @@
 						<label>Hours</label>
 						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
 					</div>					 
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-xs-12 mt-4">
 						<label>Fixed rate</label>
 						<input type="radio" name="rate_type" value="fixed" aria-label="Fixed rate">
 						<label>Hourly rate</label>

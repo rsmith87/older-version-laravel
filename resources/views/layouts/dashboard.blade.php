@@ -33,38 +33,45 @@
 			<div class="collapse navbar-collapse" id="navbarColor01">
 
        <ul class="navbar-nav mr-auto">
-				
+				@if(\Auth::user()->hasPermissionTo('view cases'))
         <li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/cases"><i data-fa-transform="grow-2" class="fas fa-briefcase fa-fw fa-sm"></i>Cases</a></li>
-				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/firm"><i class="fas fa-building fa-fw fa-sm"></i>Firm</a></li>
-				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/clients"><i data-fa-transform="grow-2" class="fas fa-users fa-fw fa-sm"></i>Clients</a></li>
-				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/contacts"><i class="fas fa-address-card fa-fw fa-sm"></i>Contacts</a></li>
-				
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view firm'))
+				 <li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/firm"><i class="fas fa-building fa-fw fa-sm"></i>Firm</a></li>
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view clients'))
+				 <li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/clients"><i data-fa-transform="grow-2" class="fas fa-users fa-fw fa-sm"></i>Clients</a></li>
+				@endif
+			  @if(\Auth::user()->hasPermissionTo('view contacts'))
+			  <li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/contacts"><i class="fas fa-address-card fa-fw fa-sm"></i>Contacts</a></li>
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view calendar'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/calendar"><i class="fas fa-calendar-alt fa-sm fa-fw"></i>Calendar</a></li>
+				@endif
+			  @if(\Auth::user()->hasPermissionTo('view messages'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/messages"><i class="fas fa-comment-alt fa-fw fa-sm"></i>Messaging</a></li>
-			  
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view marketing'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/marketing"><i class="fas fa-dollar-sign fa-fw fa-sm"></i>Marketing</a></li>
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view invoices'))
 				<li class="nav-item btn-primary"><a class='nav-link' href="/dashboard/invoices"><i class="fas fa-file-alt fa-fw fa-sm"></i>Invoices</a></li>
-				
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view tasks'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/tasks"><i class="fas fa-tasks fa-fw fa-sm"></i>Tasks</a></li>
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view documents')) 
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/documents"><i class="fas fa-file fa-fw fa-sm"></i>Documents</a></li>
-				
+				@endif 
+				@if(\Auth::user()->hasPermissionTo('view reports'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/reports"><i class="fas fa-chart-line fa-sm fa-fw"></i>Reports</a></li>				
+				@endif
+				@if(\Auth::user()->hasPermissionTo('view settings'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/settings"><i class="fas fa-cog fa-sm fa-fw"></i>Settings</a></li>
+				@endif
 				 <li> @include('dashboard.includes.navtasks')</li>
-				 
-
-				
       </ul>
-			      
-  
-      
-
     </div><!-- /.navbar-collapse -->
-			
-
-		
-	
-		
 		</nav>		
 		
 	

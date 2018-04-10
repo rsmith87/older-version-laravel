@@ -42,8 +42,8 @@
 					@endforeach
 				@endif
 								
-								
-			 @if(empty($document->client_id)) 
+
+				@if(empty($document->client_id)) 
 			 <p>No client </p>
 				@else
 					@foreach ($clients as $client)
@@ -63,7 +63,6 @@
 				 	@endforeach				 
 				@endif
 				 </div>
-
 <div class="col-12">
 
 	<iframe src="https://s3.amazonaws.com/legaleeze{{ $document->path }}" style="width:100%;height:300px;"></iframe>
@@ -99,6 +98,7 @@
        </div>
 					 <div class="clearfix"></div>
 					 <hr />
+			@if(!$user->hasRole('client'))		 
        <div class="col-sm-6 col-12">
 				 <label for="case_name">Case link</label>
 				@if(empty($document->case_id))
@@ -144,7 +144,8 @@
 					 @endif
 					@endforeach
 										
-			@endif
+				@endif
+				@endif
 					 </div>    
 			<div class="col-12">
          <button class="btn btn-primary mt-3 mb-3" type="submit">
@@ -170,7 +171,9 @@
 CKEDITOR.replace('ckeditor_one');
 </script>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
+@if($user->hasRole('administrator') || $user->hasRole('authenticated_user'))
 <script type="text/javascript">
+	
 var cases = {!! json_encode($cases->toArray()) !!};
 var clients = {!! json_encode($clients->toArray()) !!};
 var contacts = {!! json_encode($contacts->toArray()) !!};	
@@ -234,7 +237,7 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 
 	
 </script>
-       
+@endif       
 
 
 

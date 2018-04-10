@@ -36,4 +36,6 @@
   </div>
 </div>
   
-  
+<div class="logo mt-3">
+  <img src="{{ asset('img/logo.png') }}" class="img-responsive" />
+  </div>

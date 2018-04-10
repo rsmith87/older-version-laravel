@@ -9,8 +9,13 @@ use App\LawCase;
 use App\Http\Requests;
 use App\User;
 use App\Settings;
+use App\FirmStripe;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class SettingController extends Controller
 {
@@ -23,19 +28,19 @@ class SettingController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->user = \Auth::user();
-            $this->user_id = $this->user['id'];
-
-            $this->settings = Settings::where('user_id', $this->user_id)->first();
+						if(!$this->user->hasPermissionTo('view settings')){
+							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+						}
+            $this->settings = Settings::where('user_id', $this->user['id'])->first();
             return $next($request);
         });
     }
     
     public function index(Request $request)
     {
-
       //gets all themes so we have the list to check against to add selected class to select element
       $themes = \DB::table('theme')->get();
-   
+   		
       
       $contact_views = View::where(['u_id' => \Auth::id(), 'view_type' => 'contact'])->first();
       $contact_columns = Contact::getModel()->getConnection()->getSchemaBuilder()->getColumnListing(Contact::getModel()->getTable());
@@ -77,11 +82,9 @@ class SettingController extends Controller
         $case_user_views = [];
         //$case_id = \DB::table('views')->max('id') + 1;
       }  
+			
+			$fs = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
       
-
-        
-
-
       return view('dashboard/settings', [
         'user_name' => $this->user['name'], 
         'client_columns' => $client_columns,
@@ -102,7 +105,8 @@ class SettingController extends Controller
         'table_color_options' => ['dark', 'light'],
         'table_sizes' => ['sm', 'lg'],
         'table_size' => $this->settings->table_size,
-				'firm_id' => $this->settings->firm_id,        
+				'firm_id' => $this->settings->firm_id,   
+				'fs' => $fs,
       ]);
     }
   
@@ -188,6 +192,41 @@ class SettingController extends Controller
       $user->save();
       return redirect('/dashboard/settings')->with('status', 'Table size updated successfully!');
     }      
+	
+		public function stripe_account_create(Request $request)
+		{
+			$s_client_id = env('STRIPE_CLIENT_ID', 'ca_CY5IehksCRDo83Ev3R0FdzbvKW4VEV7n');
+			return redirect()->away('https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://legality-codenerd33.codeanyapp.com/dashboard/stripe/redirect&client_id='.$s_client_id.'&state='.csrf_token());
+		}
+	
+		public function stripe_return(Request $request)
+		{
+			
+			//make guzzle call to get account_id for the firm
+			$code = $_REQUEST['code'];
+			//print_r($code);
+			$client = new Client(); //GuzzleHttp\Client
+			$response = $client->post('https://connect.stripe.com/oauth/token', [
+				'form_params' => [
+					'client_secret' => env('STRIPE_SECRET', 'sk_test_oYiig9R9nDcpbDRPwAt8sKMp'),
+					'code' => $code,
+					'grant_type' => 'authorization_code',
+				]
+			]);
+			
+			if($response){
+				$data = json_decode($response->getBody()->getContents(), true);
+				$id = $data['stripe_user_id'];
+			}
+			
+			$fs = FirmStripe::updateOrCreate([
+				'firm_id' => $this->settings->firm_id,
+			],[
+				'stripe_account_id' => $id,
+				'user_id' => $this->user['id'],
+			]);
+			return redirect('/dashboard/settings')->with('status', 'Your stripe account is created and has been connected!');
+		}
   
 
 

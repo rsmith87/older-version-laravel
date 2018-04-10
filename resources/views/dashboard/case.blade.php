@@ -4,10 +4,13 @@
 
 <div class="container dashboard case col-sm-10 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add case</a>
-		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-briefcase"></i> Edit Cases</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-clock"></i> Add hours</a>		
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Bill client</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> Add case</a>
+		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-briefcase"></i> Edit case</a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-plus"></i> <i class="fas fa-clock"></i> Add hours</a>		
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill client</a>
+		@if(count($order) > 0)
+		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
+		@endif
 	</nav>  	
 
 	<div class="panel panel-default">
@@ -38,7 +41,13 @@
 				<label>Location</label>
 				<p>{{ $case->location }}</p>
 			</div>
-				<div class="col-sm-6 col-12">					 
+				<div class="col-sm-6 col-12">				
+					<label>Total cost</label>
+					@if($case->billing_type === 'hourly')
+					<p>${{ number_format($case->hours * $case->billing_rate, 2) }}</p>
+					@else
+					<p>${{ number_format($case->billing_rate, 2) }}</p>
+					@endif
 					<label>Claim reference number</label>
 					<p>{{ $case->claim_reference_number }}</p>
 					<label>Statute of Limitations</label>
@@ -291,7 +300,7 @@
 						<label>Close date</label>
 						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="close_date" name="close_date" aria-label="Close date">
 					</div>
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-xs-12 mt-4">
 						<label>Statute of Limitations</span>
 						<input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
 					</div>
@@ -299,16 +308,16 @@
 						<label>Rate</label>
 						<input type="text" class="form-control" name="billing_rate" aria-label="Amount (to the nearest dollar)">
 					</div>
-					<div class="col-sm-6 col-xs-12">
-						<label>Hours</label>
-						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
-					</div>					 
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-xs-12 mt-4">
 						<label>Fixed rate</label>
 						<input type="radio" name="rate_type" value="fixed" aria-label="Fixed rate">
 						<label>Hourly rate</label>
 						<input type="radio" name="rate_type" value="hourly" aria-label="Hourly rate">
-					</div>
+					</div>					
+					<div class="col-sm-6 col-xs-12">
+						<label>Hours</label>
+						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
+					</div>					 
 					<div class="col-12">
 						<button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>
 					</div>
@@ -401,7 +410,7 @@
                <input type="text" class="form-control datepicker" id="close_date" value="{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}"
   name="close_date" aria-label="Close date">
            </div>
-           <div class="col-sm-6 col-xs-12">
+           <div class="col-sm-6 col-xs-12 mt-4">
             
            
                   <label>Statute of Limitations</label>
@@ -417,7 +426,8 @@
           <input type="text" class="form-control" name="billing_rate" value="{{ $case->billing_rate }}" aria-label="Amount (to the nearest dollar)">
 
            </div>
-           <div class="col-sm-6 col-xs-12">
+					 
+           <div class="col-sm-6 col-xs-12 mt-4">
              @php
 						 $types = ['fixed', 'hourly'];
 						 @endphp
@@ -436,7 +446,7 @@
 					</div>	
 					 <div class="col-sm-12 col-xs-12">
 					             
-                 <button class="btn btn-primary"><i class="fas fa-check"></i> Submit</button>             
+                 <button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>             
         
 					 
 					 </div>

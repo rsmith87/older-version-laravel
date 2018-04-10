@@ -16,7 +16,7 @@ class Order extends Migration
       Schema::create('orders', function (Blueprint $table) {
           $table->increments('id');
           $table->float('amount');
-          $table->float('total_amount');
+          $table->float('amount_remaining');
           $table->integer('client_id');
           $table->integer('firm_id');
           $table->integer('case_id');
