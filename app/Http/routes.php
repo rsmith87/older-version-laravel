@@ -67,8 +67,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/firm/user/add', 'Dashboard\FirmController@add_user');
     Route::post('/firm/user/client/add', 'Dashboard\FirmController@create_client_login');
 
-    
-    
     Route::group(['prefix' => 'calendar'], function() {   
       Route::get('/', 'Dashboard\EventController@index');
       Route::get('/events', 'Dashboard\EventController@client_events');
@@ -78,8 +76,6 @@ Route::group(['middleware' => ['web']], function () {
       Route::get('/events/denied', 'Dashboard\EventController@denied_events');
     });
 
-    
-    
     Route::group(['prefix' => 'tasks'], function() {    
       Route::get('/', 'Dashboard\TaskController@index');
       Route::post('/add', 'Dashboard\TaskController@add');
@@ -150,6 +146,7 @@ Route::group(['middleware' => ['web']], function () {
       Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
       Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
       Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
+      Route::get('/ajax/{id}',  'MessagesController@show_ajax');
       Route::post('/store/{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     }); 
     

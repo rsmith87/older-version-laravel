@@ -141,6 +141,8 @@ $(function(){
       window.location='/dashboard/invoices/invoice/'+$id;
     } else if (pathArray[2] == 'tasks'){
       window.location='/dashboard/tasks/task/'+$id;
+    } else if (pathArray[2] == 'messages'){
+
     }
     
     if($this.hasClass('st')){

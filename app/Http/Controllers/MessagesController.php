@@ -58,15 +58,11 @@ class MessagesController extends Controller
         //$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 			
 			
-        $users = User::where('id',  '!=', $this->user['id'])->get();
+				$users = User::where('id',  '!=', $this->user['id'])->get();
 				if($this->user->hasRole('client')){
-							$contact = Contact::where('has_login', $this->user['id'])->first();
-		
-									$case = LawCase::where('id', $contact->case_id)->first();
-
-        	$users = User::where('id', $case->u_id)->get();
-			 	
-				
+					$contact = Contact::where('has_login', $this->user['id'])->first();
+					$case = LawCase::where('id', $contact->case_id)->first();
+					$users = User::where('id', $case->u_id)->get();
 				}
         return view('messenger.index', [
 					'threads' => $threads, 
@@ -89,7 +85,6 @@ class MessagesController extends Controller
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-
             return redirect()->route('messages');
         }
 
@@ -109,6 +104,33 @@ class MessagesController extends Controller
 					'firm_id' => $this->settings->firm_id,
 				]);
     }
+	
+		public function show_ajax($id, Request $request)
+		{
+ 				try {
+            $thread = Thread::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
+
+            return redirect()->route('messages');
+        }
+
+        // show current user in list if not a current participant
+        // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
+
+        // don't show the current user in list
+        $userId = Auth::id();
+        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
+				$participants = Participant::where('thread_id', $thread->id)->get();
+				foreach($participants as $participant){
+					$par[] = User::where('id', $participant->user_id)->get();
+				}
+			
+        $thread->markAsRead($userId);
+				$message = Message::where('thread_id', $thread->id)->get();
+        return  array('thread' => $thread, 'message' => $message, 'participants' => $par );
+				
+		}
 
     /**
      * Creates a new message thread.

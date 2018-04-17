@@ -694,22 +694,6 @@ nav .show > .btn-primary.dropdown-toggle {
 }
 .speech-bubble {
   position: relative;
-  border-radius: .4em;
-  left: 20px;
-}
-.speech-bubble:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 0;
-  height: 0;
-  border: 0.688em solid transparent;
-  border-right-color: #00aabb;
-  border-left: 0;
-  border-top: 0;
-  margin-top: -0.344em;
-  margin-left: -0.687em;
 }
 @media (min-width: 768px) {
   .navbar-nav > li > a {
