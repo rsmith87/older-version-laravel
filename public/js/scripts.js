@@ -245,6 +245,19 @@ $(function(){
   
   $('#calendar').fullCalendar({
     themeSystem: 'bootstrap4',
+    selectable: true,
+    customButtons: {
+    fullScreen: {
+      text: 'Full Screen',
+      click: function(e) {
+      //$(".dashboard-navigation").animate({width: "0"}, { duration: 100, queue: false });
+      $('.dashboard.calendar #calendar').addClass('full-screen', 1000);
+     
+      }
+      
+    }
+  },
+    bootstrapFontAwesome: true,
     eventClick: function(calEvent, jsEvent, view) {
        var s_date = new Date(calEvent.start_date);
        var str = s_date.toString("MM/dd/yyyy");
@@ -252,10 +265,23 @@ $(function(){
        var e_date = new Date(calEvent.end_date);
        var str_e = e_date.toString("MM/dd/yyyy");
        var e_time = e_date.toString('HH:mm');
-      //alert(str);
+       
+       if (calEvent.contact.first_name != null && calEvent.contact.last_name != null){
+         var name = calEvent.contact.first_name + " " + calEvent.contact.last_name;
+       } else {
+         var name = "";
+       }
+      
+     // console.log(calEvent);
       var formContent = "<form method='post' action='/dashboard/calendar/event/add'>";
       formContent += "<input type='hidden' name='_token' value='"+$('[name="csrf-token"]').attr('content')+"' />"
       formContent += "<input type='hidden' name='id' id='id' value='"+calEvent.id+"'/>";
+      formContent += "<div class='col-12'>";
+      if(name.length){
+        formContent += "<h4 class='float-left'>Client</h4>";
+        formContent += "<h4 class='float-right'>"+name+"</h4>";
+        formContent += "</div>";
+      }
       formContent += "<div class='col-sm-6 col-12'>";
       formContent += "<label for='name'>Name</label>";
       formContent += "<input type='text' class='form-control' name='name' value='"+calEvent.name+"' />";
@@ -284,7 +310,10 @@ $(function(){
       formContent += "<button type='submit' class='btn btn-primary'>Submit</button>";
       formContent += "</div>";
       formContent += "</form>";  
+     
+   if($editable){ 
     doModal('Edit Event', formContent);
+   }
     var date = new Date(calEvent.start);
 
     var day = date.getDate();
@@ -294,7 +323,7 @@ $(function(){
 
   },
     header: {
-            left: 'none',
+            left: 'prev,next today fullScreen',
             center: 'title',
             right: 'month,agendaWeek,agendaDay,listMonth'
           },

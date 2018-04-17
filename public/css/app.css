@@ -112,7 +112,10 @@ body.modal-open {
   padding-right: 0;
 }
 #calendar {
-  margin-left: 15px;
+  -webkit-transition: all 2s;
+  -moz-transition: all 2s;
+  -o-transition: all 2s;
+  transition: all 2s;
 }
 .calendar {
   margin-top: 70px;
@@ -262,6 +265,10 @@ nav.nav-pills a {
   padding-right: 0;
   border-radius: 0;
   padding-top: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 .dashboard-navigation .navbar-collapse {
   padding-left: 0;
@@ -289,6 +296,15 @@ nav.nav-pills a {
 }
 .dashboard-navigation .fc-header-toolbar {
   display: none;
+}
+.full-screen {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9999999999;
+  background-color: white;
 }
 .navbar-form .form-group {
   width: 65%;

@@ -42,7 +42,7 @@ class EventController extends Controller
 	public function index(Request $request)
 	{
 		//users events
-		$events = Event::where(['u_id' => $this->user->id, 'approved' => 1])->get();
+		$events = Event::where(['u_id' => $this->user->id, 'approved' => 1])->with('contact')->get();
 		$contact = null;
 		//clients accessing lawyer events
 		if($this->user->hasRole('client')){
@@ -55,7 +55,7 @@ class EventController extends Controller
 			'events' => $events, 
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
-			'user' => $contact,			
+			'user' => $contact,
 		]);
 	}
 

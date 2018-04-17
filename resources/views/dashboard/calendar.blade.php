@@ -39,11 +39,12 @@ var u_id = {!! json_encode($user['id']) !!}
   for(var i = 0; i<events.length; i++){
 	  events[i].id = events[i]['id'];
 	  events[i].title = events[i]['name'];
+		events[i].client;
 		
     events[i].start = Date.parse(events[i]['start_date']);
     events[i].end = Date.parse(events[i]['end_date']);
 	} 
-	
+	var $editable = true;
 </script>
 @hasanyrole('client')
 <script type="text/javascript">
@@ -55,6 +56,7 @@ var u_id = {!! json_encode($user['id']) !!}
 		}
 
 	}
+ var $editable = false;
 </script>
 @endhasrole
 	
