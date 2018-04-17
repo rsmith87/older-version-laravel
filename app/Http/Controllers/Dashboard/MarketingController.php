@@ -20,11 +20,14 @@ class MarketingController extends Controller
 	public function __construct()
 	{
 		$this->middleware(function ($request, $next) {
-		$this->user = \Auth::user();
-		if(!$this->user->hasPermissionTo('view marketing')){
-			return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
-		}		
-		$this->settings = Settings::where('user_id', $this->user['id'])->first();
+			$this->user = \Auth::user();
+      if(!$this->user){
+				return redirect('/login');
+			}			
+			if(!$this->user->hasPermissionTo('view marketing')){
+				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+			}		
+			$this->settings = Settings::where('user_id', $this->user['id'])->first();
 		return $next($request);
 		});
 	}

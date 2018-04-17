@@ -4,7 +4,7 @@
 
 <div class="container dashboard contact col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit {{ Request::segment(3) }}</a>	
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit {{ Request::segment(3) }}</a>	
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate  {{ Request::segment(3) }} to case</a>				
 	</nav>  	
 
@@ -108,14 +108,13 @@
      </div>
   </div>   
 
-	
 
-<div class="modal fade" id="contact-modal">
+<div class="modal fade" id="contacts-modal">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-body">
 				<h3>
-				<i class="fas fa-address-card"></i> Add a contact
+				<i class="fas fa-address-card"></i> Edit a contact
 				</h3>
 				<div class="clearfix"></div>
 				<hr />

@@ -22,6 +22,7 @@ class CreateDocumentTable extends Migration
           $table->integer('client_id');
           $table->integer('contact_id');
           $table->integer('firm_id');
+          $table->integer('client_share');
           $table->integer('user_id');
           $table->timestamps();
         });

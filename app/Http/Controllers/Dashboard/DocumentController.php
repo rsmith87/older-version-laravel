@@ -23,6 +23,9 @@ class DocumentController extends Controller
 	{
 		$this->middleware(function ($request, $next) {
 			$this->user = \Auth::user();
+      if(!$this->user){
+				return redirect('/login');
+			}			
 			if(!$this->user->hasPermissionTo('view documents')){
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}						
@@ -36,28 +39,29 @@ class DocumentController extends Controller
 	public function index(Request $request)
 	{
 		
-		if(!$this->user->hasRole('client')){		
+		if (!$this->user->hasRole('client')) {		
 			$documents = Document::where('user_id', $this->user['id'])->with('wysiwyg')->get();
 			$my_clients = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$my_contacts = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 			$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
 			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
-		} else
-		{
+		} else {
 			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 			$my_contacts = "";
 			$my_clients = "";
 			$contact = Contact::where('has_login', $this->user['id'])->first();			
-			$documents = Document::where('client_id', $contact->id)->get();
+			$documents = Document::where('user_id', $this->user['id'])->get();
+			$client_documents = Document::where(['client_id' => $contact->id, 'client_share' => 1])->get();
 			$cases = LawCase::where('id', $contact->case_id)->get();
-
-		}
+		} 
+		
 		return view('dashboard/documents', [
 			'user_name' => $this->user['name'],
 			'user' => $this->user,
 			'documents' => $documents, 
+			'client_documents' => isset($client_documents) ? $client_documents: "",
 			'firm_id' => $this->user->firm_id,
 			'theme' => $this->settings->theme,
 			'cases' => $cases,
@@ -177,6 +181,7 @@ class DocumentController extends Controller
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 		} else
 		{
+					//print_r($this->user);
 			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 
@@ -184,6 +189,7 @@ class DocumentController extends Controller
 			$cases = LawCase::where('id', $contact->case_id)->get();
 
 		}
+		
 		return view('dashboard/document', [
 			'user_name' => $this->user['name'], 
 			'document' => $documents, 
@@ -206,7 +212,8 @@ class DocumentController extends Controller
 			$data['id'] = \DB::table('document')->max('id') + 1; 
 			$status = 'added';
 			$imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
-			$filePath = '/f/'.$this->settings->firm_id.'/u/'.\Auth::id().'/' .$imageFileName;
+			$filePath = '/f/'.$this->settings->firm_id.'/u/'.$this->user['id'].'/' .$imageFileName;
+			$fileMimeType = $request->file('file_upload')->getMimeType();
 			$this->s3->put($filePath, file_get_contents($request->file('file_upload')));
 			$this->s3->url($filePath);        
 		} 
@@ -214,10 +221,19 @@ class DocumentController extends Controller
 			$status = 'updated';
 			$filePath = $data['file_path'];
 			$imageFileName = $data['file_name'];
+			$fileMimeType = Document::where('id', $data['id'])->select('mime_type')->first()->mime_type;
 		}
+		
+		if($this->user->hasRole('client')) {			
+			$contact = Contact::where('has_login', $this->user['id'])->first();
+			$data['client_id'] = $contact->id;
+			$data['case_id'] = $contact->case_id;
+		}
+		
 
-
-
+		//ADD CHECKBOX TO ALLOW CLIENT TO VIEW DOCUMENT - only from lawyer side, though
+		//Any document a client uploads can be viewed by the corresponding lawyer
+		
 		Document::updateOrCreate(
 		[
 			'id' => $data['id']
@@ -227,11 +243,13 @@ class DocumentController extends Controller
 			'description' => $data['file_description'],
 			'location' => 's3',
 			'path' => $filePath,
+			'mime_type' => $fileMimeType,
 			'firm_id' => $this->settings->firm_id,
-			'contact_id' => $data['contact_id'],
+			'contact_id' => isset($data['contact_id']) ? $data['contact_id']: "",
 			'client_id' => $data['client_id'],
 			'case_id' => $data['case_id'],
-			'user_id' => \Auth::id(),
+			'user_id' => $this->user['id'],
+			'client_share' => $data['client_share'],
 		]);
 		return redirect('/dashboard/documents')->with('status', 'Document '.$status.' successfully!');
 	}

@@ -31,6 +31,9 @@ class InvoiceController extends Controller
 	{
 		$this->middleware(function ($request, $next) {
 		$this->user = \Auth::user();
+		if(!$this->user){
+			return redirect('/login');
+		}			
 		if(!$this->user->hasPermissionTo('view invoices')){
 			return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 		}		

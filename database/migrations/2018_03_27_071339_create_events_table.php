@@ -20,6 +20,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('end_date');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
+            $table->integer('approved');
             $table->integer('u_id');
             $table->integer('co_id');
             $table->integer('c_id');

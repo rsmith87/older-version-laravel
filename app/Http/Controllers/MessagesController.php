@@ -174,18 +174,18 @@ class MessagesController extends Controller
         }
 
         $thread->activateAllParticipants();
-
+				
         // Message
         Message::create([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => $this->user['id'],
             'body' => Input::get('message'),
         ]);
 
         // Add replier as a participant
         $participant = Participant::firstOrCreate([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => $this->user['id'],
         ]);
         $participant->last_read = new Carbon;
         $participant->save();

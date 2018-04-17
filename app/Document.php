@@ -14,7 +14,18 @@ class Document extends Model
      * @var array
      */
     protected $fillable = [
-       'name', 'description', 'location', 'path', 'case_id', 'contact_id', 'client_id', 'firm_id', 'user_id'
+      'id',
+       'name', 
+      'description', 
+      'location', 
+      'path', 
+      'mime_type',
+      'case_id', 
+      'contact_id', 
+      'client_id', 
+      'firm_id', 
+      'user_id',
+      'client_share',
     ];
   
     /**

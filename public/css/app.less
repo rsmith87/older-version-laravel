@@ -155,14 +155,14 @@ body {
   max-width: 100%;
   padding: 0 5px;
 }
-.navbar-nav li a:hover svg,
+/*.navbar-nav li a:hover svg,
 .navbar-nav li.active a svg {
   -ms-transform: scale(1.15, 1.15);
   /* IE 9 */
-  -webkit-transform: scale(1.15, 1.15);
+ /* -webkit-transform: scale(1.15, 1.15);
   /* Safari */
-  transform: scale(1.15, 1.15);
-}
+/*  transform: scale(1.15, 1.15);
+}*/
 
 .mess{
 	overflow:hidden;
@@ -213,14 +213,65 @@ table{
   top:45px;
   position: relative;
 }
-.dashboard.home .panel {
-  margin-top: 0px;
+.dashboard{
+	.col-sm-6{
+		float:left;
+	}
+	&.home{
+		.panel{
+			top:15px;
+		}
+		.col-sm-6{
+			float:left;
+			padding:10px 20px;
+		}
+		button{
+			svg{
+				margin-right:0;
+			}
+		}
+	}
+	&.messages{
+		.col-sm-6{
+			float:none;
+		}
+	}
+	&.document{
+		iframe{
+			width:100%;
+			height:55vh;
+		}
+	}
+	&.settings{
+		th, td{
+			&:nth-child(1){
+				display:table-cell;
+			}
+		}
+	}
+
+	&.task{
+		.tags{
+			overflow:hidden;
+		}
+
+		.category-tags{
+			.form-field-hide{
+				display:none;
+			}
+		}
+	}
+	
+	&.calendar{
+		&.event{
+			
+		}
+	}
+	
 }
-.dashboard.home .col-md-6 {
-  float: left;
-}
+
 .modal{
-	.col-sm-6, .col-sm-12{
+	.col-sm-6, .col-12{
 		float:left;
 		margin-bottom:10px;
 	}
@@ -233,7 +284,9 @@ table{
 	}
 }
 
-
+#dashbaord-main{
+	margin-top:50px;
+}
 .nav-pills {
   margin: 0 0 20px;
   position: fixed;
@@ -392,9 +445,25 @@ nav.nav-pills a {
 div.col-sm-12 {
   overflow: hidden;
 }
-.modal .btn-sm {
-  margin-top: 0;
+
+.modal{
+	.btn-sm{
+		margin-top:0;
+		&.btn-auto{
+			width:auto;
+			float:left;
+		}
+	}
+	.category-tags{
+		position:relative;
+		.btn{
+		position:absolute;
+		top:4px;
+		margin-left:5px;
+		}
+	}
 }
+
 .dashboard-table-tasks .form-group {
   margin-bottom: 0;
 }
@@ -862,30 +931,31 @@ nav .show > .btn-primary.dropdown-toggle {
 }
   
     
-    @media only screen and (max-width: 600px) {
-        .invoice-single .invoice-box table tr.top table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-        
-       .invoice-single  .invoice-box table tr.information table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-    }
-    
-    /** RTL **/
-   .invoice-single .rtl {
-        direction: rtl;
-        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    }
-    
-   .invoice-single .rtl table {
-        text-align: right;
-    }
-    
-   .invoice-single .rtl table tr td:nth-child(2) {
-        text-align: left;
-    }
+@media only screen and (max-width: 600px) {
+		.invoice-single .invoice-box table tr.top table td {
+				width: 100%;
+				display: block;
+				text-align: center;
+		}
+
+	 .invoice-single  .invoice-box table tr.information table td {
+				width: 100%;
+				display: block;
+				text-align: center;
+		}
+}
+
+/** RTL **/
+.invoice-single .rtl {
+		direction: rtl;
+		font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+.invoice-single .rtl table {
+		text-align: right;
+}
+
+.invoice-single .rtl table tr td:nth-child(2) {
+		text-align: left;
+}
+

@@ -65,6 +65,11 @@ class Contact extends Model
     {
       return $this->hasMany('App\Task', 'contact_client_id');
     }
+    
+    public function user_account()
+    {
+      return $this->hasOne('App\User', 'id', 'has_login');
+    }
   
   
   

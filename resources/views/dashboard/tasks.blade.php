@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container dashboard tasks col-sm-10 col-xs-12 offset-sm-2">
+<div class="container dashboard tasks col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add task</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>
@@ -92,12 +92,12 @@
               <input type="text" class="form-control datepicker" data-toggle="datepicker" id="due_date" value="{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y') }}" name="due_date" aria-label="Due date">
             </div> 
 
-            <div class="col-sm-6 col-xs-12">
+            <div class="col-sm-6 col-12">
               <label>Time start</label>
               <input type="text" class="form-control timepicker-start" id="due_time" value="{{ \Carbon\Carbon::parse($task->due)->format('H:i') }}" name="due_time" aria-label="Time due">
             </div>          
-
-            <div class="col-sm-6 col-xs-12">
+						<div class="clearfix"></div>
+            <div class="col-12">
               <label>Case link</label>
               <input type="hidden" name="c_id" value="{{ $task->c_id }}" />
               @if($task->c_id)
@@ -113,7 +113,7 @@
 
 					
 
-            <div class="col-sm-6 col-12">
+            <div class="col-12">
               <label>Contact/Client Link</label>
               <input type="hidden" value="{{ $task->contact_client_id }}" name="contact_id">            
 
@@ -126,12 +126,20 @@
               @else
                 <input type="text" class="form-control" name="contact_name">
               @endif
-            </div>                
+            </div>
+						
+						<div class="col-12">
+         		 <label class="ml-3">Categories</label>         
+          <div class="col-sm-12 category-tags">
+           <input class="tags form-field-hide" placeholder='Enter some tags'>
+          </div>
+						</div>						
             <div class="col-12">
               <button type="submit" class="btn btn-primary mt-2 mb-5"><i class="fas fa-check"></i> Save</button>
             </div>         
 
           </form>
+					<div class="clearfix"></div>
 		@if(isset($task->Subtasks))
 					<h3 class="mt-3">
          	  <i class="fas fa-tasks"></i>Subtasks 	
@@ -179,7 +187,7 @@
 							<label>Due date</label>
 							<input type="text" class="form-control datepicker" data-toggle="datepicker" id="due_date" name="due_date" aria-label="Due date">
 						</div> 							
-						<div class="col-sm-6 col-xs-12">
+						<div class="col-sm-6 col-12">
 							<label>Time due</label>
 							<input type="text" class="form-control timepicker-start" id="due_time" name="due_time" aria-label="Time due">
 						</div>    						
@@ -202,112 +210,14 @@
 
 
 
-<div class="modal fade" id="task-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <h3>
-          <i class="fas fa-tasks"></i> Add new task
-        </h3>
-        <div class="clearfix"></div>
-        <hr />
-        <form role="form" method="post" action="/dashboard/tasks/add">
-          
-          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+@include('dashboard.includes.task-modal');
 
-          <div class="col-sm-6 col-12">
-            <label>Name</label>
-            <input type="text" class="form-control" name="task_name">
-          </div>
-          
-          <div class="col-sm-6 col-12">
-            <label>Description</label>
-            <input type="text" class="form-control" name="task_description">
-          </div>
-
-          <div class="col-sm-6 col-12">
-            <label>Due date</label>
-            <input type="text" class="form-control datepicker" data-toggle="datepicker" id="due_date" name="due_date" aria-label="Due date">
-          </div> 
-          
-          <div class="col-sm-6 col-xs-12">
-            <label>Time start</label>
-            <input type="text" class="form-control timepicker-start" id="due_time" name="due_time" aria-label="Time due">
-          </div>          
-          
-          <div class="col-sm-6 col-xs-12">
-            <label>Case Link</label>
-            <input type="hidden" name="c_id" />
-            <input type="text" name="case_name" class="form-control" />		
-          </div>
-
-          <div class="col-sm-6 col-12">
-            <label>Contact/Client Link</label>
-            <input type="hidden" name="contact_id">            
-            <input type="text" class="form-control" name="contact_name">
-          </div>          
-          
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary mt-2 mb-2"><i class="fas fa-check"></i> Submit</button>
-          </div>    
-          
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-@foreach($tasks as $task)
-@foreach($task->Subtasks as $subtask)
-<div class="modal fade" id="subtask-modal-{{ $subtask->id }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <h3>
-          <i class="fas fa-tasks"></i> Edit subtask
-        </h3>
-        <div class="clearfix"></div>
-        <hr />
-	<form method="post" action="/dashboard/tasks/subtask/add">
-						
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="id" value="{{ $subtask->id }}">
-						<input type="hidden" name="t_id" value="{{ $task->id }}">
-						<input type="hidden" name="c_id" value="{{ $task->c_id }}">
-					  <input type="hidden" name="c_c_id" value="{{ $task->contact_client_id }}">
-							
-            <div class="col-sm-6 col-12">
-              <label>Subtask</label>
-              <input type="text" class="form-control" name="task_name" value="{{ $subtask->subtask_name }}">
-            </div>
-						<div class="col-sm-6 col-12">
-							<label>Due date</label>
-							<input type="text" class="form-control datepicker" data-toggle="datepicker" value="{{ \Carbon\Carbon::parse($subtask->due)->format('m/d/Y') }}" id="due_date" name="due_date" aria-label="Due date">
-						</div> 							
-						<div class="col-sm-6 col-xs-12">
-							<label>Time due</label>
-							<input type="text" class="form-control timepicker-start" id="due_time" value="{{ \Carbon\Carbon::parse($subtask->due)->format('H:i') }}" name="due_time" aria-label="Time due">
-						</div>    						
-						
-						<div class="col-12">
-							<button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Save</button>
-						</form>
-		</div>
-			</div>
-		</div>
-	</div>
-</div>
-	@endforeach
-	@endforeach
 
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
   var tasks = {!! json_encode($tasks->toArray()) !!};  
   var cases = {!! json_encode($cases->toArray()) !!};
   var contacts = {!! json_encode($contacts->toArray()) !!};	
-	
-
-	
 	
   for(var i = 0; i<cases.length; i++){
     cases[i].data = cases[i]['id'];
@@ -352,8 +262,6 @@
     }
 		 
   });	 
-	
-	$('')
   
 
 </script>

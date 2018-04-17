@@ -21,7 +21,9 @@
         "barryvdh/laravel-debugbar": "v2.4.3",
         "exodusanto/administrator": " 5.4.*",
         "spatie/laravel-permission": "^2.9",
-        "cartalyst/stripe-laravel": "6.0.*"
+        "cartalyst/stripe-laravel": "6.0.*",
+        "google/apiclient": "^2.0",
+        "laravelcollective/html": "^5.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

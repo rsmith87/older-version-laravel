@@ -15,6 +15,7 @@
 		<link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('js/datepicker/datepicker.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('js/timepicker/jquery.timepicker.min.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('css/tags.css') }}" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
@@ -30,7 +31,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-			<div class="collapse navbar-collapse" id="navbarColor01">
+			<div class="collapse offcanvas-collapse navbar-collapse" id="navbarColor01">
 
        <ul class="navbar-nav mr-auto">
 				@if(\Auth::user()->hasPermissionTo('view cases'))
@@ -50,9 +51,6 @@
 				@endif
 			  @if(\Auth::user()->hasPermissionTo('view messages'))
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/messages"><i class="fas fa-comment-alt fa-fw fa-sm"></i>Messaging</a></li>
-				@endif
-				@if(\Auth::user()->hasPermissionTo('view marketing'))
-				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/marketing"><i class="fas fa-dollar-sign fa-fw fa-sm"></i>Marketing</a></li>
 				@endif
 				@if(\Auth::user()->hasPermissionTo('view invoices'))
 				<li class="nav-item btn-primary"><a class='nav-link' href="/dashboard/invoices"><i class="fas fa-file-alt fa-fw fa-sm"></i>Invoices</a></li>
@@ -95,7 +93,8 @@
 		<script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
 		<script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
 		<script src="http://www.datejs.com/build/date.js" type="text/javascript"></script>
-		<script src="{{ asset('js/tablesorter.js') }}"></script>		
+		<script src="{{ asset('js/tablesorter.js') }}"></script>	
+		<script src="{{ asset('js/tagify.js') }}"></script>
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 

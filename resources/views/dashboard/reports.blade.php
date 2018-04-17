@@ -14,16 +14,31 @@
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
         <h1 class="pull-left ml-3 mt-4 mb-2">
-          <i class="fas fa-chart-line"></i> Reports
+          <i class="fas fa-chart-line"></i> New Clients
         </h1>
       	@include('dashboard.includes.alerts')
      </div>
      <div class="panel-body">
-        <div class="col-sm-6 col-12">
+        <div class="col-sm-6 col-12" style="float:left">
           <canvas id="myChart" width="400" height="400"></canvas>
        </div>
-       <div class="col-sm-6 col-12">
-         
+       <div class="col-sm-6 col-12" style="float:left">
+         <form>
+           <input type="text" class="form-control datepicker" name="date_start" />
+           <inpur
+           <input type="radio" name="month" value="" class="form-control"> Month 
+         </form>
+         	<table class="table table-responsive table-resposive table-striped table-{{ $table_color }} table-{{ $table_size }}">
+					<thead> 
+						<tr>           
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+						</tr> 
+					</thead> 
+					<tbody> 
+
+					</tbody> 
+				</table>
        </div>
      </div>
   </div>   

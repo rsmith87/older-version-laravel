@@ -15,8 +15,7 @@ class TimerMiddleware
      */
     public function handle($request, Closure $next)
     {
-      print_r($request);
-      break;
+        
         return $next($request);
     }
 }

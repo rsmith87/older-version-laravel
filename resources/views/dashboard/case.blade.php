@@ -4,10 +4,17 @@
 
 <div class="container dashboard case col-sm-10 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> Add case</a>
 		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-briefcase"></i> Edit case</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-plus"></i> <i class="fas fa-clock"></i> Add hours</a>		
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill client</a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-plus"></i> <i class="fas fa-clock"></i> Add hours</a>
+		@if(!empty($case->Contacts))		
+		@foreach($case->Contacts as $contact)
+			@if($contact->is_client))		
+				<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill {{ $contact->first_name }} {{ $contact->last_name }}</a>
+		  @endif
+		@endforeach
+		@endif
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>  		
 		@if(count($order) > 0)
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
 		@endif
@@ -143,7 +150,7 @@
 							<tr>
 								<td>{{ $document->name }}</td>
 								<td>{{ $document->description }}</td>
-								<td><button class="btn btn-primary btn-sm" href="{{ $document->location }}">Download</button></td>
+								<td><button class="btn btn-primary btn-sm download" href="{{ $document->path }}">Download</button></td>
 							</tr>
 						</tbody>
 					</table>           
@@ -177,46 +184,10 @@
 	</div>
 </div>
 
-
-<div class="modal fade" id="payment-modal-full">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				<h3>
-					<i class="fas fa-tasks"></i> Create invoice
-				</h3>
-				<div class="clearfix"></div>
-				<hr />
-				<form role="form" method="post" action="/dashboard/invoices/invoice/create">
-					<input type="hidden" name="case_id" value="{{ $case->id }}"/>
-					<input type="hidden" name="invoicable_id" value="{{ !empty($invoicable_id) ? $invoicable_id : "" }}" />
-					<input type="hidden" name="total_amount" value="{{ $invoice_amount }}.00" />
-					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<div class="col-12">
-						<label>Amount</label>
-						<input type="text" class="form-control" value="{{ $invoice_amount }}.00" name="amount" />
-					</div>
-					<div class="col-12 mb-2">
-						<label class="mt-2">Client</label>
-						@if(!empty($clients))
-							@foreach($clients as $client)
-								<input type="hidden" name="client_id" value="{{ $client->id }}" />
-								<input type="text" class="form-control" class="mb-3" name="contact_name" value="{{ $client->first_name }} {{ $client->last_name }}" />
-							@endforeach
-						@else
-							<input type="hidden" name="client_id" />
-							<p>Enter a contact name to start creating one now!</p>
-							<input type="text" class="form-control" class="mb-3" name="contact_name" />	
-						@endif
-					</div>
-					<div class="col-12">
-						<input type="submit" class="btn btn-primary mt-2 form-control" />
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+@include('dashboard.includes.event-modal')
+@include('dashboard.includes.document-modal')
+@include('dashboard.includes.invoice-modal')
+@include('dashboard.includes.case-modal')
 
 <div class="modal fade" id="add-hours-modal">
 	<div class="modal-dialog">
@@ -244,89 +215,6 @@
 </div>
 
 
-<div class="modal fade" id="case-modal">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body">
-				<h3>
-					<i class="fas fa-briefcase"></i>Add new case
-				</h3>
-				<div class="clearfix"></div>
-				<hr />
-				<form role="form" method="post" action="/dashboard/cases/create">
-					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<div class="col-sm-6 col-xs-12">
-						<label>Status</label>
-						<select class="custom-select" id="inputGroupSelect01" name="status" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
-							<option value="" selected>Choose...</option>
-							<option value="active">Active</option>
-							<option value="inactive">Inactive</option>
-						</select>
-					</div>       
-
-					<div class="col-sm-6 col-xs-12">
-						<label>Case Number</label>
-						<input type="text" class="form-control" id="case_number" name="case_number" aria-label="Case Number">
-					</div>
-					<div class="col-sm-12 col-xs-12">
-						<label>Name</label>
-						<input type="text" class="form-control" id="name" name="name" aria-label="Name">
-					</div>   
-					<div class="col-sm-12">
-						<label>Description</label>
-						<textarea class="form-control" aria-label="Description" name="description" id="description"></textarea>
-					</div>
-					<div class="col-sm-6 col-xs-12">
-						<label>Court name</label>
-						<input type="text" class="form-control" id="court_name" name="court_name" aria-label="Court name">
-					</div>
-					<div class="col-sm-6 col-xs-12">
-						<label>Opposing Councel</label>
-						<input type="text" class="form-control" id="opposing_councel" name="opposing_councel" aria-label="Opposing Councel">
-					</div>              
-					<div class="col-sm-6 col-xs-12">
-						<label>Location</label>
-						<input type="text" class="form-control" id="location" name="location" aria-label="Location">
-					</div>   
-					<div class="col-sm-6 col-xs-12">
-						<label>Claim Reference Number</label>
-						<input type="text" class="form-control" id="claim_reference_number" name="claim_reference_number" aria-label="Claim reference number">
-					</div>   
-					<div class="col-sm-6 col-xs-12">
-						<label>Open date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="open_date" name="open_date" aria-label="Open date">
-					</div>  
-					<div class="col-sm-6 col-xs-12">
-						<label>Close date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="close_date" name="close_date" aria-label="Close date">
-					</div>
-					<div class="col-sm-6 col-xs-12 mt-4">
-						<label>Statute of Limitations</span>
-						<input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
-					</div>
-					<div class="col-sm-6 col-xs-12">
-						<label>Rate</label>
-						<input type="text" class="form-control" name="billing_rate" aria-label="Amount (to the nearest dollar)">
-					</div>
-					<div class="col-sm-6 col-xs-12 mt-4">
-						<label>Fixed rate</label>
-						<input type="radio" name="rate_type" value="fixed" aria-label="Fixed rate">
-						<label>Hourly rate</label>
-						<input type="radio" name="rate_type" value="hourly" aria-label="Hourly rate">
-					</div>					
-					<div class="col-sm-6 col-xs-12">
-						<label>Hours</label>
-						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
-					</div>					 
-					<div class="col-12">
-						<button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>
-					</div>
-				</form>
-
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="modal fade" id="case-edit-modal">
 	 <div class="modal-dialog modal-lg">
@@ -344,7 +232,7 @@
             
  
        
-              <label for="inputGroupSelect01">Status</label>
+          <label for="inputGroupSelect01">Status</label>
          
             <select class="custom-select" name="status" id="inputGroupSelect01" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
 			        @foreach($status_values as $t)
@@ -457,32 +345,68 @@
 		 </div>
 	</div>
 
-<script src="{{ asset('js/autocomplete.js') }}"></script>			
+<script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
- var contacts = {!! json_encode($clients->toArray()) !!};	
-	
+var cases = {!! json_encode($cases->toArray()) !!};
+var clients = {!! json_encode($clients->toArray()) !!};
+var contacts = {!! json_encode($contacts->toArray()) !!};	
+
+  for(var i = 0; i<cases.length; i++){
+	  cases[i].data = cases[i]['id'];
+	  cases[i].value = cases[i]['name'];
+	}
+	for(var i = 0; i<clients.length; i++){
+		clients[i].data = clients[i]['id'];
+		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+	}
 	for(var i = 0; i<contacts.length; i++){
 		contacts[i].data = contacts[i]['id'];
 		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-    delete contacts[i]['last_name'];
-    delete contacts[i]['first_name'];
-    delete contacts[i]['id'];
-	}  
-  
-
-  $('input[name="contact_name"]').autocomplete({
-    lookup: contacts,
-    width: 'flex',
-    triggerSelectOnValidInput: true,
+	}	
+	 $('input[name="case_name"]').autocomplete({
+    lookup: cases,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
     onSelect: function (suggestion) {
       var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-      var $this = $(this);
-      
+			//alert(thehtml);
+			var $this = $(this);
       $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
-      }
-
+   		$this.prev().val(suggestion.data);
+			
+    }
+		 
   });
+	$('input[name="client_name"]').autocomplete({
+    lookup: clients,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+		 
+  });
+	$('input[name="contact_name"]').autocomplete({
+    lookup: contacts,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+		 
+  });	
+	
+
 	
 </script>
 

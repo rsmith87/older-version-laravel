@@ -36,6 +36,9 @@ class FirmController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->user = \Auth::user();
+						if(!$this->user){
+							return redirect('/login');
+						}					
 						if(!$this->user->hasPermissionTo('view firm')){
 							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 						}					
@@ -89,7 +92,7 @@ class FirmController extends Controller
 				}
 			}
 			
-	
+
     	$this->settings = Settings::where('user_id', $this->user['id'])->first();
       return view('dashboard/firm', [
         'user_name' => $this->user['name'],  
@@ -165,14 +168,7 @@ class FirmController extends Controller
     $s->theme = $this->settings->theme;
     $s->user_id = $id->id;
     $s->save();
-			
-		if(isset($data['client'])){
-		}	else {
-		}
-		
-
-		
-		
+					
 		
     $status = 'User created and an email was sent to user\'s email address provided.';
     }

@@ -27,12 +27,15 @@ class SettingController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-						if(!$this->user->hasPermissionTo('view settings')){
-							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
-						}
-            $this->settings = Settings::where('user_id', $this->user['id'])->first();
-            return $next($request);
+					$this->user = \Auth::user();
+					if(!$this->user){
+						return redirect('/login');
+					}					
+					if(!$this->user->hasPermissionTo('view settings')){
+						return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+					}
+					$this->settings = Settings::where('user_id', $this->user['id'])->first();
+					return $next($request);
         });
     }
     
@@ -187,11 +190,248 @@ class SettingController extends Controller
     {
       $data = $request->all();   
   
-      $user = Settings::where('user_id', \Auth::id())->first();;
+      $user = Settings::where('user_id', \Auth::id())->first();
       $user->table_size = $data['table_size'];
       $user->save();
       return redirect('/dashboard/settings')->with('status', 'Table size updated successfully!');
-    }      
+    }    
+	
+		public function list_users()
+		{
+			$users = User::all();
+			//$firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
+
+
+			return view('dashboard.users', [
+				'users' => $users,
+				'name' => $this->user['name'],
+				'theme' => $this->settings->theme,
+        'table_color' => $this->settings->table_color,
+        'table_size' => $this->settings->table_size,
+				'firm_id' => $this->settings->firm_id,   
+			]);
+		}
+	
+	  public function list_roles()
+		{
+			        $roles = Role::all();//Get all roles
+
+        return view('dashboard.roles', [
+					'roles' => $roles,
+				'name' => $this->user['name'],
+				'theme' => $this->settings->theme,
+        'table_color' => $this->settings->table_color,
+        'table_size' => $this->settings->table_size,
+				'firm_id' => $this->settings->firm_id,   					
+				]);
+		}
+	public function create_permission() {
+        $roles = Role::all(); //Get all roles
+
+        return view('dashboard.permission-create', [
+					'roles'=>$roles,
+									'name' => $this->user['name'],
+				'theme' => $this->settings->theme,
+        'table_color' => $this->settings->table_color,
+        'table_size' => $this->settings->table_size,
+				'firm_id' => $this->settings->firm_id,  	
+				]);
+    }
+	
+	 public function store_permission(Request $request) {
+        $this->validate($request, [
+            'name'=>'required|max:40',
+        ]);
+
+        $name = $request['name'];
+        $permission = new Permission();
+        $permission->name = $name;
+
+        $roles = $request['roles'];
+
+        $permission->save();
+
+        if (!empty($request['roles'])) { //If one or more role is selected
+            foreach ($roles as $role) {
+						
+                $r = Role::where('id', $role)->get(); //Match input role to db record
+					
+                $permission = Permission::where('name', $name)->get(); //Match input //permission to db record
+							
+                //$r->givePermissionTo($permission);
+								$permission->assignRole($r);
+            }
+        }
+
+        return redirect()->route('permissions.index')
+            ->with('status',
+             'Permission'. $permission->name.' added!');
+
+    }
+	
+	public function store_role(Request $request)
+	{
+    //Validate name and permissions field
+        $this->validate($request, [
+            'name'=>'required|unique:roles|max:20',
+            'permissions' =>'required',
+            ]
+        );
+
+        $name = $request['name'];
+        $role = new Role();
+        $role->name = $name;
+
+        $permissions = $request['permissions'];
+
+        $role->save();
+    		//Looping thru selected permissions
+        foreach ($permissions as $permission) {
+            $p = Permission::where('id', $permission)->first(); 
+         	//Fetch the newly created role and assign permission
+            $role = Role::where('name', $name)->get(); 
+            $role->givePermissionTo($p);
+        }
+
+        return redirect()->route('roles.index')
+            ->with('flash_message',
+             'Role'. $role->name.' added!'); 
+    
+	}
+	
+		public function create_role()
+		{
+        $permissions = Permission::all();//Get all permissions
+					
+        return view('dashboard.role-create', [
+					'permissions'=>$permissions,
+					'name' => $this->user['name'],
+					'theme' => $this->settings->theme,
+					'table_color' => $this->settings->table_color,
+					'table_size' => $this->settings->table_size,
+					'firm_id' => $this->settings->firm_id,   							
+				]); 
+		}
+	
+		public function update_role(Request $request, $id)
+		{
+  		 $role = Role::findOrFail($id);//Get role with the given id
+    		//Validate name and permission fields
+        $this->validate($request, [
+            'name'=>'required|max:20|unique:roles,name,'.$id,
+            'permissions' =>'required',
+        ]);
+
+        $input = $request->except(['permissions']);
+        $permissions = $request['permissions'];
+        $role->fill($input)->save();
+
+        $p_all = Permission::all();//Get all permissions
+
+        foreach ($p_all as $p) {
+            $role->revokePermissionTo($p); //Remove all permissions associated with role
+        }		
+        foreach ($permissions as $permission) {
+            $p = Permission::where('id', $permission)->first(); //Get corresponding form //permission in db
+            $role->givePermissionTo($p);  //Assign permission to role
+        }
+
+        return redirect('/dashboard/settings/roles/')
+            ->with('flash_message',
+             'Role'. $role->name.' updated!');			
+		}
+	
+		public function edit_role($id)
+		{
+		    $role = Role::findOrFail($id);
+        $permissions = Permission::all();
+
+        return view('dashboard.role-edit', [
+					'role' => $role,
+					'permissions' => $permissions,
+					'name' => $this->user['name'],
+					'theme' => $this->settings->theme,
+					'table_color' => $this->settings->table_color,
+					'table_size' => $this->settings->table_size,
+					'firm_id' => $this->settings->firm_id, 					
+				]);
+		}
+	
+	public function destroy_role($id)
+	{
+        $role = Role::find($id);
+        $role->delete();
+
+        return redirect()->route('roles.index')
+            ->with('status',
+             'Role deleted!');
+
+	}
+	
+		public function list_permissions()
+		{
+			 $permissions = Permission::all(); //Get all permissions
+			$users = User::get();
+
+       return view('dashboard.permissions',[
+				 'permissions' => $permissions,
+					'firm_id' => $this->settings->firm_id,
+					'table_color' => $this->settings->table_color,
+					'table_size' => $this->settings->table_size,
+				'theme' => $this->settings->theme,
+				 'users' => $users,
+				 ]);
+		}
+	 /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy_permission($id) {
+        $permission = Permission::findOrFail($id);
+
+    //Make it impossible to delete this specific permission 
+    if ($permission->name == "Administer roles & permissions") {
+            return redirect()->route('permissions.index')
+            ->with('flash_message',
+             'Cannot delete this Permission!');
+        }
+
+        $permission->delete();
+
+        return redirect()->route('permissions.index')
+            ->with('flash_message',
+             'Permission deleted!');
+
+    }
+	  public function destroy_user()
+		{
+			 //Find a user with a given id and delete
+        $user = User::findOrFail($id); 
+        $user->delete();
+
+        return redirect()->route('users.index')
+            ->with('flash_message',
+             'User successfully deleted.');
+    
+		}
+	
+	 public function edit_user($id)
+	 {
+		  $user = User::findOrFail($id); //Get user with specified id
+      $roles = Role::get(); //Get all roles
+
+        return view('dashboard.users-edit', [
+					'user' => $user, 
+					'roles' => $roles,
+					'firm_id' => $this->settings->firm_id,
+					'table_color' => $this->settings->table_color,
+					'table_size' => $this->settings->table_size,
+				'theme' => $this->settings->theme,
+	  					
+					]); //pass user and roles data to view
+	 }
 	
 		public function stripe_account_create(Request $request)
 		{

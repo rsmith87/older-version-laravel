@@ -1,6 +1,10 @@
 @extends('layouts.dashboard')
 
 @section('content')
+@php
+
+header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
+@endphp
 
 <div class="container dashboard document col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
@@ -64,8 +68,14 @@
 				@endif
 				 </div>
 <div class="col-12">
-
-	<iframe src="https://s3.amazonaws.com/legaleeze{{ $document->path }}" style="width:100%;height:300px;"></iframe>
+	
+	@if($document->mime_type === 'application/pdf')
+	<iframe src="{{ $document->path }}"></iframe>
+	@elseif($document->mime_type ===' image/jpg' || $document->mime_type === 'image/png' || $document->mime_type === 'image/jpeg' || $document->mime_type === 'image/gif')
+	<img src="{{ $document->path }}" />
+	@elseif($document->mime_type === 'text/rdf' || $document->mime_type === 'application/octet-stream')
+	<iframe src="{{ urlencode($document->path) }}"></iframe>
+	@endif
 				 </div>   
          
 			 </div>
@@ -129,7 +139,7 @@
 					@endforeach	
 				@endif
 					 </div>
-					        <div class="col-sm-6 col-12">
+			 <div class="col-sm-6 col-12">
 
 					 <label for="contact_name">Contact link</label>
 			 
@@ -145,9 +155,17 @@
 					@endforeach
 										
 				@endif
-				@endif
+		
+				 
+		     
 					 </div>    
-			<div class="col-12">
+
+					 
+					<div class="col-sm-6 col-12">
+						<label for="file_name">Share with client?</label>
+						<input type="checkbox" class="form-control" {{ !empty($document->client_share) && $document->client_share > 0 ? "checked" : '' }} name="client_share" />
+					</div>
+							@endif 
          <button class="btn btn-primary mt-3 mb-3" type="submit">
            <i class="fas fa-check"></i> Submit
          </button>

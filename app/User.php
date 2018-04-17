@@ -8,11 +8,13 @@ use Laravel\Passport\HasApiToken;
 use Illuminate\Database\Eloquent\Model;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification as Notification;
-use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Notifications\RoutesNotifications;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\EventConfirmNotification;
+use App\Notifications\EventDenyNotification;
 use App\Notifications\ResetEmailNotification;
+use Illuminate\Notifications\Notification as Notification;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -33,6 +35,7 @@ use Messagable, Notifiable, Billable, HasRoles;
     'provider',
     'provider_id',
     'password', 
+    'created_at',
   ];
   /**
    * The attributes excluded from the model's JSON form.
@@ -62,6 +65,11 @@ use Messagable, Notifiable, Billable, HasRoles;
   {
     return $this->hasOne('App\Settings', 'user_id');
   }
+  
+  public function timer()
+  {
+    return $this->hasOne('App\Timer', 'user_id');
+  }
 
   public static function generatePassword()
   {
@@ -73,4 +81,17 @@ use Messagable, Notifiable, Billable, HasRoles;
     // Send email
     $user->notify(new ResetPasswordNotification($user));
   }
+
+  public function sendEventConfirmNotification($user)
+  {
+    // Send email
+    $user->notify(new EventConfirmNotification($user));
+  }    
+
+  public function sendEventDenyNotification($user)
+  {
+    // Send email
+    $user->notify(new EventDenyNotification($user));
+  }    
+  
 }

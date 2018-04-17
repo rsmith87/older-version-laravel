@@ -28,10 +28,17 @@ class CaseController extends Controller
   {
     $this->middleware(function ($request, $next) {
       $this->user = \Auth::user();
+      if(!$this->user){
+				return redirect('/login');
+			}      
       if(!$this->user->hasPermissionTo('view cases')){
         return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
       }
       $this->settings = Settings::where('user_id', $this->user['id'])->first();
+      $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
+      $this->contacts = Contact::where(['user_id' => $this->user['id'], 'is_client' => 0])->get();
+      $this->clients = Contact::where(['user_id' => $this->user['id'], 'is_client' => 1])->get();
+      
     return $next($request);
     });
   }
@@ -157,7 +164,10 @@ class CaseController extends Controller
       'status_values' => $status_values,
       'invoice_amount' =>$invoice_amount,
       'table_color' => $this->settings->table_color,
-      'table_size' => $this->settings->table_size,          
+      'table_size' => $this->settings->table_size,  
+      'cases' => $this->cases,
+      'contacts' => $this->contacts,
+      'clients' => $this->clients,
     ]);
     
   }

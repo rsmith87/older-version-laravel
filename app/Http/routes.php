@@ -42,6 +42,9 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('/logout', 'Auth\LoginController@logout');
 
   Route::get('/home', 'HomeController@index');
+  
+  
+  
   Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/', 'Dashboard\DashboardController@index');
     Route::post('/', 'Auth\AuthController@create');
@@ -64,18 +67,35 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/firm/user/add', 'Dashboard\FirmController@add_user');
     Route::post('/firm/user/client/add', 'Dashboard\FirmController@create_client_login');
 
-    Route::get('/calendar', 'Dashboard\EventController@index');
-    Route::post('/calendar/event/add', 'Dashboard\EventController@add');
+    
+    
+    Route::group(['prefix' => 'calendar'], function() {   
+      Route::get('/', 'Dashboard\EventController@index');
+      Route::get('/events', 'Dashboard\EventController@client_events');
+      Route::post('/event/add', 'Dashboard\EventController@add');      
+      Route::post('/events/{id}/approve', 'Dashboard\EventController@approve_event');
+      Route::post('/events/{id}/deny', 'Dashboard\EventController@deny_event');      
+      Route::get('/events/denied', 'Dashboard\EventController@denied_events');
+    });
 
-    Route::get('/tasks', 'Dashboard\TaskController@index');
-    Route::post('/tasks/add', 'Dashboard\TaskController@add');
-    Route::post('/tasks/subtask/add', 'Dashboard\TaskController@add_subtask');
+    
+    
+    Route::group(['prefix' => 'tasks'], function() {    
+      Route::get('/', 'Dashboard\TaskController@index');
+      Route::post('/add', 'Dashboard\TaskController@add');
+      Route::get('/task/{id}', 'Dashboard\TaskController@view');
+      Route::post('/subtask/add', 'Dashboard\TaskController@add_subtask');
+      Route::post('/subtask/category/{id}/delete', 'Dashboard\TaskController@delete_category');     
+    });
+    
+    Route::group(['prefix' => 'documents'], function() {
+      Route::get('/', 'Dashboard\DocumentController@index');
+      Route::get('/document/{id}', 'Dashboard\DocumentController@single');
+      Route::post('/create', 'Dashboard\DocumentController@create');
+      Route::post('/upload', 'Dashboard\DocumentController@upload');
+      Route::get('/delete/{name}', 'Dashboard\DocumentController@delete');      
+    });
 
-    Route::get('/documents', 'Dashboard\DocumentController@index');
-    Route::get('/documents/document/{id}', 'Dashboard\DocumentController@single');
-    Route::post('/documents/create', 'Dashboard\DocumentController@create');
-    Route::post('/documents/upload', 'Dashboard\DocumentController@upload');
-    Route::get('/documents/delete/{name}', 'Dashboard\DocumentController@delete');
 
     Route::get('/reports', 'Dashboard\ReportController@index');
 
@@ -83,26 +103,56 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/invoices/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');
     Route::post('/invoices/invoice/create', 'Dashboard\InvoiceController@create');
 
-    Route::get('/settings', 'Dashboard\SettingController@index');
-    Route::post('/views/{type}/update', 'Dashboard\SettingController@update_view');
-    Route::get('/settings/stripe/create', 'Dashboard\SettingController@stripe_account_create');
-    Route::get('/stripe/redirect', 'Dashboard\SettingController@stripe_return');
 
-    Route::post('/settings/theme-update', 'Dashboard\SettingController@update_theme');
-    Route::post('/settings/table-color-update', 'Dashboard\SettingController@table_color');
-    Route::post('/settings/table-size', 'Dashboard\SettingController@table_size');
+   
+
 
     Route::get('/marketing', 'Dashboard\MarketingController@index');
 
-   Route::get('/configure', 'Dashboard\DashboardController@create_roles_and_permissions');
- 
-  Route::group(['prefix' => 'messages'], function () {
+     Route::get('/configure', 'Dashboard\DashboardController@create_roles_and_permissions');
+    
+    
+    Route::post('/views/{type}/update', 'Dashboard\SettingController@update_view');
+    Route::get('/stripe/redirect', 'Dashboard\SettingController@stripe_return');
+
+     Route::group(['prefix' => 'settings'], function() {
+        Route::post('/theme-update', 'Dashboard\SettingController@update_theme');
+        Route::post('/table-color-update', 'Dashboard\SettingController@table_color');
+        Route::post('/table-size', 'Dashboard\SettingController@table_size');   
+          Route::get('/', 'Dashboard\SettingController@index'); 
+       Route::get('/roles-permissions', 'Dashboard\DashbaordController@roles_and_permissions');
+       
+     Route::get('/stripe/create', 'Dashboard\SettingController@stripe_account_create');
+      
+       
+       Route::get('/users', ['as' => 'users.index', 'uses' => 'Dashboard\SettingController@list_users']);
+       Route::get('/users/{id}/edit', 'Dashboard\SettingController@edit_user');
+       Route::post('/users/edit/{id}', ['as' => 'users.edit', 'uses' => 'Dashboard\SettingController@edit_user']);
+       Route::post('/users/destroy', ['as' => 'users.destroy', 'uses' => 'Dashbaord\SettingController@destroy_user']);      
+       
+       Route::get('/roles', ['as'=>'roles.index', 'uses' => 'Dashboard\SettingController@list_roles']);
+       Route::get('/roles/{id}/edit', 'Dashboard\SettingController@edit_role');
+       Route::post('/roles/{id}/edit', 'Dashboard\SettingController@update_role');
+       Route::get('/roles/create', 'Dashboard\SettingController@create_role');
+       Route::post('/roles/create', 'Dashboard\SettingController@store_role');    
+       Route::post('/roles/destroy/{id}', 'Dashboard\SettingController@destroy_role');
+       
+       Route::get('/permissions', ['as' => 'permissions.index', 'uses' => 'Dashboard\SettingController@list_permissions']);
+       Route::post('/permissions/destroy/{id}', ['as' => 'permissions.destroy', 'uses' => 'Dashboard\SettingController@destroy_permission']);
+       Route::get('/permissions/create', ['as' => 'permissions.create', 'uses' => 'Dashboard\SettingController@create_permission']);
+       Route::post('/permissions/create', ['as' => 'permissions.create', 'uses' => 'Dashboard\SettingController@store_permission']);
+    
+     });
+
+
+    Route::group(['prefix' => 'messages'], function () {
       Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
       Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
       Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
       Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-      Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-  }); 
+      Route::post('/store/{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
+    }); 
+    
   });
   
 });
