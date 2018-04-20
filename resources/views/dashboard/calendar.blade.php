@@ -35,31 +35,48 @@
 <script type="text/javascript">
 var events =  {!! json_encode($events->toArray()) !!};  
 var u_id = {!! json_encode($user['id']) !!}
-  
+var user = {!! json_encode($user) !!} 
   for(var i = 0; i<events.length; i++){
+		
 	  events[i].id = events[i]['id'];
 	  events[i].title = events[i]['name'];
 		events[i].client;
+		console.log(events);
+		if(events[i].approved == '0'){
+			events[i].color = 'gray';
+		} else if(events[i].approved == '2') {
+			events[i].color = 'red';
+		}
+		//events[i].color = 
 		
     events[i].start = Date.parse(events[i]['start_date']);
     events[i].end = Date.parse(events[i]['end_date']);
 	} 
 	var $editable = true;
 </script>
+	
 @hasanyrole('client')
 <script type="text/javascript">
 	for(var i=0; i<events.length; i++){
 		if(events[i]['co_id'] != u_id){
 		  events[i].title = "Blocked";			
+			events[i].color= "orange";
 		} else {
-			events[i].title = events[i]['name']
+			events[i].title = events[i]['name'];
+			//events[i].color = 'blue';
 		}
 
 	}
  var $editable = false;
 </script>
 @endhasrole
+
 	
+<script type="text/javascript">
+	
+
+  	
+</script>
 	
 	
 @endsection

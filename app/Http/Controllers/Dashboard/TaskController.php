@@ -58,6 +58,7 @@ class TaskController extends Controller
 	{
 		$values="";
 		$count = 0;
+    $exis_cat = [];
 		$task = Task::where(['id' => $id])->with('subtasks')->with('categories')->first();
 		if(!empty($task)){
 			 $cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();

@@ -243,102 +243,51 @@ $(function(){
       smoothScrollingTo(location.hash);
     });*/
   }
+  
+  
+  
   else if (pathArray[2] == 'calendar'){
-  
-  $('#calendar').fullCalendar({
-    themeSystem: 'bootstrap4',
-    selectable: true,
-    customButtons: {
-    fullScreen: {
-      text: 'Full Screen',
-      click: function(e) {
-      //$(".dashboard-navigation").animate({width: "0"}, { duration: 100, queue: false });
-      $('.dashboard.calendar #calendar').addClass('full-screen', 1000);
-     
-      }
-      
-    }
-  },
-    bootstrapFontAwesome: true,
-    eventClick: function(calEvent, jsEvent, view) {
-       var s_date = new Date(calEvent.start_date);
-       var str = s_date.toString("MM/dd/yyyy");
-       var s_time = s_date.toString('HH:mm');
-       var e_date = new Date(calEvent.end_date);
-       var str_e = e_date.toString("MM/dd/yyyy");
-       var e_time = e_date.toString('HH:mm');
-       
-       if (calEvent.contact.first_name != null && calEvent.contact.last_name != null){
-         var name = calEvent.contact.first_name + " " + calEvent.contact.last_name;
-       } else {
-         var name = "";
-       }
-      
-     // console.log(calEvent);
-      var formContent = "<form method='post' action='/dashboard/calendar/event/add'>";
-      formContent += "<input type='hidden' name='_token' value='"+$('[name="csrf-token"]').attr('content')+"' />"
-      formContent += "<input type='hidden' name='id' id='id' value='"+calEvent.id+"'/>";
-      formContent += "<div class='col-12'>";
-      if(name.length){
-        formContent += "<h4 class='float-left'>Client</h4>";
-        formContent += "<h4 class='float-right'>"+name+"</h4>";
-        formContent += "</div>";
-      }
-      formContent += "<div class='col-sm-6 col-12'>";
-      formContent += "<label for='name'>Name</label>";
-      formContent += "<input type='text' class='form-control' name='name' value='"+calEvent.name+"' />";
-      formContent += "</div>";
-      formContent += "<div class='col-sm-6 col-12'>";      
-      formContent += "<label for='description'>Description</label>";      
-      formContent += "<input type='text' class='form-control' name='description' value='"+calEvent.description+"' />";
-      formContent += "</div>";      
-      formContent += "<div class='col-sm-6 col-12'>";      
-      formContent += "<label for='start_date'>Start date</label>";      
-      formContent += "<input type='text' class='form-control datepicker' data-toggle'datepicker' name='start_date' value='"+str+"' />";
-      formContent += "</div>";      
-      formContent += "<div class='col-sm-6 col-12'>";      
-      formContent += "<label for='end_date'>End date</label>";      
-      formContent += "<input type='text' class='form-control datepicker' data-toggle'datepicker' name='end_date' value='"+str_e+"' />";
-      formContent += "</div>";      
-      formContent += "<div class='col-sm-6 col-12'>";      
-      formContent += "<label for='start_time'>Start time</label>";           
-      formContent += "<input type='text' class='form-control timepicker' name='start_time' value='"+s_time+"' />";
-      formContent += "</div>";      
-      formContent += "<div class='col-sm-6 col-12'>";      
-      formContent += "<label for='end_time'>End time</label>";           
-      formContent += "<input type='text' class='form-control timepicker' name='end_time' value='"+e_time+"' />"; 
-      formContent += "</div>";
-      formContent += "<div class='col-12'>";
-      formContent += "<button type='submit' class='btn btn-primary'>Submit</button>";
-      formContent += "</div>";
-      formContent += "</form>";  
-     
-   if($editable){ 
-    doModal('Edit Event', formContent);
-   }
-    var date = new Date(calEvent.start);
+     for(var i = 0; i<events.length; i++){
+          console.log(events[i].user);
+        }  
+      $('#calendar').fullCalendar({
+        themeSystem: 'bootstrap4',
+        selectable: true,
+        nowIndicator: true,
+        selectHelper: true,
+        weekends: false,
+        businessHours: {
+          // days of week. an array of zero-based day of week integers (0=Sunday)
+          dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+          start: '09:00', // a start time (10am in this example)
+          end: '17:00', // an end time (6pm in this example)
+        },
+        customButtons: {
+        fullScreen: {
+          text: 'Full Screen',
+          click: function(e) {
+          //$(".dashboard-navigation").animate({width: "0"}, { duration: 100, queue: false });
+          $('.dashboard.calendar #calendar').addClass('full-screen', 1000);
 
-    var day = date.getDate();
-    var year = date.getFullYear();
-    // change the border color just for fun
-    $(this).css('border-color', 'red');
+          }
 
-  },
-    header: {
-            left: 'prev,next today fullScreen',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay,listMonth'
-          },
-          defaultDate: today,
-          weekNumbers: true,
-          navLinks: true, // can click day/week names to navigate views
-          editable: false,
-          eventLimit: 3, // allow "more" link when too many events
-          events: events,
-          dragable: false,
-          contentHeight: 600,
-  });  
-  
+        }
+      },
+        bootstrapFontAwesome: true,
+        header: {
+          left: 'prev,next today fullScreen',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay,listMonth'
+        },
+        defaultDate: today,
+        weekNumbers: true,
+        navLinks: true, // can click day/week names to navigate views
+        editable: false,
+        eventLimit: 3, // allow "more" link when too many events
+        events: events,
+        dragable: false,
+        contentHeight: 600,
+      });     
   
     
   }
@@ -369,12 +318,12 @@ $(function(){
   }
 
   
-if(pathArray[3] == 'task'){
+if(pathArray[3] == 'task' || pathArray[2] == 'tasks'){
 var input1 = document.querySelector('input[name=tags]'),
     tagify1 = new Tagify(input1, {
         whitelist : ["A# .NET", "A# (Axiom)", "A-0 System", "A+", "A++", "ABAP", "ABC", "ABC ALGOL", "ABSET", "ABSYS", "ACC", "Accent", "Ace DASL", "ACL2", "Avicsoft", "ACT-III", "Action!", "ActionScript", "Ada", "Adenine", "Agda", "Agilent VEE", "Agora", "AIMMS", "Alef", "ALF", "ALGOL 58", "ALGOL 60", "ALGOL 68", "ALGOL W", "Alice", "Alma-0", "AmbientTalk", "Amiga E", "AMOS", "AMPL", "Apex (Salesforce.com)", "APL", "AppleScript", "Arc", "ARexx", "Argus", "AspectJ", "Assembly language", "ATS", "Ateji PX", "AutoHotkey", "Autocoder", "AutoIt", "AutoLISP / Visual LISP", "Averest", "AWK", "Axum", "Active Server Pages", "ASP.NET", "B", "Babbage", "Bash", "BASIC", "bc", "BCPL", "BeanShell", "Batch (Windows/Dos)", "Bertrand", "BETA", "Bigwig", "Bistro", "BitC", "BLISS", "Blockly", "BlooP", "Blue", "Boo", "Boomerang", "Bourne shell (including bash and ksh)", "BREW", "BPEL", "B", "C--", "C++ – ISO/IEC 14882", "C# – ISO/IEC 23270", "C/AL", "Caché ObjectScript", "C Shell", "Caml", "Cayenne", "CDuce", "Cecil", "Cesil", "Céu", "Ceylon", "CFEngine", "CFML", "Cg", "Ch", "Chapel", "Charity", "Charm", "Chef", "CHILL", "CHIP-8", "chomski", "ChucK", "CICS", "Cilk", "Citrine (programming language)", "CL (IBM)", "Claire", "Clarion", "Clean", "Clipper", "CLIPS", "CLIST", "Clojure", "CLU", "CMS-2", "COBOL – ISO/IEC 1989", "CobolScript – COBOL Scripting language", "Cobra", "CODE", "CoffeeScript", "ColdFusion", "COMAL", "Combined Programming Language (CPL)", "COMIT", "Common Intermediate Language (CIL)", "Common Lisp (also known as CL)", "COMPASS", "Component Pascal", "Constraint Handling Rules (CHR)", "COMTRAN", "Converge", "Cool", "Coq", "Coral 66", "Corn", "CorVision", "COWSEL", "CPL", "CPL", "Cryptol", "csh", "Csound", "CSP", "CUDA", "Curl", "Curry", "Cybil", "Cyclone", "Cython", "M2001", "M4", "M#", "Machine code", "MAD (Michigan Algorithm Decoder)", "MAD/I", "Magik", "Magma", "make", "Maple", "MAPPER now part of BIS", "MARK-IV now VISION:BUILDER", "Mary", "MASM Microsoft Assembly x86", "MATH-MATIC", "Mathematica", "MATLAB", "Maxima (see also Macsyma)", "Max (Max Msp – Graphical Programming Environment)", "MaxScript internal language 3D Studio Max", "Maya (MEL)", "MDL", "Mercury", "Mesa", "Metafont", "Microcode", "MicroScript", "MIIS", "Milk (programming language)", "MIMIC", "Mirah", "Miranda", "MIVA Script", "ML", "Model 204", "Modelica", "Modula", "Modula-2", "Modula-3", "Mohol", "MOO", "Mortran", "Mouse", "MPD", "Mathcad", "MSIL – deprecated name for CIL", "MSL", "MUMPS", "Mystic Programming L"],
         blacklist : ["react", "angular"]
-    })
+ });
 
 // listen to custom 'remove' tag event
 
@@ -386,7 +335,7 @@ document.querySelector('.tags--removeAllBtn').addEventListener('click', onRemove
 function onRemoveTag(e){
   var detail = e.detail;
   var value = detail.value;
-  console.log(value);  
+  //console.log(value);  
   $.ajax(
   {
     type: 'POST',

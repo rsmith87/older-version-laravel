@@ -7,9 +7,9 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 		
-<style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');
-</style>
+		<style>
+		@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');
+		</style>
 		<link rel="stylesheet" href="{{ asset('css/'.$theme.'.bootstrap.min.css') }}" type="text/css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" type="text/css">
 		<link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
@@ -20,9 +20,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 		<script src="{{ asset('js/timer.js') }}"></script>
-
 		
-
 	</head>
   <body data-spy="scroll" data-target="#navbar-interior" data-offset="70">
 		<nav class="navbar navbar-expand-lg dashboard-navigation navbar-dark bg-primary col-12 col-sm-2">
@@ -32,7 +30,6 @@
     </button>
 
 			<div class="collapse offcanvas-collapse navbar-collapse" id="navbarColor01">
-
        <ul class="navbar-nav mr-auto">
 				@if(\Auth::user()->hasPermissionTo('view cases'))
         <li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/cases"><i data-fa-transform="grow-2" class="fas fa-briefcase fa-fw fa-sm"></i>Cases</a></li>
@@ -75,6 +72,7 @@
 	
 		@yield('content')
 
+		
 		<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<script src="{{ asset('js/moment.js') }}"></script>
@@ -82,7 +80,6 @@
 		<script src="{{ asset('js/match-height.js') }}"></script>
 	  <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 	  <script src="{{ asset('ckeditor/adapters/jquery.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/pair-select.min.js') }}"></script>
 		<script src="{{ asset('js/input-mask/dist/inputmask/inputmask.js') }}"></script>
 		<script src="{{ asset('js/input-mask/dist/inputmask/inputmask.extensions.js') }}"></script>
 		<script src="{{ asset('js/input-mask/dist/inputmask/inputmask.numeric.extensions.js') }}"></script>
@@ -97,6 +94,5 @@
 		<script src="{{ asset('js/tagify.js') }}"></script>
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
  </body>
 </html>

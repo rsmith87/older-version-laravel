@@ -31,17 +31,38 @@
             <input type="text" class="form-control timepicker-start" id="due_time" name="due_time" aria-label="Time due">
           </div>          
           
-          <div class="col-sm-6 col-xs-12">
-            <label>Case Link</label>
-            <input type="hidden" name="c_id" />
-            <input type="text" name="case_name" class="form-control" />		
-          </div>
-
-          <div class="col-sm-6 col-12">
-            <label>Contact/Client Link</label>
-            <input type="hidden" name="contact_id">            
-            <input type="text" class="form-control" name="contact_name">
-          </div>       
+            @hasanyrole('authenticated_user|administrator')
+              @if(count($cases) > 0)  
+                <div class="col-sm-6 col-12">
+                  <label for="case_name">Case link</label>
+                  @if(!isset($case))
+                    <input type="hidden" name="case_id" />
+                    <input type="text" name="case_name" class="form-control" placeholder="Case name" />
+                  @else
+                    <input type="hidden" name="case_id" value={{ $case->id }}" />
+                    <input type="text" name="case_name" class="form-control" value="{{ $case->name }}" disabled />            
+                  @endif
+                </div>
+              @endif          
+              @if(count($contacts) > 0)
+                <div class="col-sm-6 col-12">
+                  <label for="contact_name">Contact/Client link</label>
+                  @if(!isset($contact))            
+                    <input type="hidden" name="contact_id" />
+                    <input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
+                  @else
+                    <input type="hidden" name="contact_id" value="{{ $contact->id }}" />
+                    <input type="text" name="contact_name" class="form-control" disabled value="{{ $contact->first_name }} {{ $contact->last_name }}" />             
+                  @endif
+                </div>
+              @endif
+              @if(count($contacts) > 0)
+                <div class="col-sm-6 col-12">
+                  <label for="file_name">Share with client?</label>
+                  <input type="checkbox" class="form-control" name="client_share" />
+                </div>
+              @endif
+					  @endhasanyrole     
           
           <div class="clearfix"></div>
           <hr />

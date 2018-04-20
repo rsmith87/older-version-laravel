@@ -9,6 +9,7 @@ use App\Contact;
 use App\Settings;
 use App\View;
 use App\Order;
+use App\Document;
 use App\Invoice;
 use App\InvoiceLine;
 use App\Http\Controllers\Controller;
@@ -38,6 +39,7 @@ class CaseController extends Controller
       $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
       $this->contacts = Contact::where(['user_id' => $this->user['id'], 'is_client' => 0])->get();
       $this->clients = Contact::where(['user_id' => $this->user['id'], 'is_client' => 1])->get();
+      $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
       
     return $next($request);
     });
@@ -64,8 +66,6 @@ class CaseController extends Controller
     }
     
     $cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('contacts')->with('documents')->get();
-   
-    $status_values = ["select one", "active", "inactive"];
     
     return view('dashboard/cases', 
     [
@@ -74,7 +74,7 @@ class CaseController extends Controller
       'columns' => $columns,
       'firm_id' => $this->settings->firm_id,
       'theme' => $this->settings->theme,
-      'status_values' => $status_values,
+      'status_values' => $this->status_values,
       'all_case_data' => $all_case_data,
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size,
@@ -148,12 +148,12 @@ class CaseController extends Controller
     $client_id = Contact::where(['case_id' => $id, 'is_client' => 1])->select('id')->first();
     $order = Order::where('case_id', $id)->first();
     $invoices = Invoice::where('invoicable_id', $id)->get();
+    $documents = Document::where('case_id', $id)->get();
     foreach($invoices as $invoice){
       $line = InvoiceLine::where('invoice_id', $invoice->id)->select('amount')->first();
       $invoice_amount = $invoice_amount - $line->amount;
     }
 
-    $status_values = ['choose..', 'active', 'inactive'];
     return view('dashboard.case', [
       'user_name' => $this->user['name'],
       'case' => $requested_case,
@@ -161,13 +161,14 @@ class CaseController extends Controller
       'theme' => $this->settings->theme,
       'clients' => $clients,
       'order' => $order,
-      'status_values' => $status_values,
+      'status_values' => $this->status_values,
       'invoice_amount' =>$invoice_amount,
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size,  
       'cases' => $this->cases,
       'contacts' => $this->contacts,
       'clients' => $this->clients,
+      'documents' => $documents,
     ]);
     
   }

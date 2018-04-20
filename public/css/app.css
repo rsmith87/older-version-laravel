@@ -657,7 +657,8 @@ nav .show > .btn-primary.dropdown-toggle {
   margin-right: 30px;
 }
 .messages .media {
-  padding: 20px;
+  padding: 10px;
+  height: 100%;
 }
 .messages .media h4 {
   margin-bottom: 0;
@@ -678,6 +679,9 @@ nav .show > .btn-primary.dropdown-toggle {
   float: left;
   margin: 5px 0;
   width: 100%;
+  position: relative;
+  max-height: 100px;
+  height: 100px;
 }
 .messages .index-message img {
   float: left;

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     protected $table = "document";
-    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -15,7 +15,7 @@ class Document extends Model
      */
     protected $fillable = [
       'id',
-       'name', 
+      'name', 
       'description', 
       'location', 
       'path', 

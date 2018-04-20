@@ -70,11 +70,11 @@ header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
 <div class="col-12">
 	
 	@if($document->mime_type === 'application/pdf')
-	<iframe src="{{ $document->path }}"></iframe>
+	<iframe src="https://s3.amazonaws.com/legaleeze{{ $document->path }}"></iframe>
 	@elseif($document->mime_type ===' image/jpg' || $document->mime_type === 'image/png' || $document->mime_type === 'image/jpeg' || $document->mime_type === 'image/gif')
-	<img src="{{ $document->path }}" />
+	<img src="https://s3.amazonaws.com/legaleeze{{ $document->path }}" />
 	@elseif($document->mime_type === 'text/rdf' || $document->mime_type === 'application/octet-stream')
-	<iframe src="{{ urlencode($document->path) }}"></iframe>
+	<iframe src="https://s3.amazonaws.com/legaleeze{{ urlencode($document->path) }}"></iframe>
 	@endif
 				 </div>   
          

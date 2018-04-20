@@ -25,25 +25,48 @@
 					<div class="clearfix"></div>
 					<hr />
 					@hasanyrole('authenticated_user|administrator')
-					<div class="col-sm-6 col-12">
-						<label for="case_name">Case link</label>
-						<input type="hidden" name="case_id" />
-						<input type="text" name="case_name" class="form-control" placeholder="Case name" />
-					</div>
-					<div class="col-sm-6 col-12">
-						<label for="client_name">Client link</label>
-						<input type="hidden" name="client_id" />
-						<input type="text" name="client_name" class="form-control" placeholder="Client name" />
-					</div>
-					<div class="col-sm-6 col-12">
-						<label for="contact_name">Contact link</label>
-						<input type="hidden" name="contact_id" />
-						<input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
-					</div>
-					<div class="col-sm-6 col-12">
-						<label for="file_name">Share with client?</label>
-						<input type="checkbox" class="form-control" name="client_share" />
-					</div>
+            @if(count($cases) > 0)  
+              <div class="col-sm-6 col-12">
+                <label for="case_name">Case link</label>
+                @if(!isset($case))
+                  <input type="hidden" name="case_id" />
+                  <input type="text" name="case_name" class="form-control" placeholder="Case name" />
+                @else
+                  <input type="hidden" name="case_id" value={{ $case->id }}" />
+                  <input type="text" name="case_name" class="form-control" value="{{ $case->name }}" disabled />            
+                @endif
+              </div>
+            @endif          
+            @if(count($clients) > 0)
+              <div class="col-sm-6 col-12">
+                <label for="client_name">Client link</label>
+                @if(!isset($client))
+                  <input type="hidden" name="client_id" />
+                  <input type="text" name="client_name" class="form-control" placeholder="Client name" />
+                @else
+                  <input type="hidden" name="client_id" value="{{ $client->id }}" />
+                  <input type="text" name="client_name" class="form-control" disabled value="{{ $client->first_name }} {{ $client->last_name }}" />            
+                @endif
+              </div>
+            @endif
+            @if(count($contacts) > 0)
+              <div class="col-sm-6 col-12">
+                <label for="contact_name">Contact link</label>
+                @if(!isset($contact))            
+                  <input type="hidden" name="contact_id" />
+                  <input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
+                @else
+                  <input type="hidden" name="contact_id" value="{{ $contact->id }}" />
+                  <input type="text" name="contact_name" class="form-control" disabled value="{{ $contact->first_name }} {{ $contact->last_name }}" />             
+                @endif
+              </div>
+            @endif
+            @if(count($clients) > 0)
+              <div class="col-sm-6 col-12">
+                <label for="file_name">Share with client?</label>
+                <input type="checkbox" class="form-control" name="client_share" />
+              </div>
+            @endif
 					@endhasanyrole
 					<div class="col-12">
 						<button class="btn btn-primary mt-3 mb-3" type="submit">

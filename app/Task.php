@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\TaskDueReminder;
 
 class Task extends Model
 {
@@ -26,4 +28,10 @@ class Task extends Model
       return $this->hasMany('App\Category', 'task_id');
     }
 
+    public function sendTaskDueReminder($task)
+    {
+      // Send email
+      $user = User::where('id', $task->user_id)->first();
+      $user->notify(new TaskDueReminder($task));
+    }   
 }

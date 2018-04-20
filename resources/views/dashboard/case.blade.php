@@ -132,8 +132,8 @@
 					@endforeach
 				@endif
 
-				@foreach($case->Documents as $document)
-					@if(!empty($document))
+			
+					@if(count($case->Documents) > 0)
 					<div class="clearfix"></div>
 					<h3 class="mt-3 mb-3">
 						<i class="fas fa-user"></i>Documents
@@ -146,16 +146,18 @@
 								<th>Download link</th>
 							</tr> 
 						</thead> 
-						<tbody> 
+						<tbody>
+						@foreach($case->Documents as $document)							
 							<tr>
 								<td>{{ $document->name }}</td>
 								<td>{{ $document->description }}</td>
 								<td><button class="btn btn-primary btn-sm download" href="{{ $document->path }}">Download</button></td>
 							</tr>
+						@endforeach	
 						</tbody>
 					</table>           
 					@endif
-				@endforeach
+				
 				
 				
 				@if(count($case->Tasks) > 0)
@@ -185,7 +187,7 @@
 </div>
 
 @include('dashboard.includes.event-modal')
-@include('dashboard.includes.document-modal')
+@include('dashboard.includes.document-modal');
 @include('dashboard.includes.invoice-modal')
 @include('dashboard.includes.case-modal')
 

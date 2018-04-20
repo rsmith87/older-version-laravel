@@ -12,9 +12,9 @@
 					<div class="col-sm-6 col-xs-12">
 						<label>Status</label>
 						<select class="custom-select" id="inputGroupSelect01" name="status" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
-							<option value="" selected>Choose...</option>
-							<option value="active">Active</option>
-							<option value="inactive">Inactive</option>
+			        @foreach($status_values as $t)
+         	      <option value="{{ $t }}" {{ $t == $case->status ? "selected='selected'" : '' }}>{{ ucwords($t) }}</option>
+			        @endforeach 
 						</select>
 					</div>       
 

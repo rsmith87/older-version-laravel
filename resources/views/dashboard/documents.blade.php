@@ -26,13 +26,6 @@
 				@endif				
 			</div>
 			<div class="panel-body">
-
-			
-
-
-
-
-
 				@if (count($documents) > 0)		
 					<table class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 						<thead> 

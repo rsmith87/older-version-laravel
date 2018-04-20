@@ -19,13 +19,13 @@
 	
 	@include('dashboard.includes.alerts') 
 	
-	<div class="col-sm-4 col-12">
+	<div class="col-sm-5 col-12">
 		<div class="mt-3">
 			@each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
 		</div>
 	</div>
 
-	<div class="col-sm-8 offset-sm-4 actual-message col-12">
+	<div class="col-sm-7 offset-sm-5 actual-message col-12">
 
 	</div>
 
@@ -37,8 +37,16 @@
 
 <script type="text/javascript">
 	var threads =  {!! json_encode($threads->toArray()) !!}; 
+	var users = {!! json_encode($users->toArray()) !!}
 
-	for(var i = 0; i< threads.length; i++){
+	var u = [];
+	for(var i = 0; i < users.length; i++){
+		if(users[i].id != null){
+			u[users[i].id] = users[i];			
+		}
+	}
+
+	for(var i = 0; i<threads.length; i++){
 		$('#thread-'+threads[i]['id']).on('click', function(){
 			var $this = $(this);
 			var $id = $(this).attr('id');
@@ -53,23 +61,18 @@
 			type: 'get',
 			contentType: "application/json; charset=utf-8",
 			url: '/dashboard/messages/ajax/'+$id,
-			//datatype: 'json',
 			success: function (data) {
-
-							var message = data.message;		
+				var users = data.participants;
+				var message = data.message;		
 				var msg = [];
 				$.each(message, function(){
-						msg.push('<div class="media"><img src="//www.gravatar.com/avatar/" class="img-circle">'+
-							'<div class="media-body"><h5 class="media-heading"></h5><div class="text-muted">'+
-							'<small>Sent </small></div><p>'+$(this)[0].body+'</p></div></div>');						
+					var $this = $(this); 
+					msg.push('<div class="media"><img src="//www.gravatar.com/avatar/" class="img-circle">'+
+						'<div class="media-body"><h5 class="media-heading">'+users[$this[0].user_id][0].name+'</h5><div class="text-muted">'+
+						'<small>Sent ' + $this[0].created_at + '</small></div><p>'+$this[0].body+'</p></div></div>');						
 				});
-	
-				$(".actual-message").append(msg);					
-			
+				$(".actual-message").append(data);					
 				}
-				
-			      
-			
 		});
 
 	}

@@ -179,15 +179,6 @@ class DocumentController extends Controller
 			$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
 			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
-		} else
-		{
-					//print_r($this->user);
-			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
-			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
-
-			$contact = Contact::where('has_login', $this->user['id'])->first();			
-			$cases = LawCase::where('id', $contact->case_id)->get();
-
 		}
 		
 		return view('dashboard/document', [
@@ -229,10 +220,6 @@ class DocumentController extends Controller
 			$data['client_id'] = $contact->id;
 			$data['case_id'] = $contact->case_id;
 		}
-		
-
-		//ADD CHECKBOX TO ALLOW CLIENT TO VIEW DOCUMENT - only from lawyer side, though
-		//Any document a client uploads can be viewed by the corresponding lawyer
 		
 		Document::updateOrCreate(
 		[

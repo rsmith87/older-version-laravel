@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class LawCase extends Model
 {
     protected $table = 'case';
-    public $timestamps = false;
 
   
     protected $fillable = [

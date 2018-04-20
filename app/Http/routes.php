@@ -115,8 +115,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/theme-update', 'Dashboard\SettingController@update_theme');
         Route::post('/table-color-update', 'Dashboard\SettingController@table_color');
         Route::post('/table-size', 'Dashboard\SettingController@table_size');   
-          Route::get('/', 'Dashboard\SettingController@index'); 
-       Route::get('/roles-permissions', 'Dashboard\DashbaordController@roles_and_permissions');
+        Route::get('/', 'Dashboard\SettingController@index'); 
+        Route::get('/roles-permissions', 'Dashboard\DashboardController@roles_and_permissions');
        
      Route::get('/stripe/create', 'Dashboard\SettingController@stripe_account_create');
       
@@ -143,8 +143,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['prefix' => 'messages'], function () {
       Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
+      Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);      
       Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
-      Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
       Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
       Route::get('/ajax/{id}',  'MessagesController@show_ajax');
       Route::post('/store/{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);

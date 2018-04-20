@@ -19,6 +19,7 @@
 
     <!-- Submit Form Input -->
     <div class="form-group">
-        <button type="submit" class="btn btn-primary form-control">Submit</button>
+        <button type="submit" id="message-update" class="btn btn-primary form-control">Submit</button>
     </div>
 </form>
+

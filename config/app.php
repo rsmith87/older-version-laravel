@@ -170,6 +170,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Shivella\Bitly\BitlyServiceProvider::class,
         
     ],
 
@@ -220,7 +221,8 @@ return [
       'Notification' => Illuminate\Support\Facades\Notification::class,    
       'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
       'Form' => Collective\Html\FormFacade::class,
-      'Html' => Collective\Html\HtmlFacade::class,      
+      'Html' => Collective\Html\HtmlFacade::class,    
+      'Bitly' => Shivella\Bitly\Facade\Bitly::class,
     ],
 
 ];

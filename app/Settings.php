@@ -21,5 +21,6 @@ class Settings extends Model
       'is_deleted',
       'table_color',
       'table_size',
+      'tz',
    ];
 }

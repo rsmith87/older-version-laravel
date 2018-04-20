@@ -22,6 +22,7 @@ class Settings extends Migration
           $table->longText('bar_number');
           $table->longText('practice_areas');
           $table->integer('firm_id');
+          $table->text('tz');
         });
     }
 

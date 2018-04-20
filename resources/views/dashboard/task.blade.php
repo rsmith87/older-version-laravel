@@ -4,7 +4,7 @@
 
 <div class="container dashboard task col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit task</a>
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit task list</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>
   </nav>    
     
@@ -34,54 +34,46 @@
 		<div class="panel-body">
 			<div class="container">
 				<div class="col-sm-6 col-12">
-					<label>ID</label>
+					<label class="font-weight-bold">ID</label>
 					<p>{{ $task->id }}</p>
-					<label>Task name</label>
+					<label class="font-weight-bold">Task name</label>
 					<p>
 					{{ $task->task_name }} 	
 					</p>
-					<label>Date</label>
+					<label class="font-weight-bold">Date</label>
 					<p>
 					{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }} 					 
 					</p> 
 				</div>
-				<div class="col-sm-6 col-12">
-					<label>Subtasks</label>
-					@foreach($task->Subtasks as $subtask)
-					
-					<label>-- Subtask name</label>
-					
-					<p>
-					-- {{ $subtask->subtask_name }}
-					</p>
-					
-					<p>
-					-- {{ \Carbon\Carbon::parse($subtask->due)->format('m/d/Y H:i') }}	
-					</p>
-					
-					@endforeach
-				</div>   
-			<div class="col-12 tags">
-				<label>Tags</label>
-				<p>
-
-				@foreach($tags as $t)
+      <div class="col-12 col-sm-6 tags">
+				<label class="font-weight-bold">Tags</label>
 			
+				@foreach($tags as $t)
 				<p>
 					{{ $t->name }}
 				</p>	
-	
 				@endforeach
 				</p>				
-			</div>
-			
+			</div>     
+      <div class="clearfix"></div>
+				<div class="col-12">
+          @if(count($task->Subtasks) > 0)
+					<h3>Subtasks</h3>
+          <div class="clearfix"></div>
+					@foreach($task->Subtasks as $subtask)
+					<p>
+					  {{ $subtask->subtask_name }}
+					</p>
+					<p>
+					  {{ \Carbon\Carbon::parse($subtask->due)->format('m/d/Y H:i') }}	
+					</p>
+					@endforeach
+          @endif
+				</div>
 			</div>
 		</div> 
 	@endif	
 	</div>
-
-
-
 </div>
 
 
@@ -285,9 +277,6 @@
   var cases = {!! json_encode($cases->toArray()) !!};
   var contacts = {!! json_encode($contacts->toArray()) !!};	
 	var tags = {!! json_encode($tags) !!};
-	
-
-	
 	
   for(var i = 0; i<cases.length; i++){
     cases[i].data = cases[i]['id'];

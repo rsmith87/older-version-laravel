@@ -42,13 +42,14 @@ class EventController extends Controller
 	public function index(Request $request)
 	{
 		//users events
-		$events = Event::where(['u_id' => $this->user->id, 'approved' => 1])->with('contact')->get();
+		$events = Event::where(['u_id' => $this->user->id])->with('user')->with('contact')->get();
 		$contact = null;
 		//clients accessing lawyer events
 		if($this->user->hasRole('client')){
 			$contact = Contact::where('has_login', $this->user['id'])->first();
-			$events = Event::where(['u_id' => $contact->user_id, 'approved' => 1])->get();
+			$events = Event::where(['u_id' => $contact->user_id, 'approved' => 1])->with('user')->get();
 		}
+
 
 		return view('dashboard/calendar', [
 			'user_name' => $this->user['name'], 

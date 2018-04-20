@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Settings;
+use App\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -62,10 +64,40 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+   
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+      
+      $inserted = User::where('email', $data['email'])->first();
+      $inserted->assignRole('administrator');
+
+      Settings::create([
+        'user_id' => $inserted->id,
+        'theme' => 'flatly',
+        'table_color' => 'light',
+        'table_size' => 'lg',
+        'tz' => $data['timezone_register'],
+      ]);
+      View::create([
+        'view_type' => 'contact',
+        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'u_id' => $inserted->id,
+      ]);  
+
+      View::create([
+        'view_type' => 'case',
+        'view_data' => json_encode(['id', 'name', 'court_name'], true),
+        'u_id' => $inserted->id,
+      ]); 
+      View::create([
+        'view_type' => 'client',
+        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'u_id' => $inserted->id,
+      ]);        
+      
+      return $user;
     }
 }
