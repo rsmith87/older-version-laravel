@@ -10,6 +10,7 @@ use App\Contact;
 use App\LawCase;
 use App\User;
 use App\Event;
+use App\Task;
 use Carbon;
 use Mail;
 use Illuminate\Notifications\Notification;
@@ -42,6 +43,12 @@ class EventController extends Controller
 	public function index(Request $request)
 	{
 		//users events
+    if($this->settings->task_calendar){
+      $tasks_events = Task::where('user_id', $this->user['id'])->get();
+    } else {
+      $tasks_events = null;
+    }
+      
 		$events = Event::where(['u_id' => $this->user->id])->with('user')->with('contact')->get();
 		$contact = null;
 		//clients accessing lawyer events
@@ -57,6 +64,7 @@ class EventController extends Controller
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
 			'user' => $contact,
+      'show_task_calendar' => $tasks_events,
 		]);
 	}
 

@@ -18,6 +18,7 @@ class CreateDocumentTable extends Migration
           $table->longText('description');
           $table->longText('location');
           $table->longText('path');
+          $table->text('mime_type');
           $table->integer('case_id');
           $table->integer('client_id');
           $table->integer('contact_id');

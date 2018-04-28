@@ -18,30 +18,123 @@ $(function(){
     $this.find('div').append('<div class="arrow-up"></div>')
   });
   
+  
+
+  
+
+  
 
 
   $('.dashboard.home .col-sm-6').matchHeight();
-  
+  /*
    var timer = new Timer();
-
-
-  
-   $('.nav-clock .startButton').click(function () {
-
-      timer.start();
-      timer.addEventListener('secondsUpdated', function (e) {
-          $('.nav-clock h3.timer').html(timer.getTimeValues().toString());
-      });
+    timer.addEventListener('secondsUpdated', function (e) {
+        $('.nav-clock .timer').html(timer.getTimeValues().toString());
     });  
   
+  
+   $('.nav-clock .startButton').click(function () {
+      timer.start();
+      //timer.start({precision: 'seconds', startValues: {seconds: 90}});
+      $.ajax({
+       type: 'POST',
+       contentType: "application/json; charset=utf-8",      
+       url: '/dashboard/timer-start',
+       success:function(data){
+        console.log('success');
+        console.log(data);
+      },
+     });
+    });  
+
    $('.nav-clock .pauseButton').click(function () {
      timer.pause();
+     var time = timer.getTimeValues().toString();
+      $.ajax({
+       type: 'POST',
+       data: {
+         time: time,
+       },
+        dataType: 'JSON',
+       url: '/dashboard/timer-pause',
+       success:function(data){
+          console.log('success');
+          console.log(data);
+      },        
+     }); 
    });
+  
+  
+  
+  $(window).on('load', function(){
+
+
+    $.ajax({
+      type: 'GET',
+      dataType: 'JSON',
+      url: '/dashboard/timer-amount',
+      success: function(data){
+        var timer = new Timer();
+
+        var tim = data.timer;
+        var a = tim.split(':'); // split it at the colons
+
+        // minutes are worth 60 seconds. Hours are worth 60 minutes.
+        var sec = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+     
+        var array = {seconds: sec};
+  
+        console.log(tim);
+        timer.start({callback: function (timer) {
+          $('.nav-clock .timer').html(
+              timer.getTimeValues().toString()
+          )}, precision: 'seconds', startValues: array});
+        //$('.nav-clock .timer').html(timer.getTimeValues().toString());
+      
+      }
+
+    });
+
+
+  });
+  
+
+  
+  $(window).on('unload', function(){
+    timer.pause();
+     var time = timer.getTimeValues().toString();
+    
+    $.ajax({
+       type: 'POST',
+       data: {
+         timer: time,
+       },
+       dataType: 'JSON',
+       url: '/dashboard/timer-pause',
+       success:function(data){
+          console.log('success');
+          console.log(data);
+      },        
+    })
+  });
   
    $('.nav-clock .stopButton').click(function () {
       timer.stop();
+       $.ajax({
+         type: 'POST',
+         contentType: "application/json; charset=utf-8",      
+         url: '/dashboard/timer-stop',
+         success:function(data){
+            console.log('success');
+            console.log(data);
+         },
+       });     
     });  
     
+     timer.addEventListener('paused', function (e) {
+      $('#nav-clock .timer').html(timer.getTimeValues().toString());
+     });
+  */
   
   $('#theme-update').change(function(){
     var $this = $(this);
@@ -125,7 +218,27 @@ $(function(){
   
     var pathArray = window.location.pathname.split( '/' );
 
-  $('table tr td').click(function(){
+  $('table#tasks tr td').click(function(){
+    var $this = $(this);    
+    $id = $this.parent().find('td:nth-child(1)').text();    
+    window.location='/dashboard/tasks/task/'+$id;    
+  });
+  $('table#clients tr td').click(function(){
+    var $this = $(this);    
+    $id = $this.parent().find('td:nth-child(1)').text();    
+    window.location='/dashboard/clients/client/'+$id;    
+  });
+  $('table#contacts tr td').click(function(){
+    var $this = $(this);    
+    $id = $this.parent().find('td:nth-child(1)').text();    
+    window.location='/dashboard/contacts/contact/'+$id;    
+  });   
+  $('table#documents tr td').click(function(){
+    var $this = $(this);    
+    $id = $this.parent().find('td:nth-child(1)').text();    
+    window.location='/dashboard/documents/document/'+$id;    
+  });     
+  $('table#main tr td').click(function(){
     var $this = $(this);
     
     $id = $this.parent().find('td:nth-child(1)').text();
@@ -140,7 +253,38 @@ $(function(){
     } else if (pathArray[2] == 'invoices'){
       window.location='/dashboard/invoices/invoice/'+$id;
     } else if (pathArray[2] == 'tasks'){
-      window.location='/dashboard/tasks/task/'+$id;
+      
+      if (pathArray[3] === 'task'){
+        
+ 
+        
+        $('input[type=checkbox]').change(function(){
+          var $this = $(this);
+          var $tds = [];
+          $tds = $this.parent().parent().find('td');
+          $tds.each(function(){
+           // var $this = $(this);
+            //var $html = $("<s>"+ $this.text() + "</s>").html();
+           // $this.html($html);
+          });
+          var subtask_id = $this.parent().parent().find('td:nth-child(1)').text();
+          $.ajax(
+            {
+            type: 'POST',
+            contentType: "application/json; charset=utf-8", 
+            datatype: 'json',
+            url: '/dashboard/tasks/task/complete-subtask/'+subtask_id+'/subtask',
+            success:function(data){
+              console.log('success');
+              console.log(data);
+            },        
+          });
+
+        });
+      } else {
+       window.location='/dashboard/tasks/task/'+$id;
+      }
+  
     } else if (pathArray[2] == 'messages'){
 
     }
@@ -248,7 +392,7 @@ $(function(){
   
   else if (pathArray[2] == 'calendar'){
      for(var i = 0; i<events.length; i++){
-          console.log(events[i].user);
+          //console.log(events[i].user);
         }  
       $('#calendar').fullCalendar({
         themeSystem: 'bootstrap4',
@@ -283,7 +427,7 @@ $(function(){
         weekNumbers: true,
         navLinks: true, // can click day/week names to navigate views
         editable: false,
-        eventLimit: 3, // allow "more" link when too many events
+        eventLimit: 4, // allow "more" link when too many events
         events: events,
         dragable: false,
         contentHeight: 600,
@@ -329,9 +473,18 @@ var input1 = document.querySelector('input[name=tags]'),
 
 tagify1.on('remove', onRemoveTag);
 // "remove all tags" button "click" even listener
-document.querySelector('.tags--removeAllBtn').addEventListener('click', onRemoveAllTagsClick)
+//document.querySelector('.tags--removeAllBtn').addEventListener('click', onRemoveAllTagsClick)
 }
-
+  
+if (pathArray[2] == 'settings'){
+  $('input[name=show]').on('click', function(){
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json; charset=utf-8",      
+      url: '/dashboard/settings/show-tasks-calendar',
+    });
+  });
+}
 function onRemoveTag(e){
   var detail = e.detail;
   var value = detail.value;
@@ -375,6 +528,7 @@ function onRemoveAllTagsClick(e){
     });
 
 }
+  
 /*$('.approve').on('click', function(e){
  e.preventDefault();
   var $this = $(this);

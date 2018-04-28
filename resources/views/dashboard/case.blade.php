@@ -4,26 +4,30 @@
 
 <div class="container dashboard case col-sm-10 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
-		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-briefcase"></i> Edit case</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-plus"></i> <i class="fas fa-clock"></i> Add hours</a>
+		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-balance-scale"></i> Edit case</a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-clock"></i> Add hours worked</a>
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i class="fas fa-sticky-note"></i> Add note</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a> 
 		@if(!empty($case->Contacts))		
 		@foreach($case->Contacts as $contact)
-			@if($contact->is_client))		
+			@if($contact->is_client)	
 				<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill {{ $contact->first_name }} {{ $contact->last_name }}</a>
 		  @endif
 		@endforeach
 		@endif
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>  		
 		@if(count($order) > 0)
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
 		@endif
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>
+    <a class="nav-item nav-link btn btn-info float-right" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-balance-scale"></i> Delete case</a>      
+
 	</nav>  	
 
 	<div class="panel panel-default">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1 class="pull-left ml-3 mt-4 mb-2">
-				<i class="fas fa-briefcase"></i> Case
+				<i class="fas fa-balance-scale"></i> Case
 			</h1>
 			<div class="clearfix"></div>
 			<p class="ml-3 mb-4">
@@ -51,7 +55,7 @@
 				<div class="col-sm-6 col-12">				
 					<label>Total cost</label>
 					@if($case->billing_type === 'hourly')
-					<p>${{ number_format($case->hours * $case->billing_rate, 2) }}</p>
+					<p>${{ number_format($hours_worked * $case->billing_rate, 2) }}</p>
 					@else
 					<p>${{ number_format($case->billing_rate, 2) }}</p>
 					@endif
@@ -66,12 +70,48 @@
 					<label>Rate</label>
 					<p>${{ $case->billing_rate }}</p>
 					<label>Hours</label>
-					<p>{{ $case->hours }} hours</p>
+					<p>{{ $hours_worked }} hours</p>
 					<label>Rate type</label>
 					<p>{{ ucfirst($case->billing_type) }}</p>
 				</div>
 
 				<div class="clearfix"></div>
+     
+      @if(count($notes) > 0)
+      <h3>
+        <i class="fas fa-sticky-note"></i> Case notes
+      </h3>
+      <div class="clearfix"></div>
+      <div class="mb-3" style="overflow:hidden;">
+       
+        <div class="col-sm-4 col-12 float-left">
+          <label>Note</label>
+         @foreach($notes as $note)
+          <p>
+            {{ $note->note }}
+          </p>
+          @endforeach
+        </div>
+        <div class="col-sm-2 col-12 float-left">
+          <label>Created</label>
+          @foreach($notes as $note)
+          <p>
+          {{ $note->created_at }}
+          </p>
+          @endforeach
+        </div>
+        <div class="col-sm-6 float-left">
+          @foreach($notes as $note)
+            <button class="btn btn-info mt-2" data-toggle="modal" data-target="#edit-note-modal-{{ $note->id }}">Edit</button>
+            <button class='btn btn-danger mt-2' data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}">Delete</button>
+          <div class="clearfix"></div>
+          @endforeach
+        </div>
+      </div>
+      @endif
+      <div class="clearfix"></div>
+
+        
 				
 				@if(!empty($case->Contacts))
 					@foreach($case->Contacts as $contact)
@@ -79,7 +119,7 @@
 							<h3 class="mt-5 mb-3">
 								<i class="fas fa-user"></i>Client
 							</h3>
-							<table class="table table-responsive table-striped table-{{ $table_color }} mb-3">
+							<table id="clients" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 								<thead>
 									<tr> 
 										<th>Id</th>
@@ -91,7 +131,7 @@
 								</thead> 
 								<tbody> 
 									<tr>
-										<td>ID</td>
+										<td>{{ $contact->id }}</td>
 										<td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
 										<td>{{ $contact->phone }}</td>
 										<td>{{ $contact->email }}</td>
@@ -109,7 +149,7 @@
 							<h3 class="mt-3 mb-3">
 							<i class="fas fa-user"></i>Contacts
 							</h3>
-							<table class="table table-responsive table-striped table-{{ $table_color }} mb-3">
+							<table id="contacts" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 								<thead>
 									<tr> 
 										<th>Id</th>
@@ -121,10 +161,11 @@
 								</thead> 
 								<tbody> 
 									<tr>
-										<td>ID</td>
+										<td>{{ $contact->id }}</td>
 										<td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
-										<td>{{ $contact->phone }}</td>
-										<td>{{ $contact->email }}</td>
+										<td>{{ !empty($contact->phone) ? $contact->phone : "Not set" }}</td>
+										<td>{{ !empty($contact->email) ? $contact->email : "Not set" }}</td>
+                    <td>{{ !empty($contact->relationship) ? $contact->relationship : "Not set" }}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -138,20 +179,21 @@
 					<h3 class="mt-3 mb-3">
 						<i class="fas fa-user"></i>Documents
 					</h3>
-					<table class="table table-responsive table-striped table-{{ $table_color }} mb-3">
+					<table id="documents" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 						<thead>
 							<tr> 
+                <th>Id</th>
 								<th>File name</th> 
 								<th>File description</th>
-								<th>Download link</th>
+			
 							</tr> 
 						</thead> 
 						<tbody>
 						@foreach($case->Documents as $document)							
 							<tr>
+                <td>{{ $document->id }}</td>
 								<td>{{ $document->name }}</td>
 								<td>{{ $document->description }}</td>
-								<td><button class="btn btn-primary btn-sm download" href="{{ $document->path }}">Download</button></td>
 							</tr>
 						@endforeach	
 						</tbody>
@@ -165,9 +207,10 @@
              <i class="fas fa-user"></i>Tasks
            </h3>
         
-           <table class="table table-responsive table-striped table-{{ $table_color }}">
+        <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
             <tr> 
+              <th>ID</th>
               <th>Name</th> 
               <th>Description</th>
             </tr> 
@@ -175,6 +218,7 @@
           <tbody> 
 				  	@foreach($case->Tasks as $task)
 				 			<tr>
+                <td>{{ $task->id }}</td>
 								<td>{{ $task->task_name }}</td>
 								<td>{{ $task->task_description }}</td>
 						</tr>
@@ -188,8 +232,30 @@
 
 @include('dashboard.includes.event-modal')
 @include('dashboard.includes.document-modal');
-@include('dashboard.includes.invoice-modal')
 @include('dashboard.includes.case-modal')
+
+<div class="modal fade" id="add-notes-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-sticky-note"></i> Add Note				
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/cases/case/notes/note/add">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="case_id" value="{{ $case->id }}" />
+          <label>Note</label>
+          <textarea name="note" class="form-control"></textarea>
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="add-hours-modal">
 	<div class="modal-dialog">
@@ -207,6 +273,10 @@
 						<label>Amount</label>
 						<input type="text" class="form-control" name="hours_worked" />
 					</div>
+          <div class="col-12">
+            <label>Note</label>
+            <textarea name="hours_note" class="form-control"></textarea>
+          </div>
 					<div class="col-12">
 						<input type="submit" class="btn btn-primary mt-2 form-control" />
 					</div>
@@ -228,8 +298,9 @@
            <div class="clearfix"></div>
            <hr />
          <form role="form" method="post" action="/dashboard/cases/create">
+           
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <input type="hidden" name="id" value="{{ $case->id }}">
+           
           <div class="col-sm-6 col-xs-12">
             
  
@@ -323,16 +394,16 @@
 						 @endphp
             @foreach($types as $type)
 						 	<label>{{ ucfirst($type) . " rate" }}</label>
-							<input type="radio" name="rate_type" value='{{ $type }}' {{ $case->billing_type === $type ? 'checked=checked' : '' }}" />
+							<input type="radio" name="rate_type" value='{{ $type }}' {{ $case->billing_type === $type ? 'checked=checked' : '' }} />
 						@endforeach
 
 
            
             </div>
 					 
-					 					<div class="col-sm-6 col-xs-12">
+					 <div class="col-sm-6 col-xs-12">
 						<label>Hours</label>
-						<input type="text" class="form-control" name="hours" value="{{ $case->hours }}" aria-label="Hours worked">
+						<input type="text" class="form-control" name="hours" value="{{ $hours_worked }}" aria-label="Hours worked">
 					</div>	
 					 <div class="col-sm-12 col-xs-12">
 					             
@@ -342,71 +413,177 @@
 					 </div>
           
            <div class="clearfix"></div>
+          <input type="hidden" name="id" value="{{ $case->id }}">
+           
+           </form>
 					 </div>
 			</div>
 		 </div>
 	</div>
+ 
+  
+  
+@foreach($notes as $note)
+<div class="modal fade" id="edit-note-modal-{{ $note->id }}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h3>
+					<i class="fas fa-tasks"></i> Edit note
+				</h3>
+				<div class="clearfix"></div>
+				<hr /> 
+        <form method="POST" action="/dashboard/cases/case/note/edit">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="hidden" name="id" value="{{ $note->id }}" />
+          <input type="text" class='form-control' name="note" value="{{ $note->note }}"/>
+          <input type="submit" class="form-control mt-3 btn btn-primary" value="Save" />
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+<div class="modal fade" id="delete-note-modal-{{ $note->id }}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h3>
+					<i class="fas fa-tasks"></i> Delete note
+				</h3>
+				<div class="clearfix"></div>
+				<hr /> 
+        <form method="POST" action="/dashboard/cases/case/note/delete">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="hidden" name="id" value="{{ $note->id }}" />
+          <p>
+            {{ $note->note }}
+          </p>
+          <p>
+            If you'd like to delete this note, click delete below!
+          </p>
+          <input type="submit" class="form-control mt-3 btn btn-danger" value="Delete note" />
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>  
+@endforeach
+  
+<div class="modal fade" id="payment-modal-full">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h3>
+					<i class="fas fa-tasks"></i> Create invoice
+				</h3>
+				<div class="clearfix"></div>
+				<hr />
+				<form role="form" method="post" action="/dashboard/invoices/invoice/create">
+					<input type="hidden" name="case_id" value="{{ $case->id }}"/>
+					<input type="hidden" name="invoicable_id" value="{{ !empty($invoicable_id) ? $invoicable_id : "" }}" />
+					<input type="hidden" name="total_amount" value="{{ $invoice_amount }}.00" />
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<div class="col-12">
+						<label>Amount</label>
+						<input type="text" class="form-control" value="{{ $invoice_amount }}.00" name="amount" />
+					</div>
+					<div class="col-12 mb-2">
+						<label class="mt-2">Client</label>
+		@if(!empty($case->Contacts))		
+		  @foreach($case->Contacts as $contact)
+			@if($contact->is_client)	
+        <input type="hidden" name="client_id" value="{{ $contact->id }}" />
+            <p>
+               {{ $contact->first_name }} {{ $contact->last_name }}	         
+            </p>  
+       @endif
+		  @endforeach
 
+							
+						@else
+							<input type="hidden" name="client_id" />
+							<p>Enter a contact name to start creating one now!</p>
+							<input type="text" class="form-control" class="mb-3" name="contact_name" />	
+						@endif
+					</div>
+					<div class="col-12">
+						<input type="submit" class="btn btn-primary mt-2 form-control" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
-var cases = {!! json_encode($cases->toArray()) !!};
-var clients = {!! json_encode($clients->toArray()) !!};
-var contacts = {!! json_encode($contacts->toArray()) !!};	
+  @if(!empty($cases))
+    var cases = {!! json_encode($cases->toArray()) !!};
+    for(var i = 0; i<cases.length; i++){
+      cases[i].data = cases[i]['id'];
+      cases[i].value = cases[i]['name'];
+	  }
+     $('input[name="case_name"]').autocomplete({
+      lookup: cases,
+      width: 'flex',
+      triggerSelectOnValidInput: true,
+      onSelect: function (suggestion) {
+        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+        //alert(thehtml);
+        var $this = $(this);
+        $('#outputcontent').html(thehtml);
+        $this.prev().val(suggestion.data);
 
-  for(var i = 0; i<cases.length; i++){
-	  cases[i].data = cases[i]['id'];
-	  cases[i].value = cases[i]['name'];
-	}
-	for(var i = 0; i<clients.length; i++){
-		clients[i].data = clients[i]['id'];
-		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	}
-	for(var i = 0; i<contacts.length; i++){
-		contacts[i].data = contacts[i]['id'];
-		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-	}	
-	 $('input[name="case_name"]').autocomplete({
-    lookup: cases,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
+      }
+
+    });
+ @endif
+ 
+  
+  @if(!empty($clients))
+    var clients = {!! json_encode($clients->toArray()) !!};
+  	for(var i = 0; i<clients.length; i++){
+		  clients[i].data = clients[i]['id'];
+		  clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+	  }
+    $('input[name="client_name"]').autocomplete({
+      lookup: clients,
+      width: 'flex',
+      triggerSelectOnValidInput: true,
+      onSelect: function (suggestion) {
+        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+        //alert(thehtml);
+        var $this = $(this);
+        $('#outputcontent').html(thehtml);
+        $this.prev().val(suggestion.data);
+      }
+
+    });
+  @endif
+  @if(!empty($contacts))
+    var contacts = {!! json_encode($contacts->toArray()) !!};	
+  	for(var i = 0; i<contacts.length; i++){
+		  contacts[i].data = contacts[i]['id'];
+		  contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
     }
-		 
-  });
-	$('input[name="client_name"]').autocomplete({
-    lookup: clients,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
-		 
-  });
-	$('input[name="contact_name"]').autocomplete({
-    lookup: contacts,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
+    $('input[name="contact_name"]').autocomplete({
+      lookup: contacts,
+      width: 'flex',
+      triggerSelectOnValidInput: true,
+      onSelect: function (suggestion) {
+        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+        //alert(thehtml);
+        var $this = $(this);
+        $('#outputcontent').html(thehtml);
+        $this.prev().val(suggestion.data);
+
+      }
 		 
   });	
+	@endif
+	
+	
+
 	
 
 	

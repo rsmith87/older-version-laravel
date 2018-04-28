@@ -7,10 +7,12 @@ use App\Document;
 use App\WysiwygDocument;
 use App\Http\Requests;
 use App\Settings;
+use Bitly;
 use App\LawCase;
 use App\Contact;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use App\Http\Controllers\Controller;
+
 
 class DocumentController extends Controller
 {
@@ -44,18 +46,19 @@ class DocumentController extends Controller
 			$my_clients = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$my_contacts = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 			$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
-			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
+			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->first();
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 		} else {
 			$clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
 			$my_contacts = "";
 			$my_clients = "";
-			$contact = Contact::where('has_login', $this->user['id'])->first();			
+			$contacts = Contact::where('has_login', $this->user['id'])->first();			
 			$documents = Document::where('user_id', $this->user['id'])->get();
 			$client_documents = Document::where(['client_id' => $contact->id, 'client_share' => 1])->get();
 			$cases = LawCase::where('id', $contact->case_id)->get();
 		} 
+    
 		
 		return view('dashboard/documents', [
 			'user_name' => $this->user['name'],
@@ -69,6 +72,7 @@ class DocumentController extends Controller
 			'contacts' => $contacts,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
+      
 		]);
 	}
 
@@ -172,7 +176,8 @@ class DocumentController extends Controller
 
 	public function single(Request $request, $id)
 	{
-		$documents = Document::where(['id' => $id, 'firm_id' => $this->settings->firm_id])->with('wysiwyg')->first();
+   
+		$documents = Document::where(['id' => $id, 'firm_id' => $this->settings->firm_id])->first();
 		if(!$this->user->hasRole('client')){		
 			$my_clients = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$my_contacts = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
@@ -220,6 +225,10 @@ class DocumentController extends Controller
 			$data['client_id'] = $contact->id;
 			$data['case_id'] = $contact->case_id;
 		}
+    
+    if(!isset($data['client_share'])){
+      $data['client_share'] = 0;
+    }
 		
 		Document::updateOrCreate(
 		[
@@ -233,7 +242,7 @@ class DocumentController extends Controller
 			'mime_type' => $fileMimeType,
 			'firm_id' => $this->settings->firm_id,
 			'contact_id' => isset($data['contact_id']) ? $data['contact_id']: "",
-			'client_id' => $data['client_id'],
+			'client_id' => isset($data['client_id']) ? $data['client_id']: "",
 			'case_id' => $data['case_id'],
 			'user_id' => $this->user['id'],
 			'client_share' => $data['client_share'],
@@ -252,4 +261,12 @@ class DocumentController extends Controller
 		$item = Document::where('path',  $name)->delete();
 		return redirect('/dashboard/documents')->with('status', $name . ' successfully deleted');  
 	}
+  
+  public function create_download_link(Request $request, $id)
+  {
+    $data = $request->all();
+    $document = Document::where('id', $id)->first();
+    $url = Bitly::getUrl('https://s3.amazonaws.com/legaleeze'.$document->path);
+    return redirect('/dashboard/documents/document/'.$document->id)->with('status', 'Your link to send: ' . $url);
+  }
 }

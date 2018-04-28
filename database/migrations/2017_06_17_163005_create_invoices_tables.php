@@ -24,6 +24,7 @@ class CreateInvoicesTables extends Migration
             $table->text('receiver_info')->nullable();
             $table->text('sender_info')->nullable();
             $table->text('payment_info')->nullable();
+            $table->integer('user_id');
             $table->text('note')->nullable();
             $table->timestamps();
         });

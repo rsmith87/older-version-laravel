@@ -28,37 +28,22 @@
             @if(count($cases) > 0)  
               <div class="col-sm-6 col-12">
                 <label for="case_name">Case link</label>
-                @if(!isset($case))
                   <input type="hidden" name="case_id" />
                   <input type="text" name="case_name" class="form-control" placeholder="Case name" />
-                @else
-                  <input type="hidden" name="case_id" value={{ $case->id }}" />
-                  <input type="text" name="case_name" class="form-control" value="{{ $case->name }}" disabled />            
-                @endif
               </div>
             @endif          
             @if(count($clients) > 0)
               <div class="col-sm-6 col-12">
                 <label for="client_name">Client link</label>
-                @if(!isset($client))
                   <input type="hidden" name="client_id" />
                   <input type="text" name="client_name" class="form-control" placeholder="Client name" />
-                @else
-                  <input type="hidden" name="client_id" value="{{ $client->id }}" />
-                  <input type="text" name="client_name" class="form-control" disabled value="{{ $client->first_name }} {{ $client->last_name }}" />            
-                @endif
               </div>
             @endif
             @if(count($contacts) > 0)
               <div class="col-sm-6 col-12">
                 <label for="contact_name">Contact link</label>
-                @if(!isset($contact))            
                   <input type="hidden" name="contact_id" />
                   <input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
-                @else
-                  <input type="hidden" name="contact_id" value="{{ $contact->id }}" />
-                  <input type="text" name="contact_name" class="form-control" disabled value="{{ $contact->first_name }} {{ $contact->last_name }}" />             
-                @endif
               </div>
             @endif
             @if(count($clients) > 0)
@@ -81,64 +66,70 @@
 
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
-var cases = {!! json_encode($cases->toArray()) !!};
-var clients = {!! json_encode($clients->toArray()) !!};
-var contacts = {!! json_encode($contacts->toArray()) !!};	
+  @if(!empty($cases))
+    var cases = {!! json_encode($cases->toArray()) !!};
+    for(var i = 0; i<cases.length; i++){
+      cases[i].data = cases[i]['id'];
+      cases[i].value = cases[i]['name'];
+	  }
+     $('input[name="case_name"]').autocomplete({
+      lookup: cases,
+      width: 'flex',
+      triggerSelectOnValidInput: true,
+      onSelect: function (suggestion) {
+        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+        //alert(thehtml);
+        var $this = $(this);
+        $('#outputcontent').html(thehtml);
+        $this.prev().val(suggestion.data);
 
-  for(var i = 0; i<cases.length; i++){
-	  cases[i].data = cases[i]['id'];
-	  cases[i].value = cases[i]['name'];
-	}
-	for(var i = 0; i<clients.length; i++){
-		clients[i].data = clients[i]['id'];
-		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	}
-	for(var i = 0; i<contacts.length; i++){
-		contacts[i].data = contacts[i]['id'];
-		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-	}	
-	 $('input[name="case_name"]').autocomplete({
-    lookup: cases,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
+      }
+
+    });
+ @endif
+ 
+  
+  @if(!empty($clients))
+    var clients = {!! json_encode($clients->toArray()) !!};
+  	for(var i = 0; i<clients.length; i++){
+		  clients[i].data = clients[i]['id'];
+		  clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+	  }
+    $('input[name="client_name"]').autocomplete({
+      lookup: clients,
+      width: 'flex',
+      triggerSelectOnValidInput: true,
+      onSelect: function (suggestion) {
+        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+        //alert(thehtml);
+        var $this = $(this);
+        $('#outputcontent').html(thehtml);
+        $this.prev().val(suggestion.data);
+      }
+
+    });
+  @endif
+  @if(!empty($contacts))
+    var contacts = {!! json_encode($contacts->toArray()) !!};	
+  	for(var i = 0; i<contacts.length; i++){
+		  contacts[i].data = contacts[i]['id'];
+		  contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
     }
-		 
-  });
-	$('input[name="client_name"]').autocomplete({
-    lookup: clients,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
-		 
-  });
-	$('input[name="contact_name"]').autocomplete({
-    lookup: contacts,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
+    $('input[name="contact_name"]').autocomplete({
+      lookup: contacts,
+      width: 'flex',
+      triggerSelectOnValidInput: true,
+      onSelect: function (suggestion) {
+        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+        //alert(thehtml);
+        var $this = $(this);
+        $('#outputcontent').html(thehtml);
+        $this.prev().val(suggestion.data);
+
+      }
 		 
   });	
+	@endif
 	
 
 	

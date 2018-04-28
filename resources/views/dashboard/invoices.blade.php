@@ -30,7 +30,9 @@
 		 </div>
      <div class="panel-body">	 
 			 @if(count($orders) > 0)
-       <table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+                 @foreach ($orders as $order)
+
+       <table id="main" class="table table-responsive table-resposive table-striped table-hover mb-5 table-{{ $table_color }} table-{{ $table_size }}">
           <thead> 
             <tr>
               <th>Id</th>
@@ -39,22 +41,27 @@
             </tr> 
           </thead> 
           <tbody> 
-          @foreach ($orders as $order)
-						@foreach($order->Invoices as $i)												
+            
+            
+						@foreach($order->Invoices as $i)
+            
             <tr> 
               <td>{{ $i->id }}</td>
               <td>{{ $i->receiver_info }}</td> 
 							<td>$ {{ $i->total }}.00</td>
             </tr> 
+            
 						@endforeach
 						<tr>
 							<td></td>
 							<td></td>
 							<td>Total invoiced:  ${{ number_format($order->amount, 2) }}</td>
-						</tr>						
-         	@endforeach
+						</tr>					
+            <tr class="blank"></tr>
           </tbody> 
        </table>
+                	@endforeach
+
 			 @endif
 		</div>
 				

@@ -15,7 +15,15 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-       'id', 'task_name', 'user_id','task_description', 'f_id', 'contact_client_id', 'c_id','assigned', 'due'
+      'id', 
+      'task_name', 
+      'task_description', 
+      'task_list_id',
+      'due',
+      'assigned',
+      'contact_client_id',
+      'created_at',
+      'updated_at',
     ];
   
     public function subtasks()
@@ -25,7 +33,7 @@ class Task extends Model
   
     public function categories()
     {
-      return $this->hasMany('App\Category', 'task_id');
+      return $this->hasMany('App\Category', 'task_id', 'id');
     }
 
     public function sendTaskDueReminder($task)

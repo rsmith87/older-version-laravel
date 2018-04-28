@@ -17,6 +17,7 @@ class CreateContactTable extends Migration
           $table->longText('prefix');
           $table->longText('first_name');
           $table->longText('last_name');
+          $table->text('relationship');
           $table->longText('company');
           $table->longText('company_title');
           $table->longText('phone');
@@ -31,6 +32,7 @@ class CreateContactTable extends Migration
           $table->integer('is_client');
           $table->integer('has_login');
           $table->integer('user_id');
+          $table->integer('is_deleted');
           $table->timestamps();
         });
     }

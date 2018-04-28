@@ -36,6 +36,11 @@ class Firm extends Model
       return $this->hasMany('App\User', 'f_id');
     }
   
+  public function notes()
+  {
+    return $this->hasMany('App\Note', 'id', 'firm_id');
+  }
+  
    public function stripe()
    {
      return $this->hasOne('App\FirmStripe', 'firm_id');

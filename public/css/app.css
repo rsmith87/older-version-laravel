@@ -187,6 +187,18 @@ table.table-hover {
 table.table-dark a {
   color: #FFF;
 }
+table#main tr.table-dark.hover {
+  background-color: inital;
+}
+table#main tr.table-dark td {
+  border-color: transparent;
+  color: #000 !important;
+  cursor: default;
+}
+table#main tr:hover,
+table#main tr:active {
+  background-color: inherit !important;
+}
 .dashboard h2 {
   font-size: 2.5em;
   text-transform: uppercase;
@@ -219,11 +231,18 @@ table.table-dark a {
 .dashboard.settings td:nth-child(1) {
   display: table-cell;
 }
+.dashboard.settings label {
+  float: left;
+  margin-right: 5px;
+}
 .dashboard.task .tags {
   overflow: hidden;
 }
 .dashboard.task .category-tags .form-field-hide {
   display: none;
+}
+.dashboard.document .col-12 {
+  overflow: hidden;
 }
 .modal .col-sm-6,
 .modal .col-12 {
@@ -235,21 +254,26 @@ table.table-dark a {
   margin-top: 0;
   margin-bottom: 0;
 }
+.table-sm td,
+.table-sm th {
+  padding: 0.3rem;
+}
 #dashbaord-main {
   margin-top: 50px;
 }
-.nav-pills {
-  margin: 0 0 20px;
+nav.nav-pills {
+  margin: 0 0 0px;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
 }
 .nav-pills .nav-link {
-  padding: 15px 30px;
+  padding: 8px 15px;
 }
-nav.nav-pills a {
+nav.nav-pills a.nav-link {
   margin-right: 0px;
+  border-radius: 0;
 }
 .navbar a {
   font-size: 1.25em;
@@ -799,6 +823,9 @@ nav .show > .btn-primary.dropdown-toggle {
 .invoice-box table tr.total td:nth-child(2) {
   border-top: 2px solid #eee;
   font-weight: bold;
+}
+select.form-control:not([size]):not([multiple]) {
+  height: auto;
 }
 .invoice-single .invoice-box td {
   display: table-cell;

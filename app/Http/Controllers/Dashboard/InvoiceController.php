@@ -13,6 +13,8 @@ use App\LawCase;
 use App\Contact;
 use App\Invoice;
 use App\InvoiceLine;
+use App\CaseHours;
+use App\Notifications\InvoiceCreatedNotification;
 use Faker\Factory;
 use Carbon;
 use SanderVanHooft\Invoicable\MoneyFormatter;
@@ -42,6 +44,7 @@ class InvoiceController extends Controller
 		});
 	}
 
+  
 	public function index(Request $request)
 	{
 		if(!$this->user->hasRole('client')){
@@ -62,6 +65,7 @@ class InvoiceController extends Controller
 		]);
 	}
 
+  
 	public function create(Request $request)
 	{		
 
@@ -81,25 +85,40 @@ class InvoiceController extends Controller
 
 		//getting data to populate the DB
 		$case = LawCase::where('id', $data['case_id'])->first();
+    $case_hours = CaseHours::where('case_id', $data['case_id'])->get();
+    $hours_amount = '0';
+    foreach($case_hours as $ch){
+      $hours_amount += $ch->hours;
+    }
 		$firm = Firm::where('id', $this->settings->firm_id)->first();
 		$client = Contact::where('id', $data['client_id'])->first();
 		$amount = $data['amount'];
 		$firm_address = $firm->address_1 . " " . $firm->address_2 . " " . $firm->city . " " . $firm->state . " " . $firm->zip;
-		$mycase = Order::where(['user_id' => $this->user['id'], 'case_id' => $data['case_id']])->first();
-
+		
 		$bill_type = $case->billing_type;
 		if($bill_type === 'hourly'){
-			$total_amount  = $case->hours * $case->billing_rate;
+			$total_amount  = $hours_amount * $case->billing_rate;
 		}
 		else {
 			$total_amount = $case->billing_rate;
 		}
-
+  
+    
 		$amount_remaining = $total_amount - $data['amount'];
+    
+    $mycase = Order::where(['user_id' => $this->user['id'], 'case_id' => $case->id])->first();
 
 		if(count($mycase) > 0){
 			$orig_amount = $mycase->amount + floatval($data['amount']);
-		}
+      LawCase::where('id', $case->id)->update(['order_id' => $mycase->id]);
+      
+		} else {
+      $orig_amount = 0;
+    }
+    
+    
+    $email_send = $client->sendTaskDueReminder($client);
+    
 		Order::updateOrCreate([
 			'case_id' => $data['case_id'],
 		],

@@ -16,12 +16,10 @@ class CreateSubtasksTable extends Migration
           $table->increments('id');
           $table->integer('user_id');
           $table->longText('subtask_name');
-          $table->longText('task_description');
-          $table->integer('f_id');
-          $table->integer('c_id');
+          $table->longText('subtask_description');
           $table->integer('t_id');
-          $table->integer('contact_client_id');
           $table->integer('assigned');
+          $table->datetime('complete');
           $table->dateTime('due');          
           $table->timestamps();
         });

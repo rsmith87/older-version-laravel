@@ -16,10 +16,13 @@
 		<link href="{{ asset('js/datepicker/datepicker.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('js/timepicker/jquery.timepicker.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('css/tags.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.knightlab.com/libs/timeline/latest/css/timeline.css">
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 		<script src="{{ asset('js/timer.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/timeline-min.js"></script>
+
 		
 	</head>
   <body data-spy="scroll" data-target="#navbar-interior" data-offset="70">
@@ -53,7 +56,7 @@
 				<li class="nav-item btn-primary"><a class='nav-link' href="/dashboard/invoices"><i class="fas fa-file-alt fa-fw fa-sm"></i>Invoices</a></li>
 				@endif
 				@if(\Auth::user()->hasPermissionTo('view tasks'))
-				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/tasks"><i class="fas fa-tasks fa-fw fa-sm"></i>Tasks</a></li>
+				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/tasks"><i class="fas fa-clipboard-list fa-fw fa-sm"></i>Tasks</a></li>
 				@endif
 				@if(\Auth::user()->hasPermissionTo('view documents')) 
 				<li class="nav-item btn-primary"><a class="nav-link" href="/dashboard/documents"><i class="fas fa-file fa-fw fa-sm"></i>Documents</a></li>

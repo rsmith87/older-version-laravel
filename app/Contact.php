@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\InvoiceCreatedNotification;
+use Illuminate\Notifications\Notifiable;
 
 class Contact extends Model
 {
+  
+    use Notifiable;
     protected $table = "contact";
     /**
      * The attributes that are mass assignable.
@@ -17,6 +21,7 @@ class Contact extends Model
       'prefix', 
       'first_name', 
       'last_name', 
+      'relationship',
       'company', 
       'company_title', 
       'phone', 
@@ -31,6 +36,7 @@ class Contact extends Model
       'is_client', 
       'has_login',
       'user_id',
+      'created_at',
     ];
 
     /**
@@ -64,12 +70,26 @@ class Contact extends Model
     {
       return $this->hasMany('App\Task', 'contact_client_id');
     }
+  
+    public function notes()
+    {
+      return $this->hasMany('App\Note', 'id', 'contact_client_id');
+    }
     
     public function user_account()
     {
       return $this->hasOne('App\User', 'id', 'has_login');
     }
   
-  
+    public function sendTaskDueReminder($client)
+    {
+      //print_r($client);
+      $user = User::where('id', $client->has_login)->first();
+      if(empty($user)){
+        $user = $client;
+      }
+      //print_r($user);
+      $user->notify(new InvoiceCreatedNotification($user));
+    }    
   
 }

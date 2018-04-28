@@ -13,7 +13,7 @@
 						<label>Status</label>
 						<select class="custom-select" id="inputGroupSelect01" name="status" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
 			        @foreach($status_values as $t)
-         	      <option value="{{ $t }}" {{ $t == $case->status ? "selected='selected'" : '' }}>{{ ucwords($t) }}</option>
+         	      <option value={{ $t }}>{{ ucwords($t) }}</option>
 			        @endforeach 
 						</select>
 					</div>       

@@ -34,7 +34,7 @@
 					</thead> 
 					<tbody> 
 					@foreach($messages as $message)
-					
+
 						<tr>
 						  <td>{{ $message[0]['id'] }}</td>
 						  <td>{{ $message[0]['body'] }}</td>
@@ -67,7 +67,6 @@
 					</thead> 
 					<tbody> 
 					@foreach($clients as $client)
-					
 						<tr>
 						  <td>{{ $client->id }}</td>
 						  <td>{{ $client->first_name }}  {{ $client->last_name }}</td>

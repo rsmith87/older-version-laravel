@@ -1,24 +1,20 @@
 @extends('layouts.dashboard')
 
 @section('content')
-@php
 
-header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
-@endphp
 
 <div class="container dashboard document col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit document</a>
-		
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-pencil-alt"></i> Edit document</a>
+		<a class="nav-item nav-link btn btn-info" href="/dashboard/documents/document/{{ $document->id }}/send"><i class="fas fa-link"></i> Create document link</a>
 	</nav>  	
-
-	@include('dashboard.includes.alerts')
 	
    <div class="panel panel-default">
       <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-4 mt-4 mb-5"> 
+        <h1 class="pull-left ml-4 mt-4 mb-3"> 
          <i class="fas fa-cloud-upload-alt"></i> Document
         </h1>
+        @include('dashboard.includes.alerts')
      </div>
      <div class="panel-body">
 			 <div class="container">
@@ -41,7 +37,7 @@ header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
 					@foreach ($cases as $case)
 						@if($document->case_id == $case->id)
  
-				<p>{{ $case->name }}</p>						 
+        <p><a href="/dashboard/cases/case/{{ $case->id }}">{{ $case->name }}</a></p>						 
 					 @endif
 					@endforeach
 				@endif
@@ -52,17 +48,17 @@ header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
 				@else
 					@foreach ($clients as $client)
 						@if($document->client_id == $client->id)				 
-					 <p>{{ $client->first_name . " " . $client->last_name }}</p>
+        <p><a href="/dashboard/clients/client/{{ $client->id }}">{{ $client->first_name . " " . $client->last_name }}</a></p>
 						@endif
 					@endforeach	
 				@endif
 					 
 			 @if(empty($document->contact_id))
-			 <p>No client</p>
+			 <p>No contact</p>
 				@else
 					@foreach ($contacts as $contact)
 						@if($document->contact_id == $contact->id)				 
-					    <p>{{ $contact->first_name . " " . $contact->last_name }}</p>
+        <p><a href="/dashboard/contacts/contact/{{ $contact->id }}">{{ $contact->first_name . " " . $contact->last_name }}</a></p>
 					  @endif
 				 	@endforeach				 
 				@endif
@@ -74,7 +70,7 @@ header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
 	@elseif($document->mime_type ===' image/jpg' || $document->mime_type === 'image/png' || $document->mime_type === 'image/jpeg' || $document->mime_type === 'image/gif')
 	<img src="https://s3.amazonaws.com/legaleeze{{ $document->path }}" />
 	@elseif($document->mime_type === 'text/rdf' || $document->mime_type === 'application/octet-stream')
-	<iframe src="https://s3.amazonaws.com/legaleeze{{ urlencode($document->path) }}"></iframe>
+	<iframe src=""https://s3.amazonaws.com/legaleezee{{ urlencode($document->path) }}"></iframe>
 	@endif
 				 </div>   
          
@@ -83,6 +79,18 @@ header("X-Frame-Options ALLOW-FROM https://docs.google.com/");
   </div>   
 
 	
+<div class="modal fade" id="send-modal">
+ <div class="modal-dialog modal">
+    <div class="modal-content">
+         <div class="modal-body">  
+           <form method="POST" action="/dashboard/documents/document/{{ $document->id }}/send">
+             <label>Create document download link</label>
+             <input type="submit" class="form-control btn btn-primary" />
+           </form>
+      </div>
+   </div>
+  </div>
+</div>
 
 <div class="modal fade" id="document-modal">
            <div class="modal-dialog modal-lg">

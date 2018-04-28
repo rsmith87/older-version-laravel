@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 use App\Task;
+use Log;
 use App\Notifications\TaskDueReminder;
 use Carbon\Carbon;
 
@@ -42,12 +43,18 @@ class TaskEmailReminder extends Command
      */
     public function handle()
     {
-      //gets tasks that are due in now minus 1 hour, but cron runs every 15m
+      //gets tasks that are due in now minus 1 hour, but cron runs every 10m
       $tasks = Task::get();
-      $now_time = Carbon::now();
+      
       foreach($tasks as $task){
-        if(Carbon::parse($task->due) > $now_time->subHour(1)){
+        $now_time = Carbon::now();
+        $one_hour_from_now = $now_time->subHour(1);
+        //print(Carbon::parse($task->due) . " " . $one_hour_from_now . "\n");
+        if(Carbon::parse($task->due) > $one_hour_from_now && Carbon::parse($task->due) < $now_time->addHours(2)){
+          Log::debug($task . "\n");
           $email_send = $task->sendTaskDueReminder($task);
+        } else {
+          Log::debug("no task ready" . "\n");
         }
       }
     }

@@ -12,57 +12,71 @@
 					<div class="clearfix"></div>
 					<hr />
 
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>First name</label>
 						<input type="text" class="form-control" name="first_name" aria-label="First Name">
 					</div>  
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Last name</label>
 						<input type="text" class="form-control" name="last_name" aria-label="Last Name">
-					</div>   
+					</div>
+    
+					<div class="col-sm-6 col-12">
+						<label>Relationship</label>
+            @php
+            $relationship_values = [
+            'grandfather', 'grandmother', 'father', 'mother', 'brother', 'sister', 'uncle', 'aunt', 'husband', 'wife', 'boss', 'coworker', 'friend'
+            ]
+            @endphp
+              <select class="form-control" name="relationship" id="inputGroupSelect01" aria-label="Relatinoship">
+			        @foreach($relationship_values as $t)
+         	      <option value="{{ $t }}">{{ ucwords($t) }}</option>
+			        @endforeach 
+            </select>            
+					</div>             
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Company</label>
 						<input type="text" class="form-control" name="company" aria-label="Company">
 					</div> 
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Company title</label>
 						<input type="text" class="form-control" name="company_title" aria-label="Company title">
 					</div> 
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Phone</label>
 						<input type="text" class="form-control" id="phone" name="phone" aria-label="Phone">
 					</div>   
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Email</label>
 						<input type="text" class="form-control" name="email" aria-label="Email">
 					</div> 
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Address 1</label>
 						<input type="text" class="form-control" name="address_1" aria-label="Address">
 					</div> 
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Address 2</label>
 						<input type="text" class="form-control" name="address_2" aria-label="Address">
 					</div> 	
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>City</label>
 						<input type="text" class="form-control" name="city" aria-label="Address">
 					</div> 	 
 					
-						<div class="col-sm-6 col-xs-12">
+						<div class="col-sm-6 col-12">
 						<label>State</label>
 						<input type="text" class="form-control" name="state" aria-label="Address">
 					</div>
 					
-					<div class="col-sm-6 col-xs-12">
+					<div class="col-sm-6 col-12">
 						<label>Zip</label>
 						<input type="text" class="form-control" name="zip" aria-label="Address">
 					</div>

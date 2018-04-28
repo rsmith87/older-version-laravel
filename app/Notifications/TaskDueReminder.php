@@ -42,7 +42,7 @@ class TaskDueReminder extends Notification
     {
         return (new MailMessage)
                     ->line('Your task {{ $notifiable->task_name }} is about to be due!')
-                    ->action('Check your tasks!', url('/dashboard/tasks'))
+                    ->action('Check your tasks!', url('/'))
                     ->line('(you can change how often you receive these in your settings)')
                     ->line('Thank you for using Legalkeeper!');
     }

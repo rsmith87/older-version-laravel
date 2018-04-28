@@ -31,9 +31,9 @@ class SettingController extends Controller
 					if(!$this->user){
 						return redirect('/login');
 					}					
-					if(!$this->user->hasPermissionTo('view settings')){
-						return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
-					}
+					//if(!$this->user->hasPermissionTo('view settings')){
+						//return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+					//}
 					$this->settings = Settings::where('user_id', $this->user['id'])->first();
 					return $next($request);
         });
@@ -45,7 +45,7 @@ class SettingController extends Controller
       $themes = \DB::table('theme')->get();
    		
       
-      $contact_views = View::where(['u_id' => \Auth::id(), 'view_type' => 'contact'])->first();
+      $contact_views = View::where(['u_id' => $this->user['id'], 'view_type' => 'contact'])->first();
       $contact_columns = Contact::getModel()->getConnection()->getSchemaBuilder()->getColumnListing(Contact::getModel()->getTable());
       if(!empty($contact_views)){
         $contact_user_columns = json_decode($contact_views->view_data, true);
@@ -59,7 +59,7 @@ class SettingController extends Controller
         //$contact_id = \DB::table('views')->max('id') + 1;
       }
       
-      $client_views = View::where(['u_id' => \Auth::id(), 'view_type' => 'client'])->first();
+      $client_views = View::where(['u_id' => $this->user['id'], 'view_type' => 'client'])->first();
       $client_columns = Contact::getModel()->getConnection()->getSchemaBuilder()->getColumnListing(Contact::getModel()->getTable());
       if(!empty($client_views)){
         $client_user_columns = json_decode($client_views->view_data, true);
@@ -72,7 +72,7 @@ class SettingController extends Controller
         //$client_id = \DB::table('views')->max('id') + 1;
       }   
 
-      $case_views = View::where(['u_id' => \Auth::id(), 'view_type' => 'case'])->first();
+      $case_views = View::where(['u_id' => $this->user['id'], 'view_type' => 'case'])->first();
       $case_columns = LawCase::getModel()->getConnection()->getSchemaBuilder()->getColumnListing(LawCase::getModel()->getTable());
       if(!empty($case_views)){
         $case_user_columns = json_decode($case_views->view_data, true);
@@ -85,6 +85,7 @@ class SettingController extends Controller
         $case_user_views = [];
         //$case_id = \DB::table('views')->max('id') + 1;
       }  
+      
 			
 			$fs = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
       
@@ -110,6 +111,11 @@ class SettingController extends Controller
         'table_size' => $this->settings->table_size,
 				'firm_id' => $this->settings->firm_id,   
 				'fs' => $fs,
+        'fb' => $this->settings->fb,
+        'twitter' => $this->settings->twitter,
+        'instagram' => $this->settings->instagram,
+        'avvo' => $this->settings->avvo,
+        'show_task_calendar' => isset($this->settings->task_calendar) ? $this->settings->task_calendar : "",
       ]);
     }
   
@@ -118,7 +124,7 @@ class SettingController extends Controller
       $data = $request->all();
       $values = [];
       //get all view based on type passed in through URL
-      $views = View::where(['u_id' => \Auth::id(), 'view_type' => $type])->first();
+      $views = View::where(['u_id' => $this->user['id'], 'view_type' => $type])->first();
       if($data['type'] === 'case'){
         if(!array_key_exists('name', $data)){
           return redirect('/dashboard/settings')->withErrors(['Whoops!  I think you want to see the case name!']);
@@ -158,7 +164,7 @@ class SettingController extends Controller
         [
           'view_type' => $type,   
           'view_data' => json_encode($values),          
-          'user_id' => $this->user->id,
+          'user_id' => $this->user['id'],
         ]);
   
      
@@ -170,7 +176,7 @@ class SettingController extends Controller
     {
       $data = $request->all();   
    
-      $user = Settings::where('user_id', \Auth::id())->first();;
+      $user = Settings::where('user_id', $this->user['id'])->first();;
       $user->theme = $data['theme_selector'];
       $user->save();
       return redirect('/dashboard/settings')->with('status', 'Theme updated successfully!');
@@ -180,7 +186,7 @@ class SettingController extends Controller
     {
       $data = $request->all();   
    
-      $user = Settings::where('user_id', \Auth::id())->first();;
+      $user = Settings::where('user_id', $this->user['id'])->first();;
       $user->table_color = $data['table_color'];
       $user->save();
       return redirect('/dashboard/settings')->with('status', 'Table colors updated successfully!');
@@ -190,11 +196,26 @@ class SettingController extends Controller
     {
       $data = $request->all();   
   
-      $user = Settings::where('user_id', \Auth::id())->first();
+      $user = Settings::where('user_id', $this->user['id'])->first();
       $user->table_size = $data['table_size'];
       $user->save();
       return redirect('/dashboard/settings')->with('status', 'Table size updated successfully!');
-    }    
+    }
+  
+    public function show_tasks_calendar(Request $request)
+    {
+      $data = $request->all();
+      
+      $user = Settings::where('user_id', $this->user['id'])->first();
+      if($user->task_calendar){
+        $user->task_calendar = 0;
+      } else {
+        $user->task_calendar = 1;
+      }
+      $user->save();
+      return redirect('/dashboard/settings')->with('status', 'Tasks will now show on the calendar');
+      
+    }
 	
 		public function list_users()
 		{
@@ -214,10 +235,11 @@ class SettingController extends Controller
 	
 	  public function list_roles()
 		{
+      $roles = [];
 			        $roles = Role::all();//Get all roles
 
         return view('dashboard.roles', [
-					'roles' => $roles,
+				'roles' => $roles,
 				'name' => $this->user['name'],
 				'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
@@ -256,10 +278,10 @@ class SettingController extends Controller
 						
                 $r = Role::where('id', $role)->get(); //Match input role to db record
 					
-                $permission = Permission::where('name', $name)->get(); //Match input //permission to db record
+                $permission = Permission::where('name', $name)->first(); //Match input //permission to db record
 							
                 //$r->givePermissionTo($permission);
-								$permission->assignRole($r);
+								$this->user->assignRole($r);
             }
         }
 
@@ -324,7 +346,10 @@ class SettingController extends Controller
 
         $input = $request->except(['permissions']);
         $permissions = $request['permissions'];
+        print_r($input);
+        //print_r($permissions);
         $role->fill($input)->save();
+        print_r($role);
 
         $p_all = Permission::all();//Get all permissions
 
@@ -332,12 +357,14 @@ class SettingController extends Controller
             $role->revokePermissionTo($p); //Remove all permissions associated with role
         }		
         foreach ($permissions as $permission) {
-            $p = Permission::where('id', $permission)->first(); //Get corresponding form //permission in db
-            $role->givePermissionTo($p);  //Assign permission to role
+          
+          $p = Permission::where('id', $permission)->first(); //Get corresponding form //permission in db
+          print_r($p);
+          $role->givePermissionTo($p);  //Assign permission to role
         }
 
         return redirect('/dashboard/settings/roles/')
-            ->with('flash_message',
+            ->with('status',
              'Role'. $role->name.' updated!');			
 		}
 	
@@ -370,7 +397,11 @@ class SettingController extends Controller
 	
 		public function list_permissions()
 		{
+      
 			 $permissions = Permission::all(); //Get all permissions
+      if(empty($permissions)){
+        $permissions = [];
+      }
 			$users = User::get();
 
        return view('dashboard.permissions',[
@@ -378,8 +409,8 @@ class SettingController extends Controller
 					'firm_id' => $this->settings->firm_id,
 					'table_color' => $this->settings->table_color,
 					'table_size' => $this->settings->table_size,
-				'theme' => $this->settings->theme,
-				 'users' => $users,
+          'theme' => $this->settings->theme,
+           'users' => $users,
 				 ]);
 		}
 	 /**

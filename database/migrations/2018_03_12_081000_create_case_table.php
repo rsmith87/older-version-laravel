@@ -28,10 +28,10 @@ class CreateCaseTable extends Migration
         $table->text('is_billable');
         $table->text('billing_type');
         $table->text('billing_rate', 4, 2);
-        $table->string('hours');
         $table->integer('firm_id');
         $table->integer('u_id');
-        $table->integer('order_id')
+        $table->integer('order_id');
+        $table->integer('is_deleted');
         $table->timestamps();
       });
     }

@@ -171,7 +171,6 @@ return [
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Shivella\Bitly\BitlyServiceProvider::class,
-        
     ],
 
     /*

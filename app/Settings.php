@@ -22,5 +22,10 @@ class Settings extends Model
       'table_color',
       'table_size',
       'tz',
+      'task_calendar',
+      'fb',
+      'twitter',
+      'instagram',
+      'avvo',
    ];
 }

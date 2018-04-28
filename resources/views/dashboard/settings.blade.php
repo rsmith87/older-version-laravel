@@ -20,7 +20,33 @@
 						@include('dashboard.includes.alerts')			
      </div>	
      <div class="panel-body">
-       
+
+       <div class="clearfix"></div>
+       <div class="col-12 col-sm-6">
+
+         <form method="POST" action="/dashboard/settings/social-media">
+           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+           <label>Facebook URL</label>
+           <input type="text" class="form-control" value="{{ count($fb) > 0 ? $fb : "" }}" name="fb" />
+           <label>Twitter URL</label>
+           <input type="text" class="form-control" value="{{ count($twitter) > 0 ? $twitter : "" }}" name="twitter" />
+           <label>Instagram URL</label>
+           <input type="text" class="form-control" value="{{ count($instagram) > 0 ? $instagram : "" }}" name="instagram" />
+           <label>Avvo URL</label>
+           <input type="text" class="form-control" value="{{ count($avvo) > 0 ? $avvo : "" }}" name="avvo" />
+           <button type="submit" class="btn btn-primary">
+             Submit
+           </button>
+         </form>
+       </div>
+       <div class="col-sm-6 col-12">
+       <label for="show_tasks_calendar">Show tasks on calendar?</label>
+       <form method="POST" action="/dashboard/settings/show-tasks-calendar">
+		     <input type="hidden" name="_token" value="{{ csrf_token() }}">         
+         <input type="checkbox" name="show" {{ $show_task_calendar ? "checked":'' }} />
+       </form>         
+       </div>
+
      </div>
   </div>   
 

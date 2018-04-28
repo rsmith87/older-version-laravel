@@ -12,19 +12,14 @@ class Subtask extends Model
      'id', 
      'user_id',
      'subtask_name',
-     'task_descrioption',
-     'f_id',
-     'c_id',
+     'subtask_description',
      't_id',
      'assigned',
-     'st_id',
      'due',
+     'complete',
    ];
 
-    public function task()
-    {
-      return $this->belongsToOne('App\Task', 'id', 't_id');
-    }
+
 
 
 }

@@ -28,34 +28,27 @@
 		 @if(count($tasks) > 0)
      <div class="panel-body">
 
-        @foreach ($tasks as $task)
-        <h3 class="ml-3">
-          <i class="fas fa-thumbtack"></i> {{ $task->task_name }}
-       </h3>
-        <table class="mb-5 table table-responsive table-hover table-{{ $table_color }} table-{{ $table_size }}">
-          <thead> 
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Due date</th>
-            </tr> 
-          </thead> 
-          <tbody>        
-            <tr> 
-              <td>{{ $task->id }}</td>
-              <td>{{ $task->task_name }}</td> 
-              <td>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</td> 
-            </tr> 
-						@foreach($task->Subtasks as $subtask)
-							<tr class="subtask-row bg-secondary">
-								<td class="st">{{ $subtask->id }}</td>
-								<td class="st"> -- {{ $subtask->subtask_name }}</td>
-								<td class="st">{{ \Carbon\Carbon::parse($subtask->due)->format('m/d/Y H:i') }}</td>
-							</tr>
-						@endforeach
-          </tbody> 
-        </table>            
-         @endforeach
+       
+
+          <table id="main" class="mb-5 table table-responsive table-hover table-{{ $table_color }} table-{{ $table_size }}">
+            <thead> 
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Due date</th>
+              </tr> 
+            </thead> 
+            <tbody>  
+               @foreach ($tasks as $task)
+              <tr> 
+                <td>{{ $task->id }}</td>
+                <td>{{ $task->task_list_name }}</td> 
+                <td>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</td> 
+              </tr> 
+                        @endforeach
+
+            </tbody> 
+          </table>            
 
 			@endif
      </div>
@@ -66,8 +59,6 @@
 
 </div>
 
-
-     
 @include('dashboard.includes.task-modal');
 
 

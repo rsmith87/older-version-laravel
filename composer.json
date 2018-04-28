@@ -12,7 +12,6 @@
         "aloha/twilio":"*",
         "phpoffice/phpword": "^0.14.0",
         "dompdf/dompdf": "^0.8.2",
-        "cmgmyr/messenger": "~2.0",
         "snowfire/beautymail": "dev-master",
         "cyber-duck/laravel-excel": "^1.2",
         "laravel/socialite": "3.*",
@@ -24,7 +23,8 @@
         "cartalyst/stripe-laravel": "6.0.*",
         "google/apiclient": "^2.0",
         "laravelcollective/html": "^5.4",
-        "shivella/laravel-bitly": "^1.0"
+        "shivella/laravel-bitly": "^1.0",
+        "thiagoalessio/tesseract_ocr": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

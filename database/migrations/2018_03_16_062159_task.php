@@ -12,13 +12,11 @@ class Task extends Migration
      */
     public function up()
    {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('task', function (Blueprint $table) {
           $table->increments('id');
-          $table->integer('user_id');
           $table->longText('task_name');
           $table->longText('task_description');
-          $table->integer('f_id');
-          $table->integer('c_id');
+          $table->integer('task_list_id');
           $table->integer('contact_client_id');
           $table->integer('assigned');
           $table->dateTime('due');          

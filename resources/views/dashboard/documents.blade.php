@@ -5,7 +5,8 @@
 	<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fa fa-plus"></i> <i class="fas fa-cloud-upload-alt"></i> Upload Document</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#wysiwyg-modal" href="#"><i class="fa fa-plus"></i> <i class="fas fa-file"></i> Create Document</a>
-	</nav> 	
+	  
+  </nav> 	
 
 
 	<div class="col-md-12">
@@ -27,7 +28,7 @@
 			</div>
 			<div class="panel-body">
 				@if (count($documents) > 0)		
-					<table class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+					<table id="main" class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 						<thead> 
 							<tr> 
 								<th>id</th>
@@ -40,7 +41,7 @@
 						@foreach($documents as $document)
 							<tr>
 								<td>{{ $document->id }}</td>
-								<td scope="row"><a target="_blank" href="{{ $document->path }}">{{ $document->name }}</a></td>
+								<td scope="row"><a target="_blank" href="https://s3.amazonaws.com/legaleeze{{ $document->path }}">{{ $document->name }}</a></td>
 								<td>{{ $document->description }}</td> 
 								<td>Stored securely on {{ $document->path }}</td>
 							</tr> 
@@ -53,7 +54,7 @@
 				@if (count($client_documents) > 0)
 								<hr />
 				<h2><i class="fas fa-share"></i> Shared documents</h2>
-					<table class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+					<table id="main" class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 						<thead> 
 							<tr> 
 								<th>id</th>
@@ -66,7 +67,7 @@
 						@foreach($client_documents as $document)
 							<tr>
 								<td>{{ $document->id }}</td>
-								<td scope="row"><a target="_blank" href="{{ $document->path }}">{{ $document->name }}</a></td>
+								<td scope="row"><a target="_blank" href="https://s3.amazonaws.com/legaleeze{{ $document->path }}">{{ $document->name }}</a></td>
 								<td>{{ $document->description }}</td> 
 								<td>Stored securely on {{ $document->path }}</td>
 							</tr> 

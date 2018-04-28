@@ -23,6 +23,10 @@ class Settings extends Migration
           $table->longText('practice_areas');
           $table->integer('firm_id');
           $table->text('tz');
+          $table->text('fb');
+          $table->text('twitter');
+          $table->text('instagram');
+          $table->text('avvo');
         });
     }
 

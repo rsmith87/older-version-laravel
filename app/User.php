@@ -19,7 +19,7 @@ use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class User extends Authenticatable 
+class User extends Authenticatable
   
 {
 use Messagable, Notifiable, Billable, HasRoles;
@@ -69,6 +69,11 @@ use Messagable, Notifiable, Billable, HasRoles;
   public function timer()
   {
     return $this->hasOne('App\Timer', 'user_id');
+  }
+  
+  public function notes()
+  {
+    return $this->hasMany('App\Note', 'id', 'user_id');
   }
 
   public static function generatePassword()

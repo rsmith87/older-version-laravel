@@ -1,5 +1,5 @@
 @if (session('status'))
-	<div class="alert alert-success fade in ml-3 mr-3 mb-4">
+	<div class="alert alert-success fade in ml-3 mr-3 mb-4" role="alert">
 		{{ session('status') }}
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
@@ -9,7 +9,7 @@
 	
 @if ($errors)
 	@foreach ($errors->all() as $message) 
-		<div class="alert alert-danger fade in ml-3 mr-3 mb-4">	
+		<div class="alert alert-danger fade in ml-3 mr-3 mb-4" role="alert'">	
 			{{ $message }}
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>

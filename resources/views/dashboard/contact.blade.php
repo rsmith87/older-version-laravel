@@ -23,53 +23,97 @@
 				 <div class="col-sm-6 col-12">
 			 <label>Name</label>
 			 <p>{{ $contact->first_name }} {{ $contact->last_name }}</p>
+       <label>Relationship</label>
+       <p>
+         {{ !empty($contact->relationship) ? ucfirst($contact->relationship) : "Not set" }}
+           </p>
 			 <label>Address</label>
-			 <p>{{ $contact->address_1 }}
+           <p><a href="#" class="mapThis" place="{{ $contact->address_1 }} {{ $contact->address_2 }} {{ $contact->city }} {{ $contact->state }} {{ $contact->zip }}" zoom="16">{{ $contact->address_1 }}
 					 {{ $contact->address_2 }}<br />
 					 {{ $contact->city }}<br />
 					 {{ $contact->state }}<br />
-					 {{ $contact->zip }}</p>
-					 <label>Phone</label>
-					 <p>{{ $contact->phone }}</p>
+             {{ $contact->zip }}</a></p>
+
 
 				 </div>
 				 <div class="col-sm-6 col-12">	
+					 <label>Phone</label>
+           <p><a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a></p>         
 			 <label>Company</label>
 			 <p>{{ $contact->company }}</p>					 
 			 <label>Company title</label>
 			 <p>{{ $contact->company_title }}</p>
 
 					 <label>Email</label>
-					 <p>{{ $contact->email }}</p>
+           <p><a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></p>
 				 </div>
-
-          <div class="clearfix"></div>
+		<div class="clearfix"></div>
+     
+    @if(count($notes) > 0)
+      <h3>
+        <i class="fas fa-sticky-note"></i> Client notes
+      </h3>
+      <div class="clearfix"></div>
+      <div class="mb-3" style="overflow:hidden;">
+       
+        <div class="col-sm-6 col-12">
+          <label>Note</label>
+           @foreach($notes as $note)
+          <p>
+            {{ $note->note }}
+          </p>
+          @endforeach
+      </div>
+      <div class="col-sm-6 col-12">
+        <label>Created</label>
+        @foreach($notes as $note)
+        <p>
+        {{ $note->created_at }}
+        </p>
+        @endforeach
+      </div>
+      </div>
+      @endif
+ 
+          <div class="clearfix"></div><h3>
+      <i class="fas fa-sticky-note"></i> Add Note
+      </h3>
+        <form method="POST" action="/dashboard/contacts/contact/notes/note/add">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="contact_client_id" value="{{ $contact->id }}" />
+          <textarea name="note" class="form-control"></textarea>
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Submit
+          </button>
+        </form>
+         <div class="clearfix"></div>
 				 @if(count($contact->Documentsclients) > 0)
+
            <h3 class="mt-5 mb-2">
              <i class="fas fa-user"></i>Documents
            </h3>
            
-           <table class="table table-responsive table-striped table-{{ $table_color }}">
+           <table id="documents" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
             <tr> 
+              <th>ID</th>
               <th>File name</th> 
               <th>File description</th>
-              <th>Download link</th>
-
             </tr> 
           </thead> 
           <tbody> 
 						@if($contact->is_client === 1)
             	@foreach($contact->Documentsclients as $document)
 								<tr>
+                  <td>{{ $document->id }}</td>
 									<td>{{ $document->name }}</td>
 									<td>{{ $document->description }}</td>
-									<td><button class="btn btn-primary btn-sm" href="{{ $document->location }}">Download</button></td>
 								</tr>
             	@endforeach						
 						@else
 						  @foreach($contact->Documents as $document)
 								<tr>
+                  <td>{{ $document->id }}</td>
 									<td>{{ $document->name }}</td>
 									<td>{{ $document->description }}</td>
 									<td><button class="btn btn-primary btn-sm" href="{{ $document->location }}">Download</button></td>
@@ -79,17 +123,19 @@
             
           </tbody>
           </table>           
-           <hr />
+
 				@endif 
 
 				@if(count($contact->Tasks) > 0)
+
 				 <div class="clearfix"></div>
            <h3 class="mt-5 mb-2">
              <i class="fas fa-user"></i>Tasks
            </h3>
-          <table class="table table-responsive table-striped table-{{ $table_color }}">
+          <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
             <tr> 
+              <th>Id</th>
               <th>Name</th> 
               <th>Description</th>
             </tr> 
@@ -97,6 +143,7 @@
           <tbody> 
 				  	@foreach($contact->Tasks as $task)
 				 			<tr>
+                <td>{{ $task->id }}</td>
 								<td>{{ $task->task_name }}</td>
 								<td>{{ $task->task_description }}</td>
 						</tr>
@@ -133,6 +180,20 @@
 							<label>Last name</label>
 							<input type="text" class="form-control" value="{{ $contact->last_name }}" name="last_name" aria-label="Last Name">
 						</div> 
+          
+						<div class="col-sm-6 col-xs-12">
+							<label>Relationship</label>
+                @php
+                $relationship_values = [
+               'select one', 'grandfather', 'grandmother', 'father', 'mother', 'brother', 'sister', 'uncle', 'aunt', 'husband', 'wife', 'boss', 'coworker', 'friend'
+                ]
+                @endphp
+                  <select class="form-control" name="relationship" id="inputGroupSelect01" aria-label="Relatinoship">
+                  @foreach($relationship_values as $t)
+                    <option value="{{ $t }}" {{ $t == $contact->relationship ? "selected='selected'" : '' }}>{{ ucwords($t) }}</option>
+                  @endforeach 
+                </select>                
+						</div>            
 						
 						<div class="col-sm-6 col-xs-12">
 							<label>Company</label>
@@ -236,6 +297,53 @@ var cases = {!! json_encode($cases->toArray()) !!};
     }
 		 
   });
+var cursorX;
+var cursorY;
+if (window.Event) {
+  document.captureEvents(Event.MOUSEMOVE);
+}
+document.onmousemove = getCursorXY;
+$(".mapThis").each(function() {
+  var dPlace = $(this).attr("place");
+  var dZoom = $(this).attr("zoom");
+  var dText = $(this).html();
+  $(this).html('<a onmouseover="mapThis.show(this);" style="text-decoration:none; href="http://maps.google.com/maps?q=' + dPlace + '&z=' + dZoom + '">' + dText + '</a>');
+ });
+ 
+var mapThis=function(){
+var tt;
+var errorBox;
+return{
+  show:function(v){
+   if (tt == null) {
+   var pNode = v.parentNode;
+   pPlace = $(pNode).attr("place");
+   pZoom = parseInt($(pNode).attr("zoom"));
+   pText = $(v).html();
+   tt = document.createElement('div');
+   $(tt).html('<a href="http://maps.google.com/maps?q=' + pPlace + '&z='+pZoom+'" target="new"><img border=0 src="http://maps.google.com/maps/api/staticmap?center=' + pPlace + '&zoom=' + pZoom + '&size=200x200&sensor=false&key=AIzaSyBHrSRGRuZmx2mHt7xnTy5aMKL1jYhFMqE&format=png&markers=color:blue|' + pPlace + '"></a>');
+   tt.addEventListener('mouseover', function() { mapHover = 1; }, true);
+   tt.addEventListener('mouseout', function() { mapHover = 0; }, true);
+   tt.addEventListener('mouseout', mapThis.hide, true);
+   document.body.appendChild(tt);    
+}
+fromleft = cursorX;
+fromtop = cursorY;
+fromleft = fromleft - 25;
+fromtop = fromtop - 25;
+tt.style.cssText = "position:absolute; left:" + fromleft + "px; top:" + fromtop + "px; z-index:999; display:block; padding:1px; margin-left:5px; width:200px; -moz-box-shadow:0 1px 10px rgba(0, 0, 0, 0.5);";   
+tt.style.display = 'block';
+},
+hide:function(){
+tt.style.display = 'none';
+tt = null;
+}
+ };
+}();
+function getCursorXY(e) {
+cursorX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+cursorY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+ }
 	
 </script>
        

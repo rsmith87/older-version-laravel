@@ -8,6 +8,7 @@ use App\Contact;
 use App\User;
 use App\View;
 use App\LawCase;
+use App\Note;
 use App\Document;
 use App\Settings;
 use Spatie\Permission\Models\Role;
@@ -60,9 +61,11 @@ class ContactController extends Controller
 		foreach($cases as $case){
 			$array_cases[$case->id] =	$case->name;
 		}
-		
+
+
 		$contacts = Contact::where([ "firm_id"=> $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('documents')->with('tasks')->get();
 		$other_data = Contact::where([ "firm_id"=> $this->settings->firm_id, 'is_client' => '0'])->get();
+   
 		
 		return view('dashboard/contacts', [
 			'columns' => $columns, 
@@ -75,6 +78,7 @@ class ContactController extends Controller
 			'theme' => $this->settings->theme,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
+ 
 		]);
 	}
 
@@ -92,7 +96,7 @@ class ContactController extends Controller
 		if(!$requested_contact){
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
-
+		$notes = Note::where('contact_client_id', $id)->get();
 		return view('dashboard.contact', [
 			'user_name' => $this->user['name'],
 			'contact' => $requested_contact,
@@ -102,7 +106,8 @@ class ContactController extends Controller
 			'array_cases' => $array_cases,
 			'is_client' => 0,
 			'table_color' => $this->settings->table_color,
-			'table_size' => $this->settings->table_size,          
+			'table_size' => $this->settings->table_size, 
+      'notes' => $notes,
 		]);
 	}
 
@@ -120,6 +125,8 @@ class ContactController extends Controller
 			
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
+   $notes = Note::where('contact_client_id', $id)->get();
+
 		return view('dashboard.contact', [
 			'user_name' => $this->user['name'],
 			'contact' => $requested_contact,
@@ -129,7 +136,8 @@ class ContactController extends Controller
 			'array_cases' => $array_cases,
 			'is_client' => 1,
 			'table_color' => $this->settings->table_color,
-			'table_size' => $this->settings->table_size,          
+			'table_size' => $this->settings->table_size,         
+      'notes' => $notes,
 		]);
 	}	
 
@@ -185,6 +193,9 @@ class ContactController extends Controller
 	if(!isset($data['case_id'])){
 		$data['case_id'] = '';
 	}
+  if(!isset($data['relationship'])){
+    $data['relationship'] = "";
+  }
 
 	if(empty($data['is_client']) or !isset($data['is_client']) || $data['is_client'] === '0'){
 		$redirect = 'dashboard/contacts';
@@ -197,6 +208,7 @@ class ContactController extends Controller
 		[
 			'first_name' => $data['first_name'], 
 			'last_name' => $data['last_name'],
+      'relationship' => $data['relationship'],
 			'company' => $data['company'],
 			'company_title' => $data['company_title'],
 			'email' => $data['email'],
@@ -239,10 +251,27 @@ class ContactController extends Controller
 			'is_client' => '1',
 		]);     
 	}
+    
 		
 	$status = $type . " " . $data['first_name'] . " " . $data['last_name'] . " " .$updated."!";           
 
 		return redirect($redirect)->with('status', $status);
 
 	}
+  
+    public function note_add(Request $request)
+    {
+    $data = $request->all();
+    
+    $note = Note::create([
+      'case_id' => 0,
+       'contact_client_id' => $data['contact_client_id'],
+       'note' => $data['note'],
+       'user_id' => $this->user['id'],
+      'firm_id' => $this->settings->firm_id,
+    ]);
+    
+    return back();
+    
+  }
 }

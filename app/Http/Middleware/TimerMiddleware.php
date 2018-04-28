@@ -3,6 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Timer;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 
 class TimerMiddleware
 {
@@ -13,9 +18,10 @@ class TimerMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        
-        return $next($request);
+      
+       
+      return $next($request);
     }
 }

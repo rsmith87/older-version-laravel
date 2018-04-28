@@ -5,7 +5,7 @@
 <div class="container dashboard col-sm-10 col-12 offset-sm-2">
     <nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#client-modal" href="#"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add client</a>
-		<a class="nav-item nav-link btn btn-info" href="/dashboard/client/mine"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> My clients</a>
+		<a class="nav-item nav-link btn btn-info" href="/dashboard/client/mine"><i class="fa fa-users"></i> My clients</a>
   </nav> 
 	
 	
@@ -28,7 +28,7 @@
             
      </div>
      <div class="panel-body">
-        <table class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+        <table id="main" class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
                     <thead> 
             <tr>           
           @foreach($columns as $column)

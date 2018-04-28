@@ -47,5 +47,7 @@ class Invoice extends Model
   {
     return $this->hasMany('App\InvoiceLine', 'invoice_id', 'id');
   }
+  
+
     
 }

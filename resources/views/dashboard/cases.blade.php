@@ -5,13 +5,14 @@
 <div class="container dashboard cases col-sm-10 col-12 offset-sm-2">
 	
 	<nav class="nav nav-pills">
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add case</a>
-	</nav>  	
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-balance-scale"></i> Add case</a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#progress-modal" href="#"><i class="fas fa-tasks"></i> Case progress</a>
+  </nav>  	
 	
 	<div class="panel panel-default">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1 class="pull-left ml-3 mt-4 mb-2">
-				<i class="fas fa-briefcase"></i> Cases
+				<i class="fas fa-balance-scale"></i> Cases
 			</h1>
 			<div class="clearfix"></div>
 			<p class="ml-3 mb-2">Cases shows all of your case information regarding all cases.  Click on a case to show information about that case.</p>							
@@ -28,7 +29,7 @@
 		</div>
 		<div class="panel-body">
 			@if (count($cases) > 0)
-				<table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+				<table id="main" class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 					<thead> 
 						<tr>           
 							@foreach($columns as $column)

@@ -71,8 +71,9 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
       
+      
       $inserted = User::where('email', $data['email'])->first();
-      $inserted->assignRole('administrator');
+      $inserted->assignRole('authenticated_user');
 
       Settings::create([
         'user_id' => $inserted->id,

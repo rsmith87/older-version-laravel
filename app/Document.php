@@ -26,6 +26,8 @@ class Document extends Model
       'firm_id', 
       'user_id',
       'client_share',
+      'created_at',
+      'updated_at',
     ];
   
     /**

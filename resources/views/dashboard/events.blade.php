@@ -32,7 +32,7 @@
 
 
 				@if (count($events) > 0)		
-					<table class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+					<table id="main" class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 						<thead> 
 							<tr> 
 								<th>id</th>
