@@ -217,7 +217,7 @@ class TaskController extends Controller
 			'user_id' => $this->user->id,
 			'task_list_name' => $data['task_name'],
 			'f_id' => $this->settings->firm_id,
-			'c_id' => isset($data['c_id']) ? $data['c_id'] : "",
+			'c_id' => isset($data['case_id']) ? $data['case_id'] : "",
 			'contact_client_id' => isset($data['contact_id']) ? $data['contact_id'] : "",
 			'due' => $this->fix_date($data['due_date'], $data['due_time']),
 			'assigned' => 0,

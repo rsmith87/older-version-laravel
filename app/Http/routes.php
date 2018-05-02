@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');;
-});
+
 
 Route::get('/register', function() {
   return view('auth/register');
@@ -39,6 +37,10 @@ Route::group(['middleware' => ['web']], function () {
   
   Route::auth();
 
+  Route::get('/', function () {
+    return redirect('/login');;
+});
+  
   Route::get('/logout', 'Auth\LoginController@logout');
 
   Route::get('/home', 'HomeController@index');
@@ -50,6 +52,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/', 'Auth\AuthController@create');
     
     
+    
+    
     Route::post('/timer-start', 'Dashboard\DashboardController@timer');
     Route::post('/timer-pause', 'Dashboard\DashboardController@timer_pause');
     Route::get('/timer-amount', 'Dashboard\DashboardController@timer_amount');
@@ -59,12 +63,21 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/clients', 'Dashboard\ContactController@clients');
     Route::get('/clients/client/{id}', 'Dashboard\ContactController@client');
+    Route::post('/clients/client/note/delete', 'Dashboard\ContactController@note_delete');
+    Route::post('/clients/client/note/edit', 'Dashboard\ContactController@note_edit');
     Route::post('/clients/add', 'Dashboard\ContactController@add');
+    Route::post('/clients/client/{id}/log-communication', 'Dashboard\ContactController@log_communication');
 
-    Route::get('/contacts', 'Dashboard\ContactController@index');
-    Route::get('/contacts/contact/{id}', 'Dashboard\ContactController@contact');
-    Route::post('/contacts/add', 'Dashboard\ContactController@add');
-    Route::post('/contacts/contact/notes/note/add', 'Dashboard\ContactController@note_add');
+    
+    Route::group(['prefix' => 'contacts'], function() {   
+      Route::get('/', 'Dashboard\ContactController@index');
+      Route::get('/contact/{id}', 'Dashboard\ContactController@contact');
+      Route::post('/add', 'Dashboard\ContactController@add');
+      Route::post('/contact/notes/note/add', 'Dashboard\ContactController@note_add');
+      Route::post('/contact/note/delete', 'Dashboard\ContactController@note_delete');
+      Route::post('/contact/note/edit', 'Dashboard\ContactController@note_edit');   
+      Route::post('/contact/log-communication', 'Dashboard\ContactController@log_communication');
+    });
     
     Route::group(['prefix' => 'cases'], function() {   
       Route::get('/', 'Dashboard\CaseController@index');
@@ -75,6 +88,7 @@ Route::group(['middleware' => ['web']], function () {
       Route::post('/case/notes/note/add', 'Dashboard\CaseController@note_add');
       Route::post('/case/note/delete', 'Dashboard\CaseController@note_delete');
       Route::post('/case/note/edit', 'Dashboard\CaseController@note_edit');
+      Route::post('/case/{id}/log-communication', 'Dashboard\CaseController@log_communication');
     });
     
     Route::group(['prefix' => 'firm'], function() {   

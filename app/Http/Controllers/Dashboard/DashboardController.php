@@ -68,9 +68,10 @@ class DashboardController extends Controller
    
     $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
     $cases = LawCase::where('u_id', $this->user['id'])->get();
-    $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();      
-    $tasks = TaskList::where("user_id", $this->user['id'])->get();
-  
+    $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();   
+    
+		$tasks = TaskList::where('user_id', $this->user['id'])->with('dashboard_task')->get();
+      
       return view('dashboard/dashboard', [
         'user_name' => $this->user['name'], 
         'firm_id' => $this->settings->firm_id,

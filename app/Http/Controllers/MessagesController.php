@@ -9,6 +9,7 @@ use App\LawCase;
 use App\Contact;
 use Carbon\Carbon;
 use App\Settings;
+use App\CommLog;
 use Illuminate\Support\Facades\View;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -157,6 +158,18 @@ class MessagesController extends Controller
 
         $thread = Thread::create([
             'subject' => $input['subject'],
+        ]);
+      
+      
+       if(!$this->user->hasRole('administrator') || !$this->user->hasRole('authenticated_user')){
+         CommLog::create([
+          'user_id' => Auth::id(),
+          'type' => 'contact_client',
+          'log' => 'from internal messages',
+        ]);        
+       }
+        CommLog::create([
+          'user_id' => Auth::id(),
         ]);
 
         // Message

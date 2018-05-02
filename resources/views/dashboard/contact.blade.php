@@ -4,9 +4,22 @@
 
 <div class="container dashboard contact col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Edit {{ Request::segment(3) }}</a>	
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate  {{ Request::segment(3) }} to case</a>				
-	</nav>  	
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/{{ Request::segment(3) }}s"><i class="fas fa-arrow-left"></i> Back to {{ Request::segment(3) }}s</a>      
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#"><i class="fa fa-user"></i> Edit {{ Request::segment(3) }}</a>
+    <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-print"></i> Print {{ Request::segment(3) }}</a>     
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i class="fas fa-sticky-note"></i> Add note</a>
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-communication-modal" href="#"><i class="fas fa-comments"></i> Log communication</a>    
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#communication-modal" href="#"><i class="fas fa-comments"></i> Communication w/ {{ Request::segment(3) }}</a>
+    
+    @if($contact->is_client)
+      <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $contact->case_id }}"><i class="fas fa-briefcase"></i> View case</a>
+    @endif
+    @if(empty($contact->case_id))
+		  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate  {{ Request::segment(3) }} to case</a>				
+	  @endif
+
+
+  </nav>  	
 
 	
    <div class="panel panel-default">
@@ -15,10 +28,9 @@
           <i class="fas fa-briefcase"></i> {{ ucfirst(Request::segment(3)) }} 
         </h1>
 				@include('dashboard.includes.alerts')
-				
      </div>
      <div class="panel-body">
-			 <div class="container">
+		
 			
 				 <div class="col-sm-6 col-12">
 			 <label>Name</label>
@@ -49,47 +61,37 @@
 				 </div>
 		<div class="clearfix"></div>
      
-    @if(count($notes) > 0)
-      <h3>
-        <i class="fas fa-sticky-note"></i> Client notes
+      @if(count($notes) > 0)
+      <h3 class="mt-5 ml-3">
+        <i class="fas fa-sticky-note"></i> {{ ucfirst(Request::segment(3)) }} notes
       </h3>
       <div class="clearfix"></div>
-      <div class="mb-3" style="overflow:hidden;">
+      <div class="mb-3 ml-3" style="overflow:hidden;">
        
-        <div class="col-sm-6 col-12">
-          <label>Note</label>
-           @foreach($notes as $note)
-          <p>
-            {{ $note->note }}
-          </p>
+        
+         
+         @foreach($notes as $note)
+             <div class="card text-white bg-warning mb-3 float-left mr-2" style="max-width: 18rem;">
+ 
+              <div class="card-body">
+                 <a class="float-right ml-1" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i class="fas fa-trash-alt"></i></a>
+                <a data-toggle="modal" class="float-right" data-target="#edit-note-modal-{{ $note->id }}"><i class="fas fa-edit"></i></a>                
+                <h5 class="card-title">Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
+                <p class="card-text">{{ $note->note }}</p>
+              </div>
+            </div>       
+          
+
           @endforeach
       </div>
-      <div class="col-sm-6 col-12">
-        <label>Created</label>
-        @foreach($notes as $note)
-        <p>
-        {{ $note->created_at }}
-        </p>
-        @endforeach
-      </div>
-      </div>
       @endif
+         
+      <div class="clearfix"></div>
  
-          <div class="clearfix"></div><h3>
-      <i class="fas fa-sticky-note"></i> Add Note
-      </h3>
-        <form method="POST" action="/dashboard/contacts/contact/notes/note/add">
-          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
-          <input type="hidden" name="contact_client_id" value="{{ $contact->id }}" />
-          <textarea name="note" class="form-control"></textarea>
-          <button type="submit" class="form-control mt-3 btn btn-primary">
-            Submit
-          </button>
-        </form>
-         <div class="clearfix"></div>
+          <div class="clearfix"></div>
 				 @if(count($contact->Documentsclients) > 0)
 
-           <h3 class="mt-5 mb-2">
+           <h3 class="mt-5 ml-3">
              <i class="fas fa-user"></i>Documents
            </h3>
            
@@ -125,34 +127,34 @@
           </table>           
 
 				@endif 
-
-				@if(count($contact->Tasks) > 0)
-
-				 <div class="clearfix"></div>
-           <h3 class="mt-5 mb-2">
-             <i class="fas fa-user"></i>Tasks
+         
+	    @if(count($task_lists) > 0)
+   		  @foreach($task_lists as $task_list)
+           <h3 class="mt-5 ml-3">
+             <i class="fas fa-user"></i>Task list {{ $task_list->task_list_name }}
            </h3>
-          <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
+        <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
             <tr> 
-              <th>Id</th>
+              <th>ID</th>
               <th>Name</th> 
               <th>Description</th>
             </tr> 
           </thead> 
           <tbody> 
-				  	@foreach($contact->Tasks as $task)
+            @foreach($task_list->Task as $task)
 				 			<tr>
-                <td>{{ $task->id }}</td>
+                <td>{{ $task_list->id }}</td>
 								<td>{{ $task->task_name }}</td>
 								<td>{{ $task->task_description }}</td>
 						</tr>
 				 		@endforeach
 						 </tbody>
 				 </table>
+      @endforeach
 				 @endif
 			 </div>
-     </div>
+     
   </div>   
 
 
@@ -161,7 +163,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<h3>
-				<i class="fas fa-address-card"></i> Edit a contact
+				<i class="fas fa-address-card"></i> Edit a {{ Request::segment(3) }}
 				</h3>
 				<div class="clearfix"></div>
 				<hr />
@@ -258,7 +260,135 @@
 		</div>
 	</div>
 </div>
-
+  </div>
+  
+  
+<div class="modal fade" id="add-notes-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-sticky-note"></i> Add Note				
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/contacts/contact/notes/note/add">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="contact_client_id" value="{{ $contact->id }}" />
+          <label>Note</label>
+          <textarea name="note" class="form-control"></textarea>
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>  
+  
+<div class="modal fade" id="add-communication-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3>
+          <i class="fas fa-sticky-note"></i> Add communication		
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/contacts/contact/log-communication">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="contact_client_id" value="{{ $contact->id }}" />
+          <label>Type</label>
+          <select name="communication_type" class="form-control">
+            <option value="email">Email</option>
+            <option value="phone">Phone</option>
+            <option value="text">Text</option>
+            <option value="fax">Fax</option>
+          </select>
+          <label>Reason for communication</label>
+          <textarea name="communication" class="form-control"></textarea>
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Submit
+          </button>
+        </form>       
+      </div>
+    </div>
+  </div>
+</div>  
+ 
+  
+<div class="modal fade" id="communication-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3>
+          <i class="fas fa-sticky-note"></i> Communication log	
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        @foreach($logs as $log)
+        <label>Type</label>
+        
+          
+          {{ $log->comm_type }}
+       
+        <label>Log</label>
+       
+          {{ $log->log }}
+       
+        @endforeach
+      </div>
+    </div>
+  </div>  
+</div>
+  
+@foreach($notes as $note)
+<div class="modal fade" id="edit-note-modal-{{ $note->id }}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h3>
+					<i class="fas fa-tasks"></i> Edit note
+				</h3>
+				<div class="clearfix"></div>
+				<hr /> 
+        <form method="POST" action="/dashboard/clients/client/note/edit">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="hidden" name="id" value="{{ $note->id }}" />
+          <input type="text" class='form-control' name="note" value="{{ $note->note }}"/>
+          <input type="submit" class="form-control mt-3 btn btn-primary" value="Save" />
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+<div class="modal fade" id="delete-note-modal-{{ $note->id }}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h3>
+					<i class="fas fa-tasks"></i> Delete note
+				</h3>
+				<div class="clearfix"></div>
+				<hr /> 
+        <form method="POST" action="/dashboard/clients/client/note/delete">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="hidden" name="id" value="{{ $note->id }}" />
+          <p>
+            
+          </p>
+          <p>
+            If you'd like to delete note, {{ $note->note }},  click delete below!
+          </p>
+          <input type="submit" class="form-control mt-3 btn btn-danger" value="Delete note" />
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>  
+@endforeach    
+    
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
 var cases = {!! json_encode($cases->toArray()) !!};

@@ -24,7 +24,9 @@
         "google/apiclient": "^2.0",
         "laravelcollective/html": "^5.4",
         "shivella/laravel-bitly": "^1.0",
-        "thiagoalessio/tesseract_ocr": "^2.2"
+        "thiagoalessio/tesseract_ocr": "^2.2",
+        "laravel/scout": "^4.0",
+        "algolia/algoliasearch-client-php": "^1.25"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

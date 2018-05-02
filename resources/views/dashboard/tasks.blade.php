@@ -39,7 +39,7 @@
               </tr> 
             </thead> 
             <tbody>  
-               @foreach ($tasks as $task)
+              @foreach ($tasks as $task)
               <tr> 
                 <td>{{ $task->id }}</td>
                 <td>{{ $task->task_list_name }}</td> 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Settings;
+use App\Contact;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -30,7 +32,13 @@ class ReportController extends Controller
   
   public function index()
   {
+   
+    //->whereDate('created_at', '<=', Carbon::today()->toDateString())
+    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+  print_r($clients);
+    
     return view('dashboard/reports', [
+      'clients' => $clients,
       'user_name' => $this->user['name'], 
       'firm_id' => $this->settings->firm_id, 
       'theme' => $this->settings->theme, 

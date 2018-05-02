@@ -6,7 +6,6 @@
 	
 	<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-balance-scale"></i> Add case</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#progress-modal" href="#"><i class="fas fa-tasks"></i> Case progress</a>
   </nav>  	
 	
 	<div class="panel panel-default">

@@ -33,4 +33,9 @@ class TaskList extends Model
     {
       return $this->hasMany('App\Task', 'task_list_id');
     }
+  
+    public function dashboard_task()
+    {
+      return $this->hasMany('App\Task', 'task_list_id')->take(5); 
+    }
 }

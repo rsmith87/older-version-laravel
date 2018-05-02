@@ -12,6 +12,7 @@ use App\Order;
 use App\Document;
 use App\Invoice;
 use App\InvoiceLine;
+use App\TaskList;
 use App\Task;
 use App\CaseHours;
 use App\Note;
@@ -167,6 +168,7 @@ class CaseController extends Controller
     $invoices = Invoice::where('invoicable_id', $id)->get();
     $documents = Document::where('case_id', $id)->get();
     $notes = Note::where('case_id', $id)->get();
+    $task_lists = TaskList::where('c_id', $id)->with('task')->get();
     foreach($invoices as $invoice){
       $line = InvoiceLine::where('invoice_id', $invoice->id)->select('amount')->first();
       $invoice_amount = $invoice_amount - $line->amount;
@@ -191,6 +193,7 @@ class CaseController extends Controller
       'clients' => $this->clients,
       'documents' => $documents,
       'notes' => $notes,
+      'task_lists' => $task_lists,
     ]);
     
   }
@@ -226,7 +229,8 @@ class CaseController extends Controller
     $order = Order::where('case_id', $id)->first();
     $documents = Document::where('case_id', $id)->get();
     $invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
-    $tasks = Task::where('c_id', $id)->get();
+    $task_lists = TaskList::where('c_id', $id)->with('task')->get();
+
     $created_time = $requested_case->created_at;
     $case_created_time = $created_time->toDateTimeString();
     $case_added_hour = $requested_case->created_at->addHour();
@@ -305,10 +309,11 @@ class CaseController extends Controller
 
 
   
-    if(count($tasks) > 0){
+    if(count($task_lists) > 0){
  
-      foreach($tasks as $task){
-
+      foreach($task_lists as $task_list){
+ 
+      foreach($task_list->Task as $task){
         $task_created_time = $this->setup_date_timeline($task->due);
         $task_added_hour = $this->setup_date_timeline(Carbon\Carbon::parse($task->due)->addHour());
 
@@ -326,12 +331,13 @@ class CaseController extends Controller
           ]
         ]);
 
-
+        }
+    }
 
 
 
       }  
-    }
+    
 
        //print_r(count($timeline_data['timeline']['date']));
     if(count($invoices) > 0){
@@ -462,7 +468,7 @@ class CaseController extends Controller
     
     $note = Note::create([
       'case_id' => $data['case_id'],
-       'note' => $data['note'],
+      'note' => $data['note'],
       'user_id' => $this->user['id'],
       'firm_id' => $this->settings->firm_id,
     ]);

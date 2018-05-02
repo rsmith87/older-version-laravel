@@ -20,7 +20,6 @@
         <h2 class="pull-left">
           <i class="fas fa-envelope"></i>Messages
         </h2>
-        <button type="button" class="btn btn-success pull-right"><i class="fas fa-envelope-open"></i></button>
      </div>
      <div class="panel-body">
       	@if (count($messages) > 0)
@@ -53,7 +52,6 @@
         <h2>
           <i class="fas fa-users"></i>Clients
         </h2>
-        <button type="button" class="btn btn-success pull-right"><i class="fas fa-plus"></i></button>
      </div>
      <div class="panel-body">
       	@if (count($clients) > 0)
@@ -85,7 +83,6 @@
         <h2>
           <i class="fas fa-tasks"></i>Tasks
         </h2>
-        <button type="button" class="btn btn-success pull-right"><i class="fas fa-plus"></i></button>
      </div>
      <div class="panel-body">
  @if (count($tasks) > 0)
@@ -99,12 +96,13 @@
 					</thead> 
 					<tbody> 
 					@foreach($tasks as $task)
-					
+            @foreach($task->Task as $t)
 						<tr>
-						  <td>{{ $task->id }}</td>
-						  <td>{{ $task->task_name }}</td>
+						  <td>{{ $t->id }}</td>
+						  <td>{{ $t->task_name }}</td>
 						</tr>
-					@endforeach
+					  @endforeach
+          @endforeach
 					</tbody> 
 				</table>
 			@endif	   
@@ -118,7 +116,6 @@
         <h2>
           <i class="fas fa-cogs"></i> Quick note
         </h2>
-        <button type="button" class="btn btn-success pull-right"><i class="fas fa-cogs"></i></button>
      </div>
      <div class="panel-body">
         <form>

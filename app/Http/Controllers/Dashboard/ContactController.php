@@ -11,6 +11,8 @@ use App\LawCase;
 use App\Note;
 use App\Document;
 use App\Settings;
+use App\TaskList;
+use App\CommLog;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
@@ -91,11 +93,13 @@ class ContactController extends Controller
 			$array_cases[$case->id] =	$case->name;
 		}
 		
-		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id, 'user_id' => $this->user['id']])->with('documents')->with('tasks')->first();
+		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id, 'user_id' => $this->user['id']])->with('documents')->first();
 		
 		if(!$requested_contact){
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
+    $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
+    $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
 		$notes = Note::where('contact_client_id', $id)->get();
 		return view('dashboard.contact', [
 			'user_name' => $this->user['name'],
@@ -108,6 +112,8 @@ class ContactController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size, 
       'notes' => $notes,
+      'task_lists' => $task_lists,
+      'logs' => $logs,
 		]);
 	}
 
@@ -126,6 +132,8 @@ class ContactController extends Controller
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
    $notes = Note::where('contact_client_id', $id)->get();
+    $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
+    $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
 
 		return view('dashboard.contact', [
 			'user_name' => $this->user['name'],
@@ -138,6 +146,8 @@ class ContactController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,         
       'notes' => $notes,
+      'task_lists' => $task_lists,
+            'logs' => $logs,
 		]);
 	}	
 
@@ -228,7 +238,11 @@ class ContactController extends Controller
 	elseif($data['is_client'] === '1') {
 		$redirect = 'dashboard/clients';
 		$type = 'Client';
+    
+    $case = LawCase::where('id', $data['case_id'])->get();
 		
+    if(count($case) === 0){
+      
 		Contact::updateOrCreate(
 		[
 			'id' => $data['id'],
@@ -249,11 +263,16 @@ class ContactController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			'case_id' => $data['case_id'],
 			'is_client' => '1',
-		]);     
-	}
+		]);   
+      
+    } else {
+      return redirect()->back()->withErrors(['A case can only have one client.']);
+    }
+  }
+  
     
 		
-	$status = $type . " " . $data['first_name'] . " " . $data['last_name'] . " " .$updated."!";           
+	  $status = $type . " " . $data['first_name'] . " " . $data['last_name'] . " " .$updated."!";           
 
 		return redirect($redirect)->with('status', $status);
 
@@ -274,4 +293,38 @@ class ContactController extends Controller
     return back();
     
   }
+  
+  public function note_edit(Request $request)
+  {
+    $data = $request->all();
+    
+    $note = Note::where('id', $data['id'])->update(['note' => $data['note']]);
+    return redirect()->back()->with('status', 'Note edited successfully');
+  }
+  
+  public function note_delete(Request $request)
+  {
+    $data = $request->all();
+    
+    $note = Note::where('id', $data['id'])->delete();
+    return redirect()->back()->with('status', 'Note deleted successfully');
+  }
+  
+  public function log_communication(Request $request)
+  {
+    $data = $request->all();
+    
+    $type_id = $data['contact_client_id'];
+    
+    $log = CommLog::create([
+      'type' => 'contact_client',
+      'type_id' => $type_id,
+      'comm_type' => $data['communication_type'],
+      'log' => $data['communication'],
+    ]);
+    
+    return redirect()->back()->with('status', 'Communication logged!');
+    
+  }
+  
 }
