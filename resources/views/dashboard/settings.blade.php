@@ -1,8 +1,8 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 
-<div class="container settings dashboard col-sm-10 col-12 offset-sm-2">
+<div class="container settings dashboard col-sm-12 offset-sm-2">
 	<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" href="#general-settings"><i class="fa fa-cog"></i> General settings</a>		
     <a class="nav-item nav-link btn btn-info"  href="#theme-settings"><i class="fas fa-object-group"></i> Theme settings</a>    	
@@ -10,7 +10,7 @@
    <a class="nav-item nav-link btn btn-info" href="#stripe-settings"><i class="fab fa-cc-stripe"></i> Stripe settings</a>		
   </nav>  
 	
-   <div class="panel panel-default">
+   <div class="panel panel-primary">
       <div class="panel-heading" style="overflow:hidden;">
         <h1 class="pull-left ml-3 mt-4 mb-2">
           <i class="fas fa-cog"></i> Settings
@@ -50,9 +50,9 @@
      </div>
   </div>   
 
+  <hr />
 
-
-   <div class="panel panel-default" id="theme-settings">
+   <div class="panel panel-primary" id="theme-settings">
       <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left">
           <i class="fas fa-object-group"></i> Theme settings
@@ -60,19 +60,7 @@
      </div>
      <div class="panel-body">
 
-       
-  	 <div class="form-group">
-       <label for="theme_selector">Theme</label>
-		   <form method="post" id="theme-update" action="/dashboard/settings/theme-update">
-		   <input type="hidden" name="_token" value="{{ csrf_token() }}">
-       <select class="form-control" name="theme_selector">
-			 @foreach($themes as $t)
-         	<option value="{{ $t->name }}" {{ $t->name == $theme ? "selected='selected'" : '' }}>{{ ucfirst($t->name) }}</option>
-			 @endforeach
-    	</select>
-			</form>
-  	 </div>
-       
+              
 		 <div class="form-group">
 			<label for="table_color">Table color</label>
 			   <form method="post" id="table-color" action="/dashboard/settings/table-color-update">
@@ -106,10 +94,10 @@
      </div>
   </div>   
 
+  <hr />
 
 
-
-   <div class="panel panel-default" id="table-data-selectors">
+   <div class="panel panel-primary" id="table-data-selectors">
       <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left">
           <i class="fas fa-table"></i> Table data selectors
@@ -231,10 +219,10 @@
 
 	</div>
  
+<hr />
 
 
-
-   <div class="panel panel-default" id="stripe-settings">
+   <div class="panel panel-primary" id="stripe-settings">
       <div class="panel-heading">
         <h2 style="margin-top:0;margin-bottom:0;">
           <i class="fab fa-cc-stripe"></i> Stripe settings

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\View;
 use Laravel\Passport\HasApiToken;
 use Illuminate\Database\Eloquent\Model;
-use Cmgmyr\Messenger\Traits\Messagable;
+//use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\RoutesNotifications;
 use App\Notifications\ResetPasswordNotification;
@@ -22,7 +22,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
   
 {
-use Messagable, Notifiable, Billable, HasRoles;
+use Notifiable, Billable, HasRoles;
   /**
    * The attributes that are mass assignable.
    *
@@ -75,7 +75,12 @@ use Messagable, Notifiable, Billable, HasRoles;
   {
     return $this->hasMany('App\Note', 'id', 'user_id');
   }
-
+  
+  public function messages()
+  {
+      return $this->hasMany(Message::class);
+  }
+  
   public static function generatePassword()
   {
     return bcrypt(str_random(35));

@@ -90,7 +90,7 @@ class SettingController extends Controller
 			$fs = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
       
       return view('dashboard/settings', [
-        'user_name' => $this->user['name'], 
+        'user' => $this->user, 
         'client_columns' => $client_columns,
         'client_user_columns' => $client_user_columns,
         'client_user_views' => $client_user_views,

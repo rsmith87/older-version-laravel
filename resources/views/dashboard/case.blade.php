@@ -1,30 +1,32 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 
 <div class="container dashboard case col-sm-10 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-arrow-left"></i> Back to cases</a>  
 		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-balance-scale"></i> Edit case</a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-clock"></i> Add hours worked</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i class="fas fa-sticky-note"></i> Add note</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a> 
-		@if(!empty($case->Contacts))		
-		@foreach($case->Contacts as $contact)
-			@if($contact->is_client)	
-				<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill {{ $contact->first_name }} {{ $contact->last_name }}</a>
-		  @endif
-		@endforeach
-		@endif
+
 		@if(count($order) > 0)
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
 		@endif
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>
-    <a class="nav-item nav-link btn btn-info float-right" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-balance-scale"></i> Delete case</a>      
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>    
+		@if(count($case->Contacts) > 0)		
+      @foreach($case->Contacts as $contact)
+        @if($contact->is_client)	
+          <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill {{ $contact->first_name }} {{ $contact->last_name }}</a>
+        @endif
+      @endforeach
+	  @endif
+    <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> 
 
 	</nav>  	
 
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-balance-scale"></i> Case
@@ -77,36 +79,28 @@
 
 				<div class="clearfix"></div>
      
-      @if(count($notes) > 0)
-      <h3>
+           @if(count($notes) > 0)
+      <h3 class="mt-5 ml-3">
         <i class="fas fa-sticky-note"></i> Case notes
       </h3>
       <div class="clearfix"></div>
-      <div class="mb-3" style="overflow:hidden;">
+      <div class="mb-3 ml-3" style="overflow:hidden;">
        
-        <div class="col-sm-4 col-12 float-left">
-          <label>Note</label>
+        
+         
          @foreach($notes as $note)
-          <p>
-            {{ $note->note }}
-          </p>
+             <div class="card text-white bg-warning mb-3 float-left mr-2" style="max-width: 18rem;">
+ 
+              <div class="card-body">
+                 <a class="float-right ml-1" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i class="fas fa-trash-alt"></i></a>
+                <a data-toggle="modal" class="float-right" data-target="#edit-note-modal-{{ $note->id }}"><i class="fas fa-edit"></i></a>                
+                <h5 class="card-title">Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
+                <p class="card-text">{{ $note->note }}</p>
+              </div>
+            </div>       
+          
+
           @endforeach
-        </div>
-        <div class="col-sm-2 col-12 float-left">
-          <label>Created</label>
-          @foreach($notes as $note)
-          <p>
-          {{ $note->created_at }}
-          </p>
-          @endforeach
-        </div>
-        <div class="col-sm-6 float-left">
-          @foreach($notes as $note)
-            <button class="btn btn-info mt-2" data-toggle="modal" data-target="#edit-note-modal-{{ $note->id }}">Edit</button>
-            <button class='btn btn-danger mt-2' data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}">Delete</button>
-          <div class="clearfix"></div>
-          @endforeach
-        </div>
       </div>
       @endif
       <div class="clearfix"></div>
@@ -116,8 +110,8 @@
 				@if(!empty($case->Contacts))
 					@foreach($case->Contacts as $contact)
 						@if($contact->is_client === 1)
-							<h3 class="mt-5 mb-3">
-								<i class="fas fa-user"></i>Client
+							<h3 class="mt-5">
+								<i class="fas fa-user"></i> Client
 							</h3>
 							<table id="clients" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 								<thead>
@@ -146,8 +140,8 @@
 					@foreach($case->Contacts as $contact)
 						@if($contact->is_client != 1)	
 							<div class="clearfix"></div>
-							<h3 class="mt-3 mb-3">
-							<i class="fas fa-user"></i>Contacts
+							<h3 class="mt-5">
+							<i class="fa fa-address-card"></i> Contacts
 							</h3>
 							<table id="contacts" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 								<thead>
@@ -176,8 +170,8 @@
 			
 					@if(count($case->Documents) > 0)
 					<div class="clearfix"></div>
-					<h3 class="mt-3 mb-3">
-						<i class="fas fa-user"></i>Documents
+					<h3 class="mt-5">
+						<i class="fa fa-file"></i> Documents
 					</h3>
 					<table id="documents" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 						<thead>
@@ -202,11 +196,12 @@
 				
 				
 				
-				@if(count($case->Tasks) > 0)
-           <h3 class="mt-3 mb-3">
-             <i class="fas fa-user"></i>Tasks
+			@if(count($task_lists) > 0)
+   		@foreach($task_lists as $task_list)
+     
+           <h3 class="mt-5">
+             <i class="fa fa-clipboard-list"></i> Task list {{ $task_list->task_list_name }}
            </h3>
-        
         <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
             <tr> 
@@ -216,15 +211,16 @@
             </tr> 
           </thead> 
           <tbody> 
-				  	@foreach($case->Tasks as $task)
+            @foreach($task_list->Task as $task)
 				 			<tr>
-                <td>{{ $task->id }}</td>
+                <td>{{ $task_list->id }}</td>
 								<td>{{ $task->task_name }}</td>
 								<td>{{ $task->task_description }}</td>
 						</tr>
 				 		@endforeach
 						 </tbody>
 				 </table>
+      @endforeach
 				 @endif
 		</div>
 	</div>
@@ -517,7 +513,7 @@
 </div>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
-  @if(!empty($cases))
+  @if(!count($cases) > 0)
     var cases = {!! json_encode($cases->toArray()) !!};
     for(var i = 0; i<cases.length; i++){
       cases[i].data = cases[i]['id'];

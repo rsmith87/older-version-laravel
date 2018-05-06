@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => 'legality-codenerd33.codeanyapp.com',
+    'url' => 'http://dev.legalkeeper.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -163,7 +163,7 @@ return [
          */
       
         Aloha\Twilio\Support\Laravel\ServiceProvider::class,
-        Cmgmyr\Messenger\MessengerServiceProvider::class,
+        //Cmgmyr\Messenger\MessengerServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,  
         Barryvdh\Debugbar\ServiceProvider::class,
@@ -171,6 +171,12 @@ return [
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Shivella\Bitly\BitlyServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        Creativeorange\Gravatar\GravatarServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
+        
+
     ],
 
     /*
@@ -222,6 +228,9 @@ return [
       'Form' => Collective\Html\FormFacade::class,
       'Html' => Collective\Html\HtmlFacade::class,    
       'Bitly' => Shivella\Bitly\Facade\Bitly::class,
+      'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
+      'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
+      //'Pusher' => Pusher::class,
     ],
 
 ];

@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "laravel/framework": "5.4.36",
+        "laravel/framework": "5.5.*",
         "league/flysystem-aws-s3-v3": "~1.0",
         "guzzlehttp/guzzle": "^6.3",
         "aloha/twilio":"*",
@@ -18,20 +18,27 @@
         "laravel/cashier": "~7.0",
         "sander-van-hooft/laravel-invoicable": "dev-master",
         "barryvdh/laravel-debugbar": "v2.4.3",
-        "exodusanto/administrator": " 5.4.*",
+        "exodusanto/administrator": " *",
         "spatie/laravel-permission": "^2.9",
-        "cartalyst/stripe-laravel": "6.0.*",
+        "cartalyst/stripe-laravel": "*",
         "google/apiclient": "^2.0",
         "laravelcollective/html": "^5.4",
         "shivella/laravel-bitly": "^1.0",
-        "thiagoalessio/tesseract_ocr": "^2.2"
+        "thiagoalessio/tesseract_ocr": "^2.2",
+        "laravel/scout": "^4.0",
+        "algolia/algoliasearch-client-php": "^1.25",
+        "jeroennoten/laravel-adminlte": "^1.23",
+        "creativeorange/gravatar": "~1.0",
+        "pusher/pusher-php-server": "^3.0",
+        "sebastian-berc/repositories": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "~6.0",
         "symfony/css-selector": "2.8.*|3.0.*",
-        "symfony/dom-crawler": "2.8.*|3.0.*"
+        "symfony/dom-crawler": "2.8.*|3.0.*",
+        "filp/whoops":"~2.0"
     },
     "autoload": {
         "classmap": [
@@ -62,6 +69,10 @@
         ],
         "post-update-cmd": [
             
+        ],
+        "post-autoload-dump": [
+          "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+          "@php artisan package:discover"
         ]
     },
     "config": {

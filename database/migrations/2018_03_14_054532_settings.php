@@ -18,6 +18,12 @@ class Settings extends Migration
           $table->text('theme');
           $table->text('table_color');
           $table->text('table_size');
+          $table->text('education');
+          $table->text('experience');
+          $table->text('location');
+          $table->text('focus');
+          $table->text('title');
+          $table->text('profile_image');
           $table->longText('state_of_bar');
           $table->longText('bar_number');
           $table->longText('practice_areas');

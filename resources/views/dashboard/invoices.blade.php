@@ -1,10 +1,9 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 
 <div class="container dashboard col-sm-10 col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fas fa-file-alt"></i> My invoices</a>
 		@hasanyrole('authenticated_user|administrator')
     <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-briefcase"></i> My cases</a>
 		@endhasrole

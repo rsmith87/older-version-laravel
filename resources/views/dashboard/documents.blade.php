@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 <div class="container documents dashboard col-sm-10 col-12 offset-sm-2">

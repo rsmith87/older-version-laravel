@@ -11,13 +11,14 @@
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-sm-6 col-xs-12">
 						<label>Status</label>
-						<select class="custom-select" id="inputGroupSelect01" name="status" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
+            <div class="clearfix"></div>
+						<select class="form-control" id="inputGroupSelect01" name="status" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
 			        @foreach($status_values as $t)
          	      <option value={{ $t }}>{{ ucwords($t) }}</option>
 			        @endforeach 
 						</select>
 					</div>       
-
+        
 					<div class="col-sm-6 col-xs-12">
 						<label>Case Number</label>
 						<input type="text" class="form-control" id="case_number" name="case_number" aria-label="Case Number">
@@ -54,10 +55,6 @@
 						<label>Close date</label>
 						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="close_date" name="close_date" aria-label="Close date">
 					</div>
-					<div class="col-sm-6 col-xs-12 mt-4">
-						<label>Statute of Limitations</span>
-						<input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
-					</div>
 					<div class="col-sm-6 col-xs-12">
 						<label>Rate</label>
 						<input type="text" class="form-control" name="billing_rate" aria-label="Amount (to the nearest dollar)">
@@ -65,7 +62,11 @@
 					<div class="col-sm-6 col-xs-12">
 						<label>Hours</label>
 						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
-					</div>					 
+					</div>	
+					<div class="col-sm-6 col-xs-12 mt-4">
+						<label>Statute of Limitations</span>
+						<input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
+					</div>
 					<div class="col-sm-6 col-xs-12 mt-4">
 						<label>Fixed rate</label>
 						<input type="radio" name="rate_type" value="fixed" aria-label="Fixed rate">

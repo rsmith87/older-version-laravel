@@ -30,6 +30,7 @@ class CreateCaseTable extends Migration
         $table->text('billing_rate', 4, 2);
         $table->integer('firm_id');
         $table->integer('u_id');
+        $table->integer('user_id');
         $table->integer('order_id');
         $table->integer('is_deleted');
         $table->timestamps();

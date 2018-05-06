@@ -11,6 +11,7 @@ use App\LawCase;
 use Storage;
 use App\Timer;
 use App\Contact;
+//use Pusher\Pusher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -20,6 +21,7 @@ use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
@@ -41,7 +43,9 @@ class DashboardController extends Controller
           $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];         
           if(!isset($this->settings->firm_id)){
             return redirect('/dashboard/firm')->with('status', 'First, let\'s setup your firm.  Input the fields below to start.');
-          }              
+          }
+          $this->s3 = \Storage::disk('s3');
+
           return $next($request);
         });
         //$this->user = \Auth::user();
@@ -58,27 +62,31 @@ class DashboardController extends Controller
     {
 
     //$threads = []; 
-    $messages = [];
-    $participant = Participant::where('user_id', $this->user['id'])->get();
-    foreach($participant as $index=>$p){
-      if($index < 5){
-        $messages[] = Message::where('thread_id', $p->thread_id)->get();
-      }
-    }
+      
+      
+    //$messages = [];
+   // $participant = Participant::where('user_id', $this->user['id'])->get();
+    //foreach($participant as $index=>$p){
+   //   if($index < 5){
+    //    $messages[] = Message::where('thread_id', $p->thread_id)->get();
+   //   }
+   // }
+      //print_r($messages);
    
     $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
     $cases = LawCase::where('u_id', $this->user['id'])->get();
-    $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();      
-    $tasks = TaskList::where("user_id", $this->user['id'])->get();
-  
+    $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();   
+    
+		$tasks = TaskList::where('user_id', $this->user['id'])->with('dashboard_task')->get();
+      
       return view('dashboard/dashboard', [
-        'user_name' => $this->user['name'], 
+        'user' => $this->user, 
         'firm_id' => $this->settings->firm_id,
+        'settings' => $this->settings,
         'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
-        'user' => $this->user,
-        'messages' => $messages,
+        //'messages' => $messages,
         'clients' => $clients,
         'tasks' => $tasks,
         'cases' => $cases,
@@ -165,12 +173,50 @@ class DashboardController extends Controller
   public function timer_page(Request $request)
   {
     $data = $request->all();
-    print_r($data);
-    exit;
+
     
     $timer = Timer::where('user_id', $this->user['id'])->update(['timer' => $data['timer']]);
     return "updated";
-  }    
+  }
+  
+  public function profile()
+  {
+    $settings = Settings::where('user_id', \Auth::id())->first();
+    return view('dashboard/profile', [
+        'user' => $this->user, 
+        'settings' => $settings,
+        'firm_id' => $this->settings->firm_id,
+        'theme' => $this->settings->theme,
+        'profile_image' => $this->settings->profile_image,
+        'table_color' => $this->settings->table_color,
+        'table_size' => $this->settings->table_size,
+      
+    ]);
+  }
+  
+  public function profile_update(Request $request)
+  {
+    $data = $request->all();
+    $profile_image = $request->file('file_upload');
+    $filePath = "";
+
+    if($request->file('file_upload')){
+      $imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
+      $filePath = '/f/'.$this->settings->firm_id.'/u/'.$this->user['id'].'/' .$imageFileName;
+      $fileMimeType = $request->file('file_upload')->getMimeType();
+      $this->s3->put($filePath, file_get_contents($request->file('file_upload')));
+      $this->s3->url($filePath);  
+    }
+     $settings = Settings::where('user_id', \Auth::id())->update([
+      'location' => $data['location'],
+      'experience' => $data['experience'],
+      'focus' => $data['skills'],
+      'education' => $data['education'],
+      'title' => $data['title'],
+      'profile_image' => $filePath,
+    ]);
+    return redirect()->back()->with('status', 'Profile updated successfully!');
+  }
   
 
 }  

@@ -1,13 +1,15 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 
 <div class="container dashboard case col-sm-10 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-arrow-left"></i> Back to cases</a>  
 		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-balance-scale"></i> Edit case</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-plus"></i> <i class="fas fa-clock"></i> Add hours</a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-clock"></i> Add hours worked</a>
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i class="fas fa-sticky-note"></i> Add note</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>  		    
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a> 
 		@if(!empty($case->Contacts))		
 		@foreach($case->Contacts as $contact)
 			@if($contact->is_client)	
@@ -18,8 +20,9 @@
 		@if(count($order) > 0)
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
 		@endif
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View case history</a>
-	</nav>  	
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>    
+
+	</nav> 	
 
 	<div class="panel panel-default">
 		<div class="panel-heading" style="overflow:hidden;">
@@ -72,6 +75,30 @@
 @include('dashboard.includes.invoice-modal')
 @include('dashboard.includes.case-modal')
 
+
+<div class="modal fade" id="add-notes-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-sticky-note"></i> Add Note				
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/cases/case/notes/note/add">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="case_id" value="{{ $case->id }}" />
+          <label>Note</label>
+          <textarea name="note" class="form-control"></textarea>
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="add-hours-modal">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -88,6 +115,10 @@
 						<label>Amount</label>
 						<input type="text" class="form-control" name="hours_worked" />
 					</div>
+          <div class="col-12">
+            <label>Note</label>
+            <textarea name="hours_note" class="form-control"></textarea>
+          </div>
 					<div class="col-12">
 						<input type="submit" class="btn btn-primary mt-2 form-control" />
 					</div>
@@ -96,8 +127,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 <div class="modal fade" id="case-edit-modal">
 	 <div class="modal-dialog modal-lg">
@@ -231,27 +260,32 @@
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
   @if(!empty($cases))
-var cases = {!! json_encode($cases->toArray()) !!};
+    var cases = {!! json_encode($cases->toArray()) !!};
     for(var i = 0; i<cases.length; i++){
-	  cases[i].data = cases[i]['id'];
-	  cases[i].value = cases[i]['name'];
-	}
+      cases[i].data = cases[i]['id'];
+      cases[i].value = cases[i]['name'];
+	  }
  @endif
  
   
   @if(!empty($clients))
-var clients = {!! json_encode($clients->toArray()) !!};
+    var clients = {!! json_encode($clients->toArray()) !!};
   	for(var i = 0; i<clients.length; i++){
-		clients[i].data = clients[i]['id'];
-		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	}
+      clients[i].data = clients[i]['id'];
+      clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+	  }
   @endif
+  
+  
   @if(!empty($contacts))
 var contacts = {!! json_encode($contacts->toArray()) !!};	
   	for(var i = 0; i<contacts.length; i++){
 		contacts[i].data = contacts[i]['id'];
 		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
+    }
 	@endif
+      
+      
 	 $('input[name="case_name"]').autocomplete({
     lookup: cases,
 		width: 'flex',

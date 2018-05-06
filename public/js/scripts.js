@@ -1,5 +1,5 @@
-$(function(){
-  
+$(function($){
+  $.noConflict();
   var $action_approve = $('.action-buttons .approve');
   var $action_deny = $('.action-buttons .deny');
   
@@ -8,6 +8,8 @@ $(function(){
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  
+  $(document).ajaxStart(function() { Pace.restart(); });
   
   $('.download').click(function(e){
     e.preventDefault();
@@ -348,8 +350,6 @@ $(function(){
   });
   
   
-  $navpillsbg = $('.nav-pills a').css('background-color');
-  $('.dashboard .nav.nav-pills').css('background-color', $navpillsbg);
  
   
   var today = new Date();
@@ -395,7 +395,7 @@ $(function(){
           //console.log(events[i].user);
         }  
       $('#calendar').fullCalendar({
-        themeSystem: 'bootstrap4',
+        themeSystem: 'bootstrap3',
         selectable: true,
         nowIndicator: true,
         selectHelper: true,
@@ -417,7 +417,6 @@ $(function(){
 
         }
       },
-        bootstrapFontAwesome: true,
         header: {
           left: 'prev,next today fullScreen',
           center: 'title',
@@ -431,7 +430,7 @@ $(function(){
         events: events,
         dragable: false,
         contentHeight: 600,
-      });     
+      });  
   
     
   }

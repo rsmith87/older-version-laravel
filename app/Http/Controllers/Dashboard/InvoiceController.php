@@ -56,7 +56,7 @@ class InvoiceController extends Controller
 		}
 
 		return view('dashboard/invoices', [
-			'user_name' => $this->user['name'],  
+			'user' => $this->user,  
 			'theme' => $this->settings->theme,
 			'orders' => $orders,
 			'firm_id' => $this->settings->firm_id,
@@ -171,10 +171,10 @@ class InvoiceController extends Controller
 		}
 
 		return view('vendor.invoicable.receipt', [
+      'user' => $this->user,
 			'invoice' => $invoice,
 			'client' => $client,
 			'case' => $case,
-			'user_name' => $this->user['name'],  
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
 			'table_color' => $this->settings->table_color,

@@ -1,15 +1,15 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 
-<div class="container dashboard task col-sm-10 col-12 offset-sm-2">
+<div class="container dashboard task col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-tasks"></i> Edit task list</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-tasks"></i> Add task</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-tasks"></i> Assiged tasks</a>
   </nav>    
     
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-tasks"></i> Task list: {{ $task_list->task_list_name }}

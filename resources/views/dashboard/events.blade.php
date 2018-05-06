@@ -1,8 +1,8 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
 
-<div class="container fill calendar event dashboard col-sm-10 col-12 offset-sm-2">
+<div class="container fill calendar event dashboard col-sm-12 offset-sm-2">
 	<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
 		@hasanyrole('authenticated_user|administrator')

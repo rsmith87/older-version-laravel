@@ -1,36 +1,27 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateTimersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('timers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->dateTime('start');
-            $table->dateTime('timer');
-            $table->dateTime('stop');
-            $table->integer('case_id');
-            $table->dateTime('request_time');
-            $table->timestamps();
-        });
-    }
+  public function up()
+  {
+      Schema::create('timers', function (Blueprint $table) {
+          $table->increments('id');
+          $table->string('name');
+          $table->integer('law_case_id');
+          $table->integer('user_id');
+          $table->timestamp('started_at');
+          $table->timestamp('stopped_at')->default(null)->nullable();
+          $table->timestamps();
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::drop('timers');
-    }
+      });
+  }
+
+  public function down()
+  {
+      Schema::dropIfExists('timers');
+  }
 }

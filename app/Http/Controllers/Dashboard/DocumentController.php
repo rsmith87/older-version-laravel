@@ -61,7 +61,6 @@ class DocumentController extends Controller
     
 		
 		return view('dashboard/documents', [
-			'user_name' => $this->user['name'],
 			'user' => $this->user,
 			'documents' => $documents, 
 			'client_documents' => isset($client_documents) ? $client_documents: "",
@@ -187,7 +186,7 @@ class DocumentController extends Controller
 		}
 		
 		return view('dashboard/document', [
-			'user_name' => $this->user['name'], 
+			'user' => $this->user,
 			'document' => $documents, 
 			'firm_id' => $this->user->firm_id,
 			'theme' => $this->settings->theme,

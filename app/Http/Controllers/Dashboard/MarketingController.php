@@ -35,7 +35,7 @@ class MarketingController extends Controller
 	public function index(Request $request)
 	{
 		return view('dashboard/marketing', [
-			'user_name' => $this->user['name'],  
+			'user' => $this->user,  
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
 			'table_color' => $this->settings->table_color,

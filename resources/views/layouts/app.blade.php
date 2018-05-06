@@ -100,7 +100,7 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-  
+
       @yield('content')
 
   </div>

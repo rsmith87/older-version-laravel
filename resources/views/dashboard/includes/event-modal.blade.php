@@ -9,6 +9,11 @@
 				<hr />
 				<form method="post" action="/dashboard/calendar/event/add">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+          @if(isset($case))
+            @if(count($case) > 0)
+              <input type="hidden" name="c_id" value="{{ $case->id }}" />
+            @endif
+          @endif
 					<div class="col-sm-6 col-12">
 						<label>Name</label>    
 						<input type="text" class="form-control" name="name" aria-label="Event name">

@@ -2,10 +2,15 @@
 
 namespace App;
 
+
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
+
 
 class LawCase extends Model
 {
+    use Searchable;
+  
     protected $table = 'case';
 
   
@@ -82,5 +87,29 @@ class LawCase extends Model
       return $this->hasMany('App\CaseHours', 'id', 'case_id');
     }
   
-  
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get associated timers.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function timers()
+    {
+        return $this->hasMany(Timer::class);
+    }
+
+    /**
+     * Get my projects
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeMine($query)
+    {
+        return $query->where('u_id', auth()->user()->id);
+    }  
 }

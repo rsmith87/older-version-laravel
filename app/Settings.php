@@ -12,6 +12,11 @@ class Settings extends Model
   
    protected $fillable = [
       'user_id',
+      'title',
+      'education',
+      'experience',
+      'location',
+      'focus',
       'bar_number', 
       'state_of_bar', 
       'practice_areas', 

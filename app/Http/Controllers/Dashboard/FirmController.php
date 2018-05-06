@@ -11,6 +11,7 @@ use Mail;
 use Password;
 use App\Settings;
 use App\Contact;
+//use Pusher\Pusher;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Contracts\Auth\Guard;
@@ -19,10 +20,11 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Http\Controllers\Controller;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\ResetEmailNotification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FirmController extends Controller
 {
-      use ResetsPasswords;
+    use ResetsPasswords;
 
     protected $subject = "Your Account Password";
 
@@ -32,37 +34,28 @@ class FirmController extends Controller
      *
      * @return void
      */
+
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-						if(!$this->user){
-							return redirect('/login');
-						}					
+          $this->user = \Auth::user();   
+          if(!$this->user){
+            return redirect('/login');
+          }        			
 						if(!$this->user->hasPermissionTo('view firm')){
 							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 						}					
-					  $this->passwords = Password::broker();
-            $this->settings = Settings::where('user_id', $this->user['id'])->first();
-			
-            return $next($request);
+					  $this->passwords = Password::broker();          
+          $this->settings = Settings::where('user_id', $this->user['id'])->first();
+
+          return $next($request);
         });
-    }
+    }  
 	
   public function index(Request $request)
-    {
+  {
 			
-    	if(!isset($this->settings)){
-				Settings::create([
-				  'user_id' => $this->user['id'],
-					'theme' => 'flatly',
-					'table_color' => 'light',
-					'table_size' => 'lg',
-				]);
-				$firm_staff = [];
-				$clients = [];
-			}
-		  else {
+
 				$firm_staff = [];
 				$names = [];
 			  $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
@@ -90,20 +83,21 @@ class FirmController extends Controller
 						
 					}
 				}
-			}
 			
-
-    	$this->settings = Settings::where('user_id', $this->user['id'])->first();
+			
       return view('dashboard/firm', [
-        'user_name' => $this->user['name'],  
-        'theme' => $this->settings->theme,
+        
+        'user' => $this->user, 
+        'firm_id' => $this->settings->firm_id,
+        'settings' => $this->settings,
         'firm' => $firm,
-        'f_id' => $this->settings->firm_id,
-				'firm_id' => $this->settings->firm_id,
-        'firm_staff' => $firm_staff,
-				'clients' => $clients,
+        'f_id' => $firm->id,
+        'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
+        'firm_staff' => $firm_staff,        
+        'clients' => $clients,
+        
       ]);
   
   }

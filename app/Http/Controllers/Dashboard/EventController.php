@@ -59,11 +59,11 @@ class EventController extends Controller
 
 
 		return view('dashboard/calendar', [
-			'user_name' => $this->user['name'], 
+			'user' => $this->user, 
 			'events' => $events, 
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
-			'user' => $contact,
+			//'user' => $contact,
       'show_task_calendar' => $tasks_events,
 		]);
 	}
@@ -77,7 +77,7 @@ class EventController extends Controller
 		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 0])->with('contact')->get();
 
 		return view('dashboard/events', [
-			'user_name' => $this->user['name'], 
+			'user' => $this->user, 
 			'events' => $events, 
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
@@ -168,7 +168,7 @@ class EventController extends Controller
 		}
 		
 		return view('dashboard/events', [
-			'user_name' => $this->user['name'], 
+			'user' => $this->user, 
 			'events' => $events, 
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,

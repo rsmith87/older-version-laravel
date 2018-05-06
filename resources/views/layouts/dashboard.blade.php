@@ -17,11 +17,7 @@
 		<link href="{{ asset('js/timepicker/jquery.timepicker.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('css/tags.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="https://cdn.knightlab.com/libs/timeline/latest/css/timeline.css">
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-		<script src="{{ asset('js/timer.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/timeline-min.js"></script>
+
 
 		
 	</head>
@@ -71,11 +67,15 @@
       </ul>
     </div><!-- /.navbar-collapse -->
 		</nav>		
-		
 	
 		@yield('content')
 
-		
+		@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+		<script src="{{ asset('js/timer.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/timeline-min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<script src="{{ asset('js/moment.js') }}"></script>
@@ -97,5 +97,6 @@
 		<script src="{{ asset('js/tagify.js') }}"></script>
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    @endpush
  </body>
 </html>

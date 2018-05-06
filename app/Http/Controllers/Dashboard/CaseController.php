@@ -8,15 +8,17 @@ use App\LawCase;
 use App\Contact;
 use App\Settings;
 use App\View;
+use App\Timer;
 use App\Order;
 use App\Document;
 use App\Invoice;
 use App\InvoiceLine;
+use App\TaskList;
 use App\Task;
 use App\CaseHours;
 use App\Note;
 use App\Http\Controllers\Controller;
-use Carbon;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -57,6 +59,7 @@ class CaseController extends Controller
     
     $all_case_data = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('contacts')->with('documents')->with('tasks')->get();
     $columns = [];
+    $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get()->toArray();
     $views = View::where(['u_id' => $this->user['id'], 'view_type' => 'case'])->get();
     $view_data_columns = [];
     if(count($views) > 0 && $views[0]->view_data != ""){
@@ -69,11 +72,11 @@ class CaseController extends Controller
       $columns = ["id", "number", "name", "description", "court_name", "opposing_councel", "statute_of_limitations", "billing_rate"];
     }
     
-    $cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('contacts')->with('documents')->get();
+    $cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('timers')->with('contacts')->with('documents')->get();
     
     return view('dashboard/cases', 
     [
-      'user_name' => $this->user['name'],
+      'user' => $this->user,
       'cases' => $cases,
       'columns' => $columns,
       'firm_id' => $this->settings->firm_id,
@@ -82,18 +85,32 @@ class CaseController extends Controller
       'all_case_data' => $all_case_data,
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size,
+      'projects' => $projects,
     ]);
+  }
+  
+  
+  public function case_timers(Request $request)
+  {
+     $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get();  
+     return $projects;
   }
   
   
   public function add(Request $request)
   {
     $data = $request->all();
- 
+    
+
+    // returns validated data as array
+    //$vue_data = $request->validate(['name' => 'required|between:2,20']);
+      $check = 0;
     if(isset($data['id'])){
       $id = $data['id'];
+      $check = 1;
     } else {
       $id = \DB::table('case')->max('id') + 1;
+      $check = 0;
     }
     
     if(isset($data['hours'])){
@@ -113,7 +130,7 @@ class CaseController extends Controller
     }
     
 
-    LawCase::updateOrCreate(
+    $project = LawCase::updateOrCreate(
     [
       'id' => $id, 
     ],
@@ -136,11 +153,36 @@ class CaseController extends Controller
       'u_id' => \Auth::id(),
     ]);
     
+    
+
       
-    return redirect('/dashboard/cases/case/'.$id)->with('status', 'Case '.$data['name'].' has been updated!');
+    return $project ? array_merge($timer->toArray(), ['timers' => []]) : false;
     }
   
+  public function add_timer(Request $request, $id){
+    $data = $request->all();
+    $timer = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->findOrFail($id)
+                ->timers()
+                ->save(new Timer([
+                    'name' => $data['name'],
+                    'user_id' => \Auth::id(),
+                    'started_at' => new Carbon(),
+                ]));
+     return $timer ? array_merge($timer->toArray(), ['timers' => []]) : false;
+  }
   
+    public function stopRunning()
+  {
+   if ($timer = Timer::where('user_id', \Auth::id())->with('lawcase')->running()->first()) {
+     $timer->update(['stopped_at' => new Carbon()]);
+   }
+  return $timer;
+  }
+  
+    public function running()
+  {
+      return Timer::where('user_id', \Auth::id())->with('lawcase')->running()->first() ?? [];
+  }
   
   public function case($id, Request $request)
   {
@@ -167,6 +209,7 @@ class CaseController extends Controller
     $invoices = Invoice::where('invoicable_id', $id)->get();
     $documents = Document::where('case_id', $id)->get();
     $notes = Note::where('case_id', $id)->get();
+    $task_lists = TaskList::where('c_id', $id)->with('task')->get();
     foreach($invoices as $invoice){
       $line = InvoiceLine::where('invoice_id', $invoice->id)->select('amount')->first();
       $invoice_amount = $invoice_amount - $line->amount;
@@ -175,7 +218,7 @@ class CaseController extends Controller
    
 
     return view('dashboard.case', [
-      'user_name' => $this->user['name'],
+      'user' => $this->user,
       'case' => $requested_case,
       'hours_worked' => $hours_amount,
       'firm_id' => $this->settings->firm_id,
@@ -191,6 +234,7 @@ class CaseController extends Controller
       'clients' => $this->clients,
       'documents' => $documents,
       'notes' => $notes,
+      'task_lists' => $task_lists,
     ]);
     
   }
@@ -226,7 +270,8 @@ class CaseController extends Controller
     $order = Order::where('case_id', $id)->first();
     $documents = Document::where('case_id', $id)->get();
     $invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
-    $tasks = Task::where('c_id', $id)->get();
+    $task_lists = TaskList::where('c_id', $id)->with('task')->get();
+
     $created_time = $requested_case->created_at;
     $case_created_time = $created_time->toDateTimeString();
     $case_added_hour = $requested_case->created_at->addHour();
@@ -305,10 +350,11 @@ class CaseController extends Controller
 
 
   
-    if(count($tasks) > 0){
+    if(count($task_lists) > 0){
  
-      foreach($tasks as $task){
-
+      foreach($task_lists as $task_list){
+ 
+      foreach($task_list->Task as $task){
         $task_created_time = $this->setup_date_timeline($task->due);
         $task_added_hour = $this->setup_date_timeline(Carbon\Carbon::parse($task->due)->addHour());
 
@@ -326,12 +372,13 @@ class CaseController extends Controller
           ]
         ]);
 
-
+        }
+    }
 
 
 
       }  
-    }
+    
 
        //print_r(count($timeline_data['timeline']['date']));
     if(count($invoices) > 0){
@@ -431,7 +478,7 @@ class CaseController extends Controller
     }
     
     return view('dashboard.timeline', [
-    'user_name' => $this->user['name'],
+    'user' => $this->user,
     'case' => $requested_case,
     'firm_id' => $this->settings->firm_id,
     'theme' => $this->settings->theme,
@@ -462,7 +509,7 @@ class CaseController extends Controller
     
     $note = Note::create([
       'case_id' => $data['case_id'],
-       'note' => $data['note'],
+      'note' => $data['note'],
       'user_id' => $this->user['id'],
       'firm_id' => $this->settings->firm_id,
     ]);

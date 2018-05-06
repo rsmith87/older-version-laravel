@@ -82,12 +82,12 @@
 					</div>
           <div class="clearfix"></div>
 					<hr />
-					<div class="col-12">
+					<div class="col-sm-12">
 						<label>Case</label>
 						<input type="hidden" name="case_id" />							 
 						<input type="text" name="case_name" class="form-control" />
 					</div>   
-
+          <div class="clearfix"></div>
 					<div class="col-sm-12">
 						<button class="btn btn-primary mt-3 mb-1">
 							<i class="fas fa-check"></i> Submit

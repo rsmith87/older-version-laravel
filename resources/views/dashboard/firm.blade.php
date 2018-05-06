@@ -1,23 +1,19 @@
-@extends('layouts.dashboard')
+@extends('adminlte::page')
 
 @section('content')
       
-<div class="container dashboard firm col-12 col-sm-10 offset-sm-2 scrollspy">
-	
-
-  <nav class="nav nav-pills" id="navbar-interior">
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#firm-info"><i class="fas fa-building"></i> Firm information</a>
-    <a class="nav-item nav-link btn btn-info" href="#add-user"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add user</a>
-    <a class="nav-item nav-link btn btn-info" href="#add-client-user"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add client user</a>		
-  </nav>  	
+<div class="container dashboard firm col-sm-12 offset-sm-2 scrollspy">
  
 
 <div class="col-12" id="firm-info">
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1  class="mb-3 mt-4">
 				<i class="fas fa-address-card"></i> Firm information
 			</h1>
+      <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
+
+      
 			@include('dashboard.includes.alerts')
 		</div>
 		<div class="panel-body">
@@ -49,6 +45,7 @@
 				<h3>
 					<i class="fas fa-building"></i> Edit firm information
 				</h3>
+        
 				<div class="clearfix"></div>
 				<hr />	
 			<form class="form-horizontal" method="post" action="/dashboard/firm/add">
@@ -113,7 +110,7 @@
 
 <hr />
 <div id="add-user" class="col-12">
-  <div class="panel panel-default">
+  <div class="panel panel-primary">
     <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Add a user
@@ -180,7 +177,7 @@
 	<hr />
 	
 <div id="add-client-user" class="col-12">
-  <div class="panel panel-default">
+  <div class="panel panel-primary">
     <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Give a client login access
@@ -211,7 +208,7 @@
 				</form>
 			 </fieldset>
 			 
-			 @if (count($clients) > 0)
+			 @if(count($clients) > 0)
 				<table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 					<thead> 
 						<tr>           
@@ -237,9 +234,8 @@
 </div>
 	</div>
 
-    </div>
+ 
 
-</div>
 
 
 <script src="{{ asset('js/autocomplete.js') }}"></script>
@@ -265,4 +261,5 @@ for(var i = 0; i<clients.length; i++){
 		 
   });
 </script>
+
 @endsection

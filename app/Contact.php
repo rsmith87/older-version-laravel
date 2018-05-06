@@ -68,7 +68,7 @@ class Contact extends Model
   
     public function tasks()
     {
-      return $this->hasMany('App\Task', 'contact_client_id');
+      return $this->hasMany('App\TaskList', 'contact_client_id');
     }
   
     public function notes()
