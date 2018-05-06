@@ -66,6 +66,7 @@
               <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
             </div>
           </div>
+
   </div>
 <div class="col-md-6 col-xs-12">
           <!-- Widget: user widget style 1 -->
@@ -100,6 +101,7 @@
     </div>
 
   <div class="col-sm-6 col-xs-12 mb-4">
+<<<<<<< HEAD
 <div class="box box-info">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
               <i class="fa fa-envelope"></i>
@@ -336,6 +338,86 @@
             </div>
             <!-- /.box-footer-->
           </div>
+=======
+   <div class="panel panel-success">
+      <div class="panel-heading">
+        <h2>
+          <i class="fas fa-users"></i>Clients
+        </h2>
+     </div>
+     <div class="panel-body">
+      	@if (count($clients) > 0)
+
+				<table class="table table-responsive table-resposive table-striped table-{{ $table_color }} table-{{ $table_size }}">
+					<thead> 
+						<tr>           
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+						</tr> 
+					</thead> 
+					<tbody> 
+					@foreach($clients as $client)
+						<tr>
+						  <td>{{ $client->id }}</td>
+						  <td>{{ $client->first_name }}  {{ $client->last_name }}</td>
+						</tr>
+					@endforeach
+					</tbody> 
+				</table>
+			@endif	
+     </div>
+  </div>   
+  </div>
+  
+  <div class="col-sm-6 col-xs-12 mb-4">
+   <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h2>
+          <i class="fas fa-tasks"></i>Tasks
+        </h2>
+     </div>
+     <div class="panel-body">
+ @if (count($tasks) > 0)
+
+				<table class="table table-responsive table-resposive table-striped table-{{ $table_color }} table-{{ $table_size }}">
+					<thead> 
+						<tr>           
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+						</tr> 
+					</thead> 
+					<tbody> 
+					@foreach($tasks as $task)
+            @foreach($task->Task as $t)
+						<tr>
+						  <td>{{ $t->id }}</td>
+						  <td>{{ $t->task_name }}</td>
+						</tr>
+					  @endforeach
+          @endforeach
+					</tbody> 
+				</table>
+			@endif	   
+     </div>
+  </div>   
+  </div>
+  
+  <div class="col-sm-6 col-xs-12 mb-4">
+   <div class="panel panel-info">
+      <div class="panel-heading">
+        <h2>
+          <i class="fas fa-cogs"></i> Quick note
+        </h2>
+     </div>
+     <div class="panel-body">
+        <form>
+          <textarea name="quick_note" class="form-control"></textarea>
+          <input type="text" name="relation" class="form-control mt-2 mb-2" />
+          <button type="submit" class="btn btn-primary form-control">Submit</button>
+       </form>
+     </div>
+  </div>   
+>>>>>>> fb9b009d376874774e781b05c696a8ec4f9fd3ae
   </div>
      <div class="col-md-3 col-xs-12 mb-4">
   <div class="box box-primary direct-chat direct-chat-primary">

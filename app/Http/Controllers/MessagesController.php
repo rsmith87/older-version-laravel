@@ -154,9 +154,6 @@ class MessagesController extends Controller
     public function store()
     {
         $input = Input::all();
-
-  
-      
       
        if(!$this->user->hasRole('administrator') || !$this->user->hasRole('authenticated_user')){
          CommLog::create([

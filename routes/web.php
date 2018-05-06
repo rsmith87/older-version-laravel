@@ -11,9 +11,11 @@
 |
 */
 
+
 Route::get('/', function () {
   return redirect('/login');;
 });
+
 
 Route::get('/register', function() {
   return view('auth/register');
@@ -39,10 +41,12 @@ Route::group(['middleware' => ['web']], function () {
     return view('welcome');
   });
 
-
-
   Route::auth();
 
+  Route::get('/', function () {
+    return redirect('/login');;
+  });
+  
   Route::get('/logout', 'Auth\LoginController@logout');
 
   Route::get('/home', 'HomeController@index');
@@ -63,10 +67,11 @@ Route::group(['middleware' => ['web']], function () {
       'message' => request()->get('message')
     ]);
     
-    // Announce that a new message has been posted
-    broadcast(new MessagePosted($message, $user))->toOthers();
-    return ['status' => 'OK'];
-  }); 
+    Route::post('/timer-start', 'Dashboard\DashboardController@timer');
+    Route::post('/timer-pause', 'Dashboard\DashboardController@timer_pause');
+    Route::get('/timer-amount', 'Dashboard\DashboardController@timer_amount');
+    Route::post('/timer-stop', 'Dashboard\DashboardController@timer_stop');
+    Route::post('/timer-page-change', 'Dashboard\DashboardController@timer_page');
 
   Route::group(['prefix' => 'dashboard'], function () {
 
@@ -81,7 +86,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/clients/client/note/edit', 'Dashboard\ContactController@note_edit');
     Route::post('/clients/add', 'Dashboard\ContactController@add');
     Route::post('/clients/client/{id}/log-communication', 'Dashboard\ContactController@log_communication');
-
+    
     Route::group(['prefix' => 'contacts'], function() {   
       Route::get('/', 'Dashboard\ContactController@index');
       Route::get('/contact/{id}', 'Dashboard\ContactController@contact');
@@ -91,7 +96,7 @@ Route::group(['middleware' => ['web']], function () {
       Route::post('/contact/note/edit', 'Dashboard\ContactController@note_edit');   
       Route::post('/contact/log-communication', 'Dashboard\ContactController@log_communication');
     });
-
+    
     Route::group(['prefix' => 'cases'], function() {   
       Route::get('/', 'Dashboard\CaseController@index');
       Route::get('/case/{id}', 'Dashboard\CaseController@case');
@@ -102,10 +107,6 @@ Route::group(['middleware' => ['web']], function () {
       Route::post('/case/note/delete', 'Dashboard\CaseController@note_delete');
       Route::post('/case/note/edit', 'Dashboard\CaseController@note_edit');
       Route::post('/case/{id}/log-communication', 'Dashboard\CaseController@log_communication');
-      Route::get('/timers', 'Dashboard\CaseController@case_timers');
-      Route::post('/case/{id}/{timer_id}/timers/stop', 'Dashboard\CaseController@stopRunning');
-      Route::post('/case/{id}/timers', 'Dashboard\CaseController@add_timer');
-      Route::get('/timers/active', 'Dashboard\CaseController@running');      
     });
 
     Route::group(['prefix' => 'firm'], function() {   
