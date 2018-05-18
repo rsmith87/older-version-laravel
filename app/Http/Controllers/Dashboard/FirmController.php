@@ -39,9 +39,9 @@ class FirmController extends Controller
     {
         $this->middleware(function ($request, $next) {
           $this->user = \Auth::user();   
-          if(!$this->user){
+          if(count($this->user) < 1){
             return redirect('/login');
-          }        			
+          }  
 						if(!$this->user->hasPermissionTo('view firm')){
 							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 						}					
@@ -84,14 +84,12 @@ class FirmController extends Controller
 					}
 				}
 			
-			
       return view('dashboard/firm', [
         
         'user' => $this->user, 
         'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
         'firm' => $firm,
-        'f_id' => $firm->id,
         'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,

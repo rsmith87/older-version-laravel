@@ -7,17 +7,8 @@
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-balance-scale"></i> Add case</a>
 
   </nav>  
-
-	<div class="panel panel-primary">
-		<div class="panel-heading" style="overflow:hidden;">
-			<h1 class="pull-left ml-3 mt-4 mb-2">
-				<i class="fas fa-balance-scale"></i> Cases
-			</h1>
-			<div class="clearfix"></div>
-			<p class="ml-3 mb-2">Cases shows all of your case information regarding all cases.  Click on a case to show information about that case.</p>							
 			@include('dashboard.includes.alerts')
-
-			@if (count($cases) === 0)
+@if (count($cases) === 0)
 				<div class="alert alert-warning alert-dismissible fade in" role="alert">
 					No cases for this user, yet! <strong>Add a new case above!</strong>
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -25,6 +16,15 @@
 					</button>
 				</div>
 			@endif
+	<div class="panel panel-primary">
+		<div class="panel-heading" style="overflow:hidden;">
+			<h1 class="pull-left ml-3 mt-4 mb-2">
+				<i class="fas fa-balance-scale"></i> Cases
+			</h1>
+			<div class="clearfix"></div>
+			<p class="ml-3 mb-2">Cases shows all of your case information regarding all cases.  Click on a case to show information about that case.</p>							
+
+			
 		</div>
 		<div class="panel-body">
 			@if (count($cases) > 0)

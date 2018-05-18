@@ -216,13 +216,7 @@
     
   </div>
 </li>
-<li>
-  <a class="btn  btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabindex="-1" href="javascript:;" unselectable="on">
-    
-      <span class="glyphicon glyphicon-quote"></span>
-    
-  </a>
-</li>
+
 <li>
   <div class="btn-group">
     <a class="btn  btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered list" tabindex="-1" href="javascript:;" unselectable="on">
@@ -246,6 +240,13 @@
     
     </a>
   </div>
+</li>
+<li>
+  <a class="btn  btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabindex="-1" href="javascript:;" unselectable="on">
+    
+      <span class="glyphicon glyphicon-quote"></span>
+    
+  </a>
 </li>
 <li>
   <div class="bootstrap-wysihtml5-insert-link-modal modal fade" data-wysihtml5-dialog="createLink">

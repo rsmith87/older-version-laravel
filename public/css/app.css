@@ -25,7 +25,7 @@ body.modal-open {
   opacity: 1;
 }
 .alert {
-  margin: 0 20px;
+  margin: 0 0px 10px;
   overflow: hidden;
 }
 .fontawesome-i2svg-active body {
@@ -129,6 +129,8 @@ body.modal-open {
 }
 #calendar {
   -webkit-transition: all 2s;
+  -moz-transition: all 2s;
+  -o-transition: all 2s;
   transition: all 2s;
 }
 .dashboard-navigation .navbar-nav span.glyphicon,
@@ -258,8 +260,9 @@ table#main tr:active {
   overflow: hidden;
 }
 .modal .col-sm-6,
-.modal .col-12 {
-  float: left;
+.modal .col-12,
+.modal .col-xs-12,
+.modal .col-sm-12 {
   margin-bottom: 10px;
 }
 .modal h3 {
@@ -275,8 +278,17 @@ table#main tr:active {
 .table-sm th {
   padding: 0.3rem;
 }
+.wysihtml5-toolbar {
+  padding-left: 0;
+}
+.wysihtml5-toolbar li {
+  float: left;
+  display: list-item;
+  list-style: none;
+  margin: 0 5px 10px 0;
+}
 nav.nav-pills {
-  margin: 0 0 30px;
+  margin: 0 0 10px;
   width: 100%;
 }
 .nav-pills .nav-link {
@@ -301,6 +313,8 @@ nav.nav-pills a.nav-link {
   border-radius: 0;
   padding-top: 0;
   -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 .dashboard-navigation .navbar-collapse {
@@ -611,6 +625,7 @@ nav .show > .btn-primary.dropdown-toggle {
   font-weight: normal;
   font-size: 1.5em;
   -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
 #searchfield form .biginput:focus {
@@ -767,8 +782,7 @@ nav .show > .btn-primary.dropdown-toggle {
   margin: auto;
   padding: 30px;
   border: 1px solid #eee;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   font-size: 16px;
   line-height: 24px;
   font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
@@ -885,3 +899,4 @@ select.form-control:not([size]):not([multiple]) {
   width: 100%;
   text-align: center;
 }
+/*# sourceMappingURL=app.css.map */

@@ -56,7 +56,8 @@ class RolesPermissionsSeeder extends Seeder
       $role->givePermissionTo('view reports');
       $role->givePermissionTo('view settings');
       
-      /*$role = Role::findByName('superadmin');
+      
+      $role = Role::findByName('authenticated_user');
       $role->givePermissionTo('view cases');
       $role->givePermissionTo('view clients');   
       $role->givePermissionTo('view contacts');
@@ -68,10 +69,19 @@ class RolesPermissionsSeeder extends Seeder
       $role->givePermissionTo('view documents');
       $role->givePermissionTo('view reports');
       $role->givePermissionTo('view settings');  
-      $role->givePermissionTo('view firms'); 
+      /*$role->givePermissionTo('view firms'); 
       $role->givePermissionTo('view users');       
       $role->givePermissionTo('view roles');       
       $role->givePermissionTo('view permissions'); */
+      
+      $role = Role::findByName('client');
+      $role->givePermissionTo('view cases');
+      $role->givePermissionTo('view invoices'); 
+      $role->givePermissionTo('view invoices');
+      $role->givePermissionTo('view calendar');
+      $role->givePermissionTo('view messages');
+      $role->givePermissionTo('view tasks');
+      $role->givePermissionTo('view documents');
       
       DB::table('users')->insert([
         'name' => 'Robert Smith',

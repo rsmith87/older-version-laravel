@@ -42,8 +42,8 @@ class DashboardController extends Controller
             return redirect('/login');
           }          
           $this->settings = Settings::where('user_id', $this->user['id'])->first();
-          $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];         
-          if(!isset($this->settings->firm_id)){
+          $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected']; 
+          if(!isset($this->settings->firm_id) || $this->settings->firm_id === 0){
             return redirect('/dashboard/firm')->with('status', 'First, let\'s setup your firm.  Input the fields below to start.');
           }
           $this->s3 = \Storage::disk('s3');

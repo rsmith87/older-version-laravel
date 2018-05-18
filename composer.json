@@ -19,7 +19,7 @@
         "sander-van-hooft/laravel-invoicable": "dev-master",
         "barryvdh/laravel-debugbar": "*",
         "exodusanto/administrator": " *",
-        "spatie/laravel-permission": "^2.9",
+        "spatie/laravel-permission": "*",
         "cartalyst/stripe-laravel": "*",
         "google/apiclient": "^2.0",
         "laravelcollective/html": "^5.4",

@@ -303,7 +303,7 @@
        
           <label for="inputGroupSelect01">Status</label>
          
-            <select class="custom-select" name="status" id="inputGroupSelect01" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
+            <select class="form-control" name="status" id="inputGroupSelect01" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
 			        @foreach($status_values as $t)
          	      <option value="{{ $t }}" {{ $t == $case->status ? "selected='selected'" : '' }}>{{ ucwords($t) }}</option>
 			        @endforeach 
@@ -367,15 +367,7 @@
                <input type="text" class="form-control datepicker" id="close_date" value="{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}"
   name="close_date" aria-label="Close date">
            </div>
-           <div class="col-sm-6 col-xs-12 mt-4">
-            
            
-                  <label>Statute of Limitations</label>
-          	
-                <input type="checkbox" {{ !empty($case->statute_of_limitations) ? "checked" : '' }} name="statute_of_limitations" aria-label="Statute of Limitations">
-   
-    
-           </div>
            <div class="col-sm-6 col-xs-12">
              
           
@@ -384,7 +376,15 @@
 
            </div>
 					 
-           <div class="col-sm-6 col-xs-12 mt-4">
+
+           
+    
+					 
+					 <div class="col-sm-6 col-xs-12">
+						<label>Hours</label>
+						<input type="text" class="form-control" name="hours" value="{{ $hours_worked }}" aria-label="Hours worked">
+					</div>
+            <div class="col-sm-6 col-xs-12 mt-4">
              @php
 						 $types = ['fixed', 'hourly'];
 						 @endphp
@@ -392,15 +392,17 @@
 						 	<label>{{ ucfirst($type) . " rate" }}</label>
 							<input type="radio" name="rate_type" value='{{ $type }}' {{ $case->billing_type === $type ? 'checked=checked' : '' }} />
 						@endforeach
-
-
-           
             </div>
-					 
-					 <div class="col-sm-6 col-xs-12">
-						<label>Hours</label>
-						<input type="text" class="form-control" name="hours" value="{{ $hours_worked }}" aria-label="Hours worked">
-					</div>	
+<div class="col-sm-6 col-xs-12 mt-4">
+            
+           
+                  <label>Statute of Limitations</label>
+          	
+                <input type="checkbox" {{ !empty($case->statute_of_limitations) ? "checked" : '' }} name="statute_of_limitations" aria-label="Statute of Limitations">
+   
+    
+           </div>
+     
 					 <div class="col-sm-12 col-xs-12">
 					             
                  <button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>             

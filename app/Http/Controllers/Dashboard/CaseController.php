@@ -190,7 +190,7 @@ class CaseController extends Controller
   
   public function running()
   {
-      return Timer::where('user_id', \Auth::id())->with('lawcase')->running()->first() ?? [];
+    return Timer::where('user_id', \Auth::id())->with('lawcase')->running()->first() ?? [];
   }
   
   public function case($id, Request $request)

@@ -26,7 +26,7 @@ body {
   opacity:1;
 }
 .alert {
-  margin: 0 20px;
+  margin: 0 0px 10px;
 	overflow:hidden;
 }
 .fontawesome-i2svg-active body {
@@ -327,8 +327,7 @@ table{
 }
 
 .modal{
-	.col-sm-6, .col-12{
-		float:left;
+	.col-sm-6, .col-12, .col-xs-12, .col-sm-12{
 		margin-bottom:10px;
 	}
 	h3{
@@ -344,9 +343,17 @@ table{
 .table-sm td, .table-sm th {
     padding: 0.3rem;
 }
-
+.wysihtml5-toolbar{
+  padding-left:0;
+  li{
+    float: left;
+    display: list-item;
+    list-style: none;
+    margin: 0 5px 10px 0;
+  }
+}
 nav.nav-pills {
-  margin: 0 0 30px;
+  margin: 0 0 10px;
   width: 100%;
 }
 .nav-pills .nav-link {

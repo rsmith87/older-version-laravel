@@ -4,23 +4,20 @@
       
 <div class="container dashboard firm col-sm-12 offset-sm-2 scrollspy">
 	<nav class="nav nav-pills">
-		@hasanyrole('administrator')
+		@hasanyrole('administrator|authenticated_user')
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-calendar-plus"></i> Edit firm</a>
 		@endhasrole
 	</nav>
+  
+  @include('dashboard.includes.alerts')
 
-	<div class="col-12" id="firm-info">
-	<div class="panel panel-primary">
-		<div class="panel-heading" style="overflow:hidden;">
+
 			<h1  class="mb-3 mt-4">
 				<i class="fas fa-address-card"></i> Firm information
 			</h1>
       <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
 
-      
-			@include('dashboard.includes.alerts')
-		</div>
-		<div class="panel-body">
+
 			<div class="col-sm-6 col-12">
 				<label>Name</label>
 				<p>{{ $firm['name'] }}</p>
@@ -37,11 +34,10 @@
 					{{ isset($firm['address_2']) ? $firm['address_2'] : "" }}<br />
 					{{ $firm['city'] }}, {{ $firm['state'] }} {{ $firm['zip'] }}</p>
 			</div>
-		</div>
-	</div>
+	
+	
 </div>
 
-		@hasanyrole('administrator')
 
 <div class="modal fade" id="edit-firm-modal">
 	<div class="modal-dialog">
@@ -112,6 +108,7 @@
 	</div>
 	</div>
 	
+		@hasanyrole('administrator')
 
 <hr />
 <div id="add-user" class="col-12">
