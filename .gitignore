@@ -5,3 +5,6 @@ Homestead.json
 .env
 /public/phpmyadmin
 composer.lock
+/nbproject/private/
+/nbproject
+.idea
