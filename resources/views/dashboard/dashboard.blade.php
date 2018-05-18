@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container dashboard home col-sm-10 col-xs-12 offset-sm-2">
+<div class="container dashboard home col-xs-12 offset-sm-2">
   <!--<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-briefcase"></i> Add case</a>       
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#"><i class="fas fa-address-card"></i> Add contact</a>
@@ -14,6 +14,87 @@
   	@include('dashboard.includes.alerts')
   
   <div id="dashbaord-main">
+
+  <div class="col-md-6 col-xs-12">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-yellow">
+              @if(Gravatar::exists($user->email))
+              <div class="widget-user-image">
+                <img class="img-circle" src="{{ Gravatar::get($user->email) }}" alt="User Avatar">
+              </div>
+              @endif
+              <!-- /.widget-user-image -->
+              <h3 class="widget-user-username">{{ $user->name }}</h3>
+              <h5 class="widget-user-desc">{{ $settings->title }}</h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a href="/dashboard/cases">Cases <span class="pull-right badge bg-blue">{{ count($cases) }}</span></a></li>
+                <li><a href="/dashboard/tasks">Tasks <span class="pull-right badge bg-aqua">{{ count($tasks) }}</span></a></li>
+                <li><a href="/dashboard/invoices">Invoices <span class="pull-right badge bg-green">12</span></a></li>
+                <li><a href="/dashboard/calendar">Events <span class="pull-right badge bg-red">842</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- /.widget-user -->
+ </div>
+    
+      <div class="col-md-3 col-xs-12">
+      <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{ count($clients) }}</h3>
+
+              <p>Clients</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="/dashboard/clients" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+      <div class="col-md-3 col-xs-12">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>{{ count($tasks) }}</h3>
+
+              <p>Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-tasks"></i>
+            </div>
+            <a href="/dashboard/tasks" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+      <div class="col-md-3 col-xs-12">
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>{{ count($events) }}</h3>
+
+              <p>Events</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-calendar-alt"></i>
+            </div>
+            <a href="/dashboard/calendar" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+      </div>
+      <div class="col-md-3 col-xs-12">
+      <div class="small-box bg-green">
+            <div class="inner">
+              <h3>{{ count($invoices) }}</h3>
+
+              <p>Invoices</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-file-alt"></i>
+            </div>
+            <a href="/dashboard/invoices" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+    </div>
+
+    @if(count($tasks) > 0)
     <div class="col-sm-6 col-xs-12 mb-4">
    <div class="box box-primary">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
@@ -67,41 +148,25 @@
             </div>
           </div>
 
-  </div>
-<div class="col-md-6 col-xs-12">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-yellow">
-              @if(Gravatar::exists($user->email))
-              <div class="widget-user-image">
-                <img class="img-circle" src="{{ Gravatar::get($user->email) }}" alt="User Avatar">
-              </div>
-              @endif
-              <!-- /.widget-user-image -->
-              <h3 class="widget-user-username">{{ $user->name }}</h3>
-              <h5 class="widget-user-desc">{{ $settings->title }}</h5>
-            </div>
-            <div class="box-footer no-padding">
-              <ul class="nav nav-stacked">
-                <li><a href="/dashboard/cases">Cases <span class="pull-right badge bg-blue">{{ count($cases) }}</span></a></li>
-                <li><a href="/dashboard/tasks">Tasks <span class="pull-right badge bg-aqua">{{ count($tasks) }}</span></a></li>
-                <li><a href="/dashboard/invoices">Invoices <span class="pull-right badge bg-green">12</span></a></li>
-                <li><a href="/dashboard/calendar">Events <span class="pull-right badge bg-red">842</span></a></li>
-              </ul>
-            </div>
-          </div>
-          <!-- /.widget-user -->
- </div>
-    
-    <div class="col-md-6 col-xs-12">
-      <div id="example"></div>
-      <div id="timer"></div>
-      <div id="controls"></div>
-    </div>
-
+  </div> 
+    @endif
+   <div class="col-sm-6 col-xs-12 mb-4">
+   <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h2>
+          <i class="fas fa-cogs"></i> Quick note
+        </h2>
+     </div>
+     <div class="panel-body">
+        <form>
+          <textarea name="quick_note" class="form-control"></textarea>
+          <input type="text" name="relation" class="form-control mt-2 mb-2" />
+          <button type="submit" class="btn btn-primary form-control">Submit</button>
+       </form>
+     </div>
+  </div>   
+  </div> 
   <div class="col-sm-6 col-xs-12 mb-4">
-<<<<<<< HEAD
 <div class="box box-info">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
               <i class="fa fa-envelope"></i>
@@ -338,88 +403,11 @@
             </div>
             <!-- /.box-footer-->
           </div>
-=======
-   <div class="panel panel-success">
-      <div class="panel-heading">
-        <h2>
-          <i class="fas fa-users"></i>Clients
-        </h2>
-     </div>
-     <div class="panel-body">
-      	@if (count($clients) > 0)
-
-				<table class="table table-responsive table-resposive table-striped table-{{ $table_color }} table-{{ $table_size }}">
-					<thead> 
-						<tr>           
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-						</tr> 
-					</thead> 
-					<tbody> 
-					@foreach($clients as $client)
-						<tr>
-						  <td>{{ $client->id }}</td>
-						  <td>{{ $client->first_name }}  {{ $client->last_name }}</td>
-						</tr>
-					@endforeach
-					</tbody> 
-				</table>
-			@endif	
-     </div>
-  </div>   
+   
   </div>
   
-  <div class="col-sm-6 col-xs-12 mb-4">
-   <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h2>
-          <i class="fas fa-tasks"></i>Tasks
-        </h2>
-     </div>
-     <div class="panel-body">
- @if (count($tasks) > 0)
 
-				<table class="table table-responsive table-resposive table-striped table-{{ $table_color }} table-{{ $table_size }}">
-					<thead> 
-						<tr>           
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-						</tr> 
-					</thead> 
-					<tbody> 
-					@foreach($tasks as $task)
-            @foreach($task->Task as $t)
-						<tr>
-						  <td>{{ $t->id }}</td>
-						  <td>{{ $t->task_name }}</td>
-						</tr>
-					  @endforeach
-          @endforeach
-					</tbody> 
-				</table>
-			@endif	   
-     </div>
-  </div>   
-  </div>
-  
-  <div class="col-sm-6 col-xs-12 mb-4">
-   <div class="panel panel-info">
-      <div class="panel-heading">
-        <h2>
-          <i class="fas fa-cogs"></i> Quick note
-        </h2>
-     </div>
-     <div class="panel-body">
-        <form>
-          <textarea name="quick_note" class="form-control"></textarea>
-          <input type="text" name="relation" class="form-control mt-2 mb-2" />
-          <button type="submit" class="btn btn-primary form-control">Submit</button>
-       </form>
-     </div>
-  </div>   
->>>>>>> fb9b009d376874774e781b05c696a8ec4f9fd3ae
-  </div>
-     <div class="col-md-3 col-xs-12 mb-4">
+  <div class="col-md-3 col-xs-12 mb-4">
   <div class="box box-primary direct-chat direct-chat-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Direct Chat</h3>

@@ -16,6 +16,7 @@ Route::get('/', function () {
   return redirect('/login');;
 });
 
+Route::get('/user-email-verified', 'Controller@email_verified');
 
 Route::get('/register', function() {
   return view('auth/register');

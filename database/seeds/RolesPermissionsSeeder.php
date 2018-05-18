@@ -75,7 +75,7 @@ class RolesPermissionsSeeder extends Seeder
       
       DB::table('users')->insert([
         'name' => 'Robert Smith',
-        'email' => 'codenut33'.'@gmail.com',
+        'email' => 'codenut33@gmail.com',
         'password' => bcrypt('123456'),
         'verified' => 1,
       ]);

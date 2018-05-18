@@ -77,4 +77,9 @@ class Controller extends BaseController
      
       
     }
+    
+    public function email_verified()
+    {
+      return view('vendor.laravel-user-verification.user-verification');
+    }
 }

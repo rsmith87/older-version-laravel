@@ -129,7 +129,7 @@ class CaseController extends Controller
       $date = "";
     }
     
-
+      
     $project = LawCase::updateOrCreate(
     [
       'id' => $id, 
@@ -153,22 +153,31 @@ class CaseController extends Controller
       'u_id' => \Auth::id(),
     ]);
     
-    
+    $timer = Timer::where('user_id', $this->user['id'])->get();
+    if($timer === null){
+      $timer = [];
+    } else {
+      $timer = $timer->toArray();
+    }
 
-      
-    return $project ? array_merge($timer->toArray(), ['timers' => []]) : false;
+    $timers = array_merge($timer, ['timers' => []]);
+    return redirect('dashboard/cases/case/'.$project->id); 
+            
     }
   
   public function add_timer(Request $request, $id){
     $data = $request->all();
     $timer = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->findOrFail($id)
-                ->timers()
-                ->save(new Timer([
-                    'name' => $data['name'],
-                    'user_id' => \Auth::id(),
-                    'started_at' => new Carbon(),
-                ]));
-     return $timer ? array_merge($timer->toArray(), ['timers' => []]) : false;
+              ->timers()
+              ->save(new Timer(
+                [
+                  'name' => $data['name'],
+                  'user_id' => \Auth::id(),
+                  'started_at' => new Carbon(),
+                ]
+              )
+              );
+   return $timer ? array_merge($timer->toArray(), ['timers' => []]) : false;
   }
   
     public function stopRunning()
@@ -179,14 +188,13 @@ class CaseController extends Controller
   return $timer;
   }
   
-    public function running()
+  public function running()
   {
       return Timer::where('user_id', \Auth::id())->with('lawcase')->running()->first() ?? [];
   }
   
   public function case($id, Request $request)
   {
-   
     $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id])->with('contacts')->with('client')->with('documents')->first();
     if(count($requested_case) === 0){
       return redirect('/dashboard/cases')->withErrors(['You don\'t have access to this case.']);
@@ -325,7 +333,7 @@ class CaseController extends Controller
       foreach($case_hours as $case_hour){
 
         $task_created_time = $this->setup_date_timeline($case_hour->created_at);
-        $task_added_hour = $this->setup_date_timeline(Carbon\Carbon::parse($case_hour->created_at)->addHour());
+        $task_added_hour = $this->setup_date_timeline(Carbon::parse($case_hour->created_at)->addHour());
 
         array_push($timeline_data['timeline']['date'], [
           'startDate' => $this->setup_date_timeline($task_created_time),
@@ -356,7 +364,7 @@ class CaseController extends Controller
  
       foreach($task_list->Task as $task){
         $task_created_time = $this->setup_date_timeline($task->due);
-        $task_added_hour = $this->setup_date_timeline(Carbon\Carbon::parse($task->due)->addHour());
+        $task_added_hour = $this->setup_date_timeline(Carbon::parse($task->due)->addHour());
 
         array_push($timeline_data['timeline']['date'], [
           'startDate' => $this->setup_date_timeline($task_created_time),
@@ -536,8 +544,8 @@ class CaseController extends Controller
   
   private function fix_date($dts)
   {
-    $d = Carbon\Carbon::parse($dts)->format('Y-m-d');
-    $dt = Carbon\Carbon::parse($dts . " " . '00:00:00', 'America/Chicago')->format('Y-m-d H:i:s');
+    $d = Carbon::parse($dts)->format('Y-m-d');
+    $dt = Carbon::parse($dts . " " . '00:00:00', 'America/Chicago')->format('Y-m-d H:i:s');
     return $dt;
   }
   

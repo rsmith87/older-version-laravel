@@ -11,6 +11,8 @@ use App\LawCase;
 use Storage;
 use App\Timer;
 use App\Contact;
+use App\Event;
+use App\Invoice;
 //use Pusher\Pusher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,25 +62,14 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-
-    //$threads = []; 
-      
-      
-    //$messages = [];
-   // $participant = Participant::where('user_id', $this->user['id'])->get();
-    //foreach($participant as $index=>$p){
-   //   if($index < 5){
-    //    $messages[] = Message::where('thread_id', $p->thread_id)->get();
-   //   }
-   // }
-      //print_r($messages);
    
     $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
     $cases = LawCase::where('u_id', $this->user['id'])->get();
     $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();   
     
 		$tasks = TaskList::where('user_id', $this->user['id'])->with('dashboard_task')->get();
-      
+    $events = Event::where('u_id', $this->user['id'])->get();
+    $invoices = Invoice::where('user_id', $this->user['id'])->get();
       return view('dashboard/dashboard', [
         'user' => $this->user, 
         'firm_id' => $this->settings->firm_id,
@@ -91,7 +82,9 @@ class DashboardController extends Controller
         'tasks' => $tasks,
         'cases' => $cases,
         'contacts' => $contacts,
+        'events' => $events,
         'status_values' => $this->status_values,
+        'invoices' => $invoices,
       ]);
     }
  

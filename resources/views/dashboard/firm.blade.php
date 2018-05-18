@@ -164,12 +164,12 @@
 						</tr> 
 					</thead> 
 					<tbody> 
-					@foreach($firm_staff as $user)
+					@foreach($firm_staff as $u)
 					
 						<tr>
-						  <td>{{ $user['id'] }}</td>
-						  <td>{{ $user['name'] }}</td>
-						  <td>{{ $user['email'] }}</td>
+						  <td>{{ $u['id'] }}</td>
+						  <td>{{ $u['name'] }}</td>
+						  <td>{{ $u['email'] }}</td>
 						</tr>
 					@endforeach
 					</tbody> 
@@ -223,12 +223,12 @@
 						</tr> 
 					</thead> 
 					<tbody> 
-					@foreach($clients as $user)
+					@foreach($clients as $t)
 						@if($user->has_login != 0)
 						<tr>
-						  <td>{{ $user->id }}</td>
-						  <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-						  <td>{{ $user->email }}</td>
+						  <td>{{ $t->id }}</td>
+						  <td>{{ $t->first_name }} {{ $t->last_name }}</td>
+						  <td>{{ $t->email }}</td>
 						</tr>
 						@endif
 					@endforeach

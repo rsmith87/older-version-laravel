@@ -16,6 +16,8 @@
     "cross-env": "^5.1",
     "jquery": "^3.2",
     "laravel-mix": "^1.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
     "lodash": "^4.17.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
