@@ -9,7 +9,16 @@
 @section('body_class', 'login-page')
 
 @section('body')
+
     <div class="login-box">
+      @if (session('status'))
+        <div class="alert alert-info fade in ml-3 mr-3 mb-4" role="alert">
+          {{ session('status') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>			
+        </div>
+      @endif        
         <div class="login-logo">
             <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
         </div>

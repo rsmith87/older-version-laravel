@@ -19,7 +19,7 @@ return [
         | Supported: "default", "markdown"
         |
         */
-        'type' => 'default',
+        'type' => 'markdown',
 
         /*
         |-----------------------------------------------------------------------
@@ -44,6 +44,6 @@ return [
     | Supported: (bool) "true", "false"
     |
     */
-    'auto-login' => true,
+    'auto-login' => false,
 
 ];
