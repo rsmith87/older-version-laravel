@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
 
-
-class Controller extends BaseController
+class RolesPermissionsSeeder extends Seeder
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
-       public function create_roles_and_permissions()
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
     {
-      //print_r($this->user->getRoleNames());
-      // Create a superadmin role for the admin users
+      
+      // Reset cached roles and permissions
+      app()['cache']->forget('spatie.permission.cache');
       
       $role = Role::create(['guard_name' => 'admin', 'name' => 'superadmin']);
             // Create a superadmin role for the admin users
@@ -40,6 +38,10 @@ class Controller extends BaseController
       $permission = Permission::create(['name' => 'view documents']);
       $permission = Permission::create(['name' => 'view reports']);
       $permission = Permission::create(['name' => 'view settings']);
+      $permission = Permission::create(['name' => 'view firms']); 
+      $permission = Permission::create(['name' => 'view users']);       
+      $permission = Permission::create(['name' => 'view roles']);       
+      $permission = Permission::create(['name' => 'view permissions']);        
       
       $role = Role::findByName('administrator');
       $role->givePermissionTo('view cases');
@@ -54,7 +56,7 @@ class Controller extends BaseController
       $role->givePermissionTo('view reports');
       $role->givePermissionTo('view settings');
       
-      $role = Role::findByName('superadmin');
+      /*$role = Role::findByName('superadmin');
       $role->givePermissionTo('view cases');
       $role->givePermissionTo('view clients');   
       $role->givePermissionTo('view contacts');
@@ -69,12 +71,51 @@ class Controller extends BaseController
       $role->givePermissionTo('view firms'); 
       $role->givePermissionTo('view users');       
       $role->givePermissionTo('view roles');       
-      $role->givePermissionTo('view permissions');       
-
-      //give master admin administrator role
-      //User::find(1)->assignRole('administrator');
-      return redirect('/register')->with('status', 'Roles and permissions created!');
-     
+      $role->givePermissionTo('view permissions'); */
       
+      DB::table('users')->insert([
+        'name' => 'Robert Smith',
+        'email' => 'codenut33'.'@gmail.com',
+        'password' => bcrypt('123456'),
+        'verified' => 1,
+      ]);
+      
+      User::find(1)->assignRole('administrator');
+      
+      DB::table('firm')->insert([
+          'name' => 'Admin Firm',
+          'address_1' => '1800 Meridian Ave',
+          'state' => 'TX',
+          'city' => 'Waco',
+          'zip' => '76708',
+          'phone' => '2544059664',
+      ]);
+      
+      DB::table('settings')->insert([
+        'user_id' => 1,
+        'theme' => 'flatly',
+        'table_color' => 'light',
+        'table_size' => 'lg',
+        'tz' => 'America\Chicago',
+        'firm_id' => 1,
+      ]);
+      
+      DB::table('views')->insert([
+        'view_type' => 'contact',
+        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'u_id' => 1,
+      ]);  
+
+      DB::table('views')->insert([
+        'view_type' => 'case',
+        'view_data' => json_encode(['id', 'name', 'court_name'], true),
+        'u_id' => 1,
+      ]); 
+      DB::table('views')->insert([
+        'view_type' => 'client',
+        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'u_id' => 1,
+      ]);        
+
     }
 }

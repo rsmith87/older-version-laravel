@@ -58,6 +58,57 @@
                         </span>
                     @endif
                 </div>
+                
+                <div class="form-group has-feedback {{ $errors->has('timezone_register') ? ' has-error' : '' }}">
+           
+
+                              @php
+                                $regions = array(
+                                    //'Africa' => DateTimeZone::AFRICA,
+                                    'America' => DateTimeZone::AMERICA,
+                                    //'Antarctica' => DateTimeZone::ANTARCTICA,
+                                    //'Asia' => DateTimeZone::ASIA,
+                                    //'Atlantic' => DateTimeZone::ATLANTIC,
+                                    //'Europe' => DateTimeZone::EUROPE,
+                                    //'Indian' => DateTimeZone::INDIAN,
+                                    //'Pacific' => DateTimeZone::PACIFIC
+                                );
+                                $timezones = array();
+                                foreach ($regions as $name => $mask)
+                                {
+                                    $zones = DateTimeZone::listIdentifiers($mask);
+                                    foreach($zones as $timezone)
+                                    {
+                                    // Lets sample the time there right now
+                                    $time = new DateTime(NULL, new DateTimeZone($timezone));
+                                    // Us dumb Americans can't handle millitary time
+                                    $ampm = $time->format('H') > 12 ? ' ('. $time->format('g:i a'). ')' : '';
+                                    // Remove region name and add a sample time
+                                    $timezones[$name][$timezone] = substr($timezone, strlen($name) + 1) . ' - ' . $time->format('H:i') . $ampm;
+                                  }
+                                }
+                                // View
+                                print '<select class="form-control" name="timezone_register" id="timezone">
+                                         <option value="choose" selected="selected">Choose timezone</option>';
+                                foreach($timezones as $region => $list)
+                                {
+                                  //print '<optgroup label="' . $region . '">' . "\n";
+                                  foreach($list as $timezone => $name)
+                                  {
+                                    print '<option value="' . $timezone . '">' . $name . '</option>' . "\n";
+                                  }
+                                  //print '<optgroup>' . "\n";
+                                }
+                                print '</select>';
+                              @endphp
+                         
+
+                                @if ($errors->has('timezone'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('timezone') }}</strong>
+                                    </span>
+                                @endif
+                        </div>                            
                 <button type="submit"
                         class="btn btn-primary btn-block btn-flat"
                 >{{ trans('adminlte::adminlte.register') }}</button>

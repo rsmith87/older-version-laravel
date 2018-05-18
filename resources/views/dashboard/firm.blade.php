@@ -3,9 +3,13 @@
 @section('content')
       
 <div class="container dashboard firm col-sm-12 offset-sm-2 scrollspy">
- 
+	<nav class="nav nav-pills">
+		@hasanyrole('administrator')
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-calendar-plus"></i> Edit firm</a>
+		@endhasrole
+	</nav>
 
-<div class="col-12" id="firm-info">
+	<div class="col-12" id="firm-info">
 	<div class="panel panel-primary">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1  class="mb-3 mt-4">
@@ -37,6 +41,7 @@
 	</div>
 </div>
 
+		@hasanyrole('administrator')
 
 <div class="modal fade" id="edit-firm-modal">
 	<div class="modal-dialog">
@@ -150,7 +155,7 @@
 
 	@if (count($firm_staff) > 0)
 
-				<table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+				<table class="table table-responsive table-resposive table-striped table-hover">
 					<thead> 
 						<tr>           
 								<th scope="col">ID</th>
@@ -234,7 +239,7 @@
 </div>
 	</div>
 
- 
+ @endhasanyrole
 
 
 

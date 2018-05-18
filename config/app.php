@@ -14,7 +14,7 @@ return [
     */
     'name' => "Legalkeeper",
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'development'),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => 'http://dev.legalkeeper.com',
+    'url' => 'http://legalkeeper.rob',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,7 @@ return [
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
+        Jrean\UserVerification\UserVerificationServiceProvider::class,
         
 
     ],
@@ -231,6 +232,8 @@ return [
       'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
       'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
       //'Pusher' => Pusher::class,
+      'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
+      
     ],
 
 ];

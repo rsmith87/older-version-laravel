@@ -3,18 +3,13 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\View;
 use Laravel\Passport\HasApiToken;
-use Illuminate\Database\Eloquent\Model;
-//use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\RoutesNotifications;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\EventConfirmNotification;
 use App\Notifications\EventDenyNotification;
 use App\Notifications\ResetEmailNotification;
-use Illuminate\Notifications\Notification as Notification;
-use Illuminate\Contracts\Auth\CanResetPassword;
+
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
