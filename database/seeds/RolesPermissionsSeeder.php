@@ -74,14 +74,14 @@ class RolesPermissionsSeeder extends Seeder
       $role->givePermissionTo('view roles');       
       $role->givePermissionTo('view permissions'); */
       
-      $role = Role::findByName('client');
+      /*$role = Role::findByName('client');
       $role->givePermissionTo('view cases');
       $role->givePermissionTo('view invoices'); 
       $role->givePermissionTo('view invoices');
       $role->givePermissionTo('view calendar');
       $role->givePermissionTo('view messages');
       $role->givePermissionTo('view tasks');
-      $role->givePermissionTo('view documents');
+      $role->givePermissionTo('view documents');*/
       
       DB::table('users')->insert([
         'name' => 'Robert Smith',

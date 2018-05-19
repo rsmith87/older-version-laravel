@@ -32,7 +32,9 @@
         "pusher/pusher-php-server": "^3.0",
         "sebastian-berc/repositories": "*",
         "barryvdh/laravel-ide-helper": "^2.4",
-        "jrean/laravel-user-verification":"dev-master"
+        "jrean/laravel-user-verification":"dev-master",
+        "dacastro4/laravel-gmail": "^0.4.1",
+        "laravel/passport": "^6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => 'http://legalkeeper.rob',
+    'url' => 'https://legalkeeper.rob',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,8 @@ return [
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
-        
+        Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,        
 
     ],
 
@@ -233,6 +234,8 @@ return [
       'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
       //'Pusher' => Pusher::class,
       'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
+      'LaravelGmail' => Dacastro4\LaravelGmail\Facades\LaravelGmail::class,
+      'Socialite' => Laravel\Socialite\Facades\Socialite::class,
       
     ],
 

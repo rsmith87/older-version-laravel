@@ -2,29 +2,17 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Requests;
-use App\User;
 use App\Settings;
-use App\Task;
 use App\TaskList;
 use App\LawCase;
-use Storage;
 use App\Timer;
 use App\Contact;
 use App\Event;
 use App\Invoice;
-//use Pusher\Pusher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
-use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 
 class DashboardController extends Controller

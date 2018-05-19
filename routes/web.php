@@ -28,6 +28,8 @@ Route::get('/password/reset', function() {
   return view('auth/password/reset');
 });
 
+Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
+Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
 /*
 |--------------------------------------------------------------------------

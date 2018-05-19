@@ -9,7 +9,6 @@
 		<style>
 		@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');
 		</style>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -190,7 +189,7 @@
 		<script src="{{ asset('js/input-mask/dist/inputmask/phone-codes/phone.js') }}"></script>
 		<script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
 		<script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
-		<script src="http://www.datejs.com/build/date.js" type="text/javascript"></script>
+		<script src="https://www.datejs.com/build/date.js" type="text/javascript"></script>
 		<script src="{{ asset('js/tablesorter.js') }}"></script>	
 		<script src="{{ asset('js/tagify.js') }}"></script>
   	<script src="{{ asset('js/match-height.js') }}"></script>

@@ -112,14 +112,12 @@
 
 <hr />
 <div id="add-user" class="col-12">
-  <div class="panel panel-primary">
-    <div class="panel-heading" style="overflow:hidden;">
+
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Add a user
         </h2>
-     </div>
 
-     <div class="panel-body">
+
 			<fieldset>
 			<form class="form-horizontal" method="post" action="/dashboard/firm/user/add">
 				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -173,20 +171,14 @@
 				</table>
 			@endif	 
 </div>
-</div>
-	</div>
 	
 	<hr />
 	
 <div id="add-client-user" class="col-12">
-  <div class="panel panel-primary">
-    <div class="panel-heading" style="overflow:hidden;">
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Give a client login access
         </h2>
-     </div>
 
-     <div class="panel-body">
 			<fieldset>
 			<form class="form-horizontal" method="post" action="/dashboard/firm/user/client/add">
 				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -233,8 +225,8 @@
 				</table>
 			@endif	 
 </div>
-</div>
-	</div>
+
+
 
  @endhasanyrole
 

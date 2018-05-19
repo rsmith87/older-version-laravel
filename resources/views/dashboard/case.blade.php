@@ -89,11 +89,11 @@
         
          
          @foreach($notes as $note)
-             <div class="card text-white bg-warning mb-3 float-left mr-2" style="max-width: 18rem;">
+             <div>
  
               <div class="card-body">
-                 <a class="float-right ml-1" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i class="fas fa-trash-alt"></i></a>
-                <a data-toggle="modal" class="float-right" data-target="#edit-note-modal-{{ $note->id }}"><i class="fas fa-edit"></i></a>                
+                 <a class="pull-right" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i class="fas fa-trash-alt"></i></a>
+                <a data-toggle="modal" class="pull-right" data-target="#edit-note-modal-{{ $note->id }}"><i class="fas fa-edit"></i></a>                
                 <h5 class="card-title">Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
                 <p class="card-text">{{ $note->note }}</p>
               </div>

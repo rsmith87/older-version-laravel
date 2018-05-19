@@ -14,7 +14,7 @@
         </div>
 
         <div class="register-box-body">
-            <p class="login-box-msg">{{ trans('adminlte::adminlte.register_message') }}</p>
+            <p class="login-box-msg">Register for Legalkeeper</p>
             <form action="{{ url(config('adminlte.register_url', 'register')) }}" method="post">
                 {!! csrf_field() !!}
 
@@ -108,14 +108,23 @@
                                         <strong>{{ $errors->first('timezone') }}</strong>
                                     </span>
                                 @endif
-                        </div>                            
+                        </div>  
+                
+        <div class="social-register">
+            <a href="{{ url('/auth/github') }}" class="btn btn-github float-left"><i class="fa fa-fw fa-github"></i> Github</a>
+            <a href="{{ url('/auth/twitter') }}" class="btn btn-twitter float-left"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+            <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+        </div>
                 <button type="submit"
                         class="btn btn-primary btn-block btn-flat"
                 >{{ trans('adminlte::adminlte.register') }}</button>
             </form>
+            <div class="form-group">
+
+    </div>
             <div class="auth-links">
                 <a href="{{ url(config('adminlte.login_url', 'login')) }}"
-                   class="text-center">{{ trans('adminlte::adminlte.i_already_have_a_membership') }}</a>
+                   class="text-center">Login</a>
             </div>
         </div>
         <!-- /.form-box -->

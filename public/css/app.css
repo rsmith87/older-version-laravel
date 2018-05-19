@@ -762,6 +762,18 @@ nav .show > .btn-primary.dropdown-toggle {
 .subtask-row td:nth-child(2) {
   padding-left: 40px;
 }
+.dashboard.case .card-body:first-of-type h5 {
+  margin-top: 0;
+}
+.dashboard.case .card-body a {
+  padding: 5px;
+}
+.dashboard.case .h5,
+.dashboard.case h5 {
+  font-size: 12px;
+  margin-bottom: 3px;
+  margin-top: 20px;
+}
 .panel-body {
   padding: 15px 15px;
 }
@@ -898,5 +910,18 @@ select.form-control:not([size]):not([multiple]) {
   font-weight: 300;
   width: 100%;
   text-align: center;
+}
+.register-box .btn.btn-flat {
+  margin: 1em 0;
+}
+.register-box .social-register {
+  overflow: hidden;
+}
+.register-box .social-register a {
+  float: left;
+  margin-right: 3px;
+}
+.widget-user-header {
+  overflow: hidden;
 }
 /*# sourceMappingURL=app.css.map */

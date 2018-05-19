@@ -268,23 +268,25 @@
  @endif
  
   
-  @if(!empty($clients))
+  @if(count($clients) > 0)
     var clients = {!! json_encode($clients->toArray()) !!};
   	for(var i = 0; i<clients.length; i++){
       clients[i].data = clients[i]['id'];
       clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
 	  }
+  @else
+    var clients = [];
   @endif
   
-  
-  @if(!empty($contacts))
-var contacts = {!! json_encode($contacts->toArray()) !!};	
+  @if(count($contacts) > 0)
+    var contacts = {!! json_encode($contacts->toArray()) !!};	
   	for(var i = 0; i<contacts.length; i++){
 		contacts[i].data = contacts[i]['id'];
 		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
     }
-	@endif
-      
+	@else
+    var contacts = [];
+  @endif
       
 	 $('input[name="case_name"]').autocomplete({
     lookup: cases,
