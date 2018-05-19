@@ -163,7 +163,7 @@ return [
          */
       
         Aloha\Twilio\Support\Laravel\ServiceProvider::class,
-        //Cmgmyr\Messenger\MessengerServiceProvider::class,
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,  
         Barryvdh\Debugbar\ServiceProvider::class,
