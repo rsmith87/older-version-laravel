@@ -111,8 +111,7 @@
                         </div>  
                 
         <div class="social-register">
-            <a href="{{ url('/auth/github') }}" class="btn btn-github float-left"><i class="fa fa-fw fa-github"></i> Github</a>
-            <a href="{{ url('/auth/twitter') }}" class="btn btn-twitter float-left"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+            <a href="{{ url('/auth/google') }}" class="btn btn-danger float-left"><i class="fa fa-fw fa-github"></i> Google</a>
             <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
         </div>
                 <button type="submit"
