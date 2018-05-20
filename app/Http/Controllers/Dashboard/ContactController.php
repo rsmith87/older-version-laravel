@@ -16,6 +16,7 @@ use App\CommLog;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
+use Webpatser\Uuid\Uuid;
 
 class ContactController extends Controller
 {
@@ -51,10 +52,10 @@ class ContactController extends Controller
 				$data = $view_data->view_data;
 			}
 			$columns = json_decode($data, true);
-			array_unshift($columns, 'id');
+			//array_unshift($columns, 'contlient_uuid');
 		}
 		else{
-			$columns = ["id", "first_name", "last_name", "phone", "email"];
+			$columns = ["contlient_uuid", "first_name", "last_name", "phone", "email"];
 		}
 		
 		$array_cases = [];
@@ -87,28 +88,24 @@ class ContactController extends Controller
 
 	public function contact(Request $request, $id)
 	{
-		$array_cases = [];
-		$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
 		
-		foreach($cases as $case){
-			$array_cases[$case->id] =	$case->name;
-		}
 		
-		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id, 'user_id' => $this->user['id']])->with('documents')->first();
+		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'contlient_uuid' => $id, 'user_id' => $this->user['id']])->with('documents')->first();
 		
 		if(!$requested_contact){
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
+    $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
     $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
 		$notes = Note::where('contact_client_id', $id)->get();
 		return view('dashboard.contact', [
 			'user' => $this->user,
+      'cases' => $cases,
 			'contact' => $requested_contact,
 			'firm_id' => $this->settings->firm_id,
 			'theme' => $this->settings->theme,
 			'cases' => $cases,
-			'array_cases' => $array_cases,
 			'is_client' => 0,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size, 
@@ -120,15 +117,13 @@ class ContactController extends Controller
 
 	public function client(Request $request, $id)
 	{
-		$array_cases = [];
-		$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
 		
 		
-		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id, 'is_client' => '1', 'user_id' => $this->user['id']])->with('documentsclients')->with('tasks')->first();
+		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'contlient_uuid' => $id, 'is_client' => '1', 'user_id' => $this->user['id']])->with('documentsclients')->with('tasks')->first();
 		if(!$requested_contact){
-			
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
+    $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
    $notes = Note::where('contact_client_id', $id)->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
     $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
@@ -139,13 +134,12 @@ class ContactController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			'theme' => $this->settings->theme,
 			'cases' => $cases,
-			'cases' => $array_cases,
 			'is_client' => 1,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,         
       'notes' => $notes,
       'task_lists' => $task_lists,
-            'logs' => $logs,
+      'logs' => $logs,
 		]);
 	}	
 
@@ -205,6 +199,7 @@ class ContactController extends Controller
   if(!isset($data['relationship'])){
     $data['relationship'] = "";
   }
+    $contlient_uuid = Uuid::generate()->string;
 
 	if(empty($data['is_client']) or !isset($data['is_client']) || $data['is_client'] === '0'){
 		$redirect = 'dashboard/contacts';
@@ -215,6 +210,7 @@ class ContactController extends Controller
 			'id' => $data['id'],
 		],
 		[
+      'contlient_uuid' => $contlient_uuid,                
 			'first_name' => $data['first_name'], 
 			'last_name' => $data['last_name'],
       'relationship' => $data['relationship'],
@@ -247,6 +243,7 @@ class ContactController extends Controller
 			'id' => $data['id'],
 		],
 		[
+      'contlient_uuid' => $contlient_uuid,        
 			'first_name' => $data['first_name'], 
 			'last_name' => $data['last_name'],
 			'company' => $data['company'],

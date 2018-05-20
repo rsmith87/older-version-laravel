@@ -18,6 +18,7 @@ class Contact extends Model
      */
     protected $fillable = [
       'id', 
+      'contlient_uuid',
       'prefix', 
       'first_name', 
       'last_name', 

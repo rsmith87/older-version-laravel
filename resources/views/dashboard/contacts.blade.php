@@ -8,7 +8,6 @@
 		<a class="nav-item nav-link btn btn-info"  href="/dashboard/contacts/mine"><i class="fa fa-users"></i> My contacts</a>
 	
   </nav> 
-						@include('dashboard.includes.alerts')
  					@if (count($contacts) < 1)
            <div class="alert alert-warning alert-dismissible in" role="alert">
 						No contacts for this user, yet! <strong>Add a new contact above!</strong>
@@ -16,6 +15,8 @@
             <span aria-hidden="true">&times;</label>
             </button>
            </div>	
+          						@include('dashboard.includes.alerts')
+
 			  		  @elseif (count($contacts) >= 1)  
 
    <div class="panel panel-primary">

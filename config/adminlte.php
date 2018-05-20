@@ -126,20 +126,6 @@ return [
             'text' => 'Clients',
             'url'  => 'dashboard/clients',
             'icon' => 'users',
-            'submenu' => [
-                [
-                    'text' => 'View',
-                    'url'  => 'dashboard/clients',
-                    'icon' => 'user',
-                ],
-                [
-                    'text' => 'Create',
-
-                    'url' => '#',
-                    'icon' => 'user',
-
-                ],
-              ],
               //'can'  => 'view-cases',
         ],
         [
