@@ -8,7 +8,7 @@ class Note extends Model
 {
     protected $fillable = [
       'id',
-      'case_id',
+      'case_uuid',
       'contact_client_id',
       'note',
       'user_id',
@@ -34,6 +34,6 @@ class Note extends Model
   
     public function lawcase()
     {
-      return $this->hasOne('App\Case', 'case_id');
+      return $this->hasOne('App\Case', 'case_uuid');
     }
 }

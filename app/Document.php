@@ -15,6 +15,7 @@ class Document extends Model
      */
     protected $fillable = [
       'id',
+      'document_uuid',
       'name', 
       'description', 
       'location', 

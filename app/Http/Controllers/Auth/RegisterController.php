@@ -100,7 +100,7 @@ class RegisterController extends Controller
       ]); 
       View::create([
         'view_type' => 'client',
-        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' => $inserted->id,
       ]);        
       event(new Registered($inserted));

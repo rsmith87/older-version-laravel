@@ -9,3 +9,4 @@ composer.lock
 /nbproject
 .idea
 composer
+package-lock.json

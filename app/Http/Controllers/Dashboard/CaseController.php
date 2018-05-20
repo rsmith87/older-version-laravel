@@ -41,8 +41,8 @@ class CaseController extends Controller
       }
       $this->settings = Settings::where('user_id', $this->user['id'])->first();
       $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->get();
-      $this->contacts = Contact::where(['user_id' => $this->user['id'], 'is_client' => 0])->get();
-      $this->clients = Contact::where(['user_id' => $this->user['id'], 'is_client' => 1])->first();
+      $this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
+      $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->first();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
       
       
@@ -103,6 +103,7 @@ class CaseController extends Controller
 
     // returns validated data as array
     //$vue_data = $request->validate(['name' => 'required|between:2,20']);
+   
       $check = 0;
     if(isset($data['id'])){
       $id = $data['id'];
@@ -112,13 +113,7 @@ class CaseController extends Controller
       $check = 0;
     }
     
-    if(isset($data['hours'])){
-      CaseHours::create([
-       'case_id' => $id,
-       'hours' => $data['hours'],
-        'note' => "from case edit"
-      ]);
-    }
+
     
     if(isset($data['statute_of_limitations'])){
       $date = new \DateTime();
@@ -161,7 +156,15 @@ class CaseController extends Controller
     } else {
       $timer = $timer->toArray();
     }
-
+    
+    if(isset($data['hours'])){
+      CaseHours::create([
+       'case_uuid' => $case_uuid,
+       'hours' => $data['hours'],
+        'note' => "from case edit"
+      ]);
+    }
+    
     $timers = array_merge($timer, ['timers' => []]);
     return redirect('dashboard/cases/case/'.$case_uuid); 
             
@@ -202,7 +205,7 @@ class CaseController extends Controller
       return redirect('/dashboard/cases')->withErrors(['You don\'t have access to this case.']);
     }
     
-    $case_hours = CaseHours::where('case_id', $id)->get();
+    $case_hours = CaseHours::where('case_uuid', $id)->get();
     $hours_amount = '0';
     foreach($case_hours as $ch){
       $hours_amount += $ch->hours;
@@ -213,51 +216,66 @@ class CaseController extends Controller
     } else {
       $invoice_amount = $requested_case->billing_rate * $hours_amount;
     }
-    $clients = Contact::where(['case_id' => $id, 'is_client' => 1])->first();
+    
     $client_id = Contact::where(['case_id' => $id, 'is_client' => 1])->select('id')->first();
     $order = Order::where('case_id', $id)->first();
     $invoices = Invoice::where('invoicable_id', $id)->get();
     $documents = Document::where('case_id', $id)->get();
-    $notes = Note::where('case_id', $id)->get();
+    $notes = Note::where('case_uuid', $id)->get();
     $task_lists = TaskList::where('c_id', $id)->with('task')->get();
     foreach($invoices as $invoice){
       $line = InvoiceLine::where('invoice_id', $invoice->id)->select('amount')->first();
       $invoice_amount = $invoice_amount - $line->amount;
     }
-    //print_r($notes);
    
 
     return view('dashboard.case', [
       'user' => $this->user,
+      
       'case' => $requested_case,
+        
+      'contacts' => $this->contacts,
+      'cases' => $this->cases,
+      'clients' => $this->clients,
+        
       'hours_worked' => $hours_amount,
-      'firm_id' => $this->settings->firm_id,
-      'theme' => $this->settings->theme,
-      'clients' => $clients,
       'order' => $order,
       'status_values' => $this->status_values,
-      'invoice_amount' =>$invoice_amount,
-      'table_color' => $this->settings->table_color,
-      'table_size' => $this->settings->table_size,  
-      'cases' => $this->cases,
-      'contacts' => $this->contacts,
-      'clients' => $this->clients,
+      'invoice_amount' =>$invoice_amount, 
+
       'documents' => $documents,
       'notes' => $notes,
       'task_lists' => $task_lists,
+      'firm_id' => $this->settings->firm_id,
+       
+      'theme' => $this->settings->theme,
+      'table_color' => $this->settings->table_color,
+      'table_size' => $this->settings->table_size,         
     ]);
     
+  }
+  
+  public function reference_client(Request $request){
+    $data = $request->all();
+    
+    $client = $data['client_id'];
+    $case = $data['case_id'];
+    $uuid = $data['case_uuid'];
+    $client = Contact::where(['id' => $client, 'firm_id' => $this->settings->firm_id, 'is_client' => 1])->update(['case_id' => $case]);
+    return redirect('/dashboard/cases/case/'.$uuid);
   }
   
   
   public function add_hours(Request $request)
   {
     $data = $request->all();
-    $case = LawCase::where('id', $data['case_id'])->select(['billing_rate'])->first();
+    
+    $case = LawCase::where('case_uuid', $data['case_uuid'])->select(['billing_rate'])->first();
 
-    CaseHours::create(['case_id' => $data['case_id'], 'hours' => number_format($data['hours_worked'], 2), 'note' => $data['hours_note']]);
-    $case_hours = CaseHours::where('case_id', $data['case_id'])->get();
+    CaseHours::create(['case_uuid' => $data['case_uuid'], 'hours' => number_format($data['hours_worked'], 2), 'note' => $data['hours_note']]);
     $hours_amount = '0';
+    $case_hours = CaseHours::where('case_uuid', $data['case_uuid'])->get();
+    
     foreach($case_hours as $ch){
       $hours_amount += $ch->hours;
     }
@@ -266,7 +284,7 @@ class CaseController extends Controller
     if(count($order) > 0){
      Order::where('case_id', $data['case_id'])->update(['amount_remaining' => $order->amount_remaining + ($hours_amount * $case->billing_rate)]);
     }
-    return redirect('/dashboard/cases/case/'.$data['case_id'])->with('status', 'Hours updated');
+    return redirect('/dashboard/cases/case/'.$data['case_uuid'])->with('status', 'Hours updated');
   }
   
   public function timeline($id)
@@ -510,15 +528,15 @@ class CaseController extends Controller
   {
     $data = $request->all();
     
-    if(array_key_exists('id', $data)){
-      $id = $data['id'];
+    if(array_key_exists('case_uuid', $data)){
+      $id = $data['case_uuid'];
     }
     else {
-      $id = \DB::table('case')->max('id') + 1;
+      $id = "";
     }
     
     $note = Note::create([
-      'case_id' => $data['case_id'],
+      'case_uuid' => $id,
       'note' => $data['note'],
       'user_id' => $this->user['id'],
       'firm_id' => $this->settings->firm_id,

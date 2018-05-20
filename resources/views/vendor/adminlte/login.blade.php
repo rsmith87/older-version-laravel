@@ -68,8 +68,8 @@
             
                             <div class="form-group">
                 <div class="social-register">
-                  <a href="{{ url('/auth/google') }}" class="btn btn-danger float-left"><i class="fa fa-fw fa-github"></i> Google</a>
-                  <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+                  <a href="{{ url('/auth/google') }}" class="btn btn-danger float-left"><i class="fab fa-google"></i> Google</a>
+                  <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fab fa-facebook-square"></i> Facebook</a>
                 </div>
                 </div>
             <div class="auth-links">

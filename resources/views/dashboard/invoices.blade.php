@@ -9,23 +9,23 @@
 		@endhasrole
   </nav>  
   
-
-   <div class="panel panel-default">
+	@include('dashboard.includes.alerts')
+  @if(count($orders) === 0)
+  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+  You haven't created an Invoice yet! <strong>Create one from the case page!</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  @else
+   <div class="panel panel-primary">
       <div class="panel-heading" style="overflow:hidden;">
         <h1  class="pull-left mt-4 ml-3">
           <i class="fa fa-file-alt"></i> Invoices
         </h1>
 				<div class="clearfix"></div>
         <p class="ml-3 mb-2">Use Invoices to create invoices based off completed cases!  You can then create an account for the billable client to allow acccess to online payment.</p>
-     	 	@include('dashboard.includes.alerts')
-				@if(count($orders) === 0)
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-			  You haven't created an Invoice yet! <strong>Create one from the case page!</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-				@endif
+     	 
 		 </div>
      <div class="panel-body">	 
 			 @if(count($orders) > 0)
@@ -67,6 +67,6 @@
   </div>
 
  </div>
-
+@endif
 
 @endsection

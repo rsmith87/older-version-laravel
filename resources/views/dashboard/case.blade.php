@@ -21,10 +21,13 @@
           <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Bill {{ $contact->first_name }} {{ $contact->last_name }}</a>
         @endif
       @endforeach
-	  @endif
+	  @else
+           <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Reference client to case</a>   
+    @endif
     <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> 
 
 	</nav>  	
+			@include('dashboard.includes.alerts')
 
 	<div class="panel panel-primary">
 		<div class="panel-heading" style="overflow:hidden;">
@@ -35,7 +38,6 @@
 			<p class="ml-3 mb-4">
 				Case information for {{ $case->name }}
 			</p>							
-			@include('dashboard.includes.alerts')
 		</div>
 		<div class="panel-body">
 			<div class="col-sm-6 col-12">
@@ -227,7 +229,6 @@
 </div>
 
 @include('dashboard.includes.event-modal')
-@include('dashboard.includes.document-modal');
 @include('dashboard.includes.case-modal')
 
 <div class="modal fade" id="add-notes-modal">
@@ -241,9 +242,87 @@
 				<hr />        
         <form method="POST" action="/dashboard/cases/case/notes/note/add">
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
-          <input type="hidden" name="case_id" value="{{ $case->id }}" />
+          <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}" />
           <label>Note</label>
           <textarea name="note" class="form-control"></textarea>
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="document-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h3>
+				<i class="fas fa-cloud-upload-alt"></i> Upload document
+				</h3>
+				<div class="clearfix"></div>
+				<hr />
+				<form method="post" action="/dashboard/documents/upload" enctype="multipart/form-data">		 
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<div class="col-sm-6 col-12">
+						<label for="file_upload">File</label>
+						<input type="file" class="form-control" name="file_upload" />
+					</div>
+					<div class="col-sm-6 col-12">
+						<label for="file_name">File Name</label>
+						<input type="text" class="form-control" name="file_name" placeholder="File Name" />
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-sm-6 col-12">
+						<label for="file_description">File Description</label>
+						<input type="text" class="form-control" name="file_description" placeholder="File Description" />
+					</div>
+					<div class="clearfix"></div>
+					<hr />
+    
+					@hasanyrole('administrator')
+            @if(count($cases) > 0)  
+          <div class="col-sm-6 col-12">
+           <label for="case_name">Case link</label>
+                  <input type="hidden" name="case_id" value="{{ $case->id }}" /> 
+                  <input type="text" name="case_name" class="form-control" value="{{ $case->name }}"/>
+              </div>
+            @endif          
+					@endhasanyrole
+          @hasanyrole('client|authenticated_user')
+            <input type="hidden" name="case_id" value="{{ $case->id }}" />
+          @endhasanyrole
+					<div class="col-12">
+						<button class="btn btn-primary mt-3 mb-3" type="submit">
+							<i class="fas fa-check"></i> Submit
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>  
+
+<script src="{{ asset('js/autocomplete.js') }}"></script>
+
+
+<div class="modal fade" id="reference-modal-full">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-sticky-note"></i> Reference client to case		
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/cases/case/reference">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="case_id" value="{{ $case->id }}" />
+          <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}" />
+          <label>Note</label>
+          <input type="hidden" name="client_id" />
+          <input type="text" name="client_name" id="client_name" class="form-control" />
           <button type="submit" class="form-control mt-3 btn btn-primary">
             Submit
           </button>
@@ -264,6 +343,7 @@
 				<hr />
 				<form role="form" method="post" action="/dashboard/cases/case/add-hours">
 					<input type="hidden" name="case_id" value="{{ $case->id }}"/>
+          <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}" />
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-12">
 						<label>Amount</label>
@@ -518,74 +598,80 @@
 </div>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
-  @if(!count($cases) > 0)
-    var cases = {!! json_encode($cases->toArray()) !!};
-    for(var i = 0; i<cases.length; i++){
-      cases[i].data = cases[i]['id'];
-      cases[i].value = cases[i]['name'];
-	  }
-     $('input[name="case_name"]').autocomplete({
-      lookup: cases,
-      width: 'flex',
-      triggerSelectOnValidInput: true,
-      onSelect: function (suggestion) {
-        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-        //alert(thehtml);
-        var $this = $(this);
-        $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
-
-      }
-
-    });
- @endif
  
+  @if(count($clients) > 0)
+   var clients = {!! json_encode($clients->toArray()) !!};
+
+	for(var i = 0; i<clients.length; i++){
+		clients[i].data = clients[i]['id'];
+		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+	}  
   
-  @if(!empty($clients))
-    var clients = {!! json_encode($clients->toArray()) !!};
-  	for(var i = 0; i<clients.length; i++){
-		  clients[i].data = clients[i]['id'];
-		  clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	  }
-    $('input[name="client_name"]').autocomplete({
-      lookup: clients,
-      width: 'flex',
-      triggerSelectOnValidInput: true,
-      onSelect: function (suggestion) {
-        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-        //alert(thehtml);
-        var $this = $(this);
-        $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
-      }
-
-    });
-  @endif
-  @if(!empty($contacts))
-    var contacts = {!! json_encode($contacts->toArray()) !!};	
-  	for(var i = 0; i<contacts.length; i++){
-		  contacts[i].data = contacts[i]['id'];
-		  contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
+  $('input[name="client_name"]').autocomplete({
+    lookup: clients,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
     }
-    $('input[name="contact_name"]').autocomplete({
-      lookup: contacts,
-      width: 'flex',
-      triggerSelectOnValidInput: true,
-      onSelect: function (suggestion) {
-        var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-        //alert(thehtml);
-        var $this = $(this);
-        $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
+  });
+  
+  @endif
+  
+  @if(count($contacts) > 0)
+   var contacts = {!! json_encode($contacts->toArray()) !!};	
 
-      }
+ 	for(var i = 0; i<contacts.length; i++){
+		contacts[i].data = contacts[i]['id'];
+		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
+	}	 
+ 
+	
+ 	$('input[name="contact_name"]').autocomplete({
+    lookup: contacts,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
 		 
-  });	
+  });	 
 	@endif
 	
-	
 
-	
+	  @if(count($cases) > 0)
+   var cases = {!! json_encode($cases->toArray()) !!};
+
+	for(var i = 0; i<cases.length; i++){
+		cases[i].data = cases[i]['id'];
+		cases[i].value = cases[i]['name'];
+	}  
+  
+  $('input[name="case_name"]').autocomplete({
+    lookup: cases,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+  });
+  
+  @endif
 
 	
 </script>

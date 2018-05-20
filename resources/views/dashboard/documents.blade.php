@@ -7,8 +7,16 @@
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#wysiwyg-modal" href="#"><i class="fa fa-plus"></i> <i class="fas fa-file"></i> Create Document</a>
 	  
   </nav> 	
+				@include('dashboard.includes.alerts')
 
-
+@if (count($documents) === 0)
+					<div class="alert alert-warning alert-dismissible fade in" role="alert">
+						You haven't upoaded a document yet! <strong>Upload or add a new document above!</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				@endif			
 	<div class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading" style="overflow:hidden;">
@@ -16,15 +24,7 @@
 					<i class="fas fa-file"></i> Documents
 				</h1>
 				
-				@include('dashboard.includes.alerts')
-				@if (count($documents) === 0)
-					<div class="alert alert-warning alert-dismissible fade in" role="alert">
-						You haven't upoaded a document yet! <strong>Upload or add a new document above!</strong>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				@endif				
+					
 			</div>
 			<div class="panel-body">
 				@if (count($documents) > 0)		

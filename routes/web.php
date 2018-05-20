@@ -109,6 +109,7 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('/case/{id}', 'Dashboard\CaseController@case');
                 Route::post('/create', 'Dashboard\CaseController@add');
                 Route::post('/case/add-hours', 'Dashboard\CaseController@add_hours');
+                Route::post('/case/reference', 'Dashboard\CaseController@reference_client');
                 Route::get('/case/{id}/timeline', 'Dashboard\CaseController@timeline');
                 Route::post('/case/notes/note/add', 'Dashboard\CaseController@note_add');
                 Route::post('/case/note/delete', 'Dashboard\CaseController@note_delete');

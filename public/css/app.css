@@ -924,4 +924,12 @@ select.form-control:not([size]):not([multiple]) {
 .widget-user-header {
   overflow: hidden;
 }
+.login-page .checkbox.icheck,
+.register-page .checkbox.icheck {
+  margin-left: 25px;
+}
+.login-page .social-register,
+.register-page .social-register {
+  margin: 20px 0;
+}
 /*# sourceMappingURL=app.css.map */
