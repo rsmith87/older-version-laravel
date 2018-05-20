@@ -314,9 +314,7 @@ table{
 		}
 	}
   &.document{
-    .col-12{
-      overflow:hidden;
-    }
+    
   }
 	&.calendar{
 		&.event{
@@ -362,6 +360,7 @@ nav.nav-pills {
 nav.nav-pills a.nav-link {
   margin-right: 0px;
   border-radius:0;
+  margin-bottom:5px;
 }
 .navbar a {
   font-size: 1.25em;
@@ -883,7 +882,7 @@ nav .show > .btn-primary.dropdown-toggle {
 	padding-left:40px;
 }
 
-.dashboard.case{
+.dashboard{
   .card-body{
     &:first-of-type{
       h5{
@@ -1100,4 +1099,10 @@ select.form-control:not([size]):not([multiple]){
     margin:20px 0;
   }
 
+}
+
+.form-group{
+  &.form-group-fw{
+    width:100%;
+  }
 }

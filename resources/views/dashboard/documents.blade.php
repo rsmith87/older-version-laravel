@@ -9,7 +9,7 @@
   </nav> 	
 				@include('dashboard.includes.alerts')
 
-@if (count($documents) === 0)
+    @if (count($documents) === 0)
 					<div class="alert alert-warning alert-dismissible fade in" role="alert">
 						You haven't upoaded a document yet! <strong>Upload or add a new document above!</strong>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -137,5 +137,83 @@
 <script type="text/javascript">
 CKEDITOR.replace('ckeditor_one');
 </script>
+<script src="{{ asset('js/autocomplete.js') }}"></script>
+<script type="text/javascript">
+ 
+  @if(count($clients) > 0)
+   var clients = {!! json_encode($clients->toArray()) !!};
 
+	for(var i = 0; i<clients.length; i++){
+		clients[i].data = clients[i]['id'];
+		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+	}  
+  
+  $('input[name="client_name"]').autocomplete({
+    lookup: clients,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+  });
+  
+  @endif
+  
+  @if(count($contacts) > 0)
+   var contacts = {!! json_encode($contacts->toArray()) !!};	
+
+ 	for(var i = 0; i<contacts.length; i++){
+		contacts[i].data = contacts[i]['id'];
+		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
+	}	 
+ 
+	
+ 	$('input[name="contact_name"]').autocomplete({
+    lookup: contacts,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+		 
+  });	 
+	@endif
+	
+
+	  @if(count($cases) > 0)
+   var cases = {!! json_encode($cases->toArray()) !!};
+
+	for(var i = 0; i<cases.length; i++){
+		cases[i].data = cases[i]['id'];
+		cases[i].value = cases[i]['name'];
+	}  
+  
+  $('input[name="case_name"]').autocomplete({
+    lookup: cases,
+		width: 'flex',
+		triggerSelectOnValidInput: true,
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
+			//alert(thehtml);
+			var $this = $(this);
+      $('#outputcontent').html(thehtml);
+   		$this.prev().val(suggestion.data);
+			
+    }
+  });
+  
+  @endif
+
+	
+</script>
 @endsection

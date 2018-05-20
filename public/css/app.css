@@ -256,9 +256,6 @@ table#main tr:active {
 .dashboard.task .category-tags .form-field-hide {
   display: none;
 }
-.dashboard.document .col-12 {
-  overflow: hidden;
-}
 .modal .col-sm-6,
 .modal .col-12,
 .modal .col-xs-12,
@@ -297,6 +294,7 @@ nav.nav-pills {
 nav.nav-pills a.nav-link {
   margin-right: 0px;
   border-radius: 0;
+  margin-bottom: 5px;
 }
 .navbar a {
   font-size: 1.25em;
@@ -762,14 +760,14 @@ nav .show > .btn-primary.dropdown-toggle {
 .subtask-row td:nth-child(2) {
   padding-left: 40px;
 }
-.dashboard.case .card-body:first-of-type h5 {
+.dashboard .card-body:first-of-type h5 {
   margin-top: 0;
 }
-.dashboard.case .card-body a {
+.dashboard .card-body a {
   padding: 5px;
 }
-.dashboard.case .h5,
-.dashboard.case h5 {
+.dashboard .h5,
+.dashboard h5 {
   font-size: 12px;
   margin-bottom: 3px;
   margin-top: 20px;
@@ -931,5 +929,8 @@ select.form-control:not([size]):not([multiple]) {
 .login-page .social-register,
 .register-page .social-register {
   margin: 20px 0;
+}
+.form-group.form-group-fw {
+  width: 100%;
 }
 /*# sourceMappingURL=app.css.map */

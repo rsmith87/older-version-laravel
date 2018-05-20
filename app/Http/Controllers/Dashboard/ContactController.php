@@ -98,7 +98,7 @@ class ContactController extends Controller
     $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
     $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
-		$notes = Note::where('contact_client_id', $id)->get();
+		$notes = Note::where('contlient_uuid', $id)->get();
 		return view('dashboard.contact', [
 			'user' => $this->user,
       'cases' => $cases,
@@ -280,7 +280,7 @@ class ContactController extends Controller
     
     $note = Note::create([
       'case_id' => 0,
-       'contact_client_id' => $data['contact_client_id'],
+       'contlient_uuid' => $data['contlient_uuid'],
        'note' => $data['note'],
        'user_id' => $this->user['id'],
       'firm_id' => $this->settings->firm_id,

@@ -24,7 +24,6 @@
 					@include('dashboard.includes.alerts')
 
    <div class="panel panel-primary">
-     				@include('dashboard.includes.alerts')
 
       <div class="panel-heading" style="overflow:hidden;">
         <h1 class="pull-left ml-4 mt-4 mb-2"> 
@@ -65,9 +64,9 @@
 				 </div>
 		<div class="clearfix"></div>
      
-      @if(count($notes) > 0)
+           @if(count($notes) > 0)
       <h3 class="mt-5 ml-3">
-        <i class="fas fa-sticky-note"></i> {{ ucfirst(Request::segment(3)) }} notes
+        <i class="fas fa-sticky-note"></i> Notes
       </h3>
       <div class="clearfix"></div>
       <div class="mb-3 ml-3" style="overflow:hidden;">
@@ -75,11 +74,11 @@
         
          
          @foreach($notes as $note)
-             <div class="card text-white bg-warning mb-3 float-left mr-2" style="max-width: 18rem;">
+             <div>
  
               <div class="card-body">
-                 <a class="float-right ml-1" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i class="fas fa-trash-alt"></i></a>
-                <a data-toggle="modal" class="float-right" data-target="#edit-note-modal-{{ $note->id }}"><i class="fas fa-edit"></i></a>                
+                 <a class="pull-right" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i class="fas fa-trash-alt"></i></a>
+                <a data-toggle="modal" class="pull-right" data-target="#edit-note-modal-{{ $note->id }}"><i class="fas fa-edit"></i></a>                
                 <h5 class="card-title">Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
                 <p class="card-text">{{ $note->note }}</p>
               </div>
@@ -278,7 +277,7 @@
 				<hr />        
         <form method="POST" action="/dashboard/contacts/contact/notes/note/add">
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
-          <input type="hidden" name="contact_client_id" value="{{ $contact->id }}" />
+          <input type="hidden" name="contlient_uuid" value="{{ $contact->contlient_uuid }}" />
           <label>Note</label>
           <textarea name="note" class="form-control"></textarea>
           <button type="submit" class="form-control mt-3 btn btn-primary">
@@ -359,7 +358,9 @@
         <form method="POST" action="/dashboard/clients/client/note/edit">
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
           <input type="hidden" name="id" value="{{ $note->id }}" />
-          <input type="text" class='form-control' name="note" value="{{ $note->note }}"/>
+          <div class="form-group form-group-fw">
+            <textarea class='form-control' name="note">{{ $note->note }}</textarea>
+          </div>
           <input type="submit" class="form-control mt-3 btn btn-primary" value="Save" />
         </form>
       </div>
@@ -431,6 +432,8 @@ var cases = {!! json_encode($cases->toArray()) !!};
     }
 		 
   });
+  
+  
 var cursorX;
 var cursorY;
 if (window.Event) {

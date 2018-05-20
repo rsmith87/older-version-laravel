@@ -46,13 +46,7 @@
                   <input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
               </div>
             @endif
-            @if(count($clients) > 0)
-              <div class="col-sm-6 col-12">
-                <label for="file_name">Share with client?</label>
-                <input type="checkbox" class="form-control" name="client_share" />
-              </div>
-            @endif
-					@endhasanyrole
+
 					<div class="col-12">
 						<button class="btn btn-primary mt-3 mb-3" type="submit">
 							<i class="fas fa-check"></i> Submit

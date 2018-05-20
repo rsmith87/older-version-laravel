@@ -9,7 +9,7 @@ class Note extends Model
     protected $fillable = [
       'id',
       'case_uuid',
-      'contact_client_id',
+      'contlient_uuid',
       'note',
       'user_id',
       'firm_id',
