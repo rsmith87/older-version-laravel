@@ -296,7 +296,10 @@
          <form role="form" method="post" action="/dashboard/cases/create">
            
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-           
+          <input type="hidden" name="id" value="{{ $case->id }}">
+          <input type="hidden" name="u_id" value="{{ $user['id'] }}" />
+          <input type="hidden" name="user_id" value="{{ $user['id'] }}" />
+          
           <div class="col-sm-6 col-xs-12">
             
  

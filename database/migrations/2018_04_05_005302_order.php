@@ -15,6 +15,7 @@ class Order extends Migration
     {
       Schema::create('orders', function (Blueprint $table) {
           $table->increments('id');
+          $table->uuid('order_uuid');          
           $table->float('amount');
           $table->float('amount_remaining');
           $table->integer('client_id');

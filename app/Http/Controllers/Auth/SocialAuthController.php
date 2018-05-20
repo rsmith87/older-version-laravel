@@ -12,6 +12,8 @@ use App\View;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Contracts\Auth\Authenticatable;
+use App\Uuids;
+use Webpatser\Uuid\Uuid;
 use Illuminate\Auth\Events\Registered;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 use Jrean\UserVerification\Facades\UserVerification;
@@ -62,18 +64,18 @@ class SocialAuthController extends Controller
       ]);
       View::create([
         'view_type' => 'contact',
-        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' => $authUser->id,
       ]);  
 
       View::create([
         'view_type' => 'case',
-        'view_data' => json_encode(['id', 'name', 'court_name'], true),
+        'view_data' => json_encode(['case_uuid', 'name', 'court_name'], true),
         'u_id' => $authUser->id,
       ]); 
       View::create([
         'view_type' => 'client',
-        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' => $authUser->id,
       ]);        
       
@@ -106,7 +108,10 @@ class SocialAuthController extends Controller
         if ($authUser) {
             return $authUser;
         }
+        $uuid = Uuid::generate()->string;
+
         $user = User::create([
+            'id' => $uuid,
             'name'     => $user->name,
             'email'    => $user->email,
             'provider' => $provider,

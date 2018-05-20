@@ -8,6 +8,7 @@ use App\LawCase;
 use App\Timer;
 use App\Contact;
 use App\Event;
+use App\User;
 use App\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -151,6 +152,11 @@ class DashboardController extends Controller
       'title' => $data['title'],
       'profile_image' => $filePath,
     ]);
+     
+    User::where('id', \Auth::id())->update([
+        'name' => $data['name'],
+    ]);
+    
     return redirect()->back()->with('status', 'Profile updated successfully!');
   }
   

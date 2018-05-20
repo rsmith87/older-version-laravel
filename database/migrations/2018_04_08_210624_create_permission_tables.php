@@ -50,7 +50,7 @@ class CreatePermissionTables extends Migration
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
 
-            $table->primary(['role_id', 'model_id', 'model_type']);
+            $table->primary(['role_id', 'model_id']);
         });
 
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {

@@ -8,15 +8,6 @@
 		<a class="nav-item nav-link btn btn-info"  href="/dashboard/contacts/mine"><i class="fa fa-users"></i> My contacts</a>
 	
   </nav> 
-	
-	
-   <div class="panel panel-primary">
-    <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-3 mt-4 mb-2">
-         <i class="fas fa-address-card"></i> Contacts
-        </h1>
-				<div class="clearfix"></div>
-        <p class="ml-3 mb-2">Contacts shows all of your client information.  Click on a contact to show information.</p>							
 						@include('dashboard.includes.alerts')
  					@if (count($contacts) < 1)
            <div class="alert alert-warning alert-dismissible in" role="alert">
@@ -24,9 +15,16 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</label>
             </button>
-           </div>
-		  		  @elseif (count($contacts) >= 1)  
-            
+           </div>	
+			  		  @elseif (count($contacts) >= 1)  
+
+   <div class="panel panel-primary">
+    <div class="panel-heading" style="overflow:hidden;">
+        <h1 class="pull-left ml-3 mt-4 mb-2">
+         <i class="fas fa-address-card"></i> Contacts
+        </h1>
+				<div class="clearfix"></div>
+        <p class="ml-3 mb-2">Contacts shows all of your client information.  Click on a contact to show information.</p>							 
      </div>
      <div class="panel-body">
         <table id="main" class="table dataTable table-responsive table-striped table-hover">

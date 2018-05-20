@@ -21,7 +21,8 @@
 
   </nav>  	
 
-	
+					@include('dashboard.includes.alerts')
+
    <div class="panel panel-primary">
      				@include('dashboard.includes.alerts')
 
@@ -31,7 +32,6 @@
         </h1>
         <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
 
-				@include('dashboard.includes.alerts')
      </div>
      <div class="panel-body">
 		

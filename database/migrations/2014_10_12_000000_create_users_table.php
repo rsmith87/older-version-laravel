@@ -5,6 +5,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
 {
+  
+      /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
     /**
      * Run the migrations.
      *
@@ -24,20 +31,9 @@ class CreateUsersTable extends Migration
         $table->string('card_last_four')->nullable();
         $table->timestamp('trial_ends_at')->nullable();          
         $table->rememberToken();
+        $table->uuid('u_id');
         $table->timestamps();
       });
-      
-      Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->integer('user_id');
-        $table->string('name');
-        $table->string('stripe_id');
-        $table->string('stripe_plan');
-        $table->integer('quantity');
-        $table->timestamp('trial_ends_at')->nullable();
-        $table->timestamp('ends_at')->nullable();
-        $table->timestamps();
-    });
     }
 
     /**
@@ -48,6 +44,5 @@ class CreateUsersTable extends Migration
     public function down()
     {
       Schema::dropIfExists('users');
-      Schema::dropIfExists('subscriptions');
     }
 }

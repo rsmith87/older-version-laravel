@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
+use App\Uuids;
+use Webpatser\Uuid\Uuid;
 
 class RolesPermissionsSeeder extends Seeder
 {
@@ -83,14 +85,18 @@ class RolesPermissionsSeeder extends Seeder
       $role->givePermissionTo('view tasks');
       $role->givePermissionTo('view documents');*/
       
-      DB::table('users')->insert([
-        'name' => 'Robert Smith',
+      //$uuid = Uuid::generate()->string;
+      $user = User::create([
         'email' => 'codenut33@gmail.com',
         'password' => bcrypt('123456'),
         'verified' => 1,
       ]);
       
-      User::find(1)->assignRole('administrator');
+      DB::table('model_has_roles')->insert([
+         'model_type' => 'App\User',
+          'model_id' => $user->id,
+          'role_id' => 2,
+      ]);
       
       DB::table('firm')->insert([
           'name' => 'Admin Firm',
@@ -102,7 +108,7 @@ class RolesPermissionsSeeder extends Seeder
       ]);
       
       DB::table('settings')->insert([
-        'user_id' => 1,
+        'user_id' => $user->id,
         'theme' => 'flatly',
         'table_color' => 'light',
         'table_size' => 'lg',
@@ -113,18 +119,18 @@ class RolesPermissionsSeeder extends Seeder
       DB::table('views')->insert([
         'view_type' => 'contact',
         'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
-        'u_id' => 1,
+        'u_id' =>  $user->id,
       ]);  
 
       DB::table('views')->insert([
         'view_type' => 'case',
         'view_data' => json_encode(['id', 'name', 'court_name'], true),
-        'u_id' => 1,
+        'u_id' =>  $user->id,
       ]); 
       DB::table('views')->insert([
         'view_type' => 'client',
         'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
-        'u_id' => 1,
+        'u_id' =>  $user->id,
       ]);        
 
     }

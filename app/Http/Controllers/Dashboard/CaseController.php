@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\LawCase;
 use App\Contact;
 use App\Settings;
@@ -19,8 +18,8 @@ use App\CaseHours;
 use App\Note;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use App\Uuids;
+use Webpatser\Uuid\Uuid;
 
 class CaseController extends Controller
 {
@@ -41,7 +40,7 @@ class CaseController extends Controller
         return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
       }
       $this->settings = Settings::where('user_id', $this->user['id'])->first();
-      $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
+      $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->get();
       $this->contacts = Contact::where(['user_id' => $this->user['id'], 'is_client' => 0])->get();
       $this->clients = Contact::where(['user_id' => $this->user['id'], 'is_client' => 1])->first();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
@@ -129,6 +128,7 @@ class CaseController extends Controller
       $date = "";
     }
     
+    $case_uuid = Uuid::generate()->string;
       
     $project = LawCase::updateOrCreate(
     [
@@ -150,7 +150,9 @@ class CaseController extends Controller
       'billing_type' => isset($data['rate_type']) ? $data['rate_type'] : 'fixed',
       'billing_rate' => $data['billing_rate'],
       'firm_id' => $this->settings->firm_id,
-      'u_id' => \Auth::id(),
+      'u_id' => $this->user['id'],
+      'user_id' => $this->user['id'],
+      'case_uuid' => $case_uuid,
     ]);
     
     $timer = Timer::where('user_id', $this->user['id'])->get();
@@ -161,7 +163,7 @@ class CaseController extends Controller
     }
 
     $timers = array_merge($timer, ['timers' => []]);
-    return redirect('dashboard/cases/case/'.$project->id); 
+    return redirect('dashboard/cases/case/'.$case_uuid); 
             
     }
   
@@ -195,7 +197,7 @@ class CaseController extends Controller
   
   public function case($id, Request $request)
   {
-    $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id])->with('contacts')->with('client')->with('documents')->first();
+    $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
     if(count($requested_case) === 0){
       return redirect('/dashboard/cases')->withErrors(['You don\'t have access to this case.']);
     }

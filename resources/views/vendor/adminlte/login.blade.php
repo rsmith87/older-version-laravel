@@ -48,12 +48,7 @@
                         </span>
                     @endif
                 </div>
-                <div class="form-group">
-                <div class="social-register">
-                  <a href="{{ url('/auth/google') }}" class="btn btn-danger float-left"><i class="fa fa-fw fa-github"></i> Google</a>
-                  <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
-                </div>
-                </div>              
+              
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
@@ -70,6 +65,13 @@
                     <!-- /.col -->
                 </div>
             </form>
+            
+                            <div class="form-group">
+                <div class="social-register">
+                  <a href="{{ url('/auth/google') }}" class="btn btn-danger float-left"><i class="fa fa-fw fa-github"></i> Google</a>
+                  <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+                </div>
+                </div>
             <div class="auth-links">
                 <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}"
                    class="text-center"

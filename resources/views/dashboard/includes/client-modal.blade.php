@@ -69,13 +69,14 @@
 						<input type="text" class="form-control" name="zip" aria-label="Address">
 					</div>
 					<div class="clearfix"></div>
+          @if(count($cases) > 0)
 					<hr />
 					<div class="col-sm-12 col-xs-12">
 						<label>Case</label>
 						<input type="hidden" name="case_id" />
 						<input type="text" name="case_name" class="form-control" />
 					</div>   
-
+          @endif
 					<button class="btn btn-primary mt-3 mb-1">
 						<i class="fas fa-check"></i> Submit
 					</button>

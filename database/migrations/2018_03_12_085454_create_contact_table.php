@@ -14,6 +14,7 @@ class CreateContactTable extends Migration
     {
         Schema::create('contact', function (Blueprint $table) {
           $table->increments('id');
+          $table->uuid('contlient_uuid');          
           $table->longText('prefix');
           $table->longText('first_name');
           $table->longText('last_name');

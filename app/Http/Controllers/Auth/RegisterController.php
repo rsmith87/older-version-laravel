@@ -89,13 +89,13 @@ class RegisterController extends Controller
       ]);
       View::create([
         'view_type' => 'contact',
-        'view_data' => json_encode(['id', 'first_name', 'last_name', 'phone'], true),
+        'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' => $inserted->id,
       ]);  
 
       View::create([
         'view_type' => 'case',
-        'view_data' => json_encode(['id', 'name', 'court_name'], true),
+        'view_data' => json_encode(['case_uuid', 'name', 'court_name'], true),
         'u_id' => $inserted->id,
       ]); 
       View::create([

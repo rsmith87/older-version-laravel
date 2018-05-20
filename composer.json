@@ -35,7 +35,8 @@
         "jrean/laravel-user-verification":"dev-master",
         "dacastro4/laravel-gmail": "^0.4.1",
         "laravel/passport": "^6.0",
-        "cmgmyr/messenger": "^2.15"
+        "cmgmyr/messenger": "^2.15",
+        "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

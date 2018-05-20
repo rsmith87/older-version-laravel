@@ -236,6 +236,7 @@ return [
       'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
       'LaravelGmail' => Dacastro4\LaravelGmail\Facades\LaravelGmail::class,
       'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+      'Uuid' => Webpatser\Uuid\Uuid::class,
       
     ],
 

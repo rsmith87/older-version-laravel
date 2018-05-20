@@ -14,6 +14,7 @@ class CreateCaseTable extends Migration
     {
       Schema::create('case', function (Blueprint $table) {
         $table->increments('id');
+        $table->uuid('case_uuid');        
         $table->text('status');        
         $table->longText('number');
         $table->longText('name');

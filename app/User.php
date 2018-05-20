@@ -11,6 +11,7 @@ use App\Notifications\EventDenyNotification;
 use App\Notifications\ResetEmailNotification;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Billable;
+use App\Uuids;
 use Spatie\Permission\Traits\HasRoles;
 
 

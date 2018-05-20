@@ -14,6 +14,7 @@ class CreateDocumentTable extends Migration
     {
         Schema::create('document', function (Blueprint $table) {
           $table->increments('id');
+          $table->uuid('document_uuid');          
           $table->longText('name');
           $table->longText('description');
           $table->longText('location');

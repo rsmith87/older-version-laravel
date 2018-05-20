@@ -15,6 +15,7 @@ class LawCase extends Model
   
     protected $fillable = [
         'id',
+        'case_uuid',
         'status', 
         'number',  
         'name', 

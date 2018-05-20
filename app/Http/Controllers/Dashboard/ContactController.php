@@ -123,9 +123,6 @@ class ContactController extends Controller
 		$array_cases = [];
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
 		
-		foreach($cases as $case){
-			$array_cases[$case->id] =	$case->name;
-		}
 		
 		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id, 'is_client' => '1', 'user_id' => $this->user['id']])->with('documentsclients')->with('tasks')->first();
 		if(!$requested_contact){
@@ -142,7 +139,7 @@ class ContactController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			'theme' => $this->settings->theme,
 			'cases' => $cases,
-			'array_cases' => $array_cases,
+			'cases' => $array_cases,
 			'is_client' => 1,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,         
