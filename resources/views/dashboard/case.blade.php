@@ -112,6 +112,7 @@
 				@if(!empty($case->Contacts))
 					@foreach($case->Contacts as $contact)
 						@if($contact->is_client === 1)
+            <div class="col-sm-6 col-xs-12">
 							<h3 class="mt-5">
 								<i class="fas fa-user"></i> Client
 							</h3>
@@ -127,13 +128,14 @@
 								</thead> 
 								<tbody> 
 									<tr>
-										<td>{{ $contact->id }}</td>
+										<td>{{ $contact->contlient_uuid }}</td>
 										<td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
 										<td>{{ $contact->phone }}</td>
 										<td>{{ $contact->email }}</td>
 									</tr>
 								</tbody>
 							</table>	
+            </div>
 						@endif
 					@endforeach
 				@endif
@@ -141,6 +143,7 @@
 				@if(!empty($case->Contacts))
 					@foreach($case->Contacts as $contact)
 						@if($contact->is_client != 1)	
+            <div class="col-sm-6 col-xs-12">
 							<div class="clearfix"></div>
 							<h3 class="mt-5">
 							<i class="fa fa-address-card"></i> Contacts
@@ -157,7 +160,7 @@
 								</thead> 
 								<tbody> 
 									<tr>
-										<td>{{ $contact->id }}</td>
+										<td>{{ $contact->contlient_uuid }}</td>
 										<td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
 										<td>{{ !empty($contact->phone) ? $contact->phone : "Not set" }}</td>
 										<td>{{ !empty($contact->email) ? $contact->email : "Not set" }}</td>
@@ -165,13 +168,14 @@
 									</tr>
 								</tbody>
 							</table>
+            </div>
 						@endif
 					@endforeach
 				@endif
 
 			
 					@if(count($case->Documents) > 0)
-					<div class="clearfix"></div>
+          <div class="col-sm-6 col-xs-12">
 					<h3 class="mt-5">
 						<i class="fa fa-file"></i> Documents
 					</h3>
@@ -187,20 +191,21 @@
 						<tbody>
 						@foreach($case->Documents as $document)							
 							<tr>
-                <td>{{ $document->id }}</td>
+                <td>{{ $document->document_uuid }}</td>
 								<td>{{ $document->name }}</td>
 								<td>{{ $document->description }}</td>
 							</tr>
 						@endforeach	
 						</tbody>
-					</table>           
+					</table>
+          </div>
 					@endif
 				
 				
 				
 			@if(count($task_lists) > 0)
    		@foreach($task_lists as $task_list)
-     
+      <div class="col-sm-6 col-xs-12">
            <h3 class="mt-5">
              <i class="fa fa-clipboard-list"></i> Task list {{ $task_list->task_list_name }}
            </h3>
@@ -222,6 +227,7 @@
 				 		@endforeach
 						 </tbody>
 				 </table>
+      </div>
       @endforeach
 				 @endif
 		</div>

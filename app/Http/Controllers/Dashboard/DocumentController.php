@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Document;
 use App\WysiwygDocument;
-use App\Http\Requests;
 use App\Settings;
 use Bitly;
 use App\LawCase;
 use App\Contact;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use App\Http\Controllers\Controller;
-
+use Webpatser\Uuid\Uuid;
 
 class DocumentController extends Controller
 {
@@ -176,7 +174,7 @@ class DocumentController extends Controller
 	public function single(Request $request, $id)
 	{
    
-		$documents = Document::where(['id' => $id, 'firm_id' => $this->settings->firm_id])->first();
+		$documents = Document::where(['document_uuid' => $id, 'firm_id' => $this->settings->firm_id])->first();
 		if(!$this->user->hasRole('client')){		
 			$my_clients = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '1'])->get();
 			$my_contacts = Contact::where(['user_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id, 'is_client' => '0'])->get();
@@ -203,6 +201,8 @@ class DocumentController extends Controller
 	{
 		$data = $request->all();
 
+    $uuid = Uuid::generate()->string;
+    
 		if(!isset($data['id'])){
 			$data['id'] = \DB::table('document')->max('id') + 1; 
 			$status = 'added';
@@ -234,6 +234,7 @@ class DocumentController extends Controller
 			'id' => $data['id']
 		],
 		[
+      'document_uuid' => $uuid,
 			'name' =>  !$data['file_name'] ? $imageFileName : $data['file_name'],
 			'description' => $data['file_description'],
 			'location' => 's3',

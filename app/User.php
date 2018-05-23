@@ -12,13 +12,14 @@ use App\Notifications\ResetEmailNotification;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Billable;
 use App\Uuids;
+use Cmgmyr\Messenger\Traits\Messagable;
 use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable
   
 {
-use HasApiTokens, Notifiable, Billable, HasRoles;
+use HasApiTokens, Notifiable, Billable, HasRoles, Messagable;
   /**
    * The attributes that are mass assignable.
    *

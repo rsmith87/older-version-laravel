@@ -40,7 +40,7 @@
 						<tbody> 			 
 						@foreach($documents as $document)
 							<tr>
-								<td>{{ $document->id }}</td>
+								<td>{{ $document->document_uuid }}</td>
 								<td scope="row"><a target="_blank" href="https://s3.amazonaws.com/legaleeze{{ $document->path }}">{{ $document->name }}</a></td>
 								<td>{{ $document->description }}</td> 
 								<td>Stored securely on {{ $document->path }}</td>

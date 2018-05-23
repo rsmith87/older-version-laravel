@@ -9,7 +9,7 @@
     <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-print"></i> Print {{ Request::segment(3) }}</a>     
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i class="fas fa-sticky-note"></i> Add note</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-communication-modal" href="#"><i class="fas fa-comments"></i> Log communication</a>    
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#communication-modal" href="#"><i class="fas fa-comments"></i> Communication w/ {{ Request::segment(3) }}</a>
+    
     
     @if($contact->is_client)
       <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $contact->case_id }}"><i class="fas fa-briefcase"></i> View case</a>

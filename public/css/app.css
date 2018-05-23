@@ -522,10 +522,6 @@ th:nth-child(1),
 td:nth-child(1) {
   display: none;
 }
-.documents th:nth-child(1),
-.documents td:nth-child(1) {
-  display: table-cell;
-}
 #calendar th:nth-child(1),
 #calendar td:nth-child(1) {
   display: table-cell;
@@ -932,5 +928,12 @@ select.form-control:not([size]):not([multiple]) {
 }
 .form-group.form-group-fw {
   width: 100%;
+}
+.case .col-sm-6.col-xs-12 {
+  margin: 30px 0;
+}
+table.dataTable thead th,
+table.dataTable thead td {
+  border-bottom: 1px solid #ddd;
 }
 /*# sourceMappingURL=app.css.map */

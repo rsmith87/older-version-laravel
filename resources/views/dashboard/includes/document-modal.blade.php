@@ -46,7 +46,7 @@
                   <input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
               </div>
             @endif
-
+          @endhasanyrole
 					<div class="col-12">
 						<button class="btn btn-primary mt-3 mb-3" type="submit">
 							<i class="fas fa-check"></i> Submit
@@ -60,7 +60,7 @@
 
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
-  @if(!empty($cases))
+  @if(count($cases) > 0)
     var cases = {!! json_encode($cases->toArray()) !!};
     for(var i = 0; i<cases.length; i++){
       cases[i].data = cases[i]['id'];
@@ -83,7 +83,7 @@
  @endif
  
   
-  @if(!empty($clients))
+  @if(count($clients) > 0)
     var clients = {!! json_encode($clients->toArray()) !!};
   	for(var i = 0; i<clients.length; i++){
 		  clients[i].data = clients[i]['id'];
@@ -103,7 +103,8 @@
 
     });
   @endif
-  @if(!empty($contacts))
+  
+  @if(count($contacts) > 0)
     var contacts = {!! json_encode($contacts->toArray()) !!};	
   	for(var i = 0; i<contacts.length; i++){
 		  contacts[i].data = contacts[i]['id'];

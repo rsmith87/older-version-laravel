@@ -29,13 +29,13 @@
             
      </div>
      <div class="panel-body">
-        <table id="main" class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+        <table id="main" class="table dataTable table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
                     <thead> 
             <tr>           
           @foreach($columns as $column)
 
-              <th scope="col">{{ $column }}</th>
-          
+            <th class="sorting" scope="col">{{ ucfirst(str_replace("_", " ", $column)) }}</th>     
+            
           @endforeach
           </tr> 
           </thead>  

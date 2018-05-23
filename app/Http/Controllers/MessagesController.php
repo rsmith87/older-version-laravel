@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+use Cmgmyr\Messenger\Models\Thread;
+
 
 class MessagesController extends Controller
 {
@@ -50,7 +52,7 @@ class MessagesController extends Controller
 			//$threads = Thread::getAllLatest()->get();
 
 
-			//$threads = Thread::getAllLatest()->get();
+			$threads = Thread::getAllLatest()->get();
 
 
 			// All threads that user is participating in

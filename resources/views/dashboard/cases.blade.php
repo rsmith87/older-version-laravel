@@ -28,12 +28,12 @@
 		</div>
 		<div class="panel-body">
 			@if (count($cases) > 0)
-				<table id="main" class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
+				<table id="main" class="table dataTable table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 					<thead> 
 						<tr>           
 							@foreach($columns as $column)
-								<th scope="col">{{ ucfirst($column) }}</th>
-							@endforeach
+                <th class="sorting" scope="col">{{ ucfirst(str_replace("_", " ", $column)) }}</th>     							
+              @endforeach
 						</tr> 
 					</thead> 
 					<tbody> 

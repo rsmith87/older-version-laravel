@@ -18,7 +18,6 @@ use App\CaseHours;
 use App\Note;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use App\Uuids;
 use Webpatser\Uuid\Uuid;
 
 class CaseController extends Controller
@@ -42,7 +41,7 @@ class CaseController extends Controller
       $this->settings = Settings::where('user_id', $this->user['id'])->first();
       $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->get();
       $this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
-      $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->first();
+      $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
       
       
