@@ -12,7 +12,18 @@
     @endif
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-tasks"></i> Assiged tasks</a>
   </nav>    
-    
+ 
+  			@include('dashboard.includes.alerts')	
+			
+						@if (count($tasks) === 0)
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					No tasks for this user, yet! <strong>Add a new task above!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+			@endif
+  
 	<div class="panel panel-primary">
 		<div class="panel-heading" style="overflow:hidden;">
 			<h1 class="pull-left ml-3 mt-4 mb-2">
@@ -23,16 +34,7 @@
 			
 			<p class="ml-3 mb-2"></p>			
 			
-			@include('dashboard.includes.alerts')	
-			
-						@if (count($tasks) === 0)
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					No tasks for this user, yet! <strong>Add a new task above!</strong>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				</div>
-			@endif				
+				
 			</div>
 		
      @if(count($tasks) > 0)

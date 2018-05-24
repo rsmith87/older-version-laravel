@@ -7,15 +7,8 @@
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add task list</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>
   </nav>    
-    
-   <div class="panel panel-primary">
-      <div class="panel-heading" style="overflow:hidden;">
-        <h1 class="pull-left ml-3 mt-4 mb-2">
-          <i class="fas fa-tasks"></i> Task lists
-        </h1>
-   			<div class="clearfix"></div>
-        <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
-						@include('dashboard.includes.alerts')	
+  
+				@include('dashboard.includes.alerts')	
 			@if (count($tasks) === 0)
        <div class="alert alert-warning alert-dismissible fade in" role="alert">
         No tasks for this user, yet! <strong>Add a new task above!</strong>
@@ -23,7 +16,16 @@
           <span aria-hidden="true">&times;</span>
         </button>
         </div>
-       @endif				
+       @endif		
+       
+   <div class="panel panel-primary">
+      <div class="panel-heading" style="overflow:hidden;">
+        <h1 class="pull-left ml-3 mt-4 mb-2">
+          <i class="fas fa-tasks"></i> Task lists
+        </h1>
+   			<div class="clearfix"></div>
+        <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
+		
      </div>
 		 @if(count($tasks) > 0)
      <div class="panel-body">

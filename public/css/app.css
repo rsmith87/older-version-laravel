@@ -669,6 +669,9 @@ nav .show > .btn-primary.dropdown-toggle {
 #imagemodal img {
   max-width: 100%;
 }
+.messages .media img {
+  float: left;
+}
 .messages .checkbox label {
   margin-right: 10px;
   margin-left: 20px;

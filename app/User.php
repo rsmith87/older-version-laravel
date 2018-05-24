@@ -8,10 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\EventConfirmNotification;
 use App\Notifications\EventDenyNotification;
-use App\Notifications\ResetEmailNotification;
-use Illuminate\Http\Request;
 use Laravel\Cashier\Billable;
-use App\Uuids;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Spatie\Permission\Traits\HasRoles;
 

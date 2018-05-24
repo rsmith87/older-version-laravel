@@ -82,7 +82,7 @@ class ContactController extends Controller
 			'theme' => $this->settings->theme,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
- 
+      'array_cases' => $array_cases,
 		]);
 	}
 
@@ -117,14 +117,14 @@ class ContactController extends Controller
 
 	public function client(Request $request, $id)
 	{
-		
-		
 		$requested_contact = Contact::where(['firm_id' =>  $this->settings->firm_id, 'contlient_uuid' => $id, 'is_client' => '1', 'user_id' => $this->user['id']])->with('documentsclients')->with('tasks')->first();
+    
 		if(!$requested_contact){
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
+    
     $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
-   $notes = Note::where('contact_client_id', $id)->get();
+    $notes = Note::where('contlient_uuid', $id)->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
     $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
 

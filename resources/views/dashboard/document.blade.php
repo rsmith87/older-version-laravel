@@ -53,7 +53,7 @@
 					@endforeach	
 				@endif
 					 
-			 @if(empty($document->contact_id))
+        @if(empty($document->contact_id))
 			 <p>No contact</p>
 				@else
 					@foreach ($contacts as $contact)
@@ -63,15 +63,14 @@
 				 	@endforeach				 
 				@endif
 				 </div>
-<div class="col-12">
-	
-	@if($document->mime_type === 'application/pdf')
-	<iframe src="https://s3.amazonaws.com/legaleeze{{ $document->path }}"></iframe>
-	@elseif($document->mime_type ===' image/jpg' || $document->mime_type === 'image/png' || $document->mime_type === 'image/jpeg' || $document->mime_type === 'image/gif')
-	<img src="https://s3.amazonaws.com/legaleeze{{ $document->path }}" />
-	@elseif($document->mime_type === 'text/rdf' || $document->mime_type === 'application/octet-stream')
-	<iframe src=""https://s3.amazonaws.com/legaleezee{{ urlencode($document->path) }}"></iframe>
-	@endif
+        <div class="col-12">
+          @if($document->mime_type === 'application/pdf')
+          <iframe src="https://s3.amazonaws.com/legaleeze{{ $document->path }}"></iframe>
+          @elseif($document->mime_type ===' image/jpg' || $document->mime_type === 'image/png' || $document->mime_type === 'image/jpeg' || $document->mime_type === 'image/gif')
+          <img src="https://s3.amazonaws.com/legaleeze{{ $document->path }}" />
+          @elseif($document->mime_type === 'text/rdf' || $document->mime_type === 'application/octet-stream')
+          <iframe src=""https://s3.amazonaws.com/legaleezee{{ urlencode($document->path) }}"></iframe>
+          @endif
 				 </div>   
          
 			 </div>
@@ -93,7 +92,7 @@
 </div>
 
 <div class="modal fade" id="document-modal">
-           <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
          <div class="modal-body">
            <h3>
@@ -163,12 +162,9 @@
 					@endforeach
 										
 				@endif
-		
-				 
 		     
 					 </div>    
 
-					 
 					<div class="col-sm-6 col-12">
 						<label for="file_name">Share with client?</label>
 						<input type="checkbox" class="form-control" {{ !empty($document->client_share) && $document->client_share > 0 ? "checked" : '' }} name="client_share" />
@@ -200,24 +196,24 @@ CKEDITOR.replace('ckeditor_one');
 @if($user->hasRole('administrator') || $user->hasRole('authenticated_user'))
 <script type="text/javascript">
 	
-var cases = {!! json_encode($cases->toArray()) !!};
-var clients = {!! json_encode($clients->toArray()) !!};
-var contacts = {!! json_encode($contacts->toArray()) !!};	
+  var cases = {!! json_encode($cases->toArray()) !!};
+  var clients = {!! json_encode($clients->toArray()) !!};
+  var contacts = {!! json_encode($contacts->toArray()) !!};	
 
   for(var i = 0; i<cases.length; i++){
-	  cases[i].data = cases[i]['id'];
-	  cases[i].value = cases[i]['name'];
-	}
-	for(var i = 0; i<clients.length; i++){
-		clients[i].data = clients[i]['id'];
-		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	}
-	for(var i = 0; i<contacts.length; i++){
-		contacts[i].data = contacts[i]['id'];
-		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-	}	
+    cases[i].data = cases[i]['id'];
+    cases[i].value = cases[i]['name'];
+  }
+  for(var i = 0; i<clients.length; i++){
+    clients[i].data = clients[i]['id'];
+    clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
+  }
+  for(var i = 0; i<contacts.length; i++){
+    contacts[i].data = contacts[i]['id'];
+    contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
+  }	
 
-	 $('input[name="case_name"]').autocomplete({
+	$('input[name="case_name"]').autocomplete({
     lookup: cases,
 		width: 'flex',
 		triggerSelectOnValidInput: true,
@@ -227,10 +223,9 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
-    }
-		 
+     }
   });
+  
 	$('input[name="client_name"]').autocomplete({
     lookup: clients,
 		width: 'flex',
@@ -240,11 +235,10 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 			//alert(thehtml);
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
-		 
+   		$this.prev().val(suggestion.data);	
+    } 
   });
+  
 	$('input[name="contact_name"]').autocomplete({
     lookup: contacts,
 		width: 'flex',
@@ -255,10 +249,8 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
     }
-		 
-  });	
+});	
 	
 
 	

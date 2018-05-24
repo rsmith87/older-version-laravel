@@ -249,7 +249,7 @@
 						<div class="col-sm-12 col-xs-12">
 							<label>Case</label>
 							<input type="hidden" name="case_id" value="{{ !empty($contact->case_id) ? $contact->case_id : '' }}" />		
-							<input type="text" name="case_name" value="{{ $contact->case_id != 0 || !empty($array_cases[$contact->case_id]) ? $array_cases[$contact->case_id] : '' }}" class="form-control mb-4" />
+							<input type="text" name="case_name" value="{{ $contact->case_uuid != 0 || !empty($array_cases[$contact->case_uuid]) ? $array_cases[$contact->case_uuid] : '' }}" class="form-control mb-4" />
 						</div>
 						
 						<div class="col-sm-12">
