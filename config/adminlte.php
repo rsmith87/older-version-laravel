@@ -173,14 +173,7 @@ return [
             'url'  => 'dashboard/reports',
             'icon' => 'chart-line'
             //'can'  => 'view-cases',
-        ],
-        [
-            'text'        => 'Settings',
-            'url'         => 'dashboard/settings',
-            'icon'        => 'wrench',
-            //'label'       => 4,
-            //'label_color' => 'success',
-        ],          
+        ],      
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',

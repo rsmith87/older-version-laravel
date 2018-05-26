@@ -939,4 +939,21 @@ table.dataTable thead th,
 table.dataTable thead td {
   border-bottom: 1px solid #ddd;
 }
+.control-sidebar-bg,
+.control-sidebar {
+  top: 45px;
+  right: -300px;
+  width: 300px;
+  -webkit-transition: right 0.3s ease-in-out;
+  -o-transition: right 0.3s ease-in-out;
+  transition: right 0.3s ease-in-out;
+  padding: 20px 10px;
+}
+.control-sidebar form input {
+  margin-bottom: 5px;
+}
+.control-sidebar form button.btn-primary {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 /*# sourceMappingURL=app.css.map */

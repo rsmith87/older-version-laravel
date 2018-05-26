@@ -13,6 +13,7 @@ use App\Category;
 use App\Settings;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Webpatser\Uuid\Uuid;
 
 class TaskController extends Controller
 {
@@ -42,16 +43,16 @@ class TaskController extends Controller
 	{
     //reference TaskLIst to get the list by user id
     //then get the tasks by task list
-    // return the task list name for the table rows
+    //return the task list name for the table rows
     //handle redirect in JS file like the others
     
-		$tasks = TaskList::where('user_id', $this->user['id'])->with('task')->get();
-		$subtasks = Subtask::where('user_id', $this->user['id'])->get();
+		$tasks = TaskList::where('user_id', $this->user['id'])->with('tasks')->get();
+		//$subtasks = Subtask::where('user_id', $this->user['id'])->get();
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
 		$contacts = Contact::where('firm_id', $this->settings->firm_id)->select('id', 'first_name', 'last_name')->get();
 		return view('dashboard/tasks', [
 			'tasks'=> $tasks, 
-			'subtasks' => $subtasks,
+			//'subtasks' => $subtasks,
 			'user' => $this->user, 
 			'theme' => $this->settings->theme, 
 			'table_color' => $this->settings->table_color,
@@ -70,11 +71,10 @@ class TaskController extends Controller
     $exis_cat = [];
     $tasks = [];
     $cases = [];
-		$task_list = TaskList::where(['id' => $id])->first();
-   // print_r($task_lists);
+		$task_list = TaskList::where(['task_list_uuid' => $id])->first();
+    //print_r($task_list);
     if(count($task_list) > 0){
-      $tasks = Task::where('task_list_id', $task_list->id)->with('subtasks')->with('categories')->get();
-   
+      $tasks = Task::where('task_list_uuid', $id)->with('subtasks')->with('categories')->get();
       $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->select('id', 'name')->get();
 			$contacts = Contact::where('firm_id', $this->settings->firm_id)->select('id', 'first_name', 'last_name')->get();    
     }
@@ -90,14 +90,10 @@ class TaskController extends Controller
 			}
       }
 		}
-		else{
-			//return redirect('/dashboard/tasks')->withErrors(['Invalid task or you don\'t have permission to access it.']);
-		}
-    
+
     	return view('dashboard/task', [
 				'tasks' => !empty($tasks) ? $tasks : [],
         'task_list' => $task_list,
-        'tl_id' => $task_list->id,
 				'tags' => $exis_cat,
 				'values' => $values,
 				'count' => $count,
@@ -127,7 +123,7 @@ class TaskController extends Controller
     $t = [];
     $cases = [];
 
-    $t = Task::where('id', $t_id)->with('subtasks')->with('categories')->first();
+    $t = Task::where('task_uuid', $t_id)->with('subtasks')->with('categories')->first();
 
     if(count($t) > 0){
       $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->select('id', 'name')->get();
@@ -168,12 +164,10 @@ class TaskController extends Controller
 		
 		if(!isset($data['id'])){
 			$data['id'] = \DB::table('task_lists')->max('id') + 1; 
+      $data['task_list_uuid'] = Uuid::generate()->string;
 			$status = "added";
 		}      
-
-
-		/*$category = explode(',', $data['tags']);
-	
+		$category = explode(',', $data['tags']);
 		
 		foreach($category as $c){
 			//existing category
@@ -207,13 +201,14 @@ class TaskController extends Controller
 					'task_id' => $data['id']
 				]);
 			}
-		}*/
+		}
 		
 		TaskList::updateOrCreate(
 		[
 			'id' => $data['id'],
 		],
 		[
+      'task_list_uuid' => Uuid::generate()->string,
 			'user_id' => $this->user->id,
 			'task_list_name' => $data['task_name'],
 			'f_id' => $this->settings->firm_id,
@@ -274,18 +269,23 @@ class TaskController extends Controller
 				]);
 			}
 		}
+    if(empty($data['due_time'])){
+      $data['due_time'] = "00:00";
+    }
 		
-    Task::create(
+    $task = Task::create(
 		[
-      'task_list_id' => $data['tl_id'],
+      'task_list_uuid' => $data['tl_uuid'],
+      'task_uuid' => Uuid::generate()->string,
       'task_name' => $data['task_name'],
       'task_description' =>  $data['task_description'],
 			'contact_client_id' => isset($data['contact_id']) ? $data['contact_id'] : "",
-			'due' => $this->fix_date($data['due_date'], $data['due_time']),
-			'assigned' => 0,
+			'due' => isset($data['due_date']) ? $this->fix_date($data['due_date'], $data['due_time']) : \Carbon\Carbon::parse("0000-00-00 00:00:00")->format('Y-m-d H:i:s'),
+			'user_id' => \Auth::id(),
+      'assigned' => 0,
 		]);
 	//print_r($data['id']);
-		return redirect('/dashboard/tasks/task/'.$data['tl_id'])->with('status', 'Task ' . $data['task_name'] . ' ' . $status ."!");
+		return redirect('/dashboard/tasks/task/'.$task->task_list_uuid)->with('status', 'Task ' . $data['task_name'] . ' ' . $status ."!");
   }
 
 	public function add_subtask(Request $request)

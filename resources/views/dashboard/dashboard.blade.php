@@ -32,7 +32,7 @@
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
                 <li><a href="/dashboard/cases">Cases <span class="pull-right badge bg-blue">{{ count($cases) }}</span></a></li>
-                <li><a href="/dashboard/tasks">Tasks <span class="pull-right badge bg-aqua">{{ count($tasks) }}</span></a></li>
+                <li><a href="/dashboard/tasks">Tasks <span class="pull-right badge bg-aqua">{{ $task_count }}</span></a></li>
                 <li><a href="/dashboard/invoices">Invoices <span class="pull-right badge bg-green">12</span></a></li>
                 <li><a href="/dashboard/calendar">Events <span class="pull-right badge bg-red">842</span></a></li>
               </ul>
@@ -51,20 +51,20 @@
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="/dashboard/clients" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/dashboard/clients" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
       </div>
       <div class="col-md-3 col-xs-12">
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{ count($tasks) }}</h3>
+              <h3>{{ $task_count }}</h3>
 
-              <p>Tasks</p>
+              <p>Total tasks</p>
             </div>
             <div class="icon">
               <i class="fa fa-tasks"></i>
             </div>
-            <a href="/dashboard/tasks" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/dashboard/tasks" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
       </div>
       <div class="col-md-3 col-xs-12">
@@ -77,7 +77,7 @@
             <div class="icon">
               <i class="fa fa-calendar-alt"></i>
             </div>
-            <a href="/dashboard/calendar" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/dashboard/calendar" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
       </div>
       <div class="col-md-3 col-xs-12">
@@ -90,17 +90,17 @@
             <div class="icon">
               <i class="fa fa-file-alt"></i>
             </div>
-            <a href="/dashboard/invoices" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/dashboard/invoices" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
     </div>
 
-    @if(count($tasks) > 0)
+    @if(count($tasklists) > 0)
     <div class="col-sm-6 col-xs-12 mb-4">
    <div class="box box-primary">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">To Do List</h3>
+              <h3 class="box-title">All tasks</h3>
 
               <div class="box-tools pull-right">
                 <ul class="pagination pagination-sm inline">
@@ -115,9 +115,10 @@
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <ul class="todo-list ui-sortable">
-                @foreach($tasks as $task)
-                  @foreach($task->Task as $t)
+              <ul class="todo-list ui-sortable" data-widget="todo-list">
+                @foreach($tasklists as $tasklist)
+                  @foreach($tasklist->Dashboardtasks as $t)
+                 
                   <li>
                   <!-- drag handle -->
                   <span class="handle ui-sortable-handle">
@@ -129,7 +130,11 @@
                   <!-- todo text -->
                   <span class="text">{{ $t->task_name }}</span>
                   <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                  @if(\Carbon\Carbon::parse($t->due) < \Carbon\Carbon::now())
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ \Carbon\Carbon::parse($t->due)->diffForHumans()  }}</small>
+                  @elseif(\Carbon\Carbon::parse($t->due) > \Carbon\Carbon::now())
+                  <small class="label label-warning"><i class="fa fa-clock-o"></i> {{ \Carbon\Carbon::parse($t->due)->diffForHumans()  }}</small>
+                  @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
                     <i class="fa fa-edit"></i>
@@ -159,7 +164,9 @@
      </div>
      <div class="panel-body">
         <form>
+          <label>Note</label>
           <textarea name="quick_note" class="form-control"></textarea>
+          <label>Relation</label>
           <input type="text" name="relation" class="form-control mt-2 mb-2" />
           <button type="submit" class="btn btn-primary form-control">Submit</button>
        </form>

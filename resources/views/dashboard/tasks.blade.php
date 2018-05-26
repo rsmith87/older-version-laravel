@@ -40,30 +40,11 @@
           <tbody>  
             @foreach ($tasks as $task)
             <tr> 
-              <td>{{ $task->id }}</td>
+              <td>{{ $task->task_list_uuid }}</td>
               <td>{{ $task->task_list_name }}</td> 
               <td>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</td> 
             </tr> 
-                      @endforeach
-
-       
-
-          <table id="main" class="mb-5 table table-responsive table-hover table-{{ $table_color }} table-{{ $table_size }}">
-            <thead> 
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Due date</th>
-              </tr> 
-            </thead> 
-            <tbody>  
-              @foreach ($tasks as $task)
-              <tr> 
-                <td>{{ $task->id }}</td>
-                <td>{{ $task->task_list_name }}</td> 
-                <td>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</td> 
-              </tr> 
-                        @endforeach
+            @endforeach
 
             </tbody> 
           </table>            

@@ -11,7 +11,7 @@
           
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           @if(null !== Request::segment(3))
-          <input type="hidden" name="tl_id" value="{{ $task_list->id }}" />
+          <input type="hidden" name="tl_uuid" value="{{ $task_list->task_list_uuid }}" />
           @endif
 
           <div class="col-sm-6 col-12">

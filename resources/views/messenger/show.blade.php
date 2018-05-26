@@ -35,7 +35,7 @@
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="/dashboard/messages"><i class="fa fa-inbox"></i> Inbox
-                  <span class="label label-primary pull-right">12</span></a></li>
+                  <span class="label label-primary pull-right">{{ $threads }}</span></a></li>
                 <li><a href="#"><i class="far fa-share-square"></i> Starred threads</a></li>
               </ul>
             </div>
@@ -141,6 +141,46 @@
           <!-- /. box -->
         </div>
 </div>
+<div class="modal" id="create-message-modal" href="#">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+    <h1>Create a new message</h1>
+    <form action="{{ route('messages.store') }}" method="post">
+        {{ csrf_field() }}
+            <!-- Subject Form Input -->
+            <div class="form-group">
+                <label class="control-label">Subject</label>
+                <input type="text" class="form-control" name="subject" placeholder="Subject"
+                       value="{{ old('subject') }}">
+            </div>
 
+
+            <!-- Message Form Input -->
+            <div class="form-group">
+                <label class="control-label">Message</label>
+                <textarea name="message" class="form-control">{{ old('message') }}</textarea>
+            </div>
+     
+            @if($users->count() > 0)
+                <div class="checkbox">
+                    @foreach($users as $user)
+                        <label title="{{ $user->name }}">
+                          <input type="checkbox" name="recipients[]" value="{{ $user->id }}">{!!$user->name!!}</label>
+                    @endforeach
+                </div>
+            @endif
+    
+            <!-- Submit Form Input -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary form-control">Submit</button>
+            </div>
+     
+      </form>
+      
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 

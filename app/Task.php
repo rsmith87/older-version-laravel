@@ -8,7 +8,7 @@ use App\Notifications\TaskDueReminder;
 
 class Task extends Model
 {
-    protected $table = "tasks";
+    protected $table = "task";
     /**
      * The attributes that are mass assignable.
      *
@@ -16,12 +16,14 @@ class Task extends Model
      */
     protected $fillable = [
       'id', 
+      'task_uuid',
       'task_name', 
       'task_description', 
-      'task_list_id',
+      'task_list_uuid',
       'due',
       'assigned',
       'contact_client_id',
+      'user_id',
       'created_at',
       'updated_at',
     ];

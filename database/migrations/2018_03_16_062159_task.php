@@ -20,6 +20,7 @@ class Task extends Migration
           $table->integer('task_list_id');
           $table->integer('contact_client_id');
           $table->integer('assigned');
+          $table->integer('user_id');
           $table->dateTime('due');   
           $table->timestamps();        
         });

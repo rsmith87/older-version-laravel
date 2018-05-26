@@ -36,36 +36,13 @@
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                  <span class="label label-primary pull-right">12</span></a></li>
+                  <span class="label label-primary pull-right">{{ count($threads) }}</span></a></li>
                 <li><a href="#"><i class="far fa-share-square"></i> Threads</a></li>
-                <li><a href="#"><i class="far fa-file"></i> Drafts</a></li>
-                <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
-                </li>
-                <li><a href="#"><i class="far fa-trash-alt"></i> Trash</a></li>
               </ul>
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Labels</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"><i class="far fa-circle text-red"></i> Important</a></li>
-                <li><a href="#"><i class="far fa-circle text-yellow"></i> Promotions</a></li>
-                <li><a href="#"><i class="far fa-circle text-light-blue"></i> Social</a></li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
         </div>
         <!-- /.col -->
         <div class="col-md-9">
@@ -182,12 +159,13 @@
                 <label class="control-label">Message</label>
                 <textarea name="message" class="form-control">{{ old('message') }}</textarea>
             </div>
-     
+           
             @if($users->count() > 0)
                 <div class="checkbox">
                     @foreach($users as $user)
-                        <label title="{{ $user->name }}">
-                          <input type="checkbox" name="recipients[]" value="{{ $user->id }}">{!!$user->name!!}</label>
+              {{ print_r($user) }}
+                        <label title="{{ $user['name'] }}">
+                          <input type="checkbox" name="recipients[]" value="{{ $user->id }}">{!! $user['name'] !!}</label>
                     @endforeach
                 </div>
             @endif

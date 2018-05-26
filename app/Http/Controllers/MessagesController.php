@@ -28,17 +28,17 @@ class MessagesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-						if(!$this->user){
-							return redirect('/login');
-						}		
-						if(!$this->user->hasPermissionTo('view messages')){
-							return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
-						}	
-            $this->settings = Settings::where('user_id', $this->user['id'])->first();
-            return $next($request);
-        });
+      $this->middleware(function ($request, $next) {
+        $this->user = \Auth::user();
+        if(!$this->user){
+          return redirect('/login');
+        }		
+        if(!$this->user->hasPermissionTo('view messages')){
+          return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
+        }	
+        $this->settings = Settings::where('user_id', $this->user['id'])->first();
+        return $next($request);
+      });
     }
     /**
      * Show all of the message threads to the user.
@@ -52,11 +52,11 @@ class MessagesController extends Controller
 			//$threads = Thread::getAllLatest()->get();
 
 
-			$threads = Thread::getAllLatest()->get();
+			//$threads = Thread::getAllLatest()->get();
 
 
 			// All threads that user is participating in
-			//$threads = Thread::forUser(\Auth::id())->latest('updated_at')->get();
+			$threads = Thread::forUser(\Auth::id())->latest('updated_at')->get();
 
 			// All threads that user is participating in, with new messages
 			//$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
@@ -94,6 +94,7 @@ class MessagesController extends Controller
       
 			// show current user in list if not a current participant
 			// $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
+        $threads = Thread::getAllLatest()->get();
 
 			// don't show the current user in list
 			$userId = Auth::id();
@@ -106,6 +107,7 @@ class MessagesController extends Controller
         'user' => $this->user,
 				'users' => $users, 
 				'thread' => $thread, 
+        'threads' => count($threads),
         'message' => $message,
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
@@ -208,7 +210,9 @@ class MessagesController extends Controller
             'user_id' => $this->user['id'],
             'body' => Input::get('message'),
         ]);
+        
 
+      
         // Add replier as a participant
         $participant = Participant::firstOrCreate([
             'thread_id' => $thread->id,
@@ -222,6 +226,6 @@ class MessagesController extends Controller
             $thread->addParticipant(Input::get('recipients'));
         }
 
-        return redirect()->route('messages');
+        return redirect()->back();
     }
 }

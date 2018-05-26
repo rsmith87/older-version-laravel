@@ -10,6 +10,7 @@ use App\Contact;
 use App\Event;
 use App\User;
 use App\Invoice;
+use App\FirmStripe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -51,12 +52,18 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-   
+      $task_count = 0;
     $clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
     $cases = LawCase::where('u_id', $this->user['id'])->get();
     $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();   
     
-		$tasks = TaskList::where('user_id', $this->user['id'])->with('dashboard_task')->get();
+		$tasklists = TaskList::where('user_id', $this->user['id'])->with('dashboardtasks')->get();
+    foreach($tasklists as $tl){
+      foreach($tl->Dashboardtasks as $dt){
+      $task_count += count($dt);
+      }
+    }
+    $fs = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
     $events = Event::where('u_id', $this->user['id'])->get();
     $invoices = Invoice::where('user_id', $this->user['id'])->get();
       return view('dashboard/dashboard', [
@@ -68,12 +75,14 @@ class DashboardController extends Controller
         'table_size' => $this->settings->table_size,
         //'messages' => $messages,
         'clients' => $clients,
-        'tasks' => $tasks,
+        'tasklists' => $tasklists,
         'cases' => $cases,
         'contacts' => $contacts,
         'events' => $events,
         'status_values' => $this->status_values,
         'invoices' => $invoices,
+        'task_count' => $task_count,
+        'fs' => $fs,
       ]);
     }
  

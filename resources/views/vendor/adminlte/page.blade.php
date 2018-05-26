@@ -100,6 +100,9 @@
                                 </form>
                             @endif
                         </li>
+                        <li>
+                          <a data-toggle="control-sidebar"><i class="fas fa-cogs"></i></a>
+                        </li>
                     </ul>
                 </div>
                 @if(config('adminlte.layout') == 'top-nav')
@@ -170,6 +173,45 @@
     </div>
     <!-- ./wrapper -->
                                               @include('dashboard.includes.timer-modal')
+<!-- The Right Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Content of the sidebar goes here -->
+      @if(count($settings) > 0)
+
+  <form method="POST" action="/dashboard/settings/social-media">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+    <label>Facebook URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->fb) > 0 ? $settings->fb : "" }}" name="fb" />
+    <label>Twitter URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->twitter) > 0 ? $settings->twitter : "" }}" name="twitter" />
+    <label>Instagram URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->instagram) > 0 ? $settings->instagram : "" }}" name="instagram" />
+    <label>Avvo URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->avvo) > 0 ? $settings->avvo : "" }}" name="avvo" />
+    <button type="submit" class="btn btn-primary btn-block">
+      Submit
+    </button>
+  </form>
+  
+  <div class="panel panel-primary" id="stripe-settings">
+      <div class="panel-heading">
+        <h2 style="margin-top:0;margin-bottom:0;">
+          <i class="fab fa-cc-stripe"></i> Stripe settings
+        </h2>
+     </div>
+     <div class="panel-body">
+			 @if(count($fs) > 0)
+			 	<p>You have successfully authenticated Legalease and Stripe!  If you'd like to authenticate again, or are having issues with payments click the link below</p>
+			 @endif
+			 <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}" /></a>
+     </div>
+  </div> 
+            @endif
+
+</aside>
+<!-- The sidebar's background -->
+<!-- This div must placed right after the sidebar for it to work-->
+<div class="control-sidebar-bg"></div>
 
 @stop
 

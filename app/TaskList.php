@@ -13,6 +13,7 @@ class TaskList extends Model
      */
     protected $fillable = [
       'id', 
+      'task_list_uuid',
       'task_list_name', 
       'user_id',
       'f_id', 
@@ -29,13 +30,13 @@ class TaskList extends Model
       return $this->hasOne('App\Contact', 'contact_client_id', 'id');
     }
  
-    public function task()
+    public function tasks()
     {
-      return $this->hasMany('App\Task', 'task_list_id');
+      return $this->hasMany('App\Task', 'task_list_uuid', 'task_list_uuid');
     }
   
-    public function dashboard_task()
+    public function dashboardtasks()
     {
-      return $this->hasMany('App\Task', 'task_list_id')->take(5); 
+      return $this->hasMany('App\Task', 'task_list_uuid', 'task_list_uuid')->take(5); 
     }
 }
