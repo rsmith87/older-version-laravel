@@ -15,6 +15,9 @@ body.home {
 body.modal-open {
   padding-right: 0 !important;
 }
+body.lockscreen {
+  display: block;
+}
 .main-header .sidebar-toggle:before {
   content: "";
 }
@@ -955,5 +958,10 @@ table.dataTable thead td {
 .control-sidebar form button.btn-primary {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+.tasks-lists-multi table {
+  width: 48% !important;
+  float: left;
+  margin-right: 5px;
 }
 /*# sourceMappingURL=app.css.map */

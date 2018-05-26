@@ -11,6 +11,7 @@ use App\LawCase;
 use App\Contact;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
+use App\FirmStripe;
 
 class DocumentController extends Controller
 {
@@ -30,6 +31,7 @@ class DocumentController extends Controller
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}						
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
+      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 			$this->s3 = \Storage::disk('s3');
 			return $next($request);
 		});
@@ -69,6 +71,8 @@ class DocumentController extends Controller
 			'contacts' => $contacts,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
       
 		]);
 	}
@@ -194,6 +198,8 @@ class DocumentController extends Controller
 			'contacts' => $contacts,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
 

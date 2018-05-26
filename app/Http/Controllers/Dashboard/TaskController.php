@@ -14,6 +14,7 @@ use App\Settings;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
+use App\FirmStripe;
 
 class TaskController extends Controller
 {
@@ -34,6 +35,7 @@ class TaskController extends Controller
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}		
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
+      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 			return $next($request);
 		});
 	}
@@ -60,6 +62,8 @@ class TaskController extends Controller
 			'cases' => $cases,
 			'contacts' => $contacts,
 			'firm_id' => $this->settings->firm_id,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
   
@@ -106,6 +110,8 @@ class TaskController extends Controller
 				'firm_id' => $this->settings->firm_id,
         'user_id' => $this->user['id'],
         'zero_datetime' => '0000-00-00 00:00:00',
+        'settings' => $this->settings,
+        'fs' => $this->firm_stripe,          
 			 ]);
 	}
   
@@ -154,6 +160,8 @@ class TaskController extends Controller
       'contacts' => !empty($contacts) ? $contacts : "",
       'firm_id' => $this->settings->firm_id,
       'user_id' => $this->user['id'],
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
      ]);    
   }	
   
@@ -297,7 +305,6 @@ class TaskController extends Controller
 			$data['id'] = null;
 			$status = 'added';
 		}
-
 
 		Subtask::updateOrCreate([
 			'id' => $data['id'],

@@ -87,9 +87,11 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a></li>
-            </ul>
+              <li><a href="#social-media" data-toggle="tab" aria-expanded="false">Social Media</a></li>
 
-              <div class="tab-pane" id="settings">
+            </ul>
+             <div class="tab-content">
+              <div class="tab-pane active" id="settings">
                 <form class="form-horizontal" method="post" action="/dashboard/profile-update" enctype="multipart/form-data">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                   <input type="hidden" name="u_id" value="{{ $user->id }}" />
@@ -165,10 +167,27 @@
                   </div>
                 </form>
               </div>
+            <div class="tab-pane" id="social-media">
+              
+                <form method="POST" action="/dashboard/settings/social-media">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+    <label>Facebook URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->fb) > 0 ? $settings->fb : "" }}" name="fb" />
+    <label>Twitter URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->twitter) > 0 ? $settings->twitter : "" }}" name="twitter" />
+    <label>Instagram URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->instagram) > 0 ? $settings->instagram : "" }}" name="instagram" />
+    <label>Avvo URL</label>
+    <input type="text" class="form-control" value="{{ count($settings->avvo) > 0 ? $settings->avvo : "" }}" name="avvo" />
+    <button type="submit" class="btn btn-primary btn-block">
+      Submit
+    </button>
+  </form>
+            </div>
               <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
-    
+          </div>
           <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->

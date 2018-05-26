@@ -81,7 +81,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/timer-page-change', 'Dashboard\DashboardController@timer_page');
 
         Route::group(['prefix' => 'dashboard', 'middleware' => ['isVerified']], function () {
-
+          
+          Route::get('/lock', 'Dashboard\DashboardController@lock');
+          Route::post('/unlock', 'Dashboard\DashboardController@unlock');
+          
             Route::get('/', 'Dashboard\DashboardController@index');
             Route::post('/', 'Auth\AuthController@create');
             Route::get('/profile', 'Dashboard\DashboardController@profile');

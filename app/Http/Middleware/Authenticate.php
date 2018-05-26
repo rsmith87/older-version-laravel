@@ -24,6 +24,10 @@ class Authenticate
             } else {
                 return redirect()->guest('login');
             }
+        } else {
+           if(\Session::get('locked') === true){
+            return redirect('/lockscreen');
+           }
         }
         return $next($request);
     }

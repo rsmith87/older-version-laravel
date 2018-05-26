@@ -8,6 +8,7 @@ use App\LawCase;
 use App\Contact;
 use Carbon\Carbon;
 use App\Settings;
+use App\FirmStripe;
 use App\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use App\Thread;
@@ -37,6 +38,7 @@ class MessagesController extends Controller
           return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
         }	
         $this->settings = Settings::where('user_id', $this->user['id'])->first();
+        $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
         return $next($request);
       });
     }
@@ -74,6 +76,8 @@ class MessagesController extends Controller
 				'users' => $users, 
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,          
 			]);
     }
 
@@ -111,6 +115,8 @@ class MessagesController extends Controller
         'message' => $message,
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,          
 			]);
     }
 	

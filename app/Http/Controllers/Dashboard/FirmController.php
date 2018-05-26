@@ -11,6 +11,7 @@ use Mail;
 use Password;
 use App\Settings;
 use App\Contact;
+use App\FirmStripe;
 //use Pusher\Pusher;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Http\Controllers\Auth\PasswordController;
@@ -47,7 +48,7 @@ class FirmController extends Controller
 						}					
 					  $this->passwords = Password::broker();          
           $this->settings = Settings::where('user_id', $this->user['id'])->first();
-
+          $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
           return $next($request);
         });
     }  
@@ -90,6 +91,7 @@ class FirmController extends Controller
         'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
         'firm' => $firm,
+        'fs' => $this->firm_stripe,
         'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,

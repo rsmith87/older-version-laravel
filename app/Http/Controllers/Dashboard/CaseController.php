@@ -16,6 +16,7 @@ use App\TaskList;
 use App\Task;
 use App\CaseHours;
 use App\Note;
+use App\FirmStripe;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Webpatser\Uuid\Uuid;
@@ -43,7 +44,7 @@ class CaseController extends Controller
       $this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
       $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
-      
+      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
       
     return $next($request);
     });
@@ -84,6 +85,8 @@ class CaseController extends Controller
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size,
       'projects' => $projects,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,
     ]);
   }
   
@@ -249,7 +252,9 @@ class CaseController extends Controller
        
       'theme' => $this->settings->theme,
       'table_color' => $this->settings->table_color,
-      'table_size' => $this->settings->table_size,         
+      'table_size' => $this->settings->table_size, 
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
     ]);
     
   }
@@ -520,6 +525,8 @@ class CaseController extends Controller
     'clients' => $this->clients,
     'documents' =>$requested_case->Documents,
     'timeline_data' => $timeline_data,
+    'settings' => $this->settings,
+    'fs' => $this->firm_stripe,
     ]);
   }
   

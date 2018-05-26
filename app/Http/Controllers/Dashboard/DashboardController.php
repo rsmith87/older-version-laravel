@@ -37,7 +37,7 @@ class DashboardController extends Controller
             return redirect('/dashboard/firm')->with('status', 'First, let\'s setup your firm.  Input the fields below to start.');
           }
           $this->s3 = \Storage::disk('s3');
-
+          $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
           return $next($request);
         });
         //$this->user = \Auth::user();
@@ -136,6 +136,7 @@ class DashboardController extends Controller
         'profile_image' => $this->settings->profile_image,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
+      'fs' => $this->firm_stripe,        
       
     ]);
   }
@@ -167,6 +168,39 @@ class DashboardController extends Controller
     ]);
     
     return redirect()->back()->with('status', 'Profile updated successfully!');
+  }
+  
+  public function lock()
+  {
+    // only if user is logged in
+    if($this->user){
+      \Session::put('locked', true);
+      return view('dashboard.lock', [
+       'user' => $this->user, 
+      ]);
+    } else {
+      return redirect('/login');
+    }
+    
+  }
+  
+  public function unlock(Request $request)
+  {
+     $data = $request->all();
+    // if user in not logged in 
+        if(!\Auth::check()){
+            return redirect('/login');
+        }
+        $password = $data['password'];
+
+        if(\Hash::check($password,\Auth::user()->password)){
+            \Session::forget('locked');
+            return redirect('/dashboard');
+        } else{
+          return redirect()->back()->withErrors(['Your password was incorrect!']);
+        }
+     
+        
   }
   
 

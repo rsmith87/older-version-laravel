@@ -76,13 +76,14 @@
 
                     <ul class="nav navbar-nav">
                         <li>
-                          <a class="timer-create" href="#" data-target="#timer-modal" data-toggle="modal"><i class="fas fa-stopwatch"></i> Timer</a>
+                          <a class="timer-create" href="#" data-target="#timer-modal" data-toggle="modal"><i class="fas fa-stopwatch"></i></a>
 
                         </li>
+
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
+                                    <i class="fas fa-sign-out-alt"></i> 
                                 </a>
                             @else
                                   
@@ -90,7 +91,7 @@
                                 <a href="#"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                 >
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
+                                    <i class="fas fa-sign-out-alt"></i>
                                 </a>
                                 <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
                                     @if(config('adminlte.logout_method'))
@@ -100,6 +101,9 @@
                                 </form>
                             @endif
                         </li>
+                        <li>
+                          <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
+                        </li>                        
                         <li>
                           <a data-toggle="control-sidebar"><i class="fas fa-cogs"></i></a>
                         </li>
@@ -176,22 +180,9 @@
 <!-- The Right Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
   <!-- Content of the sidebar goes here -->
-      @if(count($settings) > 0)
+   
 
-  <form method="POST" action="/dashboard/settings/social-media">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-    <label>Facebook URL</label>
-    <input type="text" class="form-control" value="{{ count($settings->fb) > 0 ? $settings->fb : "" }}" name="fb" />
-    <label>Twitter URL</label>
-    <input type="text" class="form-control" value="{{ count($settings->twitter) > 0 ? $settings->twitter : "" }}" name="twitter" />
-    <label>Instagram URL</label>
-    <input type="text" class="form-control" value="{{ count($settings->instagram) > 0 ? $settings->instagram : "" }}" name="instagram" />
-    <label>Avvo URL</label>
-    <input type="text" class="form-control" value="{{ count($settings->avvo) > 0 ? $settings->avvo : "" }}" name="avvo" />
-    <button type="submit" class="btn btn-primary btn-block">
-      Submit
-    </button>
-  </form>
+
   
   <div class="panel panel-primary" id="stripe-settings">
       <div class="panel-heading">
@@ -206,7 +197,6 @@
 			 <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}" /></a>
      </div>
   </div> 
-            @endif
 
 </aside>
 <!-- The sidebar's background -->

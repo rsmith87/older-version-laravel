@@ -511,7 +511,9 @@
 @include('dashboard.includes.event-modal')
 @include('dashboard.includes.document-modal')
 @include('dashboard.includes.task-modal')
+
 <script src="{{ asset('js/autocomplete.js') }}"></script>
+
 <script type="text/javascript">
 var cases = {!! json_encode($cases->toArray()) !!};
 var clients = {!! json_encode($clients->toArray()) !!};
@@ -522,37 +524,36 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 	  cases[i].id = cases[i]['id'];
 	  cases[i].value = cases[i]['name'];
     cases[i].data = 'case';
-    
 	}
 
 	for(var i = 0; i<clients.length; i++){
-
 		clients[i].id = clients[i]['id'];
 		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
     clients[i].data = 'client';
 	}
+  
 	for(var i = 0; i<contacts.length; i++){
     contacts[i].data = 'contact';
 		contacts[i].id = contacts[i]['id'];
 		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
 	}	
+  
 	arr = cases.concat(clients, contacts);
 
-	 $('input[name="relation"]').autocomplete({
+  $('input[name="relation"]').autocomplete({
     lookup: arr,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
+    width: 'flex',
+    triggerSelectOnValidInput: true,
     groupBy: 'data',
     onSelect: function (suggestion) {
       var thehtml = '<strong>Case '+suggestion.id+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
+      //alert(thehtml);
+      var $this = $(this);
       $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
+      $this.prev().val(suggestion.data);
     }
-		 
   });
+  
 	$('input[name="client_name"]').autocomplete({
     lookup: clients,
 		width: 'flex',
@@ -563,10 +564,9 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
     }
-		 
   });
+  
 	$('input[name="contact_name"]').autocomplete({
     lookup: contacts,
 		width: 'flex',
@@ -577,12 +577,8 @@ var contacts = {!! json_encode($contacts->toArray()) !!};
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
     }
-		 
   });	
-	
-
 	
 </script>
 @endsection

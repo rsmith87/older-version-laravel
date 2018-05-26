@@ -14,6 +14,7 @@ use App\Contact;
 use App\Invoice;
 use App\InvoiceLine;
 use App\CaseHours;
+use App\FirmStripe;
 use App\Notifications\InvoiceCreatedNotification;
 use Faker\Factory;
 use Carbon;
@@ -40,6 +41,7 @@ class InvoiceController extends Controller
 			return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 		}		
 		$this->settings = Settings::where('user_id', $this->user['id'])->first();
+    $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 			return $next($request);
 		});
 	}
@@ -62,6 +64,8 @@ class InvoiceController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
 
@@ -178,9 +182,10 @@ class InvoiceController extends Controller
 			'theme' => $this->settings->theme,
 			'firm_id' => $this->settings->firm_id,
 			'table_color' => $this->settings->table_color,
-			'table_size' => $this->settings->table_size,			
+			'table_size' => $this->settings->table_size,	
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
 
 }
-

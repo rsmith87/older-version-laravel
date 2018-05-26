@@ -2,10 +2,10 @@
 
 @section('content')
 
-<div class="container dashboard tasks col-sm-12 col-12 offset-sm-2">
+<div class="container dashboard tasks tasks-lists-multi col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add task list</a>
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>
+    <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>-->
   </nav>    
   
 				@include('dashboard.includes.alerts')	
@@ -29,25 +29,31 @@
      </div>
 		 @if(count($tasks) > 0)
      <div class="panel-body">
-        <table id="main" class="mb-5 table table-responsive table-hover table-{{ $table_color }} table-{{ $table_size }}">
-          <thead> 
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Due date</th>
-            </tr> 
-          </thead> 
-          <tbody>  
-            @foreach ($tasks as $task)
-            <tr> 
-              <td>{{ $task->task_list_uuid }}</td>
-              <td>{{ $task->task_list_name }}</td> 
-              <td>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</td> 
-            </tr> 
-            @endforeach
+        @foreach ($tasks as $task)
+        <div class="col-md-4 col-xs-12">
+          <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>
+              <h3>{{ $task->task_list_name }}</h3> 
 
-            </tbody> 
-          </table>            
+          <div class="col-md-6">
+              <label>Due</label>
+              <p>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</p>
+          </div>
+          <div class="col-md-6">              
+              <label>Created</label>
+              <p>{{ \Carbon\Carbon::parse($task->created_at)->format('m/d/Y H:i') }}</p>
+          </div>
+              @if(count($task->Tasks) > 0)
+              <ol>
+                @foreach($task->Tasks as $t)
+                  <li>
+                    {{ $t->task_name }}
+                  </li>
+                @endforeach
+               </ol>
+              @endif
+              <a class="btn-block btn btn-primary" href="/dashboard/tasks/task/{{ $task->task_list_uuid }}">View task list</a>
+        </div>
+    @endforeach
 
 			@endif
      </div>

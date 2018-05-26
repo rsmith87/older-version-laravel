@@ -11,6 +11,7 @@ use App\LawCase;
 use App\User;
 use App\Event;
 use App\Task;
+use App\FirmStripe;
 use Carbon;
 use Mail;
 use Illuminate\Notifications\Notification;
@@ -36,6 +37,7 @@ class EventController extends Controller
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}		            
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
+      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->get();
 			return $next($request);
 		});
 	} 
@@ -65,6 +67,8 @@ class EventController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			//'user' => $contact,
       'show_task_calendar' => $tasks_events,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
 
@@ -84,6 +88,8 @@ class EventController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
 			'title' => 'Client appointment requests',
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 
 		]); 
 	}
@@ -175,6 +181,8 @@ class EventController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
 			'title' => 'Denied events',
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]); 		
 	}
 	

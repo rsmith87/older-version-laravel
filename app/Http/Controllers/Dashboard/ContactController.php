@@ -13,6 +13,7 @@ use App\Document;
 use App\Settings;
 use App\TaskList;
 use App\CommLog;
+use App\FirmStripe;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
@@ -36,6 +37,7 @@ class ContactController extends Controller
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}					
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
+      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 			return $next($request);
 		});
 	}
@@ -83,6 +85,8 @@ class ContactController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
       'array_cases' => $array_cases,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,
 		]);
 	}
 
@@ -112,6 +116,8 @@ class ContactController extends Controller
       'notes' => $notes,
       'task_lists' => $task_lists,
       'logs' => $logs,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
 
@@ -140,6 +146,8 @@ class ContactController extends Controller
       'notes' => $notes,
       'task_lists' => $task_lists,
       'logs' => $logs,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}	
 
@@ -176,6 +184,8 @@ class ContactController extends Controller
 			'theme' => $this->settings->theme,
 			'table_color' => $this->settings->table_color,  
 			'table_size' => $this->settings->table_size,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,        
 		]);
 	}
 

@@ -41,6 +41,7 @@
      <div class="panel-body">
 
        
+               @foreach ($tasks as $task)
 
           <table id="main" class="mb-5 table table-responsive table-{{ $table_color }} table-{{ $table_size }}">
             <thead> 
@@ -52,7 +53,6 @@
               </tr> 
             </thead> 
             <tbody>  
-               @foreach ($tasks as $task)
                 <tr> 
                   <td class="navigate">{{ $task->id }}</td>
                   <td class='navigate'>{{ $task->task_name }}</td> 
@@ -80,10 +80,10 @@
                     </tr>       
                      @endif
                   @endforeach                     
-               @endforeach
 
             </tbody> 
           </table>            
+               @endforeach
 
 			@endif
 	</div>
