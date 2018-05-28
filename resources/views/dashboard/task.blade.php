@@ -345,7 +345,7 @@
  $('.subtask-checkbox').on('click', function(){
     var $this = $(this);
     var $name = $this.attr('name');
-    console.log($name);
+    //console.log($name);
     $name = $name.replace('task_complete_', '');
     $name = $name.replace('sub', '');
     console.log($name);

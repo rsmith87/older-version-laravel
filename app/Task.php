@@ -38,6 +38,11 @@ class Task extends Model
     {
       return $this->hasMany('App\Category', 'task_id', 'id');
     }
+    
+    public function tasklist()
+    {
+      return $this->belongsTo('App\TaskList', 'task_list_uuid', 'task_list_uuid');
+    }
 
     public function sendTaskDueReminder($task)
     {
