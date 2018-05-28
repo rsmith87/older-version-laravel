@@ -17,7 +17,7 @@ class Task extends Migration
           $table->uuid('task_uuid');          
           $table->longText('task_name');
           $table->longText('task_description');
-          $table->integer('task_list_id');
+          $table->uuid('task_list_uuid');
           $table->integer('contact_client_id');
           $table->integer('assigned');
           $table->integer('user_id');
