@@ -43,7 +43,7 @@
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <ul class="todo-list ui-sortable">
+              <ul class="todo-list ui-sortable" data-widget="todo-list">
            @foreach ($tasks as $task)
                 <li>
                   <!-- drag handle -->
@@ -52,22 +52,26 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   <!-- checkbox -->
-                  <input type="checkbox" value="">
+                  @if($task->complete != null)
+                  <input type="checkbox" class="task-checkbox" checked="checked" name="task_complete_{{ $task->id }}" />
+                  @else
+                  <input type="checkbox" class="task-checkbox" name="task_complete_{{ $task->id }}" />
+                  @endif
                   <!-- todo text -->
                   <span class="text">{{ $task->task_name }}</span>
                   <!-- Emphasis label -->
                   @if(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now())                  
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  <small class="label label-danger"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHour())
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  <small class="label label-warning"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(4))
-                  <small class="label label-info"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  <small class="label label-info"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(8))
-                  <small class="label label-success"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  <small class="label label-success"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(16))
-                  <small class="label label-primary"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  <small class="label label-primary"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(24))
-                  <small class="label label-default"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  <small class="label label-default"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
@@ -84,22 +88,22 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   <!-- checkbox -->
-                  <input type="checkbox" value="">
+                  <input type="checkbox" class="subtask-checkbox" name="subtask_complete_{{ $subtask->id }}" value="">
                   <!-- todo text -->
                   <span class="text">-->{{ $subtask->subtask_name }}</span>
                   <!-- Emphasis label -->
                   @if(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now())                  
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-danger"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHour())
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-warning"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(4))
-                  <small class="label label-info"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-info"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(8))
-                  <small class="label label-success"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-success"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(16))
-                  <small class="label label-primary"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-primary"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(24))
-                  <small class="label label-default"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-default"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
@@ -175,22 +179,22 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   <!-- checkbox -->
-                  <input type="checkbox" value="">
+                  <input type="checkbox" class="subtask-checkbox" name="subtask_complete_{{ $subtask->id }}" value="">
                   <!-- todo text -->
                   <span class="text">{{ $subtask->subtask_name }}</span>
                   <!-- Emphasis label -->
                   @if(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now())                  
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-danger"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHour())
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-warning"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(4))
-                  <small class="label label-info"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-info"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(8))
-                  <small class="label label-success"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-success"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(16))
-                  <small class="label label-primary"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-primary"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(24))
-                  <small class="label label-default"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  <small class="label label-default"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
@@ -311,10 +315,55 @@
 	
   $('.add-subtask-button').click(function(){
     var $this = $(this);
-    
     $subtask_hide = $this.parent().parent().find('.subtask-add').removeClass('hide');
   });
+
+  $('.task-checkbox').on('click', function(){
+    var $this = $(this);
+    var $name = $this.attr('name');
+    console.log($name);
+    $name = $name.replace('task_complete_', '');
+    $name = $name.replace('sub', '');
+    console.log($name);
+   $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });   
+      $.ajax({
+       type: 'POST',
+       contentType: "application/json; charset=utf-8",
+       
+       url: '/dashboard/tasks/task/'+$name+'/complete',
+       success:function(data){
+        console.log('success');
+        console.log(data);
+      },
+     })
+  });
   
+ $('.subtask-checkbox').on('click', function(){
+    var $this = $(this);
+    var $name = $this.attr('name');
+    console.log($name);
+    $name = $name.replace('task_complete_', '');
+    $name = $name.replace('sub', '');
+    console.log($name);
+   $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });   
+      $.ajax({
+       type: 'POST',
+       contentType: "application/json; charset=utf-8",
+       
+       url: '/dashboard/tasks/task/subtask/'+$name+'/complete',
+       success:function(data){
+
+      },
+     })
+  }); 
 
 </script>
 @endsection

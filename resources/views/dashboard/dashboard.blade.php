@@ -33,8 +33,8 @@
               <ul class="nav nav-stacked">
                 <li><a href="/dashboard/cases">Cases <span class="pull-right badge bg-blue">{{ count($cases) }}</span></a></li>
                 <li><a href="/dashboard/tasks">Tasks <span class="pull-right badge bg-aqua">{{ $task_count }}</span></a></li>
-                <li><a href="/dashboard/invoices">Invoices <span class="pull-right badge bg-green">12</span></a></li>
-                <li><a href="/dashboard/calendar">Events <span class="pull-right badge bg-red">842</span></a></li>
+                <li><a href="/dashboard/invoices">Invoices <span class="pull-right badge bg-green">{{ count($invoices) }}</span></a></li>
+                <li><a href="/dashboard/calendar">Events <span class="pull-right badge bg-red">{{ count($events) }}</span></a></li>
               </ul>
             </div>
           </div>
@@ -117,7 +117,7 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list ui-sortable" data-widget="todo-list">
                 @foreach($tasklists as $tasklist)
-                  @foreach($tasklist->Dashboardtasks as $t)
+                  @foreach($tasklist->Dashboardtasks as $task)
                  
                   <li>
                   <!-- drag handle -->
@@ -128,12 +128,20 @@
                   <!-- checkbox -->
                   <input type="checkbox" value="">
                   <!-- todo text -->
-                  <span class="text">{{ $t->task_name }}</span>
+                  <span class="text">{{ $task->task_name }}</span>
                   <!-- Emphasis label -->
-                  @if(\Carbon\Carbon::parse($t->due) < \Carbon\Carbon::now())
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ \Carbon\Carbon::parse($t->due)->diffForHumans()  }}</small>
-                  @elseif(\Carbon\Carbon::parse($t->due) > \Carbon\Carbon::now())
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i> {{ \Carbon\Carbon::parse($t->due)->diffForHumans()  }}</small>
+                  @if(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now())                  
+                  <small class="label label-danger"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHour())
+                  <small class="label label-warning"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(4))
+                  <small class="label label-info"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(8))
+                  <small class="label label-success"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(16))
+                  <small class="label label-primary"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($task->due) < \Carbon\Carbon::now()->addHours(24))
+                  <small class="label label-default"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($task->due)->diffForHumans() }}</small>
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
@@ -148,9 +156,6 @@
               </ul>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
-            </div>
           </div>
 
   </div> 

@@ -121,6 +121,12 @@ class TaskController extends Controller
     return $subtask;
   }
   
+  public function complete_task($name)
+  {
+    $task = Task::where('id', $name)->update(['complete' => Carbon\Carbon::now()]);
+    return $task;
+  }
+  
  public function view_single_task($id, $t_id)
   {
 		$values="";

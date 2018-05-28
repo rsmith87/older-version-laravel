@@ -19,7 +19,7 @@ class CreateSubtasksTable extends Migration
           $table->longText('subtask_description');
           $table->integer('t_id');
           $table->integer('assigned');
-          $table->datetime('complete');
+          $table->datetime('complete')->nullable();
           $table->dateTime('due');          
           $table->timestamps();
         });

@@ -24,6 +24,7 @@ class Task extends Model
       'assigned',
       'contact_client_id',
       'user_id',
+      'complete',
       'created_at',
       'updated_at',
     ];

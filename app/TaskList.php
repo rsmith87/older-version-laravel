@@ -21,6 +21,7 @@ class TaskList extends Model
       'c_id',
       'assigned', 
       'due',
+      'complete',
       'created_at',
       'updated_at',
     ];

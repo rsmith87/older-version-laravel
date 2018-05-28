@@ -21,7 +21,8 @@ class Task extends Migration
           $table->integer('contact_client_id');
           $table->integer('assigned');
           $table->integer('user_id');
-          $table->dateTime('due');   
+          $table->dateTime('due');
+          $table->datetime('complete')->nullable();
           $table->timestamps();        
         });
     }

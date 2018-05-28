@@ -23,6 +23,7 @@ class CreateTaskListsTable extends Migration
             $table->integer('c_id');
             $table->integer('assigned'); 
             $table->datetime('due');
+            $table->datetime('complete')->nullable();
             $table->timestamps();
         });
     }
