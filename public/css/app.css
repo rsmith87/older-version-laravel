@@ -429,6 +429,9 @@ nav.nav-pills a.nav-link {
   width: 100%;
   margin-top: 20px;
 }
+.modal button.trash-button {
+  margin-top: 0;
+}
 .non-full-width {
   width: auto !important;
   margin-left: 10px;

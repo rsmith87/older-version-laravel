@@ -197,7 +197,7 @@
                     <form method="POST" action="/dashboard/tasks/subtask/delete">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                       <input type="hidden" name="st_id" value="{{ $subtask->id }}" />
-                      <input type="submit"><i class="fa fa-trash"></i>
+                      <button class="trash-button" type="submit"><i class="fa fa-trash"></i></button>
                     </form>
                   </div>
                 </li>
