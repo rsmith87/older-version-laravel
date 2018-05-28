@@ -32,7 +32,7 @@ return [
 
     'logo' => '<img src="img/dashboard-logo.png" />',
 
-    'logo_mini' => 'LGK',
+    'logo_mini' => '<img src="img/logo-sm.png" />',
 
     /*
     |--------------------------------------------------------------------------
