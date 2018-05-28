@@ -142,7 +142,9 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('/task/complete-subtask/{id}/subtask', 'Dashboard\TaskController@complete_subtask');
                 Route::get('/task/{id}', 'Dashboard\TaskController@view');
                 Route::get('/task/{id}/view/{t_id}', 'Dashboard\TaskController@view_single_task');
+                Route::post('/delete-task', 'Dashboard\TaskController@delete');
                 Route::post('/subtask/add', 'Dashboard\TaskController@add_subtask');
+                Route::post('/subtask/delete', 'Dashboard\TaskController@delete_subtask');
                 Route::post('/subtask/category/{id}/delete', 'Dashboard\TaskController@delete_category');
             });
 

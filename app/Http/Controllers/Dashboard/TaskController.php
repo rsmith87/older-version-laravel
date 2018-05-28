@@ -305,20 +305,37 @@ class TaskController extends Controller
 			$data['id'] = null;
 			$status = 'added';
 		}
+    $data['subtask_description'] = '';
 
 		Subtask::updateOrCreate([
 			'id' => $data['id'],
 		],
 		[
-			't_id' => $data['tasks'],
+			't_id' => $data['task_list_uuid'],
 			'subtask_name' => $data['subtask_name'],
       'subtask_description' => $data['subtask_description'],
 			'due' => $this->fix_date($data['due_date'], $data['due_time']),
 			'user_id' => $this->user['id'],
 		]);
 
-		return redirect('/dashboard/tasks/task/'.$data['tl_id'])->with('status', 'Subtask '.$status ."!");
+		return redirect('/dashboard/tasks/task/'.$data['task_list_uuid'])->with('status', 'Subtask '.$status ."!");
 	}
+  
+  public function delete_subtask(Request $request)
+  {
+    $data = $request->all();
+    
+    Subtask::where('id', $data['st_id'])->delete();
+    return redirect()->back()->with('status', 'Subtask deleted');
+  }
+  
+  public function delete(Request $request)
+  {
+    $data = $request->all();
+    
+    Task::where('task_uuid', $data['task_uuid'])->delete();
+    return redirect()->back()->with('status', 'Task deleted');
+  }
 	
 	public function delete_category($id)
 	{

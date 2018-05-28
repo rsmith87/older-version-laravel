@@ -72,12 +72,12 @@
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
                     <i class="fa fa-edit" data-toggle="modal" data-target="#task-modal-{{ $task->task_uuid }}"></i>
-                    <i class="fa fa-trash-o"></i>
+                    <i class="fa fa-trash" data-toggle="modal" data-target="#delete-task-modal-{{ $task->task_uuid }}"></i>
                   </div>
                 </li>
                 @foreach($task->Subtasks as $subtask)                 
                 
-                <li class="hide">
+                <li>
 <!-- drag handle -->
                   <span class="handle ui-sortable-handle">
                         <i class="fa fa-ellipsis-v"></i>
@@ -86,7 +86,7 @@
                   <!-- checkbox -->
                   <input type="checkbox" value="">
                   <!-- todo text -->
-                  <span class="text">{{ $subtask->subtask_name }}</span>
+                  <span class="text">-->{{ $subtask->subtask_name }}</span>
                   <!-- Emphasis label -->
                   @if(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now())                  
                   <small class="label label-danger"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
@@ -103,8 +103,7 @@
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
+                    <span>Delete from the task modal</span>
                   </div>
                 </li>
                 @endforeach
@@ -124,9 +123,26 @@
 
 @include('dashboard.includes.task-modal')
   
-@include('dashboard.includes.subtask-modal')
-
 @foreach($tasks as $task)
+<div class="modal fade" id="delete-task-modal-{{ $task->task_uuid }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h3>
+            <i class="fas fa-tasks"></i> Delete task
+          </h3>
+          <hr />
+          <div class="clearfix"></div>
+          <p>Really delete task: {{ $task->task_name }} ? </p>
+          <form method="POST" action="/dashboard/tasks/delete-task" />
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="hidden" name="task_uuid" value="{{ $task->task_uuid }}" />
+          <input type="submit" class="btn btn-block btn-danger" value="Delete task">
+        </div>
+      </div>
+    </div>
+</div>
+
  <div class="modal fade" id="task-modal-{{ $task->task_uuid }}">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -138,6 +154,14 @@
           <div class="clearfix"></div>
           <label>Name</label>
           <input type="text" name="task_name" class="form-control" value="{{ $task->task_name }}" />
+          <div class="col-sm-6 col-xs-12">
+          <label>Due date</label>
+          <input type="text" name="due_date" class="form-control datepicker" value="{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y') }}" />
+          </div>
+          <div class="col-sm-6 col-xs-12">
+          <label>Due time</label>
+          <input type="text" name="due_time" class="form-control timepicker-start" value="{{ \Carbon\Carbon::parse($task->due)->format('H:i') }}" />      
+          </div>
           <label>Subtasks</label>
           <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
@@ -169,8 +193,11 @@
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
+                    <form method="POST" action="/dashboard/tasks/subtask/delete">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                      <input type="hidden" name="st_id" value="{{ $subtask->id }}" />
+                      <input type="submit"><i class="fa fa-trash"></i>
+                    </form>
                   </div>
                 </li>
 
@@ -179,7 +206,11 @@
           @endforeach
           </ul>           
               <div class="subtask-add hide">
-                <div class="col-sm-6 col-12">
+                <form method="POST" action="/dashboard/tasks/subtask/add">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                  <input type="hidden" name="task_id" value="{{ $task->id }}" />
+                  <input type="hidden" name="task_list_uuid" value="{{ $task->task_list_uuid }}" />
+                <div class="col-xs-12">
                   <label>Subtask</label>
                   <input type="text" class="form-control" name="subtask_name">
                 </div>
@@ -201,10 +232,12 @@
 
                 <div class="col-12">
                   <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Save</button>
-                </div>  
+                </div> 
+               </form>
+        
               </div>
-      <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right" id="add-subtask-button"><i class="fa fa-plus"></i> Add subtask</button>
+            <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right add-subtask-button"><i class="fa fa-plus"></i> Add subtask</button>
             </div>         
               </div>
             
@@ -218,34 +251,6 @@
 
    
 
-@foreach($task->Subtasks as $subtask)
-  <div class="modal fade" id="subtask-modal-{{ $subtask->id }}">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <h3>
-            <i class="fas fa-tasks"></i> Edit subtask
-          </h3>
-
-          <div class="clearfix"></div>
-
-          <hr />
-
-          <form method="post" action="/dashboard/tasks/subtask/add">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="id" value="{{ $subtask->id }}">
-            <input type="hidden" name="t_id" value="{{ $task->id }}">
-            <input type="hidden" name="tl_id" value="{{ $tl_id }}">
-            <input type="hidden" name="u_id" value="{{ $user_id }}" />
-
-     
-          </form>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  @endforeach
 @endforeach
 
 <script src="{{ asset('js/autocomplete.js') }}"></script>
@@ -302,8 +307,10 @@
   });	 
 	
 	
-  $('#add-subtask-button').click(function(){
-    $subtask_hide = $('.subtask-add').removeClass('hide');
+  $('.add-subtask-button').click(function(){
+    var $this = $(this);
+    
+    $subtask_hide = $this.parent().parent().find('.subtask-add').removeClass('hide');
   });
   
 
