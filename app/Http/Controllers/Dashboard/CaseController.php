@@ -295,8 +295,9 @@ class CaseController extends Controller
   {   
     $timeline_data = [];
     $timeline_data['timeline'] = [];    
-    $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'id' => $id])->with('contacts')->with('client')->with('documents')->first();
-    $case_hours = CaseHours::where('case_id', $id)->get();
+    //$case = LawCase::where('id' )
+    $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
+    $case_hours = CaseHours::where('case_uuid', $id)->get();
     $clients = Contact::where(['case_id' => $id, 'is_client' => 1])->first();
     $contacts =  Contact::where(['case_id' => $id, 'is_client' => 0])->get();
     $order = Order::where('case_id', $id)->first();
@@ -497,7 +498,7 @@ class CaseController extends Controller
 
     $invoices = Invoice::where('invoicable_id', $id)->get();
     
-    $case_hours = CaseHours::where('case_id', $id)->get();
+    $case_hours = CaseHours::where('case_uuid', $id)->get();
     $hours_amount = '0';
     foreach($case_hours as $ch){
       $hours_amount += $ch->hours;

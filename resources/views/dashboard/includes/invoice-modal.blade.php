@@ -19,10 +19,10 @@
 					<div class="col-12 mb-2">
 						<label class="mt-2">Client</label>
 						@if(!empty($clients))
-							
-								<input type="hidden" name="client_id" value="{{ $clients->id }}" />
-								<input type="text" class="form-control" class="mb-3" name="contact_name" value="{{ $clients->first_name }} {{ $clients->last_name }}" />
-							
+              @foreach($clients as $client)
+								<input type="hidden" name="client_id" value="{{ $client->id }}" />
+								<input type="text" class="form-control" class="mb-3" name="contact_name" value="{{ $client->first_name }} {{ $client->last_name }}" />
+              @endforeach
 						@else
 							<input type="hidden" name="client_id" />
 							<p>Enter a contact name to start creating one now!</p>

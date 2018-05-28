@@ -51,7 +51,9 @@
                 @endforeach
                </ol>
               @endif
+              <div class="col-xs-12">
               <a class="btn-block btn btn-primary" href="/dashboard/tasks/task/{{ $task->task_list_uuid }}">View task list</a>
+              </div>
         </div>
     @endforeach
 

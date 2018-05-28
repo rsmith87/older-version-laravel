@@ -14,7 +14,7 @@
 		@if(count($order) > 0)
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
 		@endif
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>    
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->case_uuid }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>    
 		@if(count($case->Contacts) > 0)		
       @foreach($case->Contacts as $contact)
         @if($contact->is_client)	

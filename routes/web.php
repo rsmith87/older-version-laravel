@@ -157,7 +157,14 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('/delete/{name}', 'Dashboard\DocumentController@delete');
             });
 
-            Route::get('/reports', 'Dashboard\ReportController@index');
+            
+            Route::group(['prefix' => 'reports'], function () {
+              Route::get('/', 'Dashboard\ReportController@index');
+              Route::get('/cases', 'Dashboard\ReportController@cases');
+              Route::get('/payments', 'Dashboard\ReportController@payments');
+              Route::get('/hours', 'Dashboard\ReportController@hours');
+            });
+            
 
             Route::get('/invoices', 'Dashboard\InvoiceController@index');
             Route::get('/invoices/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');

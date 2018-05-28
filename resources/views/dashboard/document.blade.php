@@ -37,7 +37,7 @@
 					@foreach ($cases as $case)
 						@if($document->case_id == $case->id)
  
-        <p><a href="/dashboard/cases/case/{{ $case->id }}">{{ $case->name }}</a></p>						 
+        <p><a href="/dashboard/cases/case/{{ $case->case_uuid }}">{{ $case->name }}</a></p>						 
 					 @endif
 					@endforeach
 				@endif

@@ -8,6 +8,7 @@ use App\Settings;
 use App\Contact;
 use App\FirmStripe;
 use Carbon\Carbon;
+use App\Charts\ByMonth;
 
 class ReportController extends Controller
 {
@@ -34,10 +35,30 @@ class ReportController extends Controller
   
   public function index()
   {
+    
+   $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+
    
     //->whereDate('created_at', '<=', Carbon::today()->toDateString())
-    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-  print_r($clients);
+   
+    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    /*$clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();    
+    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get(); */
+    
+    $chart = new ByMonth;
+    $chart->dataset('Clients', 'bar', [count($clients_jan), 65, 84, 45, 90]);
+    
+    
+    
     
     return view('dashboard/reports', [
       'clients' => $clients,
@@ -48,6 +69,7 @@ class ReportController extends Controller
       'table_size' => $this->settings->table_size,
       'settings' => $this->settings,
       'fs' => $this->firm_stripe,
+      'chart' => $chart,
     ]);
   }
 }
