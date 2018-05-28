@@ -253,7 +253,7 @@ class DocumentController extends Controller
 			'user_id' => $this->user['id'],
 			'client_share' => $data['client_share'],
 		]);
-		return redirect('/dashboard/documents')->with('status', 'Document '.$status.' successfully!');
+		return redirect()->back()->with('status', 'Document '.$status.' successfully!');
 	}
 
 	public function uploadFileToS3(Request $request)

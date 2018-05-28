@@ -20,7 +20,7 @@ $(function($){
     $this.find('div').append('<div class="arrow-up"></div>')
   });
   
-  
+  $('.ui-draggable').draggable();
 
    $(".todo-list").sortable({
         placeholder: "sort-highlight",

@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => 'Legalkeeper',
+    'logo' => '<img src="img/dashboard-logo.png" />',
 
-    'logo_mini' => 'Legalkeeper',
+    'logo_mini' => 'LGK',
 
     /*
     |--------------------------------------------------------------------------

@@ -326,7 +326,7 @@
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
           <input type="hidden" name="case_id" value="{{ $case->id }}" />
           <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}" />
-          <label>Note</label>
+          <label>Client</label>
           <input type="hidden" name="client_id" />
           <input type="text" name="client_name" id="client_name" class="form-control" />
           <button type="submit" class="form-control mt-3 btn btn-primary">
