@@ -11,7 +11,7 @@
 			
 						@if (count($tasks) === 0)
 				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					No tasks for this user, yet! <strong>Add a new task above!</strong>
+					No tasks for this tasklist, yet! <strong>Add a new task below!</strong>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -45,7 +45,11 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list ui-sortable" data-widget="todo-list">
            @foreach ($tasks as $task)
+            @if($task->complete != null)
+                <li class="done">
+            @else
                 <li>
+            @endif
                   <!-- drag handle -->
                   <span class="handle ui-sortable-handle">
                         <i class="fa fa-ellipsis-v"></i>
