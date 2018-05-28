@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Settings;
 use App\Contact;
+use App\LawCase;
 use App\FirmStripe;
 use Carbon\Carbon;
 use App\Charts\ByMonth;
@@ -71,5 +72,11 @@ class ReportController extends Controller
       'fs' => $this->firm_stripe,
       'chart' => $chart,
     ]);
+  }
+  
+  public function cases()
+  {
+    $cases = LawCase::where(['u_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id])->get();
+    
   }
 }

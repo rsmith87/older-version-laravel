@@ -4,10 +4,10 @@
 
 <div class="container dashboard col-sm-10 col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-modal" href="#"><i class="fas fa-user"></i> Clients by month</a>
-    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Cases by month</a>
-    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-dollar-sign"></i> Payments by month</a> 
-    <a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-clock"></i> Hours worked by week</a>        
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports"><i class="fas fa-user"></i> Clients by month</a>
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/cases"><i class="fas fa-briefcase"></i> Cases by month</a>
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/payments"><i class="fas fa-dollar-sign"></i> Payments by month</a> 
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/hours"><i class="fas fa-clock"></i> Hours worked by week</a>        
   </nav>  
   
   @include('dashboard.includes.alerts')
