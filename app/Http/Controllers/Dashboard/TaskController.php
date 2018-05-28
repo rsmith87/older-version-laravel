@@ -243,7 +243,7 @@ class TaskController extends Controller
 
 		$category = explode(',', $data['tags']);
 	
-		
+		if(!empty($category)){
 		foreach($category as $c){
 			//existing category
 			$exis_cat = \DB::table('task_categories')->where('name', $c)->get();
@@ -277,6 +277,7 @@ class TaskController extends Controller
 				]);
 			}
 		}
+    }
     if(empty($data['due_time'])){
       $data['due_time'] = "00:00";
     }
@@ -311,7 +312,7 @@ class TaskController extends Controller
 			'id' => $data['id'],
 		],
 		[
-			't_id' => $data['task_list_uuid'],
+			't_id' => $data['task_id'],
 			'subtask_name' => $data['subtask_name'],
       'subtask_description' => $data['subtask_description'],
 			'due' => $this->fix_date($data['due_date'], $data['due_time']),

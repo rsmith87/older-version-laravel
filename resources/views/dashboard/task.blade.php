@@ -138,6 +138,7 @@
           <input type="hidden" name="_token" value="{{ csrf_token() }}" />
           <input type="hidden" name="task_uuid" value="{{ $task->task_uuid }}" />
           <input type="submit" class="btn btn-block btn-danger" value="Delete task">
+          </form>
         </div>
       </div>
     </div>
@@ -204,41 +205,42 @@
 
                     
           @endforeach
-          </ul>           
+          </ul>
+             <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right add-subtask-button"><i class="fa fa-plus"></i> Add subtask</button>
+            </div>             
               <div class="subtask-add hide">
                 <form method="POST" action="/dashboard/tasks/subtask/add">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                   <input type="hidden" name="task_id" value="{{ $task->id }}" />
                   <input type="hidden" name="task_list_uuid" value="{{ $task->task_list_uuid }}" />
-                <div class="col-xs-12">
-                  <label>Subtask</label>
-                  <input type="text" class="form-control" name="subtask_name">
-                </div>
-
-                <div class="col-sm-6 col-12">
-                  <label>Due date</label>
-                  <div class="input-group date">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right datepicker" id="datetimepicker" name="due_date" aria-label="Due date">
+                  <div class="col-xs-12">
+                    <label>Subtask</label>
+                    <input type="text" class="form-control" name="subtask_name">
                   </div>
-                </div>
 
-                <div class="col-sm-6 col-12">
-                  <label>Time due</label>
-                  <input type="text" class="form-control timepicker-start" id="timepicker" name="due_time" aria-label="Time due">
-                </div>    						
+                  <div class="col-sm-6 col-12">
+                    <label>Due date</label>
+                    <div class="input-group date">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right datepicker" id="datetimepicker" name="due_date" aria-label="Due date">
+                    </div>
+                  </div>
 
-                <div class="col-12">
-                  <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Save</button>
-                </div> 
+                  <div class="col-sm-6 col-12">
+                    <label>Time due</label>
+                    <input type="text" class="form-control timepicker-start" id="timepicker" name="due_time" aria-label="Time due">
+                  </div>    						
+
+                  <div class="col-12">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Save</button>
+                  </div> 
                </form>
-        
+                
               </div>
-            <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right add-subtask-button"><i class="fa fa-plus"></i> Add subtask</button>
-            </div>         
+         
               </div>
             
           
