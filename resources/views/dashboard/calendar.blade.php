@@ -43,10 +43,10 @@
             <div class="box-body">
               <!-- the events -->
               <div id="external-events">
-                <div class="external-event bg-green ui-draggable ui-draggable-handle" style="position: relative;z-index:9999999">Lunch</div>
-                <div class="external-event bg-yellow ui-draggable ui-draggable-handle" style="position: relative;z-index:999999">Blocker</div>
-                <div class="external-event bg-aqua ui-draggable ui-draggable-handle" style="position: relative;z-index:9999999">Research</div>
-                <div class="external-event bg-light-blue ui-draggable ui-draggable-handle" style="position: relative;z-index: 9999999">Office hour booked</div>
+                <div class="external-event bg-green ui-draggable ui-draggable-handle" style="position: relative;">Lunch</div>
+                <div class="external-event bg-yellow ui-draggable ui-draggable-handle" style="position: relative;">Blocker</div>
+                <div class="external-event bg-aqua ui-draggable ui-draggable-handle" style="position: relative;">Research</div>
+                <div class="external-event bg-light-blue ui-draggable ui-draggable-handle" style="position: relative;">Office hour booked</div>
                 <div class="checkbox">
                   <label for="drop-remove">
                     <input type="checkbox" id="drop-remove">

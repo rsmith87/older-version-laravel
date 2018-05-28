@@ -18,6 +18,9 @@ body.modal-open {
 body.lockscreen {
   display: block;
 }
+body .fc {
+  overflow: auto;
+}
 .main-header .sidebar-toggle:before {
   content: "";
 }

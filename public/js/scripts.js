@@ -399,11 +399,34 @@ $(function($){
      for(var i = 0; i<events.length; i++){
           //console.log(events[i].user);
         }  
+        
+        /* initialize the external events
+     -----------------------------------------------------------------*/
+    function init_events(ele) {
+      ele.each(function () {
+
+        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+        // it doesn't need to have a start or end
+        var eventObject = {
+          title: $.trim($(this).text()) // use the element's text as the event title
+        }
+
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data('eventObject', eventObject)
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          zIndex        : 1070,
+          revert        : true, // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        })
+
+      })
+    }
+
+    init_events($('#external-events div.external-event'))
       $('#calendar').fullCalendar({
         themeSystem: 'bootstrap3',
-        selectable: true,
-        nowIndicator: true,
-        selectHelper: true,
         weekends: false,
         businessHours: {
           // days of week. an array of zero-based day of week integers (0=Sunday)
@@ -411,32 +434,47 @@ $(function($){
           start: '09:00', // a start time (10am in this example)
           end: '17:00', // an end time (6pm in this example)
         },
-        customButtons: {
-        fullScreen: {
-          text: 'Full Screen',
-          click: function(e) {
-          //$(".dashboard-navigation").animate({width: "0"}, { duration: 100, queue: false });
-          $('.dashboard.calendar #calendar').addClass('full-screen', 1000);
-
-          }
-
-        }
-      },
         header: {
           left: 'prev,next today fullScreen',
           center: 'title',
           right: 'month,agendaWeek,agendaDay,listMonth'
         },
         defaultDate: today,
-        weekNumbers: true,
         navLinks: true, // can click day/week names to navigate views
-        editable: false,
         eventLimit: 4, // allow "more" link when too many events
         events: events,
-        dragable: false,
+        draggable: true,
         contentHeight: 600,
+        editable  : true,
+        droppable : true, // this allows things to be dropped onto the calendar !!!     
+        drop      : function (date, allDay) { // this function is called when something is dropped
+
+          // retrieve the dropped element's stored Event Object
+          var originalEventObject = $(this).data('eventObject')
+
+          // we need to copy it, so that multiple events don't have a reference to the same object
+          var copiedEventObject = $.extend({}, originalEventObject)
+
+          // assign it the date that was reported
+          copiedEventObject.start           = date
+          copiedEventObject.allDay          = allDay
+          copiedEventObject.backgroundColor = $(this).css('background-color')
+          copiedEventObject.borderColor     = $(this).css('border-color')
+
+          // render the event on the calendar
+          // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+          $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+
+          // is the "remove after drop" checkbox checked?
+          if ($('#drop-remove').is(':checked')) {
+            // if so, remove the element from the "Draggable Events" list
+            $(this).remove()
+          }
+
+        }
       });  
-  
+        //Add draggable funtionality
+      init_events(event)
     
   }
   

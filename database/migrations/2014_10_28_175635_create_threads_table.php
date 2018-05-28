@@ -18,6 +18,7 @@ class CreateThreadsTable extends Migration
             $table->increments('id');
             $table->uuid('thread_uuid');
             $table->string('subject');
+            $table->integer('firm_id');
             $table->timestamps();
         });
     }
