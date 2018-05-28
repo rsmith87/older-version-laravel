@@ -256,6 +256,12 @@ table#main tr:active {
 .dashboard.task .tags {
   overflow: hidden;
 }
+.dashboard.task ul li {
+  cursor: pointer;
+}
+.dashboard.task .modal label {
+  margin-top: 1em;
+}
 .dashboard.task .category-tags .form-field-hide {
   display: none;
 }

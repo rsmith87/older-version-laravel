@@ -71,16 +71,46 @@
                   @endif
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
+                    <i class="fa fa-edit" data-toggle="modal" data-target="#task-modal-{{ $task->task_uuid }}"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                @foreach($task->Subtasks as $subtask)                 
+                
+                <li class="hide">
+<!-- drag handle -->
+                  <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" value="">
+                  <!-- todo text -->
+                  <span class="text">{{ $subtask->subtask_name }}</span>
+                  <!-- Emphasis label -->
+                  @if(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now())                  
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHour())
+                  <small class="label label-warning"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(4))
+                  <small class="label label-info"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(8))
+                  <small class="label label-success"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(16))
+                  <small class="label label-primary"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(24))
+                  <small class="label label-default"><i class="fa fa-clock-o"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
+                  @endif
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
                     <i class="fa fa-edit"></i>
                     <i class="fa fa-trash-o"></i>
                   </div>
                 </li>
-
-                    
-@endforeach
+                @endforeach
+              @endforeach
           </ul>           
-               
-
+              
 			@endif
               </div>
             <!-- /.box-body -->
@@ -97,17 +127,18 @@
 @include('dashboard.includes.subtask-modal')
 
 @foreach($tasks as $task)
- <div class="modal fade" id="task-modal-{{ $task->id }}">
+ <div class="modal fade" id="task-modal-{{ $task->task_uuid }}">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
           <h3>
-            <i class="fas fa-tasks"></i> Edit subtask
+            <i class="fas fa-tasks"></i> Edit task
           </h3>
-
-          <div class="clearfix"></div>
-
           <hr />
+          <div class="clearfix"></div>
+          <label>Name</label>
+          <input type="text" name="task_name" class="form-control" value="{{ $task->task_name }}" />
+          <label>Subtasks</label>
           <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list ui-sortable">
@@ -143,13 +174,42 @@
                   </div>
                 </li>
 
+
                     
           @endforeach
           </ul>           
-               
+              <div class="subtask-add hide">
+                <div class="col-sm-6 col-12">
+                  <label>Subtask</label>
+                  <input type="text" class="form-control" name="subtask_name">
+                </div>
 
-		
+                <div class="col-sm-6 col-12">
+                  <label>Due date</label>
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right datepicker" id="datetimepicker" name="due_date" aria-label="Due date">
+                  </div>
+                </div>
+
+                <div class="col-sm-6 col-12">
+                  <label>Time due</label>
+                  <input type="text" class="form-control timepicker-start" id="timepicker" name="due_time" aria-label="Time due">
+                </div>    						
+
+                <div class="col-12">
+                  <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Save</button>
+                </div>  
               </div>
+      <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right" id="add-subtask-button"><i class="fa fa-plus"></i> Add subtask</button>
+            </div>         
+              </div>
+            
+          
+          <button type="submit" class="btn btn-primary form-control">Submit</button>
          </div>
       </div>
     </div>
@@ -178,24 +238,7 @@
             <input type="hidden" name="tl_id" value="{{ $tl_id }}">
             <input type="hidden" name="u_id" value="{{ $user_id }}" />
 
-            <div class="col-sm-6 col-12">
-              <label>Subtask</label>
-              <input type="text" class="form-control" name="subtask_name" value="{{ $subtask->subtask_name }}">
-            </div>
-
-            <div class="col-sm-6 col-12">
-              <label>Due date</label>
-              <input type="text" class="form-control datepicker" data-toggle="datepicker" value="{{ \Carbon\Carbon::parse($subtask->due)->format('m/d/Y') }}" id="due_date" name="due_date" aria-label="Due date">
-            </div> 
-
-            <div class="col-sm-6 col-12">
-              <label>Time due</label>
-              <input type="text" class="form-control timepicker-start" id="due_time" value="{{ \Carbon\Carbon::parse($subtask->due)->format('H:i') }}" name="due_time" aria-label="Time due">
-            </div>    						
-
-            <div class="col-12">
-              <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Save</button>
-            </div>       
+     
           </form>
 
         </div>
@@ -259,6 +302,9 @@
   });	 
 	
 	
+  $('#add-subtask-button').click(function(){
+    $subtask_hide = $('.subtask-add').removeClass('hide');
+  });
   
 
 </script>

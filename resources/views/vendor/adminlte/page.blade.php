@@ -225,7 +225,8 @@
 		<script src="{{ asset('js/tablesorter.js') }}"></script>	
 		<script src="{{ asset('js/tagify.js') }}"></script>
   	<script src="{{ asset('js/match-height.js') }}"></script>
-                              
+    <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>   
+    <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>                              
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @yield('js')
