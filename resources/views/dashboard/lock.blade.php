@@ -100,7 +100,7 @@
     <a href="/logout">Or sign in as a different user</a>
   </div>
   <div class="lockscreen-footer text-center">
-    Copyright &copy; 2018 <b><a href="https://legalkeeper.com" class="text-black">Legalkeeper, LLC</a></b><br>
+    Copyright &copy; 2018 <b><a href="{{ env('APP_DOMAIN') }}" class="text-black">Legalkeeper, LLC</a></b><br>
     All rights reserved
   </div>
 </div>
