@@ -38,6 +38,6 @@ class TaskList extends Model
   
     public function dashboardtasks()
     {
-      return $this->hasMany('App\Task', 'task_list_uuid', 'task_list_uuid')->take(5); 
+      return $this->hasMany('App\Task', 'task_list_uuid', 'task_list_uuid'); 
     }
 }

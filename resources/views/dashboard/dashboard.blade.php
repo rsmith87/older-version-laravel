@@ -117,6 +117,7 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list ui-sortable" data-widget="todo-list">
                 @foreach($tasklists as $tasklist)
+                  @if(count($tasklist->Dashboardtasks) > 0)
                   @foreach($tasklist->Dashboardtasks as $task)
                  
                   <li>
@@ -151,6 +152,7 @@
                   </li>
                  
                   @endforeach
+                  @endif
                 @endforeach
                 
               </ul>
