@@ -14,7 +14,7 @@ return array(
 	 *
 	 *  @type string
 	 */
-	'domain' => 'http://legality-codenerd33.codeanyapp.com',
+	'domain' => env('APP_DOMAIN', 'https://legaleeze-codenerd33.codeanyapp.com/'),
 
 	/**
 	 *  Middleware for admin routing.

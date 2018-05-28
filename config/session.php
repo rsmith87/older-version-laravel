@@ -44,7 +44,7 @@ return [
     |
     */
 
-    'encrypt' => false,
+    'encrypt' => env('REDIRECT_HTTPS', 'true'),
 
     /*
     |--------------------------------------------------------------------------
@@ -135,7 +135,7 @@ return [
     |
     */
 
-    'domain' => "legalkeeper.rob",
+    'domain' => env('APP_DOMAIN', "legaleeze-codenerd33.codeanyapp.com"),
 
     /*
     |--------------------------------------------------------------------------
@@ -148,6 +148,6 @@ return [
     |
     */
 
-    'secure' => false,
+    'secure' => env('REDIRECT_HTTPS', 'true'),
 
 ];

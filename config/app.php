@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => 'https://legalkeeper.rob',
+    'url' => env('APP_DOMAIN', 'https://legaleeze-codenerd33.codeanyapp.com/'),
 
     /*
     |--------------------------------------------------------------------------

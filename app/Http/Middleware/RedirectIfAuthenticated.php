@@ -23,9 +23,9 @@ class RedirectIfAuthenticated
          
             $settings = Settings::where('user_id', \Auth::id())->first();
             if(!isset($settings->firm_id) || $settings->firm_id === 0){
-              return redirect('/dashboard/firm')->with('status', 'You must complete your firm information first!');
+              return redirect()->intended('/dashboard/firm')->with('status', 'You must complete your firm information first!');
             }
-            return redirect('/dashboard');
+            return redirect()->intended('/dashboard');
         } 
 
         return $next($request);
