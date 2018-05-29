@@ -63,21 +63,25 @@ class MessagesController extends Controller
 			// All threads that user is participating in, with new messages
 			//$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
-
-			$users = User::where('id',  '!=', \Auth::id())->get();
+      $firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
+      //print_r($firm_users);
+      foreach($firm_users as $u){
+        $usrs[] = User::where('id', $u->user_id)->get();
+      }
+			//$users = User::where('id',  '!=', \Auth::id())->get();
 			if($this->user->hasRole('client')){
 				$contact = Contact::where('has_login', $this->user['id'])->first();
 				$case = LawCase::where('id', $contact->case_id)->first();
-				$users = User::where('id', $case->u_id)->get();
+				$users = User::where('id', $case->u_id)->first();
 			}
 			return view('messenger.index', [
         'user' => $this->user,
 				'threads' => $threads, 
-				'users' => $users, 
+				'users' => $usrs, 
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
-      'settings' => $this->settings,
-      'fs' => $this->firm_stripe,          
+        'settings' => $this->settings,
+        'fs' => $this->firm_stripe,          
 			]);
     }
 
@@ -98,18 +102,23 @@ class MessagesController extends Controller
       
 			// show current user in list if not a current participant
 			// $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
-        $threads = Thread::getAllLatest()->where('firm_id', $this->settings->firm_id)->get();
+      $threads = Thread::getAllLatest()->where('firm_id', $this->settings->firm_id)->get();
 
+      $firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
+      $userId = Auth::id();
+      foreach($firm_users as $u){
+        // whereNotIn('id', $thread->participantsUserIds($userId))->
+        $usrs[] = User::where('id', $u->user_id)->get();
+      }
 			// don't show the current user in list
-			$userId = Auth::id();
-			$users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
+
 
 			$thread->markAsRead($userId);
       $message = Message::where('thread_id', $thread->id)->with('user')->with('participants')->with('recipients')->get();
 
 			return view('messenger.show', [
         'user' => $this->user,
-				'users' => $users, 
+				'users' => $usrs, 
 				'thread' => $thread, 
         'threads' => count($threads),
         'message' => $message,

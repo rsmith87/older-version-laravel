@@ -56,7 +56,7 @@
             <div class="box-body no-padding">
               <div class="mailbox-read-info">
                 <h3>{{ $thread->subject }}</h3>
-                <h5>From: @foreach($users as $u) {{ $u->name }} @endforeach
+                <h5>From: @foreach($users as $u) {{ $u[0]['name'] }} @endforeach
                   <span class="mailbox-read-time pull-right">15 Feb. 2016 11:03 PM</span></h5>
               </div>
               <!-- /.mailbox-read-info -->
@@ -94,11 +94,11 @@
                         <textarea name="message" class="form-control">{{ old('message') }}</textarea>
                     </div>
 
-                    @if($users->count() > 0)
+                    @if(count($users) > 0)
                         <div class="checkbox">
-                            @foreach($users as $user)
-                                <label title="{{ $user->name }}">
-                                    <input type="checkbox" class="message-checkbox" name="recipients[]" value="{{ $user->id }}">{{ $user->name }}
+                            @foreach($users as $u)
+                                <label title="{{ $u[0]['name'] }}">
+                                    <input type="checkbox" class="message-checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{{ $u[0]['name'] }}
                                 </label>
                             @endforeach
                         </div>
@@ -162,11 +162,11 @@
                 <textarea name="message" class="form-control">{{ old('message') }}</textarea>
             </div>
      
-            @if($users->count() > 0)
+            @if(count($users) > 0)
                 <div class="checkbox">
-                    @foreach($users as $user)
-                        <label title="{{ $user->name }}">
-                          <input type="checkbox" name="recipients[]" value="{{ $user->id }}">{!!$user->name!!}</label>
+                    @foreach($users as $o)
+                        <label title="{{ $o[0]['name'] }}">
+                          <input type="checkbox" name="recipients[]" value="{{ $o[0]['id'] }}">{!!$o[0]['name']!!}</label>
                     @endforeach
                 </div>
             @endif
