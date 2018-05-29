@@ -148,6 +148,10 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('/subtask/delete', 'Dashboard\TaskController@delete_subtask');
                 Route::post('/subtask/category/{id}/delete', 'Dashboard\TaskController@delete_category');
             });
+            
+            Route::group(['prefix' => 'mail'], function () { 
+              Route::get('/', 'Dashboard\MailController@index');
+            });
 
             Route::group(['prefix' => 'documents'], function () {
                 Route::get('/', 'Dashboard\DocumentController@index');

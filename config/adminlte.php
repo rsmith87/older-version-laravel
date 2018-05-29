@@ -149,6 +149,13 @@ return [
             //'label_color' => 'success',
         ],
         [
+            'text'        => 'Gmail',
+            'url'         => 'dashboard/mail',
+            'icon'        => 'envelope',
+            //'label'       => 4,
+            //'label_color' => 'success',
+        ],        
+        [
             'text' => 'Invoices',
             'url'  => 'dashboard/invoices',
             'icon' => 'file-alt'
