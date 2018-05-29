@@ -31,7 +31,7 @@ class TaskList extends Model
       return $this->hasOne('App\Contact', 'contact_client_id', 'id');
     }
  
-    public function tasks()
+    public function task()
     {
       return $this->hasMany('App\Task', 'task_list_uuid', 'task_list_uuid');
     }

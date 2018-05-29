@@ -48,7 +48,7 @@ class TaskController extends Controller
     //return the task list name for the table rows
     //handle redirect in JS file like the others
     
-		$tasks = TaskList::where('user_id', $this->user['id'])->with('tasks')->get();
+		$tasks = TaskList::where('user_id', $this->user['id'])->with('task')->get();
 		//$subtasks = Subtask::where('user_id', $this->user['id'])->get();
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
 		$contacts = Contact::where('firm_id', $this->settings->firm_id)->select('id', 'first_name', 'last_name')->get();
