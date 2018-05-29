@@ -78,19 +78,16 @@
                     <ul class="nav navbar-nav">
                         <li>
                           <a class="timer-create" href="#" data-target="#timer-modal" data-toggle="modal"><i class="fas fa-stopwatch"></i></a>
-
                         </li>
-                        <li>                           
-                           <div class="dropdown">
-                            <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <li class="dropdown">                           
+                            <a id="dLabel" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-comments"></i>
                             </a>
-
-                            <ul class="dropdown-menu" aria-labelledby="dLabel">
-                              <li>
-                              </li>
-                            </ul>
-                          </div>
+                            <div class="dropdown-menu" aria-labelledby="dLabel">
+                              <p>
+                                test
+                              </p>
+                            </div>
                         </li>
                         
                         <li>

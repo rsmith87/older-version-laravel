@@ -349,10 +349,10 @@ $(function($){
  
  $('.navbar ul a').each(function() {
    
-    if (this.href === path) {
-     $(this).parent().addClass('active');
-    }
+
  });
+
+  $('.dropdown-toggle').dropdown();
   
   $('.nav-pills a.nav-item').hover(function(){
     var $this = $(this);
