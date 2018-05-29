@@ -10,6 +10,7 @@
 		@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');
 		</style>
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
@@ -79,7 +80,22 @@
                           <a class="timer-create" href="#" data-target="#timer-modal" data-toggle="modal"><i class="fas fa-stopwatch"></i></a>
 
                         </li>
+                        <li>                           
+                           <div class="dropdown">
+                            <a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-comments"></i>
+                            </a>
 
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                              <li>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        
+                        <li>
+                          <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
+                        </li>
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
@@ -100,9 +116,6 @@
                                     {{ csrf_field() }}
                                 </form>
                             @endif
-                        </li>
-                        <li>
-                          <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
                         </li>                        
                         <li>
                           <a data-toggle="control-sidebar"><i class="fas fa-cogs"></i></a>
@@ -229,7 +242,8 @@
 		<script src="{{ asset('js/tagify.js') }}"></script>
   	<script src="{{ asset('js/match-height.js') }}"></script>
     <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>   
-    <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>                              
+    <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>   
+    <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @yield('js')

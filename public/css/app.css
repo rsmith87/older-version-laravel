@@ -244,6 +244,10 @@ table#main tr:active {
 .dashboard.messages .col-sm-6 {
   float: none;
 }
+.dashboard.messages th:nth-child(1),
+.dashboard.messages td:nth-child(1) {
+  display: table-cell;
+}
 .dashboard.document iframe {
   width: 100%;
   height: 55vh;

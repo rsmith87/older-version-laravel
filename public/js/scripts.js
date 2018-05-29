@@ -29,7 +29,12 @@ $(function($){
         zIndex: 999999
     }).disableSelection();
 
-  
+  $('input[type="checkbox"]').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue',
+    increaseArea: '-10%' // optional
+  });
+
 
 
   $('.dashboard.home .col-sm-6').matchHeight();
