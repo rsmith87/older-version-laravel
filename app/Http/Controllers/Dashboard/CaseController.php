@@ -233,7 +233,9 @@ class CaseController extends Controller
       $invoice_amount = $invoice_amount - $line->amount;
     }
    
-
+    $project = $requested_case;
+    $project ? array_merge($project->toArray(), ['timers' => []]) : false;
+    
     return view('dashboard.case', [
       'user' => $this->user,
       
@@ -242,7 +244,8 @@ class CaseController extends Controller
       'contacts' => $this->contacts,
       'cases' => $this->cases,
       'clients' => $this->clients,
-        
+      
+      'project' => $project,  
       'hours_worked' => $hours_amount,
       'order' => $order,
       'status_values' => $this->status_values,
@@ -325,13 +328,13 @@ class CaseController extends Controller
     ];
 
     $timeline_data['timeline']['date'][0]['asset'] = [
-      'media' => 'http://legality-codenerd33.codeanyapp.com/img/case-background.png',
+      'media' => '/img/case-background.png',
       'credit' => '',
       'caption' => '',
     ];    
 
     $timeline_data['timeline']['asset'] = [
-      'media' => 'http://legality-codenerd33.codeanyapp.com/img/logo-long-black.png',
+      'media' => '/img/logo-long-black.png',
       'credit' => 'CREDIT NAME GOES HERE',
       'caption' => 'CAPTION TEST',
     ];
@@ -350,7 +353,7 @@ class CaseController extends Controller
         'tag' => '',
         'classname' => '', 
         'asset' => [
-          'media' => 'http://legality-codenerd33.codeanyapp.com/img/clients-background.png',
+          'media' =>  '/img/clients-background.png',
           'credit' => '',
           'caption' => '',         
         ]
@@ -372,7 +375,7 @@ class CaseController extends Controller
           'tag' => '',
           'classname' => '',       
           'asset' => [
-            'media' => 'http://legality-codenerd33.codeanyapp.com/img/logo-long-black.png',
+            'media' => '/img/logo-long-black.png',
             'credit' => '',
             'caption' => 'You added a task to this case.',
           ]
@@ -403,7 +406,7 @@ class CaseController extends Controller
           'tag' => '',
           'classname' => '',       
           'asset' => [
-            'media' => 'http://legality-codenerd33.codeanyapp.com/img/logo-long-black.png',
+            'media' =>  '/img/logo-long-black.png',
             'credit' => '',
             'caption' => 'You added a task to this case.',
           ]
@@ -429,7 +432,7 @@ class CaseController extends Controller
           'tag' => '',
           'classname' => '',  
           'asset' => [
-            'media' => 'http://legality-codenerd33.codeanyapp.com/img/logo-long-black.png',
+            'media' =>  '/img/logo-long-black.png',
             'credit' => '',
             'caption' => '',         
           ]
@@ -482,7 +485,7 @@ class CaseController extends Controller
           'tag' => '',
           'classname' => '',   
           'asset' => [
-            'media' => 'http://legality-codenerd33.codeanyapp.com/img/contacts-background.png',
+            'media' =>  '/img/contacts-background.png',
             'credit' => '',
             'caption' => '',
           ]

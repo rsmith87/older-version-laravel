@@ -88,7 +88,7 @@
                                 @foreach($threads as $thread)
                               <li>
                                 <a href="/dashboard/messages/{{ $thread->thread_uuid }}">
-                                <span>{{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</span>
+                                <span class="float-left">Created: {{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</span><br />
                                 {{ $thread->subject }}</a>
                               </li>
                                  @endforeach

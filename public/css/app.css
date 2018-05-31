@@ -981,4 +981,7 @@ table.dataTable thead td {
   float: left;
   margin-right: 5px;
 }
+.vco-timeline .vco-navigation .timenav {
+  width: 100%;
+}
 /*# sourceMappingURL=app.css.map */
