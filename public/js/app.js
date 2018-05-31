@@ -62261,7 +62261,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.projects = response.data;
             window.axios.get('/dashboard/cases/timers_cases/active').then(function (response) {
                 if (response.data.id !== undefined) {
-                    _this.startTimer(response.data.project, response.data);
+                    _this.startTimer(response.data.lawcase, response.data);
                 }
             });
         });
@@ -62305,7 +62305,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * passed into the function.
          */
         showTimerForProject: function showTimerForProject(project, timer) {
-            return this.counter.timer && this.counter.timer.id === timer.id && this.counter.timer.project.id === project.id;
+            return this.counter.timer && this.counter.timer.id === timer.id && this.counter.timer.lawcase.case_uuid === project.case_uuid;
         },
 
         /**
@@ -62320,7 +62320,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.counter.timer.project = project;
             this.counter.seconds = parseInt(__WEBPACK_IMPORTED_MODULE_0_moment___default.a.duration(__WEBPACK_IMPORTED_MODULE_0_moment___default()().diff(started)).asSeconds());
             this.counter.ticker = setInterval(function () {
-                var time = _this2._readableTimeFromSeconds(++vm.counter.seconds);
+                var time = _this2._readableTimeFromSeconds(++_this2.counter.seconds);
 
                 _this2.activeTimerString = time.hours + ' Hours | ' + time.minutes + ':' + time.seconds;
             }, 1000);
@@ -62335,7 +62335,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             window.axios.post('/dashboard/cases/' + this.counter.timer.id + '/timers/stop').then(function (response) {
                 // Loop through the projects and get the right project...
                 _this3.projects.forEach(function (project) {
-                    if (project.id === parseInt(_this3.counter.timer.project.id)) {
+                    if (project.id === parseInt(_this3.counter.timer.law_case_id)) {
                         // Loop through the timers of the project and set the `stopped_at` time
                         return project.timers.forEach(function (timer) {
                             if (timer.id === parseInt(_this3.counter.timer.id)) {
@@ -62660,7 +62660,10 @@ var render = function() {
                 _vm._l(_vm.projects, function(project) {
                   return _c(
                     "div",
-                    { key: project.id, staticClass: "panel panel-default" },
+                    {
+                      key: project.case_uuid,
+                      staticClass: "panel panel-default"
+                    },
                     [
                       _c("div", { staticClass: "panel-heading clearfix" }, [
                         _c("h4", { staticClass: "pull-left" }, [

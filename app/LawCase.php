@@ -99,7 +99,7 @@ class LawCase extends Model
      */
     public function timers()
     {
-        return $this->hasMany(Timer::class);
+        return $this->hasMany('App\Timer', 'law_case_id', 'case_uuid');
     }
 
     /**
@@ -110,6 +110,6 @@ class LawCase extends Model
      */
     public function scopeMine($query)
     {
-        return $query->where('u_id', auth()->user()->id);
+        return $query->where('u_id', \Auth::id());
     }  
 }

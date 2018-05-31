@@ -10,7 +10,7 @@
             <hr>
 
             <div v-if="projects.length > 0">
-                <div class="panel panel-default" v-for="project in projects" :key="project.id">
+                <div class="panel panel-default" v-for="project in projects" :key="project.case_uuid">
                     <div class="panel-heading clearfix">
                         <h4 class="pull-left">{{ project.name }}</h4>
 
@@ -83,7 +83,7 @@ export default {
             this.projects = response.data
             window.axios.get('/dashboard/cases/timers_cases/active').then(response => {
                 if (response.data.id !== undefined) {
-                    this.startTimer(response.data.project, response.data)
+                    this.startTimer(response.data.lawcase, response.data)
                 }
             })
         })
@@ -128,7 +128,7 @@ export default {
         showTimerForProject: function (project, timer) {
             return this.counter.timer &&
                    this.counter.timer.id === timer.id &&
-                   this.counter.timer.project.id === project.id
+                   this.counter.timer.lawcase.case_uuid === project.case_uuid
         },
 
         /**
@@ -141,7 +141,7 @@ export default {
             this.counter.timer.project = project
             this.counter.seconds = parseInt(moment.duration(moment().diff(started)).asSeconds())
             this.counter.ticker = setInterval(() => {
-                const time = this._readableTimeFromSeconds(++vm.counter.seconds)
+                const time = this._readableTimeFromSeconds(++this.counter.seconds)
 
                 this.activeTimerString = `${time.hours} Hours | ${time.minutes}:${time.seconds}`
             }, 1000)
@@ -152,26 +152,26 @@ export default {
          */
         stopTimer: function () {
             window.axios.post(`/dashboard/cases/${this.counter.timer.id}/timers/stop`)
-                        .then(response => {
-                            // Loop through the projects and get the right project...
-                            this.projects.forEach(project => {
-                                if (project.id === parseInt(this.counter.timer.project.id)) {
-                                    // Loop through the timers of the project and set the `stopped_at` time
-                                    return project.timers.forEach(timer => {
-                                        if (timer.id === parseInt(this.counter.timer.id)) {
-                                            return timer.stopped_at = response.data.stopped_at
-                                        }
-                                    })
-                                }
-                            });
+              .then(response => {
+                // Loop through the projects and get the right project...
+                this.projects.forEach(project => {
+                  if (project.id === parseInt(this.counter.timer.law_case_id)) {
+                    // Loop through the timers of the project and set the `stopped_at` time
+                    return project.timers.forEach(timer => {
+                      if (timer.id === parseInt(this.counter.timer.id)) {
+                        return timer.stopped_at = response.data.stopped_at
+                      }
+                    })
+                  }
+                });
 
-                            // Stop the ticker
-                            clearInterval(this.counter.ticker)
+                // Stop the ticker
+                clearInterval(this.counter.ticker)
 
-                            // Reset the counter and timer string
-                            this.counter = { seconds: 0, timer: null }
-                            this.activeTimerString = 'Calculating...'
-                        })
+                // Reset the counter and timer string
+                this.counter = { seconds: 0, timer: null }
+                this.activeTimerString = 'Calculating...'
+              })
         },
 
         /**
@@ -179,10 +179,10 @@ export default {
          */
         createTimer: function (project) {
             window.axios.post(`/dashboard/cases/case/${project.case_uuid}/timers`, {name: this.newTimerName})
-                        .then(response => {
-                            project.timers.push(response.data)
-                            this.startTimer(response.data.project, response.data)
-                        })
+              .then(response => {
+                  project.timers.push(response.data)
+                  this.startTimer(response.data.project, response.data)
+              })
 
             this.newTimerName = ''
         },

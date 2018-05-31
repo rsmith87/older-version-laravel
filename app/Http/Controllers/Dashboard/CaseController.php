@@ -97,15 +97,18 @@ class CaseController extends Controller
   public function timer_cases(Request $request)
   {
      $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get()->toArray();
-     $projects ? array_merge($projects, ['timers' => []]) : false;
+     //$projects = count($projects) > 0 ? array_merge($projects, ['timers' => []]) : false;
      
      return $projects;
   }
   
   public function timers_active(Request $request)
   {
-    $timers = Timer::with('lawcase')->mine()->running()->first() ?? [];
-     return $timers;
+    $timers = Timer::where(['user_id' => \Auth::id(), 'stopped_at' => null])->with('lawcase')->first();
+    if(count($timers) < 1){
+      $timers = [];
+    }
+    return $timers;
   }
 
   public function case_timers(Request $request)
@@ -117,16 +120,21 @@ class CaseController extends Controller
   public function timer_store(Request $request, $id)
   {
       $data = $request->validate(['name' => 'required|between:3,100']);
+        
+      
+      $timer = Timer::insert([
+          'name' => $data['name'],
+          'user_id' => \Auth::id(),
+          'started_at' => new Carbon,
+          'created_at' => new Carbon,
+          'law_case_id' => $id,
+      ]);
+      
+      $timer = Timer::where('law_case_id', $id)->with('lawcase')->first();
+      //$timer = LawCase::where(['case_uuid' => $id, 'u_id' => \Auth::id()])->with('timers')->first();
+      //$timer->save();
 
-      $timer = LawCase::where('case_uuid', $id)->mine()
-        ->timers()
-        ->save(new Timer([
-            'name' => $data['name'],
-            'user_id' => Auth::id(),
-            'started_at' => new Carbon,
-        ]));
-
-      return $timer->with('lawcase')->find($timer->id);
+      return $timer;
   }
   
   public function add(Request $request)

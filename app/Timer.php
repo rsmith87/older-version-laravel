@@ -41,7 +41,7 @@ class Timer extends Model
     //maybe change this to hasOne - test tomorrow
     public function lawcase()
     {
-        return $this->hasOne(LawCase::class);
+        return $this->belongsTo('App\LawCase', 'law_case_id', 'case_uuid');
     }
 
     /**

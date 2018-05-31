@@ -11,7 +11,7 @@ class CreateTimersTable extends Migration
       Schema::create('timers', function (Blueprint $table) {
           $table->increments('id');
           $table->string('name');
-          $table->integer('law_case_id');
+          $table->uuid('law_case_id');
           $table->integer('user_id');
           $table->timestamp('started_at');
           $table->timestamp('stopped_at')->default(null)->nullable();
