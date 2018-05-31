@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<img src="/img/dashboard-logo.png" />',
+    'logo' => '<img src="/img/dashboard-logo.jpg" />',
 
-    'logo_mini' => '<img src="/img/logo-sm.png" />',
+    'logo_mini' => '<img src="/img/logo-sm.jpg" />',
 
     /*
     |--------------------------------------------------------------------------

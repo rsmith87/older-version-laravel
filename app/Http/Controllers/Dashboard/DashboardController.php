@@ -14,6 +14,8 @@ use App\FirmStripe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use App\Message;
+use App\Thread;
 
 
 
@@ -38,6 +40,8 @@ class DashboardController extends Controller
           }
           $this->s3 = \Storage::disk('s3');
           $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+          $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
           return $next($request);
         });
         //$this->user = \Auth::user();
@@ -83,6 +87,7 @@ class DashboardController extends Controller
         'invoices' => $invoices,
         'task_count' => $task_count,
         'fs' => $fs,
+        'threads' => $this->threads,
       ]);
     }
  
@@ -136,7 +141,8 @@ class DashboardController extends Controller
         'profile_image' => $this->settings->profile_image,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe, 
+        'threads' => $this->threads,
       
     ]);
   }

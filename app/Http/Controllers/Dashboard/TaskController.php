@@ -15,6 +15,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
 use App\FirmStripe;
+use App\Thread;
 
 class TaskController extends Controller
 {
@@ -36,6 +37,8 @@ class TaskController extends Controller
 			}		
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+      
 			return $next($request);
 		});
 	}
@@ -63,7 +66,8 @@ class TaskController extends Controller
 			'contacts' => $contacts,
 			'firm_id' => $this->settings->firm_id,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,
+      'threads' => $this->threads,
 		]);
 	}
   
@@ -111,7 +115,8 @@ class TaskController extends Controller
         'user_id' => $this->user['id'],
         'zero_datetime' => '0000-00-00 00:00:00',
         'settings' => $this->settings,
-        'fs' => $this->firm_stripe,          
+        'fs' => $this->firm_stripe,  
+        'threads' => $this->threads,
 			 ]);
 	}
   
@@ -167,7 +172,8 @@ class TaskController extends Controller
       'firm_id' => $this->settings->firm_id,
       'user_id' => $this->user['id'],
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe, 
+      'threads' => $this->threads,
      ]);    
   }	
   

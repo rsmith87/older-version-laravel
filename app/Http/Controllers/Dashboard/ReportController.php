@@ -10,6 +10,7 @@ use App\LawCase;
 use App\FirmStripe;
 use Carbon\Carbon;
 use App\Charts\ByMonth;
+use App\Thread;
 
 class ReportController extends Controller
 {
@@ -30,6 +31,8 @@ class ReportController extends Controller
 			}					
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+      
 			return $next($request);
 		});
 	}
@@ -71,6 +74,7 @@ class ReportController extends Controller
       'settings' => $this->settings,
       'fs' => $this->firm_stripe,
       'chart' => $chart,
+      'threads' => $this->threads,
     ]);
   }
   

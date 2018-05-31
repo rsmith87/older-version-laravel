@@ -13,7 +13,7 @@ use App\Document;
 use App\Invoice;
 use App\InvoiceLine;
 use App\TaskList;
-use App\Task;
+use App\Thread;
 use App\CaseHours;
 use App\Note;
 use App\FirmStripe;
@@ -45,6 +45,8 @@ class CaseController extends Controller
       $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+      
       
     return $next($request);
     });
@@ -87,6 +89,7 @@ class CaseController extends Controller
       'projects' => $projects,
       'settings' => $this->settings,
       'fs' => $this->firm_stripe,
+      'threads' => $this->threads,
     ]);
   }
   
@@ -254,7 +257,8 @@ class CaseController extends Controller
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size, 
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,   
+      'threads' => $this->threads,
     ]);
     
   }
@@ -528,6 +532,7 @@ class CaseController extends Controller
     'timeline_data' => $timeline_data,
     'settings' => $this->settings,
     'fs' => $this->firm_stripe,
+    'threads' => $this->threads,
     ]);
   }
   

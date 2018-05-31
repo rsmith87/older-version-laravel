@@ -14,6 +14,7 @@ use App\Settings;
 use App\TaskList;
 use App\CommLog;
 use App\FirmStripe;
+use App\Thread;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
@@ -38,6 +39,8 @@ class ContactController extends Controller
 			}					
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+      
 			return $next($request);
 		});
 	}
@@ -87,6 +90,8 @@ class ContactController extends Controller
       'array_cases' => $array_cases,
       'settings' => $this->settings,
       'fs' => $this->firm_stripe,
+      'threads' => $this->threads,
+        
 		]);
 	}
 
@@ -117,7 +122,8 @@ class ContactController extends Controller
       'task_lists' => $task_lists,
       'logs' => $logs,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,       
+      'threads' => $this->threads,
 		]);
 	}
 
@@ -147,7 +153,8 @@ class ContactController extends Controller
       'task_lists' => $task_lists,
       'logs' => $logs,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,       
+      'threads' => $this->threads,
 		]);
 	}	
 
@@ -185,7 +192,8 @@ class ContactController extends Controller
 			'table_color' => $this->settings->table_color,  
 			'table_size' => $this->settings->table_size,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,
+      'threads' => $this->threads,
 		]);
 	}
 

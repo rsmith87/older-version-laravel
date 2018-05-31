@@ -83,11 +83,13 @@
                             <a id="dLabel" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-comments"></i>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="dLabel">
-                              <p>
-                                test
-                              </p>
-                            </div>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                @foreach($threads as $thread)
+                              <li>
+                                <a href="/dashboard/messages/{{ $thread->thread_uuid }}">{{ $thread->subject }}</a>
+                              </li>
+                                 @endforeach
+                            </ul>
                         </li>
                         
                         <li>

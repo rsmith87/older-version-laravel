@@ -13,6 +13,7 @@ use App\Settings;
 use App\Contact;
 use App\FirmStripe;
 //use Pusher\Pusher;
+use App\Thread;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Contracts\Auth\Guard;
@@ -49,6 +50,8 @@ class FirmController extends Controller
 					  $this->passwords = Password::broker();          
           $this->settings = Settings::where('user_id', $this->user['id'])->first();
           $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+          $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+         
           return $next($request);
         });
     }  
@@ -97,6 +100,7 @@ class FirmController extends Controller
         'table_size' => $this->settings->table_size,
         'firm_staff' => $firm_staff,        
         'clients' => $clients,
+        'threads' => $this->threads,
         
       ]);
   

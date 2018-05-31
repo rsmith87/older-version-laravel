@@ -15,6 +15,7 @@ use App\Invoice;
 use App\InvoiceLine;
 use App\CaseHours;
 use App\FirmStripe;
+use App\Thread;
 use App\Notifications\InvoiceCreatedNotification;
 use Faker\Factory;
 use Carbon;
@@ -42,6 +43,8 @@ class InvoiceController extends Controller
 		}		
 		$this->settings = Settings::where('user_id', $this->user['id'])->first();
     $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+    $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+    
 			return $next($request);
 		});
 	}
@@ -65,7 +68,8 @@ class InvoiceController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,
+      'threads' => $this->threads
 		]);
 	}
 
@@ -184,7 +188,8 @@ class InvoiceController extends Controller
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,	
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe, 
+      'threads' => $this->threads,
 		]);
 	}
 

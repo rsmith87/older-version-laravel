@@ -13,6 +13,7 @@ use App\Event;
 use App\Task;
 use App\FirmStripe;
 use Carbon;
+use App\Thread;
 use Mail;
 use Illuminate\Notifications\Notification;
 use App\Notifications\EventConfirmNotification;
@@ -38,6 +39,8 @@ class EventController extends Controller
 			}		            
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->get();
+      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+      
 			return $next($request);
 		});
 	} 
@@ -68,7 +71,8 @@ class EventController extends Controller
 			//'user' => $contact,
       'show_task_calendar' => $tasks_events,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe, 
+      'threads' => $this->threads
 		]);
 	}
 
@@ -89,7 +93,8 @@ class EventController extends Controller
 			'table_size' => $this->settings->table_size,
 			'title' => 'Client appointment requests',
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,
+      'threads' => $this->threads,
 
 		]); 
 	}
@@ -182,7 +187,8 @@ class EventController extends Controller
 			'table_size' => $this->settings->table_size,
 			'title' => 'Denied events',
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,        
+      'fs' => $this->firm_stripe,
+      'threads' => $this->threads,
 		]); 		
 	}
 	
