@@ -110,6 +110,17 @@ class CaseController extends Controller
     }
     return $timers;
   }
+  
+  public function stop_timer()
+  {
+
+    if ($timer = Timer::where(['user_id' => \Auth::id(), 'stopped_at' => null])->first()) {
+        $timer->update(['stopped_at' => new Carbon]);
+    }
+
+    return $timer;
+        
+  }
 
   public function case_timers(Request $request)
   {
