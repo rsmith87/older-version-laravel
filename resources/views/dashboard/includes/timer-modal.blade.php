@@ -8,7 +8,7 @@
         <div class="clearfix"></div>
         <hr />
        <div id="app">
-          <div id="timer"></div>      
+          <timer></timer>      
         </div>
       </div>
     </div>

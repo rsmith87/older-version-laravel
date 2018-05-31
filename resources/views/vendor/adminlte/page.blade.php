@@ -31,7 +31,6 @@
 
 @section('body')
 
-    <div id="app"></div>
     <div class="wrapper">
 
         <!-- Main Header -->
@@ -192,7 +191,7 @@
 
     </div>
     <!-- ./wrapper -->
-                                              @include('dashboard.includes.timer-modal')
+    @include('dashboard.includes.timer-modal')
 <!-- The Right Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
   <!-- Content of the sidebar goes here -->

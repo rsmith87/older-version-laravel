@@ -60,7 +60,6 @@ class CaseController extends Controller
     
     $all_case_data = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('contacts')->with('documents')->with('tasks')->get();
     $columns = [];
-    $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get()->toArray();
     $views = View::where(['u_id' => $this->user['id'], 'view_type' => 'case'])->get();
     $view_data_columns = [];
     if(count($views) > 0 && $views[0]->view_data != ""){
@@ -73,7 +72,10 @@ class CaseController extends Controller
       $columns = ["id", "number", "name", "description", "court_name", "opposing_councel", "statute_of_limitations", "billing_rate"];
     }
     
+    
     $cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('timers')->with('contacts')->with('documents')->get();
+    
+
     
     return view('dashboard/cases', 
     [
@@ -86,20 +88,46 @@ class CaseController extends Controller
       'all_case_data' => $all_case_data,
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size,
-      'projects' => $projects,
       'settings' => $this->settings,
       'fs' => $this->firm_stripe,
       'threads' => $this->threads,
     ]);
   }
   
+  public function timer_cases(Request $request)
+  {
+     $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get()->toArray();
+     $projects ? array_merge($projects, ['timers' => []]) : false;
+     
+     return $projects;
+  }
   
+  public function timers_active(Request $request)
+  {
+    $timers = Timer::with('lawcase')->mine()->running()->first() ?? [];
+     return $timers;
+  }
+
   public function case_timers(Request $request)
   {
      $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get();  
      return $projects;
   }
   
+  public function timer_store(Request $request, $id)
+  {
+      $data = $request->validate(['name' => 'required|between:3,100']);
+
+      $timer = LawCase::where('case_uuid', $id)->mine()
+        ->timers()
+        ->save(new Timer([
+            'name' => $data['name'],
+            'user_id' => Auth::id(),
+            'started_at' => new Carbon,
+        ]));
+
+      return $timer->with('lawcase')->find($timer->id);
+  }
   
   public function add(Request $request)
   {
@@ -234,7 +262,7 @@ class CaseController extends Controller
     }
    
     $project = $requested_case;
-    $project ? array_merge($project->toArray(), ['timers' => []]) : false;
+    $project = $project ? array_merge($project->toArray(), ['timers' => []]) : false;
     
     return view('dashboard.case', [
       'user' => $this->user,

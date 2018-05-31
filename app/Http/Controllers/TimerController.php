@@ -47,41 +47,34 @@ class TimerController extends Controller
   }
   
   
- public function timers(Request $request)
-  {
-   if($this->timers){
-       return $this->timers;
-   }
-   
-  }
-  
-  public function add_timer(Request $request){
-    $data = $request->all();
-    
-    $timer = Timer::create([
-      'name' => $data['name'], 
-      'law_case_id' => 0, 
-      'user_id' => $this->user['id'], 
-      'started_at' => new Carbon(),
-     ]);
-    
+        public function store(Request $request, int $id)
+        {
+            $data = $request->validate(['name' => 'required|between:3,100']);
 
+            $timer = LawCase::mine()->findOrFail($id)
+                                    ->timers()
+                                    ->save(new Timer([
+                                        'name' => $data['name'],
+                                        'user_id' => Auth::user()->id,
+                                        'started_at' => new Carbon,
+                                    ]));
 
-     return $timer->toArray();
-  }
-  
-    public function stopRunning()
-  {
-   if ($timer = Timer::where('user_id', \Auth::id())->running()->first()) {
-     $timer->update(['stopped_at' => new Carbon()]);
-   }
-  return $timer;
-  }
-  
-  public function running()
-  {
-      return Timer::where('user_id', \Auth::id())->running()->first() ?? [];
-  }  
+            return $timer->with('project')->find($timer->id);
+        }
+
+        public function running()
+        {
+            return Timer::with('project')->mine()->running()->first() ?? [];
+        }
+
+        public function stopRunning()
+        {
+            if ($timer = Timer::mine()->running()->first()) {
+                $timer->update(['stopped_at' => new Carbon]);
+            }
+
+            return $timer;
+        }
 
  
 }

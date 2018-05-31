@@ -40,6 +40,8 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+ 
+
     @yield('adminlte_css')
 
     <!--[if lt IE 9]>
@@ -53,6 +55,7 @@
 @yield('body')
 
 <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -78,7 +81,8 @@
 @endif
 
 @yield('adminlte_js')
-    <script src="/js/app.js"></script>
+
+   <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
 </html>
