@@ -39,6 +39,8 @@ class MessagesController extends Controller
         }	
         $this->settings = Settings::where('user_id', $this->user['id'])->first();
         $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+        //$this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
         return $next($request);
       });
     }
@@ -102,7 +104,7 @@ class MessagesController extends Controller
       
 			// show current user in list if not a current participant
 			// $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
-      $threads = Thread::getAllLatest()->where('firm_id', $this->settings->firm_id)->get();
+      $threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
 
       $firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
       $userId = Auth::id();
@@ -120,7 +122,7 @@ class MessagesController extends Controller
         'user' => $this->user,
 				'users' => $usrs, 
 				'thread' => $thread, 
-        'threads' => count($threads),
+        'threads' => $threads,
         'message' => $message,
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,

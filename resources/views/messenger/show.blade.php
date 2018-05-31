@@ -35,7 +35,7 @@
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="/dashboard/messages"><i class="fa fa-inbox"></i> Inbox
-                  <span class="label label-primary pull-right">{{ $threads }}</span></a></li>
+                  <span class="label label-primary pull-right">{{ count($threads) }}</span></a></li>
                 <li><a href="#"><i class="far fa-share-square"></i> Starred threads</a></li>
               </ul>
             </div>

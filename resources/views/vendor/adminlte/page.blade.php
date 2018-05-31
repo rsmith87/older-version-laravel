@@ -83,13 +83,17 @@
                             <a id="dLabel" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-comments"></i>
                             </a>
+                          @if(count($threads) > 0)
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                                 @foreach($threads as $thread)
                               <li>
-                                <a href="/dashboard/messages/{{ $thread->thread_uuid }}">{{ $thread->subject }}</a>
+                                <a href="/dashboard/messages/{{ $thread->thread_uuid }}">
+                                <span>{{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</span>
+                                {{ $thread->subject }}</a>
                               </li>
                                  @endforeach
                             </ul>
+                          @endif
                         </li>
                         
                         <li>
