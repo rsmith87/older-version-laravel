@@ -148,13 +148,13 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
         ],
-        [
+        /*[
             'text'        => 'Gmail',
             'url'         => 'dashboard/mail',
             'icon'        => 'envelope',
             //'label'       => 4,
             //'label_color' => 'success',
-        ],        
+        ],*/        
         [
             'text' => 'Invoices',
             'url'  => 'dashboard/invoices',
@@ -187,11 +187,11 @@ return [
             'url'  => 'dashboard/profile',
             'icon' => 'user-circle',
         ],
-        [
+        /*[
             'text' => 'Change Password',
             'url'  => 'password/reset',
             'icon' => 'lock',
-        ],
+        ],*/
         /*[
             'text'    => 'Multilevel',
             'icon'    => 'share',

@@ -158,10 +158,10 @@ class CaseController extends Controller
           'law_case_id' => $id,
       ]);
       
-
+      $timer = Timer::where(['name' => $data['name'], 'law_case_id' => $id])->with('lawcase')->first();
       
 
-      return $timer->with('lawcase')->find($timer->id);
+      return $timer;
   }
   
   public function add(Request $request)
@@ -303,7 +303,6 @@ class CaseController extends Controller
       'user' => $this->user,
       
       'case' => $requested_case,
-      'p' => $requested_case,
         
       'contacts' => $this->contacts,
       'cases' => $this->cases,

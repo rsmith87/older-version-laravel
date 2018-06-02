@@ -1,22 +1,16 @@
 <template>
         <div class="no-projects" v-if="projects">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <h2 class="pull-left project-title">Cases and timers</h2>
-                </div>
-            </div>
-
-            <hr>
-
             <div v-if="projects.length > 0">
                 <div class="panel panel-default" v-for="project in projects" :key="project.case_uuid">
                     <div class="panel-heading clearfix">
-                        <h4 class="pull-left">{{ project.name }}</h4>
+                        <h4 class="pull-left col-md-6 col-sm-12">{{ project.name }}</h4>
 
+                        <div class="col-md-6 col-sm-12">
                         <button class="btn btn-success btn-sm pull-right" :disabled="counter.timer" data-toggle="modal" data-target="#timerCreate" @click="selectedProject = project">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
+                        </div>
                     </div>
 
                     
@@ -100,7 +94,7 @@ export default {
             this.projects = response.data
 
           }
-          console.log(this.projects);
+          //console.log(this.projects);
             
             window.axios.get('/dashboard/cases/timers_cases/active').then(response => {
                 if (response.data.id !== undefined) {

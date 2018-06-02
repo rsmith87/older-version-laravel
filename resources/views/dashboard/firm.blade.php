@@ -111,12 +111,12 @@
 		@hasanyrole('administrator')
 
 <hr />
-<div id="add-user" class="col-12">
+<div id="add-user" class="col-md-6 col-sm-12">
 
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Add a user
         </h2>
-
+  <div class="clearfix"></div>
 
 			<fieldset>
 			<form class="form-horizontal" method="post" action="/dashboard/firm/user/add">
@@ -171,13 +171,13 @@
 				</table>
 			@endif	 
 </div>
-	
 	<hr />
 	
-<div id="add-client-user" class="col-12">
+<div id="add-client-user" class="col-md-6 col-sm-12">
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Give a client login access
         </h2>
+<div class="clearfix"></div>
 
 			<fieldset>
 			<form class="form-horizontal" method="post" action="/dashboard/firm/user/client/add">

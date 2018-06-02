@@ -126,7 +126,8 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('/{id}/timers/stop', 'Dashboard\CaseController@stop_timer');
 
             });
-
+Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
+Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
             Route::group(['prefix' => 'firm'], function () {
                 Route::get('/', 'Dashboard\FirmController@index');
                 Route::post('/add', 'Dashboard\FirmController@add');

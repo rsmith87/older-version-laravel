@@ -24,9 +24,9 @@
     <section class="content">
           <h1>{{ LaravelGmail::user() }}</h1>
     @if(LaravelGmail::check())
-        <a href="{{ url('auth/gmail/logout') }}">logout</a>
+        <a href="{{ url('auth/google/logout') }}">logout</a>
     @else
-        <a href="{{ url('auth/gmail') }}">login</a>
+        <a href="{{ url('auth/google') }}">login</a>
     @endif
       <div class="row">
         <div class="col-md-3">

@@ -62239,12 +62239,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62276,7 +62270,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 _this.projects = response.data;
             }
-            console.log(_this.projects);
+            //console.log(this.projects);
 
             window.axios.get('/dashboard/cases/timers_cases/active').then(function (response) {
                 if (response.data.id !== undefined) {
@@ -62668,10 +62662,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.projects
     ? _c("div", { staticClass: "no-projects" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
         _vm.projects.length > 0
           ? _c(
               "div",
@@ -62685,27 +62675,35 @@ var render = function() {
                     },
                     [
                       _c("div", { staticClass: "panel-heading clearfix" }, [
-                        _c("h4", { staticClass: "pull-left" }, [
-                          _vm._v(_vm._s(project.name))
-                        ]),
-                        _vm._v(" "),
                         _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success btn-sm pull-right",
-                            attrs: {
-                              disabled: _vm.counter.timer,
-                              "data-toggle": "modal",
-                              "data-target": "#timerCreate"
-                            },
-                            on: {
-                              click: function($event) {
-                                _vm.selectedProject = project
+                          "h4",
+                          { staticClass: "pull-left col-md-6 col-sm-12" },
+                          [_vm._v(_vm._s(project.name))]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6 col-sm-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-sm pull-right",
+                              attrs: {
+                                disabled: _vm.counter.timer,
+                                "data-toggle": "modal",
+                                "data-target": "#timerCreate"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.selectedProject = project
+                                }
                               }
-                            }
-                          },
-                          [_c("i", { staticClass: "glyphicon glyphicon-plus" })]
-                        )
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "glyphicon glyphicon-plus"
+                              })
+                            ]
+                          )
+                        ])
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "panel-body" }, [
@@ -62810,7 +62808,7 @@ var render = function() {
                   [
                     _c("div", { staticClass: "modal-dialog modal-sm" }, [
                       _c("div", { staticClass: "modal-content" }, [
-                        _vm._m(1),
+                        _vm._m(0),
                         _vm._v(" "),
                         _c("div", { staticClass: "modal-body" }, [
                           _c("div", { staticClass: "form-group" }, [
@@ -62878,18 +62876,6 @@ var render = function() {
     : _c("div", { staticClass: "timers" }, [_vm._v("\n    Loading...\n")])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-12" }, [
-        _c("h2", { staticClass: "pull-left project-title" }, [
-          _vm._v("Cases and timers")
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
