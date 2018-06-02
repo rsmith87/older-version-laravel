@@ -35,6 +35,9 @@ $(function($){
     increaseArea: '-10%' // optional
   });
 
+  $('.create-timer').click(function(){
+    $('#modal').modal('toggle'); 
+  });
 
 
   $('.dashboard.home .col-sm-6').matchHeight();

@@ -7,7 +7,7 @@
                         <h4 class="pull-left col-md-6 col-sm-12">{{ project.name }}</h4>
 
                         <div class="col-md-6 col-sm-12">
-                        <button class="btn btn-success btn-sm pull-right" :disabled="counter.timer" data-toggle="modal" data-target="#timerCreate" @click="selectedProject = project">
+                        <button class="btn btn-success btn-sm pull-right create-timer" :disabled="counter.timer" data-toggle="modal" data-target="#timerCreate" @click="selectedProject = project">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
                         </div>

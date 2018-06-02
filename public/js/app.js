@@ -62685,7 +62685,8 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-success btn-sm pull-right",
+                              staticClass:
+                                "btn btn-success btn-sm pull-right create-timer",
                               attrs: {
                                 disabled: _vm.counter.timer,
                                 "data-toggle": "modal",

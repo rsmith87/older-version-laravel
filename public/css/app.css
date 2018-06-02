@@ -430,7 +430,6 @@ nav.nav-pills a.nav-link {
 }
 .modal button {
   float: right;
-  width: 100%;
   margin-top: 20px;
 }
 .modal button.trash-button {
@@ -981,4 +980,7 @@ table.dataTable thead td {
 }
 ul.dropdown-menu a span {
   font-size: 0.75em;
+}
+#timerCreate .modal-dialog.modal-sm {
+  min-width: auto;
 }
