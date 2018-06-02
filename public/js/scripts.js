@@ -408,7 +408,7 @@ $(function($){
         /* initialize the external events
      -----------------------------------------------------------------*/
     function init_events(ele) {
-      ele.each(function () {
+      $.each(ele, function (key, value) {
 
         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
         // it doesn't need to have a start or end
@@ -429,7 +429,7 @@ $(function($){
       })
     }
 
-    init_events($('#external-events div.external-event'))
+      init_events($('#external-events div.external-event'))
       $('#calendar').fullCalendar({
         themeSystem: 'bootstrap3',
         weekends: false,
@@ -448,6 +448,15 @@ $(function($){
         navLinks: true, // can click day/week names to navigate views
         eventLimit: 4, // allow "more" link when too many events
         events: events,
+          eventDrop: function(event, delta, revertFunc) {
+
+            alert(event.title + " was dropped on " + event.start.format());
+
+            if (!confirm("Are you sure about this change?")) {
+              revertFunc();
+            }
+
+          },
         draggable: true,
         contentHeight: 600,
         editable  : true,

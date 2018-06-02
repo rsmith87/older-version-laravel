@@ -62242,6 +62242,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62258,7 +62261,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         window.axios.get('/dashboard/cases/timers_cases').then(function (response) {
-            _this.projects = response.data;
+            //var pathname = new URL(url).pathname;
+            var pathname = window.location.pathname;
+            var uuid = pathname.split("/");
+            //uuid = uuid[4];
+            if (uuid[4] && uuid[3] == 'case') {
+                for (var i = 0; i < response.data.length; i++) {
+                    if (response.data[i].case_uuid == uuid[4]) {
+                        _this.projects = [];
+                        _this.projects.push(response.data[i]);
+                        //console.log(response.data[i].case_uuid + ": " + uuid[4]);
+                    }
+                }
+            } else {
+                _this.projects = response.data;
+            }
+            console.log(_this.projects);
+
             window.axios.get('/dashboard/cases/timers_cases/active').then(function (response) {
                 if (response.data.id !== undefined) {
                     _this.startTimer(response.data.lawcase, response.data);
@@ -62335,7 +62354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             window.axios.post('/dashboard/cases/' + this.counter.timer.id + '/timers/stop').then(function (response) {
                 // Loop through the projects and get the right project...
                 _this3.projects.forEach(function (project) {
-                    if (project.id === parseInt(_this3.counter.timer.law_case_id)) {
+                    if (project.case_uuid === parseInt(_this3.counter.timer.law_case_id)) {
                         // Loop through the timers of the project and set the `stopped_at` time
                         return project.timers.forEach(function (timer) {
                             if (timer.id === parseInt(_this3.counter.timer.id)) {

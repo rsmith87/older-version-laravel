@@ -40,7 +40,7 @@ class CaseController extends Controller
         return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
       }
       $this->settings = Settings::where('user_id', $this->user['id'])->first();
-      $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->get();
+      $this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get();
       $this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
       $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
@@ -97,9 +97,16 @@ class CaseController extends Controller
   public function timer_cases(Request $request)
   {
      $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get()->toArray();
-     //$projects = count($projects) > 0 ? array_merge($projects, ['timers' => []]) : false;
      
      return $projects;
+  }
+  
+  public function timer_for_case(Request $request, $id)
+  {
+      $projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id(), 'case_uuid' => $id])->with('timers')->get()->toArray();
+      
+      return $project;
+   
   }
   
   public function timers_active(Request $request)
@@ -118,6 +125,16 @@ class CaseController extends Controller
         $timer->update(['stopped_at' => new Carbon]);
     }
 
+    $started = new \DateTime($timer->started_at);
+    $stopped = new \DateTime($timer->stopped_at);
+    $diff = $stopped->diff($started);
+    $hour_time = $diff->format('%h');
+    //UPDATE CASE HOURS TABLE HERE
+    /*$case_hours = CaseHours::insert([
+        'case_uuid' => $timer->law_case_id,
+        'hours' => $timer->stopped_at - $timer->created_at,
+        'note' => 'from app timer',
+    ]);*/
     return $timer;
         
   }
@@ -141,11 +158,10 @@ class CaseController extends Controller
           'law_case_id' => $id,
       ]);
       
-      $timer = Timer::where('law_case_id', $id)->with('lawcase')->first();
-      //$timer = LawCase::where(['case_uuid' => $id, 'u_id' => \Auth::id()])->with('timers')->first();
-      //$timer->save();
 
-      return $timer;
+      
+
+      return $timer->with('lawcase')->find($timer->id);
   }
   
   public function add(Request $request)
@@ -287,6 +303,7 @@ class CaseController extends Controller
       'user' => $this->user,
       
       'case' => $requested_case,
+      'p' => $requested_case,
         
       'contacts' => $this->contacts,
       'cases' => $this->cases,

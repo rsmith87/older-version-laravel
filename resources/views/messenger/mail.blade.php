@@ -18,11 +18,16 @@
         <li class="active">Mailbox</li>
       </ol>
     </section>
-    <!-- Main content -->
-    <section class="content">
+
      
     <!-- Main content -->
     <section class="content">
+          <h1>{{ LaravelGmail::user() }}</h1>
+    @if(LaravelGmail::check())
+        <a href="{{ url('auth/gmail/logout') }}">logout</a>
+    @else
+        <a href="{{ url('auth/gmail') }}">login</a>
+    @endif
       <div class="row">
         <div class="col-md-3">
           <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Compose</a>

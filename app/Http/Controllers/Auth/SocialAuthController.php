@@ -89,7 +89,7 @@ class SocialAuthController extends Controller
       }
       else {
         Auth::login($authUser, true);
-        return redirect('/dashboard')->with('status', 'Successfully logged in with facebook!');
+        return redirect('/dashboard')->with('status', 'Successfully logged in!');
     
     }
     }

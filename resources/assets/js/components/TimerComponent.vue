@@ -19,8 +19,11 @@
                         </button>
                     </div>
 
+                    
                     <div class="panel-body">
+                      
                         <ul class="list-group" v-if="project.timers.length > 0">
+
                             <li v-for="timer in project.timers" :key="timer.id" class="list-group-item clearfix">
                                 <strong class="timer-name">{{ timer.name }}</strong>
                                 <div class="pull-right">
@@ -80,7 +83,25 @@ export default {
     },
     created() {
         window.axios.get('/dashboard/cases/timers_cases').then(response => {
+          //var pathname = new URL(url).pathname;
+          var pathname = window.location.pathname;
+          var uuid = pathname.split("/");
+          //uuid = uuid[4];
+          if(uuid[4] && uuid[3] == 'case'){
+            for(var i = 0; i < response.data.length; i++){
+            if (response.data[i].case_uuid == uuid[4]){
+               this.projects = [];
+                        this.projects.push(response.data[i]);
+                             //console.log(response.data[i].case_uuid + ": " + uuid[4]);
+
+             }
+            }
+          } else {
             this.projects = response.data
+
+          }
+          console.log(this.projects);
+            
             window.axios.get('/dashboard/cases/timers_cases/active').then(response => {
                 if (response.data.id !== undefined) {
                     this.startTimer(response.data.lawcase, response.data)
@@ -155,7 +176,7 @@ export default {
               .then(response => {
                 // Loop through the projects and get the right project...
                 this.projects.forEach(project => {
-                  if (project.id === parseInt(this.counter.timer.law_case_id)) {
+                  if (project.case_uuid === parseInt(this.counter.timer.law_case_id)) {
                     // Loop through the timers of the project and set the `stopped_at` time
                     return project.timers.forEach(timer => {
                       if (timer.id === parseInt(this.counter.timer.id)) {

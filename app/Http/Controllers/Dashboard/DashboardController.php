@@ -14,6 +14,7 @@ use App\FirmStripe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use App\Firm;
 use App\Message;
 use App\Thread;
 
@@ -70,9 +71,11 @@ class DashboardController extends Controller
     $fs = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
     $events = Event::where('u_id', $this->user['id'])->get();
     $invoices = Invoice::where('user_id', $this->user['id'])->get();
+    $firm = \App\Firm::where('id', $this->settings->firm_id)->first();
       return view('dashboard/dashboard', [
         'user' => $this->user, 
         'firm_id' => $this->settings->firm_id,
+        'firm' => $firm,
         'settings' => $this->settings,
         'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,

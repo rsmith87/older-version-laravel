@@ -88,7 +88,7 @@
                               <li>
                                 <a href="/dashboard/messages/{{ $thread->thread_uuid }}">
                                 <span class="float-left">Created: {{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</span><br />
-                                {{ $thread->subject }}</a>
+                                <i class="fa fa-comments"></i>{{ $thread->subject }}</a>
                               </li>
                                  @endforeach
                             </ul>
