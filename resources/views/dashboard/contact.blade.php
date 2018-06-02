@@ -164,6 +164,7 @@
          
 	    @if(count($task_lists) > 0)
    		  @foreach($task_lists as $task_list)
+        @if($task_list->contact_client_id != 0)
         <div class="col-md-6 col-sm-12">
            <h3 class="mt-5 ml-3">
              <i class="fas fa-user"></i>Task list {{ $task_list->task_list_name }}
@@ -187,6 +188,7 @@
 						 </tbody>
 				 </table>
         </div>
+        @endif
       @endforeach
 				 @endif
 

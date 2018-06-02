@@ -24,7 +24,7 @@
 	  @else
            <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Reference client to case</a>   
     @endif
-    <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> 
+   <!-- <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> --> 
 
 	</nav>  	
 			@include('dashboard.includes.alerts')
