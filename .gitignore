@@ -10,3 +10,4 @@ composer.lock
 .idea
 composer
 package-lock.json
+/.sass-cache
