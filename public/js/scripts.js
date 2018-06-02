@@ -9,7 +9,6 @@ $(function($){
     }
   });
   
-  $(document).ajaxStart(function() { Pace.restart(); });
   
   $('.download').click(function(e){
     e.preventDefault();
@@ -41,115 +40,6 @@ $(function($){
 
 
   $('.dashboard.home .col-sm-6').matchHeight();
-  /*
-   var timer = new Timer();
-    timer.addEventListener('secondsUpdated', function (e) {
-        $('.nav-clock .timer').html(timer.getTimeValues().toString());
-    });  
-  
-  
-   $('.nav-clock .startButton').click(function () {
-      timer.start();
-      //timer.start({precision: 'seconds', startValues: {seconds: 90}});
-      $.ajax({
-       type: 'POST',
-       contentType: "application/json; charset=utf-8",      
-       url: '/dashboard/timer-start',
-       success:function(data){
-        console.log('success');
-        console.log(data);
-      },
-     });
-    });  
-
-   $('.nav-clock .pauseButton').click(function () {
-     timer.pause();
-     var time = timer.getTimeValues().toString();
-      $.ajax({
-       type: 'POST',
-       data: {
-         time: time,
-       },
-        dataType: 'JSON',
-       url: '/dashboard/timer-pause',
-       success:function(data){
-          console.log('success');
-          console.log(data);
-      },        
-     }); 
-   });
-  
-  
-  
-  $(window).on('load', function(){
-
-
-    $.ajax({
-      type: 'GET',
-      dataType: 'JSON',
-      url: '/dashboard/timer-amount',
-      success: function(data){
-        var timer = new Timer();
-
-        var tim = data.timer;
-        var a = tim.split(':'); // split it at the colons
-
-        // minutes are worth 60 seconds. Hours are worth 60 minutes.
-        var sec = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
-     
-        var array = {seconds: sec};
-  
-        console.log(tim);
-        timer.start({callback: function (timer) {
-          $('.nav-clock .timer').html(
-              timer.getTimeValues().toString()
-          )}, precision: 'seconds', startValues: array});
-        //$('.nav-clock .timer').html(timer.getTimeValues().toString());
-      
-      }
-
-    });
-
-
-  });
-  
-
-  
-  $(window).on('unload', function(){
-    timer.pause();
-     var time = timer.getTimeValues().toString();
-    
-    $.ajax({
-       type: 'POST',
-       data: {
-         timer: time,
-       },
-       dataType: 'JSON',
-       url: '/dashboard/timer-pause',
-       success:function(data){
-          console.log('success');
-          console.log(data);
-      },        
-    })
-  });
-  
-   $('.nav-clock .stopButton').click(function () {
-      timer.stop();
-       $.ajax({
-         type: 'POST',
-         contentType: "application/json; charset=utf-8",      
-         url: '/dashboard/timer-stop',
-         success:function(data){
-            console.log('success');
-            console.log(data);
-         },
-       });     
-    });  
-    
-     timer.addEventListener('paused', function (e) {
-      $('#nav-clock .timer').html(timer.getTimeValues().toString());
-     });
-  */
   
   $('#theme-update').change(function(){
     var $this = $(this);
@@ -290,8 +180,8 @@ $(function($){
             datatype: 'json',
             url: '/dashboard/tasks/task/complete-subtask/'+subtask_id+'/subtask',
             success:function(data){
-              console.log('success');
-              console.log(data);
+              //console.log('success');
+              //console.log(data);
             },        
           });
 
@@ -384,25 +274,10 @@ $(function($){
   }
 
   if(pathArray[2] == 'firm'){
-    //$('body .container.dashboard').scrollspy({ target: '#navbar-interior' });
-   /* $('#navbar-interior a').click(function(){
-       $('html, body').animate({
-        scrollTop: $(this).attr('href').split('#')[1].offset().top
-    }, 500);
-      //$('body').scrollTo($(this).data('target'),{
-        //duration:500,
-        //offset:70
-     
-    });
 
-   /* $('a[href*=\\#]').on('click', function(event){     
-      event.preventDefault();
-      smoothScrollingTo(location.hash);
-    });*/
+  
+  
   }
-  
-  
-  
   else if (pathArray[2] == 'calendar'){
      for(var i = 0; i<events.length; i++){
           //console.log(events[i].user);
@@ -451,15 +326,6 @@ $(function($){
         navLinks: true, // can click day/week names to navigate views
         eventLimit: 4, // allow "more" link when too many events
         events: events,
-          eventDrop: function(event, delta, revertFunc) {
-
-            alert(event.title + " was dropped on " + event.start.format());
-
-            if (!confirm("Are you sure about this change?")) {
-              revertFunc();
-            }
-
-          },
         draggable: true,
         contentHeight: 600,
         editable  : true,
@@ -473,14 +339,30 @@ $(function($){
           var copiedEventObject = $.extend({}, originalEventObject)
 
           // assign it the date that was reported
-          copiedEventObject.start           = date
-          copiedEventObject.allDay          = allDay
+          var end_date = moment(date).add(1, 'hour');;
+          copiedEventObject.start           = date.format('YYYY-MM-DD'),
+          copiedEventObject.end             = end_date.toDate(),
+          copiedEventObject.allDay          = false,
           copiedEventObject.backgroundColor = $(this).css('background-color')
           copiedEventObject.borderColor     = $(this).css('border-color')
-
+          console.log(end_date);
           // render the event on the calendar
           // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
           $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+          
+          $.ajax(
+            {
+            type: 'POST',
+            datatype: 'json',
+            data: {
+              'event': copiedEventObject,
+            },
+            url: '/dashboard/calendar/drop-event',
+            success:function(data){
+              console.log('success');
+              console.log(data);
+            },        
+          });
 
           // is the "remove after drop" checkbox checked?
           if ($('#drop-remove').is(':checked')) {

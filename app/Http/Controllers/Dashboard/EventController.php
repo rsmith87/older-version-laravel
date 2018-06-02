@@ -19,6 +19,7 @@ use Illuminate\Notifications\Notification;
 use App\Notifications\EventConfirmNotification;
 use App\Notifications\EventDenyNotification;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
 class EventController extends Controller
 {
@@ -98,6 +99,42 @@ class EventController extends Controller
 
 		]); 
 	}
+  
+  public function drop_event(Request $request)
+  {
+    $data = $request->json();
+    $event = $request->input('event');
+		
+		$start_date = new \DateTime($this->fix_date($event['start'], 0));
+		$end_date = new \DateTime($this->fix_date($data['end_date'], $data['end_time']));
+		
+		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
+				
+		foreach($events as $event){
+			$event_start_date = new \DateTime($event['start_date']);
+			$event_end_date = new \DateTIme($event['end_date']);
+			//print_r("Start date from form: " . $start_date->format('Y-m-d H:i:s') . " Start date from event: " . $event_start_date->format('Y-m-d H:i:s') . " End date from form: " . $end_date->format('Y-m-d H:i:s') . " End date from event: " . $event_end_date->format('Y-m-d H:i:s'));
+
+			if(($start_date > $event_start_date && $start_date < $event_end_date) || ($end_date < $event_end_date && $end_date > $event_start_date))
+				return redirect('/dashboard/calendar')->withErrors(['There is an existing appointment in the time selected.  Please choose another time.']);
+			}
+			
+		$event = Event::updateOrCreate([
+			'id' => !empty($data['id']) ? $data['id'] : "",
+		],
+		[
+			'name' => $data['name'],
+			'start_date' => $this->fix_date($data['start_date'], $data['start_time']),
+			'end_date' => $this->fix_date($data['end_date'], $data['end_time']),
+			'start_time' => $data['start_time'],
+			'end_time' => $data['end_time'],
+			'approved' => 1,
+			'u_id' => $u_id,
+			'co_id' => isset($data['co_id']) ? $data['co_id'] : "",
+			'c_id' => isset($data['c_id']) ? $data['c_id'] : "",
+			'f_id' => $this->settings->firm_id,
+		]);   
+  }
 	
 	public function add(Request $request)
 	{
@@ -225,6 +262,9 @@ class EventController extends Controller
 	
 	private function fix_date($dts, $dte)
 	{
+    if($dte === 0){
+      $dte = "00:00";
+    }
 		$d = Carbon\Carbon::parse($dts)->format('Y-m-d');
 		$dt = Carbon\Carbon::parse($d. " " . $dte.":00", 'America/Chicago')->format('Y-m-d H:i:s');
 		return $dt;

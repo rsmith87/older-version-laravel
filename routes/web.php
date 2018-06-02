@@ -136,6 +136,7 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
             });
             Route::group(['prefix' => 'calendar'], function () {
                 Route::get('/', 'Dashboard\EventController@index');
+                Route::post('/drop-event', 'Dashboard\EventController@drop_event');
                 Route::get('/events', 'Dashboard\EventController@client_events');
                 Route::post('/event/add', 'Dashboard\EventController@add');
                 Route::post('/events/{id}/approve', 'Dashboard\EventController@approve_event');

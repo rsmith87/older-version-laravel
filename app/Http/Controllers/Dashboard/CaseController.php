@@ -129,12 +129,21 @@ class CaseController extends Controller
     $stopped = new \DateTime($timer->stopped_at);
     $diff = $stopped->diff($started);
     $hour_time = $diff->format('%h');
+    $minute_time = $diff->format('%m');
+    $second_time = $diff->format('%s');
+    
+    (float)$minute_time_float = $minute_time/60;
+    //convert seconds to match a 100 scale rather than 60 so it can match with the format in the database
+    
+    $time_to_add = $hour_time . "." . $minute_time;
+    
+    //test this more becace the house didn't come through - something messed up
     //UPDATE CASE HOURS TABLE HERE
-    /*$case_hours = CaseHours::insert([
+    $case_hours = CaseHours::insert([
         'case_uuid' => $timer->law_case_id,
-        'hours' => $timer->stopped_at - $timer->created_at,
+        'hours' => (float)$time_to_add,
         'note' => 'from app timer',
-    ]);*/
+    ]);
     return $timer;
         
   }
