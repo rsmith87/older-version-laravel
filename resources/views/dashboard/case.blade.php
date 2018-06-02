@@ -310,9 +310,6 @@
 	</div>
 </div>  
 
-<script src="{{ asset('js/autocomplete.js') }}"></script>
-
-
 <div class="modal fade" id="reference-modal-full">
   <div class="modal-dialog">
     <div class="modal-content">

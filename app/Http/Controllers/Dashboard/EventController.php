@@ -106,13 +106,13 @@ class EventController extends Controller
     $event = $request->input('event');
 		
 		$start_date = new \DateTime($this->fix_date($event['start'], 0));
-		$end_date = new \DateTime($this->fix_date($data['end_date'], $data['end_time']));
+		$end_date = new \DateTime($this->fix_date($event['start'], 0));
 		
 		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
 				
 		foreach($events as $event){
-			$event_start_date = new \DateTime($event['start_date']);
-			$event_end_date = new \DateTIme($event['end_date']);
+			$event_start_date = new \DateTime($start_date);
+			$event_end_date = new \DateTIme($end_date);
 			//print_r("Start date from form: " . $start_date->format('Y-m-d H:i:s') . " Start date from event: " . $event_start_date->format('Y-m-d H:i:s') . " End date from form: " . $end_date->format('Y-m-d H:i:s') . " End date from event: " . $event_end_date->format('Y-m-d H:i:s'));
 
 			if(($start_date > $event_start_date && $start_date < $event_end_date) || ($end_date < $event_end_date && $end_date > $event_start_date))
@@ -123,9 +123,9 @@ class EventController extends Controller
 			'id' => !empty($data['id']) ? $data['id'] : "",
 		],
 		[
-			'name' => $data['name'],
-			'start_date' => $this->fix_date($data['start_date'], $data['start_time']),
-			'end_date' => $this->fix_date($data['end_date'], $data['end_time']),
+			'name' => $event['title'],
+			'start_date' => $start_date,
+			'end_date' => $end_date,
 			'start_time' => $data['start_time'],
 			'end_time' => $data['end_time'],
 			'approved' => 1,

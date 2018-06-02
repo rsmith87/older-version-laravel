@@ -43,10 +43,10 @@
             <div class="box-body">
               <!-- the events -->
               <div id="external-events">
-                <div class="external-event bg-green ui-draggable ui-draggable-handle" style="position: relative;">Lunch</div>
-                <div class="external-event bg-yellow ui-draggable ui-draggable-handle" style="position: relative;">Blocker</div>
-                <div class="external-event bg-aqua ui-draggable ui-draggable-handle" style="position: relative;">Research</div>
-                <div class="external-event bg-light-blue ui-draggable ui-draggable-handle" style="position: relative;">Office hour booked</div>
+                <div class="external-event bg-green ui-draggable ui-draggable-handle">Lunch</div>
+                <div class="external-event bg-yellow ui-draggable ui-draggable-handle">Blocker</div>
+                <div class="external-event bg-aqua ui-draggable ui-draggable-handle">Research</div>
+                <div class="external-event bg-light-blue ui-draggable ui-draggable-handle">Office hour booked</div>
                 <div class="checkbox">
                   <label for="drop-remove">
                     <input type="checkbox" id="drop-remove">
@@ -63,7 +63,7 @@
               <h3 class="box-title">Create Event</h3>
             </div>
             <div class="box-body">
-              <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+              <div class="btn-group">
                 <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
                 <ul class="fc-color-picker" id="color-chooser">
                   <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>

@@ -11,11 +11,11 @@
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-communication-modal" href="#"><i class="fas fa-comments"></i> Log communication</a>    
     
     
-    @if($contact->is_client)
-      <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $contact->case_id }}"><i class="fas fa-briefcase"></i> View case</a>
+    @if(count($case) > 0)
+      <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->case_uuid }}"><i class="fa fa-gavel"></i> View case</a>
     @endif
-    @if(empty($contact->case_id))
-		  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contact-relate-case-modal" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> Relate  {{ Request::segment(3) }} to case</a>				
+    @if(empty($contact->case_id) || $contact->case_id === 0)
+		  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#relate-client-to-case" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-gavel"></i> Relate  {{ Request::segment(3) }} to case</a>				
 	  @endif
 
 
@@ -63,8 +63,38 @@
            <p><a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></p>
 				 </div>
 		<div class="clearfix"></div>
-     
+    
+    @if(count($logs) > 0)
+        <div class="col-md-6 col-sm-12">
+           <h3 class="mt-5 ml-3">
+             <i class="fas fa-user"></i>Communication Logs 
+           </h3>
+        <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
+          <thead>
+            <tr> 
+              <th>ID</th>
+              <th>Comm. Type</th> 
+              <th>Description</th>
+            </tr> 
+          </thead> 
+          <tbody> 
+            @foreach($logs as $log)
+            @if($log->type_id != 0)
+				 			<tr>
+                <td>{{ $log->id }}</td>
+								<td>{{ $log->comm_type }}</td>
+								<td>{{ $log->log }}</td>
+						</tr>
+            @endif
+				 		@endforeach
+						 </tbody>
+				 </table>
+        </div>
+				 @endif 
+    
+    
            @if(count($notes) > 0)
+            <div class="col-md-6 col-sm-12">
       <h3 class="mt-5 ml-3">
         <i class="fas fa-sticky-note"></i> Notes
       </h3>
@@ -87,6 +117,7 @@
 
           @endforeach
       </div>
+            </div>
       @endif
          
       <div class="clearfix"></div>
@@ -133,6 +164,7 @@
          
 	    @if(count($task_lists) > 0)
    		  @foreach($task_lists as $task_list)
+        <div class="col-md-6 col-sm-12">
            <h3 class="mt-5 ml-3">
              <i class="fas fa-user"></i>Task list {{ $task_list->task_list_name }}
            </h3>
@@ -154,9 +186,11 @@
 				 		@endforeach
 						 </tbody>
 				 </table>
+        </div>
       @endforeach
 				 @endif
-			 </div>
+
+   </div>
      
   </div>   
 
@@ -245,12 +279,7 @@
 						<input type="text" class="form-control" name="zip" value="{{ $contact->zip }}" aria-label="Address">
 					</div> 	 
 						<div class="clearfix"></div>
-						<hr />
-						<div class="col-sm-12 col-xs-12">
-							<label>Case</label>
-							<input type="hidden" name="case_id" value="{{ !empty($contact->case_id) ? $contact->case_id : '' }}" />		
-							<input type="text" name="case_name" value="{{ $contact->case_uuid != 0 || !empty($array_cases[$contact->case_uuid]) ? $array_cases[$contact->case_uuid] : '' }}" class="form-control mb-4" />
-						</div>
+
 						
 						<div class="col-sm-12">
 							<button class="btn btn-primary mt-1 mb-5">
@@ -266,6 +295,39 @@
   </div>
   
   
+<div class="modal fade" id="relate-client-to-case">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        
+				<h3>
+          <i class="fas fa-sticky-note"></i> Relate {{ Request::segment(3) }} to case				
+        </h3>
+				<div class="clearfix"></div>
+				<hr />    
+        <form method="POST" action="/dashboard/contacts/contact/relate">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="contlient_uuid" value="{{ $contact->contlient_uuid }}" />
+        <div class="col-sm-12 col-xs-12">
+          <label>Case</label>
+          <input type="hidden" name="case_id" value="{{ !empty($contact->case_id) ? $contact->case_id : '' }}" />		
+          <input type="text" name="case_name" value="{{ $contact->case_uuid != 0 || !empty($array_cases[$contact->case_uuid]) ? $array_cases[$contact->case_uuid] : '' }}" class="form-control mb-4" />
+        </div>
+
+        <div class="col-sm-12">
+          <button class="btn btn-primary mt-1 mb-5">
+            <i class="fas fa-check"></i> Submit
+          </button>
+       </div>
+        </form>
+        
+    </div>
+  </div>
+</div>
+</div>
+
+
+
 <div class="modal fade" id="add-notes-modal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -396,28 +458,17 @@
     
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
-var cases = {!! json_encode($cases->toArray()) !!};
+	
 
-  for(var i = 0; i<cases.length; i++){
-	
-	  cases[i].data = cases[i]['id'];
-	  cases[i].value = cases[i]['name'];
+	  @if(count($cases) > 0)
+   var cases = {!! json_encode($cases->toArray()) !!};
 
-		//console.log(cases[i])
-}
-	
-	$('input[name="case_name"]').on('keyup', function(){
-		var $this = $(this);
-		if($this.text() == ""){
-			$this.prev().attr('value', 0);
-		}
-		else
-			{
-				$this.prev().attr('value')
-			}
-	});
-	
-	 $('input[name="case_name"]').autocomplete({
+	for(var i = 0; i<cases.length; i++){
+		cases[i].data = cases[i]['id'];
+		cases[i].value = cases[i]['name'];
+	}  
+  
+  $('input[name="case_name"]').autocomplete({
     lookup: cases,
 		width: 'flex',
 		triggerSelectOnValidInput: true,
@@ -426,13 +477,18 @@ var cases = {!! json_encode($cases->toArray()) !!};
 			//alert(thehtml);
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
-
    		$this.prev().val(suggestion.data);
 			
     }
-		 
   });
   
+  @endif
+
+</script>
+
+	
+
+<script type=""text/javascript">
   
 var cursorX;
 var cursorY;

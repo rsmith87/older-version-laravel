@@ -105,6 +105,7 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('/contact/note/delete', 'Dashboard\ContactController@note_delete');
                 Route::post('/contact/note/edit', 'Dashboard\ContactController@note_edit');
                 Route::post('/contact/log-communication', 'Dashboard\ContactController@log_communication');
+                Route::Post('/contact/relate', 'Dashboard\ContactController@relate');
             });
 
             Route::group(['prefix' => 'cases'], function () {

@@ -104,13 +104,17 @@ class ContactController extends Controller
 		if(!$requested_contact){
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
+    
     $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
     $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
 		$notes = Note::where('contlient_uuid', $id)->get();
+    $case = LawCase::where(['firm_id' => $this->settings->firm_id, 'id' => $requested_contact->case_id])->first();
+
 		return view('dashboard.contact', [
 			'user' => $this->user,
       'cases' => $cases,
+      'case' => $case,
 			'contact' => $requested_contact,
 			'firm_id' => $this->settings->firm_id,
 			'theme' => $this->settings->theme,
@@ -139,13 +143,16 @@ class ContactController extends Controller
     $notes = Note::where('contlient_uuid', $id)->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
     $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
-
+    
+    $case = LawCase::where(['firm_id' => $this->settings->firm_id, 'id' => $requested_contact->case_id])->first();
+    
 		return view('dashboard.contact', [
 			'user' => $this->user,
 			'contact' => $requested_contact,
 			'firm_id' => $this->settings->firm_id,
 			'theme' => $this->settings->theme,
 			'cases' => $cases,
+      'case' => $case,
 			'is_client' => 1,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,         
@@ -157,6 +164,15 @@ class ContactController extends Controller
       'threads' => $this->threads,
 		]);
 	}	
+  
+  public function relate(Request $request)
+  {
+    $data = $request->all();
+    
+    $uuid = $data['contlient_uuid'];
+    $update = Contact::where('contlient_uuid', $uuid)->update(['case_id' => $data['case_id']]);
+    return redirect()->back()->with('status', 'Case connected!');
+  }
 
 	public function clients(Request $request)
 	{

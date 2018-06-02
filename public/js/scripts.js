@@ -328,6 +328,7 @@ $(function($){
         events: events,
         draggable: true,
         contentHeight: 600,
+        nowIndicator: true,
         editable  : true,
         droppable : true, // this allows things to be dropped onto the calendar !!!     
         drop      : function (date, allDay) { // this function is called when something is dropped
@@ -339,13 +340,11 @@ $(function($){
           var copiedEventObject = $.extend({}, originalEventObject)
 
           // assign it the date that was reported
-          var end_date = moment(date).add(1, 'hour');;
           copiedEventObject.start           = date.format('YYYY-MM-DD'),
-          copiedEventObject.end             = end_date.toDate(),
           copiedEventObject.allDay          = false,
           copiedEventObject.backgroundColor = $(this).css('background-color')
           copiedEventObject.borderColor     = $(this).css('border-color')
-          console.log(end_date);
+
           // render the event on the calendar
           // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
           $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
