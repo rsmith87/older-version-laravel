@@ -27,7 +27,7 @@
 
       <div class="panel-heading" style="overflow:hidden;">
         <h1 class="pull-left ml-4 mt-4 mb-2"> 
-          <i class="fas fa-briefcase"></i> {{ ucfirst(Request::segment(3)) }} 
+          <i class="fa fa-user"></i> {{ ucfirst(Request::segment(3)) }} 
         </h1>
         <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
 

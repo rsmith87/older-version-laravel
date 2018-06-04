@@ -106,7 +106,7 @@ class ContactController extends Controller
 		}
     
     $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
-    $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
+    $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $requested_contact->id])->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
 		$notes = Note::where('contlient_uuid', $id)->get();
     $case = LawCase::where(['firm_id' => $this->settings->firm_id, 'id' => $requested_contact->case_id])->first();
@@ -142,7 +142,7 @@ class ContactController extends Controller
     $cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
     $notes = Note::where('contlient_uuid', $id)->get();
     $task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
-    $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $id])->get();
+    $logs = CommLog::where(['type' => 'contact_client', 'type_id' => $requested_contact->id])->get();
     
     $case = LawCase::where(['firm_id' => $this->settings->firm_id, 'id' => $requested_contact->case_id])->first();
     

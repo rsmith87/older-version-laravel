@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\Firm;
 use App\Message;
 use App\Thread;
+use MercurySeries\Flashy\Flashy;
 
 
 
@@ -175,7 +176,7 @@ class DashboardController extends Controller
     User::where('id', \Auth::id())->update([
         'name' => $data['name'],
     ]);
-    
+    Flashy::message('Welcome Aboard!', 'http://your-awesome-link.com');
     return redirect()->back()->with('status', 'Profile updated successfully!');
   }
   
