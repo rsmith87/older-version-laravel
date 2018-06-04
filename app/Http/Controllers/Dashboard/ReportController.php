@@ -40,26 +40,27 @@ class ReportController extends Controller
   public function index()
   {
     
-   $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
 
-   
+    print_r($clients);
     //->whereDate('created_at', '<=', Carbon::today()->toDateString())
    
-    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '<=', Carbon::now()->subMonth())->get();
     $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    /*$clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();    
-    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get(); */
+    $clients_mar = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_apr = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_may = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_jun = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();    
+    $clients_jul = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_aug = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_sep = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_oct = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_nov = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+    $clients_dec = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
     
     $chart = new ByMonth;
-    $chart->dataset('Clients', 'bar', [count($clients_jan), 65, 84, 45, 90]);
+    $chart->dataset('Clients', 'bar', [count($clients_jan), $clients_feb, $clients_mar, $clients_apr, $clients_may, $clients_jun, $clients_jul,
+        $clients_aug, $clients_sep, $clients_oct, $clients_nov, $clients_dec]);
     
     
     

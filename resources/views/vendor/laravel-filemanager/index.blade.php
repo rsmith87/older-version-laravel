@@ -27,9 +27,7 @@
 <body>
   <div class="container-fluid" id="wrapper">
     <div class="panel panel-primary hidden-xs">
-      <div class="panel-heading">
-        <h3 class="panel-title">Legalkeeper File Management</h3>
-      </div>
+      
     </div>
     <div class="row">
       <div class="col-sm-2 hidden-xs">

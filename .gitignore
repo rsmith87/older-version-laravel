@@ -11,3 +11,4 @@ composer.lock
 composer
 package-lock.json
 /.sass-cache
+public/files

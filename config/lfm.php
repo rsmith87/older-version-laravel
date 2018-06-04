@@ -72,10 +72,10 @@ return [
     'rename_file' => false,
 
     // If rename_file set to false and this set to true, then non-alphanumeric characters in filename will be replaced.
-    'alphanumeric_filename' => false,
+    'alphanumeric_filename' => true,
 
     // If true, non-alphanumeric folder name will be rejected.
-    'alphanumeric_directory' => false,
+    'alphanumeric_directory' => true,
 
     // If true, the uploading file's size will be verified for over than max_image_size/max_file_size.
     'should_validate_size' => false,

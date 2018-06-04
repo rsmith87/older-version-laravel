@@ -135,6 +135,8 @@ body .fc {
 }
 #calendar {
   -webkit-transition: all 2s;
+  -moz-transition: all 2s;
+  -o-transition: all 2s;
   transition: all 2s;
 }
 .dashboard-navigation .navbar-nav span.glyphicon,
@@ -326,6 +328,8 @@ nav.nav-pills a.nav-link {
   border-radius: 0;
   padding-top: 0;
   -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 .dashboard-navigation .navbar-collapse {
@@ -634,6 +638,7 @@ nav .show > .btn-primary.dropdown-toggle {
   font-weight: normal;
   font-size: 1.5em;
   -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
 #searchfield form .biginput:focus {
@@ -805,8 +810,7 @@ nav .show > .btn-primary.dropdown-toggle {
   margin: auto;
   padding: 30px;
   border: 1px solid #eee;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   font-size: 16px;
   line-height: 24px;
   font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
@@ -960,6 +964,7 @@ table.dataTable thead td {
   right: -300px;
   width: 300px;
   -webkit-transition: right 0.3s ease-in-out;
+  -o-transition: right 0.3s ease-in-out;
   transition: right 0.3s ease-in-out;
   padding: 20px 10px;
 }
@@ -985,7 +990,7 @@ ul.dropdown-menu a span {
   min-width: auto;
 }
 .panel-documents iframe {
-  min-height: 500px;
+  min-height: 800px;
   width: 100%;
 }
 iframe .phpdebugbar {
