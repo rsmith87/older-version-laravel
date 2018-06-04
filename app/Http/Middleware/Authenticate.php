@@ -26,7 +26,7 @@ class Authenticate
             }
         } else {
            if(\Session::get('locked') === true){
-            return redirect('/lockscreen');
+            return redirect('/dashboard/lock');
            }
         }
         return $next($request);

@@ -16,8 +16,6 @@
        
        <iframe src="https://legalkeeper.rob/laravel-filemanager?type=file"></iframe>
  
-<script src="{{ asset('js/autocomplete.js') }}"></script>
-@if($user->hasRole('administrator') || $user->hasRole('authenticated_user'))
 <script type="text/javascript">
 	var $ = jQuery;
    $('#lfm').filemanager('image');
@@ -28,7 +26,6 @@
 
 	
 </script>
-@endif       
 
 
 

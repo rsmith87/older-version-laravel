@@ -14,12 +14,14 @@
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 		<script src="{{ asset('js/timer.js') }}"></script>
     <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/timeline-min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 		<script src="{{ asset('js/moment.js') }}"></script>
+<script src="{{ asset('js/autocomplete.js') }}"></script>
 
 
 
@@ -222,10 +224,12 @@
 <div class="control-sidebar-bg"></div>
 
 @stop
-<script src="{{ asset('js/autocomplete.js') }}"></script>
+
+
+@section('adminlte_js')
 <script type="text/javascript">
- 
- var $ = jQuery;
+
+
  @if(isset($clients))
   @if(count($clients) > 0)
    var clients = {!! json_encode($clients->toArray()) !!};
@@ -306,7 +310,6 @@
 	
 </script>
 
-@section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @stack('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>

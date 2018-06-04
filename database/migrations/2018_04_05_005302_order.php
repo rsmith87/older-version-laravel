@@ -20,7 +20,7 @@ class Order extends Migration
           $table->float('amount_remaining');
           $table->integer('client_id');
           $table->integer('firm_id');
-          $table->integer('case_id');
+          $table->uuid('case_uuid');
           $table->integer('user_id');
           $table->timestamps();
         });

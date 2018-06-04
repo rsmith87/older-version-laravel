@@ -92,8 +92,8 @@ class InvoiceController extends Controller
 		}
 
 		//getting data to populate the DB
-		$case = LawCase::where('id', $data['case_id'])->first();
-    $case_hours = CaseHours::where('case_id', $data['case_id'])->get();
+		$case = LawCase::where('case_uuid', $data['case_uuid'])->first();
+    $case_hours = CaseHours::where('case_uuid', $data['case_uuid'])->get();
     $hours_amount = '0';
     foreach($case_hours as $ch){
       $hours_amount += $ch->hours;
@@ -128,7 +128,7 @@ class InvoiceController extends Controller
     $email_send = $client->sendTaskDueReminder($client);
     
 		Order::updateOrCreate([
-			'case_id' => $data['case_id'],
+			'case_uuid' => $data['case_uuid'],
 		],
 		[
 			'amount' => $orig_amount,
@@ -142,7 +142,7 @@ class InvoiceController extends Controller
 			'id' => $invoice_id,
 		],
 		[
-			'invoicable_id' => $data['case_id'],
+			'invoicable_id' => $data['case_uuid'],
 			'invoice_type' => 'app_client',
 			'tax' => 0,
 			'total' => $data['amount'],

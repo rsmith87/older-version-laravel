@@ -992,6 +992,10 @@ ul.dropdown-menu a span {
 .panel-documents iframe {
   min-height: 800px;
   width: 100%;
+  border: none;
+}
+.panel-documents iframe .panel-primary {
+  display: none;
 }
 iframe .phpdebugbar {
   display: none;

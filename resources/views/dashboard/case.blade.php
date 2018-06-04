@@ -564,7 +564,7 @@
 				<div class="clearfix"></div>
 				<hr />
 				<form role="form" method="post" action="/dashboard/invoices/invoice/create">
-					<input type="hidden" name="case_id" value="{{ $case->id }}"/>
+					<input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}"/>
 					<input type="hidden" name="invoicable_id" value="{{ !empty($invoicable_id) ? $invoicable_id : "" }}" />
 					<input type="hidden" name="total_amount" value="{{ $invoice_amount }}.00" />
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -599,85 +599,6 @@
 		</div>
 	</div>
 </div>
-<script src="{{ asset('js/autocomplete.js') }}"></script>
-<script type="text/javascript">
- 
-  @if(count($clients) > 0)
-   var clients = {!! json_encode($clients->toArray()) !!};
-
-	for(var i = 0; i<clients.length; i++){
-		clients[i].data = clients[i]['id'];
-		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	}  
-  
-  $('input[name="client_name"]').autocomplete({
-    lookup: clients,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
-  });
-  
-  @endif
-  
-  @if(count($contacts) > 0)
-   var contacts = {!! json_encode($contacts->toArray()) !!};	
-
- 	for(var i = 0; i<contacts.length; i++){
-		contacts[i].data = contacts[i]['id'];
-		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-	}	 
- 
-	
- 	$('input[name="contact_name"]').autocomplete({
-    lookup: contacts,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
-		 
-  });	 
-	@endif
-	
-
-	  @if(count($cases) > 0)
-   var cases = {!! json_encode($cases->toArray()) !!};
-
-	for(var i = 0; i<cases.length; i++){
-		cases[i].data = cases[i]['id'];
-		cases[i].value = cases[i]['name'];
-	}  
-  
-  $('input[name="case_name"]').autocomplete({
-    lookup: cases,
-		width: 'flex',
-		triggerSelectOnValidInput: true,
-    onSelect: function (suggestion) {
-      var thehtml = '<strong>Case '+suggestion.data+':</strong> ' + suggestion.value + ' ';
-			//alert(thehtml);
-			var $this = $(this);
-      $('#outputcontent').html(thehtml);
-   		$this.prev().val(suggestion.data);
-			
-    }
-  });
-  
-  @endif
-
-	
-</script>
 
 
 @endsection

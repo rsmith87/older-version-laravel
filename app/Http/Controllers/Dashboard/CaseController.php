@@ -295,7 +295,7 @@ class CaseController extends Controller
     }
     
     $client_id = Contact::where(['case_id' => $id, 'is_client' => 1])->select('id')->first();
-    $order = Order::where('case_id', $id)->first();
+    $order = Order::where('case_uuid', $id)->first();
     $invoices = Invoice::where('invoicable_id', $id)->get();
     $documents = Document::where('case_id', $id)->get();
     $notes = Note::where('case_uuid', $id)->get();
