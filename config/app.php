@@ -177,7 +177,8 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
         Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,        
+        Laravel\Socialite\SocialiteServiceProvider::class,   
+        Lubusin\Decomposer\DecomposerServiceProvider::class,
 
     ],
 

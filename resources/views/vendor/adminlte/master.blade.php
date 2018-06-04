@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     @endif
     
+          <link rel="stylesheet" href="{{ asset('css/sass.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <!-- Scripts -->

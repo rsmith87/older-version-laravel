@@ -53,6 +53,12 @@
 						</button>
 					</div>
 				</form>
+        <div class="clearfix"></div>
+        <hr />
+        <form action="/dashboard/documents/upload" class="dropzone" enctype="multipart/form-data">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="dz" value="1" />
+        </form>
 			</div>
 		</div>
 	</div>

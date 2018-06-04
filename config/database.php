@@ -48,7 +48,7 @@ return [
 
         'sqlite' => [
             'driver'   => 'sqlite',
-            'database' => database_path('database.sqlite'),
+            'database' => storage_path('logs/MediaManager.sqlite'),
             'prefix'   => '',
         ],
 

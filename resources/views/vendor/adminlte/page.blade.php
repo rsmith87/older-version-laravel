@@ -88,7 +88,8 @@
                               <li>
                                 <a href="/dashboard/messages/{{ $thread->thread_uuid }}">
                                 <span class="float-left">Created: {{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</span><br />
-                                <i class="fa fa-comments"></i>{{ $thread->subject }}</a>
+                                <i class="fa fa-comments"></i>{{ $thread->subject }} <br />
+                                ({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)</a>
                               </li>
                                  @endforeach
                             </ul>
@@ -246,6 +247,7 @@
     <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>   
     <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>   
     <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('js/dropzone.js') }}"></script>
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @yield('js')

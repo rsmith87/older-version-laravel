@@ -17349,7 +17349,8 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(135);
-module.exports = __webpack_require__(180);
+__webpack_require__(180);
+module.exports = __webpack_require__(181);
 
 
 /***/ }),
@@ -17367,14 +17368,11 @@ __webpack_require__(136);
 
 window.Vue = __webpack_require__(172);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+//import Icon from 'vue-awesome/components/Icon'
 
+// globally (in your main .js file)
+//Vue.component('icon', Icon)
 Vue.component('timer', __webpack_require__(175));
-
 var app = new Vue({
   el: '#app'
 });
@@ -17386,7 +17384,6 @@ var app = new Vue({
 
 window._ = __webpack_require__(137);
 window.Popper = __webpack_require__(138).default;
-
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -62906,6 +62903,12 @@ if (false) {
 
 /***/ }),
 /* 180 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 181 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

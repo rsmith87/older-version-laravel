@@ -81,7 +81,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/timer-page-change', 'Dashboard\DashboardController@timer_page');
 
         Route::group(['prefix' => 'dashboard', 'middleware' => ['isVerified']], function () {
-          
+          Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
           Route::get('/lock', 'Dashboard\DashboardController@lock');
           Route::post('/unlock', 'Dashboard\DashboardController@unlock');
           
@@ -144,6 +144,9 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::post('/events/{id}/deny', 'Dashboard\EventController@deny_event');
                 Route::get('/events/denied', 'Dashboard\EventController@denied_events');
             });
+            
+            
+            
 
             Route::group(['prefix' => 'tasks'], function () {
                 Route::get('/', 'Dashboard\TaskController@index');
@@ -216,6 +219,8 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::get('/permissions/create', ['as' => 'permissions.create', 'uses' => 'Dashboard\SettingController@create_permission']);
                 Route::post('/permissions/create', ['as' => 'permissions.create', 'uses' => 'Dashboard\SettingController@store_permission']);
             });
+            
+            //ctf0\MediaManager\MediaRoutes::routes();
 
             Route::group(['prefix' => 'messages'], function () {
                 Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
@@ -233,3 +238,5 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 
 
 
+
+// MediaManager

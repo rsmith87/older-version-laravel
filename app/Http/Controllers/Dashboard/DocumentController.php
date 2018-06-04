@@ -214,13 +214,19 @@ class DocumentController extends Controller
 
     $uuid = Uuid::generate()->string;
     
+    $file_name = 'file_upload';
+    if(isset($data['dz'])){
+      $file_name = 'file';
+      $data['file_description'] = 'uploaded through dropzone';
+    }
+    
 		if(!isset($data['id'])){
 			$data['id'] = \DB::table('document')->max('id') + 1; 
 			$status = 'added';
-			$imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
+			$imageFileName = time() . '.' . $request->file($file_name)->getClientOriginalExtension();
 			$filePath = '/f/'.$this->settings->firm_id.'/u/'.$this->user['id'].'/' .$imageFileName;
-			$fileMimeType = $request->file('file_upload')->getMimeType();
-			$this->s3->put($filePath, file_get_contents($request->file('file_upload')));
+			$fileMimeType = $request->file($file_name)->getMimeType();
+			$this->s3->put($filePath, file_get_contents($request->file($file_name)));
 			$this->s3->url($filePath);        
 		} 
 		else {
@@ -246,7 +252,7 @@ class DocumentController extends Controller
 		],
 		[
       'document_uuid' => $uuid,
-			'name' =>  !$data['file_name'] ? $imageFileName : $data['file_name'],
+			'name' =>  !isset($data['file_name']) ? $imageFileName : $data['file_name'],
 			'description' => $data['file_description'],
 			'location' => 's3',
 			'path' => $filePath,
@@ -254,9 +260,9 @@ class DocumentController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			'contact_id' => isset($data['contact_id']) ? $data['contact_id']: "",
 			'client_id' => isset($data['client_id']) ? $data['client_id']: "",
-			'case_id' => $data['case_id'],
+			'case_id' => isset($data['case_id']) ? $data['case_id'] : "",
 			'user_id' => $this->user['id'],
-			'client_share' => $data['client_share'],
+			'client_share' => isset($data['client_share']) ? 1: 0,
 		]);
 		return redirect()->back()->with('status', 'Document '.$status.' successfully!');
 	}

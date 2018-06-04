@@ -23,10 +23,13 @@
 				<h1 class="ml-3 mt-4">
 					<i class="fas fa-file"></i> Documents
 				</h1>
-				
+
 					
 			</div>
 			<div class="panel-body">
+
+
+
 				@if (count($documents) > 0)		
 					<table id="main" class="table table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 						<thead> 
@@ -77,6 +80,9 @@
 				@endif				
 				@endif
 			</div>
+
+
+      
 		</div>
 	</div>   
 </div>
@@ -131,7 +137,6 @@
 		</div>
 	</div>
 </div>  
-
 
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript">
