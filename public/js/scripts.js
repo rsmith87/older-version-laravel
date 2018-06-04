@@ -8,7 +8,7 @@ $(function($){
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-  
+
   
   $('.download').click(function(e){
     e.preventDefault();

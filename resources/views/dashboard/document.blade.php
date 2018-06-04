@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
 @section('content')
-
+<script src="{{ asset('vendor/laravel-filemanager/js/lfm.js') }}"></script>
 
 <div class="container dashboard document col-sm-10 col-12 offset-sm-2">
   <nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-pencil-alt"></i> Edit document</a>
-		<a class="nav-item nav-link btn btn-info" href="/dashboard/documents/document/{{ $document->id }}/send"><i class="fas fa-link"></i> Create document link</a>
+		<a class="nav-item nav-link btn btn-info" href="/dashboard/documents/document/{{ $document->document_uuid }}/send"><i class="fas fa-link"></i> Create document link</a>
 	</nav>  	
 	
    <div class="panel panel-default">
@@ -17,7 +17,6 @@
         @include('dashboard.includes.alerts')
      </div>
      <div class="panel-body">
-			 <div class="container">
 			
 				 <div class="col-sm-6 col-12">
 			 <label>Name</label>
@@ -25,8 +24,8 @@
 			 <label>Description</label>
 			 <p>{{ $document->description }}</p>
 
-
-				 </div>
+ </div>
+ <img id="holder" style="margin-top:15px;max-height:100px;">
 			<div class="col-sm-6 col-12">					 
 			 <label>Links</label>
 					 
@@ -73,10 +72,15 @@
           @endif
 				 </div>   
          
-			 </div>
      </div>
   </div>   
-
+ <div class="input-group">
+   <span class="input-group-btn">
+     <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+       <i class="fa fa-picture"></i> Choose
+     </a>
+   </span>
+   <input id="thumbnail" class="form-control" type="text" name="filepath">
 	
 <div class="modal fade" id="send-modal">
  <div class="modal-dialog modal">
@@ -188,14 +192,13 @@
 	
 
 
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript">
-CKEDITOR.replace('ckeditor_one');
-</script>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 @if($user->hasRole('administrator') || $user->hasRole('authenticated_user'))
 <script type="text/javascript">
-	
+	var $ = jQuery;
+   $('#lfm').filemanager('image');
+
+   $('#lfm').filemanager('file');
   var cases = {!! json_encode($cases->toArray()) !!};
   var clients = {!! json_encode($clients->toArray()) !!};
   var contacts = {!! json_encode($contacts->toArray()) !!};	

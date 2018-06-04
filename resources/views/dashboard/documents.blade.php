@@ -143,6 +143,7 @@
 CKEDITOR.replace('ckeditor_one');
 </script>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
+
 <script type="text/javascript">
  
   @if(count($clients) > 0)

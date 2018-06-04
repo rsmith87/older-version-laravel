@@ -11,7 +11,7 @@
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-sm-6 col-12">
 						<label for="file_upload">File</label>
-						<input type="file" class="form-control" name="file_upload" />
+						<input type="file" class="form-control popup-selector" data-inputid="feature_image" name="file_upload" />
 					</div>
 					<div class="col-sm-6 col-12">
 						<label for="file_name">File Name</label>
@@ -66,6 +66,7 @@
 
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
+  var $ = jQuery;
   @if(count($cases) > 0)
     var cases = {!! json_encode($cases->toArray()) !!};
     for(var i = 0; i<cases.length; i++){
