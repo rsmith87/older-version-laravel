@@ -29,6 +29,7 @@ class CreateInvoicesTables extends Migration
             $table->integer('user_id');
             $table->text('note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('invoice_lines', function (Blueprint $table) {

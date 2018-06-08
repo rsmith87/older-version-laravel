@@ -20,6 +20,7 @@ class CreateCommLogsTable extends Migration
             $table->text('comm_type');
             $table->longText('log');
             $table->timestamps();
+          $table->softDeletes();
         });
     }
 

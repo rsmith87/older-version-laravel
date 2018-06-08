@@ -23,7 +23,8 @@ class Task extends Migration
           $table->integer('user_id');
           $table->dateTime('due');
           $table->datetime('complete')->nullable();
-          $table->timestamps();        
+          $table->timestamps();    
+          $table->softDeletes();
         });
     }
 

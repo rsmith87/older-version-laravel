@@ -35,6 +35,7 @@ class CreateCaseTable extends Migration
         $table->integer('order_id');
         $table->integer('is_deleted');
         $table->timestamps();
+        $table->softDeletes();
       });
     }
 

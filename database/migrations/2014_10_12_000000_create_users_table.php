@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
         $table->rememberToken();
         $table->uuid('u_id');
         $table->timestamps();
+        $table->softDeletes();
       });
     }
 

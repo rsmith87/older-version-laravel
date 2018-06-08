@@ -27,6 +27,7 @@ class CreateDocumentTable extends Migration
           $table->integer('client_share');
           $table->integer('user_id');
           $table->timestamps();
+          $table->softDeletes();
         });
     }
 

@@ -22,6 +22,8 @@ class CreateSubtasksTable extends Migration
           $table->datetime('complete')->nullable();
           $table->dateTime('due');          
           $table->timestamps();
+          $table->softDeletes();
+          
         });
     }
 

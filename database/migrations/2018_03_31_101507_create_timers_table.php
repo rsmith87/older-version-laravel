@@ -16,7 +16,7 @@ class CreateTimersTable extends Migration
           $table->timestamp('started_at');
           $table->timestamp('stopped_at')->default(null)->nullable();
           $table->timestamps();
-
+          $table->softDeletes();
       });
   }
 

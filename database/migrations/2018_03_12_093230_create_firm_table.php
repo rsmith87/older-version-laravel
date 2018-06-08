@@ -25,6 +25,7 @@ class CreateFirmTable extends Migration
           $table->longText('email');
           $table->longText('social_media');
           $table->timestamps();
+          $table->softDeletes();
         });
     }
 

@@ -23,6 +23,7 @@ class Order extends Migration
           $table->uuid('case_uuid');
           $table->integer('user_id');
           $table->timestamps();
+          $table->softDeletes();
         });
 
     }

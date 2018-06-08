@@ -27,6 +27,7 @@ class CreateEventsTable extends Migration
             $table->integer('c_id');
             $table->integer('f_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
