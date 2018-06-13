@@ -5,13 +5,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LawCase extends Model
 {
-    use Searchable;
+    use Searchable, SoftDeletes;
   
     protected $table = 'case';
-
+    
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
   
     protected $fillable = [
         'id',
@@ -42,9 +49,7 @@ class LawCase extends Model
         'u_id'
     ];
   
-    protected $dates = [
 
-    ];
   
       /**
      * Get all of the contacts for the case.

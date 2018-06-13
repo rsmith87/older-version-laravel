@@ -9,6 +9,7 @@ class Order extends Model
     
    protected $fillable = [
     'id',
+    'order_uuid',
     'amount',
     'amount_remaining',
     'client_id',     
@@ -35,7 +36,7 @@ class Order extends Model
   
   public function invoices()
   {
-    return $this->hasMany('App\Invoice', 'invoicable_id', 'case_id');
+    return $this->hasMany('App\Invoice', 'invoicable_id', 'case_uuid');
   }
   
 }

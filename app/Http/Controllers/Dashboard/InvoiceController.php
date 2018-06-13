@@ -20,6 +20,7 @@ use App\Notifications\InvoiceCreatedNotification;
 use Faker\Factory;
 use Carbon;
 use SanderVanHooft\Invoicable\MoneyFormatter;
+use Webpatser\Uuid\Uuid;
 
 
 use App\Http\Controllers\Controller;
@@ -59,7 +60,7 @@ class InvoiceController extends Controller
 			$contact = Contact::where('has_login', $this->user['id'])->first();
 			$orders = Order::where('client_id', $contact->id)->get();
 		}
-
+    print_r($orders);
 		return view('dashboard/invoices', [
 			'user' => $this->user,  
 			'theme' => $this->settings->theme,
@@ -114,7 +115,7 @@ class InvoiceController extends Controller
     
 		$amount_remaining = $total_amount - $data['amount'];
     
-    $mycase = Order::where(['user_id' => $this->user['id'], 'case_id' => $case->id])->first();
+    $mycase = Order::where(['user_id' => $this->user['id'], 'case_uuid' => $case->case_uuid])->first();
 
 		if(count($mycase) > 0){
 			$orig_amount = $mycase->amount + floatval($data['amount']);
@@ -126,11 +127,23 @@ class InvoiceController extends Controller
     
     
     $email_send = $client->sendTaskDueReminder($client);
+
+    if(isset($data['order_uuid'])){
+      $order_uuid = $data['order_uuid'];
+    } else {
+      $order_uuid = Uuid::generate()->string;
+    }
     
+    if(isset($data['invoice_uuid'])){
+      $invoice_uuid = $data['invoice_uuid'];
+    } else {
+        $invoice_uuid = Uuid::generate()->string;
+    }              
 		Order::updateOrCreate([
-			'case_uuid' => $data['case_uuid'],
+      'order_uuid' => $order_uuid,
 		],
 		[
+      'case_uuid' => $data['case_uuid'],
 			'amount' => $orig_amount,
 			'amount_remaining' => floatval($amount_remaining),
 			'firm_id' => $this->settings->firm_id,
@@ -138,12 +151,14 @@ class InvoiceController extends Controller
 			'user_id' => $this->user['id'],
 		]);
 
+
 		Invoice::updateOrCreate([
 			'id' => $invoice_id,
 		],
 		[
+      'invoice_uuid' => $invoice_uuid,
 			'invoicable_id' => $data['case_uuid'],
-			'invoice_type' => 'app_client',
+			'invoicable_type' => 'app_client',
 			'tax' => 0,
 			'total' => $data['amount'],
 			'currency' => 'USD',

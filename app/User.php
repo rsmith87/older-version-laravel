@@ -11,12 +11,14 @@ use App\Notifications\EventDenyNotification;
 use Laravel\Cashier\Billable;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class User extends Authenticatable
   
 {
-use HasApiTokens, Notifiable, Billable, HasRoles, Messagable;
+  
+use HasApiTokens, Notifiable, Billable, HasRoles, Messagable, SoftDeletes;
   /**
    * The attributes that are mass assignable.
    *
@@ -31,6 +33,14 @@ use HasApiTokens, Notifiable, Billable, HasRoles, Messagable;
     'password', 
     'created_at',
   ];
+  
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];  
+  
   /**
    * The attributes excluded from the model's JSON form.
    *

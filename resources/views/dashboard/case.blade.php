@@ -25,6 +25,7 @@
            <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#"><i class="fas fa-dollar-sign"></i> Reference client to case</a>   
     @endif
    <!-- <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> --> 
+		<a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i class="fas fa-trash-alt"></i> Delete case</a> 
 
 	</nav>  	
 			@include('dashboard.includes.alerts')
@@ -253,6 +254,28 @@
           <textarea name="note" class="form-control"></textarea>
           <button type="submit" class="form-control mt-3 btn btn-primary">
             Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delete-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-trash-alt"></i> Delete case				
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/cases/case/delete">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}" />
+          <p>Click the button below to confirm the case deletion.</p>
+          <button type="submit" class="form-control mt-3 btn btn-danger">
+            Delete
           </button>
         </form>
       </div>

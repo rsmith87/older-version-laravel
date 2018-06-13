@@ -24,6 +24,9 @@
           <a href="javascript:download('{{ $item->name }}')" title="{{ Lang::get('laravel-filemanager::lfm.menu-download') }}">
             <i class="fa fa-download fa-fw"></i>
           </a>
+          <a href="javascript:relate('{{ $item->name }}')" title="Relate to case/contact/client">
+            <i class="fa fa-sitemap fa-fw"></i>
+          </a>                
           @if($item->thumb)
             <a href="javascript:fileView('{{ $item->url }}', '{{ $item->updated }}')" title="{{ Lang::get('laravel-filemanager::lfm.menu-view') }}">
               <i class="fa fa-image fa-fw"></i>

@@ -154,6 +154,13 @@ class CaseController extends Controller
      return $projects;
   }
   
+  public function delete(Request $request)
+  {
+    $data = $request->all();
+    $case = LawCase::where('case_uuid', $data['case_uuid'])->delete();
+    return redirect()->back()->with('status', 'Case deleted successfully');
+  }
+  
   public function timer_store(Request $request, $id)
   {
       $data = $request->validate(['name' => 'required|between:3,100']);
