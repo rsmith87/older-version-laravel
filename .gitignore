@@ -12,3 +12,6 @@ composer
 package-lock.json
 /.sass-cache
 public/files
+.settings/
+.project
+.buildpath
