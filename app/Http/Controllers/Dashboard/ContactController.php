@@ -228,7 +228,7 @@ class ContactController extends Controller
 	}
 		
 	if(!isset($data['case_id'])){
-		$data['case_id'] = '';
+		$data['case_id'] = 0;
 	}
   if(!isset($data['relationship'])){
     $data['relationship'] = "";
@@ -270,7 +270,7 @@ class ContactController extends Controller
     
     $case = LawCase::where('id', $data['case_id'])->get();
 		
-    if(count($case) === 0){
+    if(count($case) === 1){
       
 		Contact::updateOrCreate(
 		[
