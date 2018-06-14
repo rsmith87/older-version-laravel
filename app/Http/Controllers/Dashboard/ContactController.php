@@ -308,6 +308,22 @@ class ContactController extends Controller
 
 	}
   
+  public function delete(Request $request)
+  {
+    $data = $request->all();
+    
+    $contact = Contact::where('id', $data['id'])->first();
+    
+    if($contact->is_client != 0){
+      $type = 'Client';
+    } else {
+      $type = 'Contact';
+    }
+    $contact->delete();
+    
+    return redirect()->back()->with('status', $type .' deleted successfully');
+  }
+  
     public function note_add(Request $request)
     {
     $data = $request->all();

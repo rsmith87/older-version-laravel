@@ -18,6 +18,7 @@
 		  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#relate-client-to-case" href="#"><i class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-gavel"></i> Relate  {{ Request::segment(3) }} to case</a>				
 	  @endif
 
+		<a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i class="fas fa-trash-alt"></i> Delete {{ Request::segment(3) }}</a> 
 
   </nav>  	
 
@@ -196,6 +197,28 @@
      
   </div>   
 
+          
+<div class="modal fade" id="delete-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-trash-alt"></i> Delete {{ Request::segment(3) }}			
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/contacts/contact/delete">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="id" value="{{ $contact->id }}" />
+          <p>Click the button below to confirm the {{ Request::segment(3) }} deletion.</p>
+          <button type="submit" class="form-control mt-3 btn btn-danger">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="contacts-modal">
 	<div class="modal-dialog modal-lg">

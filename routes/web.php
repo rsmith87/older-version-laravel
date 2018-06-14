@@ -101,6 +101,7 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('/', 'Dashboard\ContactController@index');
                 Route::get('/contact/{id}', 'Dashboard\ContactController@contact');
                 Route::post('/add', 'Dashboard\ContactController@add');
+                Route::post('/contact/delete', 'Dashboard\ContactController@delete');
                 Route::post('/contact/notes/note/add', 'Dashboard\ContactController@note_add');
                 Route::post('/contact/note/delete', 'Dashboard\ContactController@note_delete');
                 Route::post('/contact/note/edit', 'Dashboard\ContactController@note_edit');

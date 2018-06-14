@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\InvoiceCreatedNotification;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
   
-    use Notifiable;
+    use Notifiable, SoftDeletes;
     protected $table = "contact";
     /**
      * The attributes that are mass assignable.
@@ -45,7 +46,8 @@ class Contact extends Model
      *
      * @var array
      */
-    protected $hidden = [
+    protected $dates = [
+        'deleted_at'
     ];
   
     public function cases()
