@@ -250,7 +250,7 @@ class CaseController extends Controller
     }
     
     $timers = array_merge($timer, ['timers' => []]);
-    return redirect('dashboard/cases/case/'.$case_uuid); 
+    return redirect('dashboard/cases/case/'.$case_uuid)->with('status', 'Case '. $project->name . ' created successfully'); 
             
     }
   
@@ -386,7 +386,7 @@ class CaseController extends Controller
     $case_hours = CaseHours::where('case_uuid', $id)->get();
     $clients = Contact::where(['case_id' => $id, 'is_client' => 1])->first();
     $contacts =  Contact::where(['case_id' => $id, 'is_client' => 0])->get();
-    $order = Order::where('case_id', $id)->first();
+    $order = Order::where('case_uuid', $id)->first();
     $documents = Document::where('case_id', $id)->get();
     $invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
     $task_lists = TaskList::where('c_id', $id)->with('task')->get();
