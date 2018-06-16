@@ -166,7 +166,7 @@ return [
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,  
-        Barryvdh\Debugbar\ServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
