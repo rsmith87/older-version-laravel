@@ -82,11 +82,12 @@
                         <li>
                           <a class="timer-create" href="#" data-target="#timer-modal" data-toggle="modal"><i class="fas fa-stopwatch"></i></a>
                         </li>
+                                               @if(count($threads) > 0)
+   
                         <li class="dropdown">                           
                             <a id="dLabel" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-comments"></i>
                             </a>
-                          @if(count($threads) > 0)
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
                                 @foreach($threads as $thread)
                               <li>
@@ -95,11 +96,12 @@
                                 <i class="fa fa-comments"></i>{{ $thread->subject }} <br />
                                 ({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)</a>
                               </li>
-                                 @endforeach
+                                @endforeach
+
                             </ul>
-                          @endif
                         </li>
-                        
+                         @endif
+    
                         <li>
                           <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
                         </li>

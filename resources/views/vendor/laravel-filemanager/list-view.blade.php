@@ -1,4 +1,5 @@
-@if((sizeof($files) > 0) || (sizeof($directories) > 0))
+
+          @if((sizeof($files) > 0) || (sizeof($directories) > 0))
 <table class="table table-responsive table-condensed table-striped hidden-xs table-list-view">
   <thead>
     <th style='width:50%;'>{{ Lang::get('laravel-filemanager::lfm.title-item') }}</th>
@@ -24,7 +25,7 @@
           <a href="javascript:download('{{ $item->name }}')" title="{{ Lang::get('laravel-filemanager::lfm.menu-download') }}">
             <i class="fa fa-download fa-fw"></i>
           </a>
-          <a href="javascript:relate('{{ $item->name }}')" title="Relate to case/contact/client">
+        <a href="#" onclick="doModal('#myModal', )" title="Relate to case/contact/client">
             <i class="fa fa-sitemap fa-fw"></i>
           </a>                
           @if($item->thumb)
@@ -90,3 +91,57 @@
 @else
 <p>{{ trans('laravel-filemanager::lfm.message-empty') }}</p>
 @endif
+          
+<div class="modal fade" id="relate-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-trash-alt"></i> Relate media to case/contact/client		
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/contacts/contact/delete">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="id" value="" />
+          <p>Click the button below to confirm the  deletion.</p>
+          <button type="submit" class="form-control mt-3 btn btn-danger">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+           
+<script type="text/javascript">
+                  
+function doModal(placementId, heading, formContent, btnText)
+{
+    var html =  '<div id="modalWindow" class="modal hide fade in" style="display:none;">';
+    html += '<div class="modal-header">';
+    html += '<a class="close" data-dismiss="modal">×</a>';
+    html += '<h4>'+heading+'</h4>'
+    html += '</div>';
+    html += '<div class="modal-body">';
+    html += '<p>';
+    html += formContent;
+    html += '</div>';
+    html += '<div class="modal-footer">';
+    if (btnText!='') {
+        html += '<span class="btn btn-success">';
+        html += btnText;
+        html += '</span>';
+    }
+    html += '<span class="btn" data-dismiss="modal">';
+    html += 'Close';
+    html += '</span>'; // close button
+    html += '</div>';  // footer
+    html += '</div>';  // modalWindow
+    $("#"+placementId).html(html);
+    $("#modalWindow").modal();
+}
+
+</script>
+
+

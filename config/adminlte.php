@@ -116,13 +116,6 @@ return [
             //'can'  => 'view-cases',
         ],
         [
-            'text'        => 'Firm',
-            'url'         => 'dashboard/firm',
-            'icon'        => 'building',
-            //'label'       => 4,
-            //'label_color' => 'success',
-        ],
-        [
             'text' => 'Clients',
             'url'  => 'dashboard/clients',
             'icon' => 'users',
@@ -187,6 +180,13 @@ return [
             'url'  => 'dashboard/profile',
             'icon' => 'user-circle',
         ],
+        [
+            'text'        => 'Firm',
+            'url'         => 'dashboard/firm',
+            'icon'        => 'building',
+            //'label'       => 4,
+            //'label_color' => 'success',
+        ],        
         /*[
             'text' => 'Change Password',
             'url'  => 'password/reset',
