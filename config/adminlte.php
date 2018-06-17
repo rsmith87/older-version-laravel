@@ -128,7 +128,7 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
         ],   
-        /*[
+        [
             'text' => 'Calendar',
             'url'  => 'dashboard/calendar',
             'icon' => 'calendar-alt'
