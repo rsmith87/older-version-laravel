@@ -370,9 +370,9 @@ class CaseController extends Controller
       $hours_amount += $ch->hours;
     }
 
-    $order = Order::where('case_id', $data['case_id'])->first();
+    $order = Order::where('case_uuid', $data['case_uuid'])->first();
     if(count($order) > 0){
-     Order::where('case_id', $data['case_id'])->update(['amount_remaining' => $order->amount_remaining + ($hours_amount * $case->billing_rate)]);
+     Order::where('case_uuid', $data['case_uuid'])->update(['amount_remaining' => $order->amount_remaining + ($hours_amount * $case->billing_rate)]);
     }
     return redirect('/dashboard/cases/case/'.$data['case_uuid'])->with('status', 'Hours updated');
   }
