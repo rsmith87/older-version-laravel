@@ -128,13 +128,13 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
         ],   
-        [
+        /*[
             'text' => 'Calendar',
             'url'  => 'dashboard/calendar',
             'icon' => 'calendar-alt'
             //'can'  => 'view-cases',
         ],
-        [
+        /*[
             'text'        => 'Messages',
             'url'         => 'dashboard/messages',
             'icon'        => 'comments',
@@ -147,13 +147,13 @@ return [
             'icon'        => 'envelope',
             //'label'       => 4,
             //'label_color' => 'success',
-        ],*/        
+        ],        
         [
             'text' => 'Invoices',
             'url'  => 'dashboard/invoices',
             'icon' => 'file-alt'
             //'can'  => 'view-cases',
-        ],
+        ],*/
         [
             'text'        => 'Tasks',
             'url'         => 'dashboard/tasks',
@@ -168,12 +168,12 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
         ],
-        [
+        /*[
             'text' => 'Reports',
             'url'  => 'dashboard/reports',
             'icon' => 'chart-line'
             //'can'  => 'view-cases',
-        ],      
+        ],*/      
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
