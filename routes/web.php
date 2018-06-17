@@ -22,6 +22,17 @@ Route::get('/register', function() {
   return view('auth/register');
 });
 
+Route::get('/register/payment', function() {
+  return view('vendor/adminlte/payment');
+});
+
+Route::post('/register/payment', 
+  [
+    'as' => 'addmoney.stripe',
+    'uses' => 'Dashboard\DashboardController@add_stripe_payment'
+  ]
+);
+
 Route::get('/roles-permissions', 'Controller@create_roles_and_permissions');
 
 Route::get('/password/reset', function() {

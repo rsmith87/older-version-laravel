@@ -21,6 +21,9 @@ body.lockscreen {
 body .fc {
   overflow: auto;
 }
+body.login-page {
+  display: block;
+}
 .main-header .sidebar-toggle:before {
   content: "";
 }
@@ -1000,4 +1003,8 @@ ul.dropdown-menu a span {
 iframe .phpdebugbar {
   display: none;
   visibility: hidden;
+}
+.login-box-body,
+.register-box-body {
+  overflow: hidden;
 }

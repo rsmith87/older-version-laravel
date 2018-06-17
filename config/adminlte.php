@@ -134,7 +134,7 @@ return [
             'icon' => 'calendar-alt'
             //'can'  => 'view-cases',
         ],
-        /*[
+        [
             'text'        => 'Messages',
             'url'         => 'dashboard/messages',
             'icon'        => 'comments',

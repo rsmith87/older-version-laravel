@@ -183,7 +183,7 @@ class MessagesController extends Controller
         $thread = Thread::create([
           'subject' => $input['subject'],
           'thread_uuid' => $thread_uuid,
-          'firm_id', $this->settings->firm_id,      
+          'firm_id' => $this->settings->firm_id,      
         ]);
         // Message
         Message::create([

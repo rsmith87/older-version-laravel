@@ -304,7 +304,7 @@ class ContactController extends Controller
 		
 	  $status = $type . " " . $data['first_name'] . " " . $data['last_name'] . " " .$updated."!";           
 
-		return redirect($redirect)->with('status', $status);
+		return redirect()->back()->with('status', $status);
 
 	}
   
