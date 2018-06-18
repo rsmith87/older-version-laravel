@@ -311,6 +311,7 @@ $(function($){
       $('#calendar').fullCalendar({
         themeSystem: 'bootstrap3',
         weekends: false,
+        showNonCurrentDates: false,
         businessHours: {
           // days of week. an array of zero-based day of week integers (0=Sunday)
           dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
@@ -322,7 +323,9 @@ $(function($){
           center: 'title',
           right: 'month,agendaWeek,agendaDay,listMonth'
         },
+        timezone: 'America/Chicago',
         defaultDate: today,
+        defaultView: 'month',        
         navLinks: true, // can click day/week names to navigate views
         eventLimit: 4, // allow "more" link when too many events
         events: events,
@@ -330,27 +333,93 @@ $(function($){
         contentHeight: 600,
         nowIndicator: true,
         editable  : true,
-        droppable : true, // this allows things to be dropped onto the calendar !!!     
-        drop      : function (date, allDay) { // this function is called when something is dropped
+        droppable : true, // this allows things to be dropped onto the calendar !!!
+        eventResize: function(event, delta, revertFunc) {
+          console.log(delta._data);
+          //event is object
+          //array ()
+          var new_end_date = delta._data;
+          var uuid = event.uuid;
+          var end_date = event.end_date;
+          
+          var updated_end_moment = moment(end_date).add(new_end_date);
+           $.ajax(
+          {
+            type: 'POST',
+            datatype: 'json',
+            data: {
+              'event': uuid,
+              'new_end_date': updated_end_moment._d,
+            },
+            url: '/dashboard/calendar/extend-event',
+            success:function(data){
+              console.log('success');
+              //console.log(data);
+            },        
+          });         
+        },
+        eventDrop : function( event, delta )  { 
+          console.log(delta._data);
+          //event is object
+          //array ()
+          var new_date = delta._data;
+          var e = event;
+          var uuid = event.uuid;
+          var start_date = event.start_date;
+          var end_date = event.end_date;
+          
 
-          // retrieve the dropped element's stored Event Object
-          var originalEventObject = $(this).data('eventObject')
+          var updated_start_moment = moment(start_date).add(new_date);
+          var updated_end_moment = moment(end_date).add(new_date);
+          
+          
+          $.ajax(
+          {
+            type: 'POST',
+            datatype: 'json',
+            data: {
+              'event': uuid,
+              'new_start_date': updated_start_moment._d,
+              'new_end_date': updated_end_moment._d,
+            },
+            url: '/dashboard/calendar/modify-event',
+            success:function(data){
+              console.log('success');
+              //console.log(data);
+            },        
+          });
+
+        },
+        drop : function (date, allDay)
+        {
+         // retrieve the dropped element's stored Event Object
+          var originalEventObject = $(this).data('eventObject');
+          
+          //console.log(date);
 
           // we need to copy it, so that multiple events don't have a reference to the same object
-          var copiedEventObject = $.extend({}, originalEventObject)
+          var copiedEventObject = $.extend({}, originalEventObject);
 
           // assign it the date that was reported
-          copiedEventObject.start           = date.format('YYYY-MM-DD'),
-          copiedEventObject.allDay          = false,
-          copiedEventObject.backgroundColor = $(this).css('background-color')
-          copiedEventObject.borderColor     = $(this).css('border-color')
+          copiedEventObject.start           = date.format('YYYY-MM-DD');
+          copiedEventObject.end             = date.format('YYYY-MM-DD');
+          copiedEventObject.allDay          = false;
+          copiedEventObject.backgroundColor = $(this).css('background-color');
+          copiedEventObject.borderColor     = $(this).css('border-color');
+          
 
           // render the event on the calendar
           // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-          $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+          $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+          
+          // is the "remove after drop" checkbox checked?
+          if ($('#drop-remove').is(':checked')) {
+            // if so, remove the element from the "Draggable Events" list
+            $(this).remove()
+          }
           
           $.ajax(
-            {
+          {
             type: 'POST',
             datatype: 'json',
             data: {
@@ -359,20 +428,49 @@ $(function($){
             url: '/dashboard/calendar/drop-event',
             success:function(data){
               console.log('success');
-              console.log(data);
+              //console.log(data);
             },        
           });
-
-          // is the "remove after drop" checkbox checked?
-          if ($('#drop-remove').is(':checked')) {
-            // if so, remove the element from the "Draggable Events" list
-            $(this).remove()
-          }
-
         }
       });  
         //Add draggable funtionality
       init_events(event)
+      
+          /* ADDING EVENTS */
+      var currColor = '#3c8dbc' //Red by default
+      //Color chooser button
+      var colorChooser = $('#color-chooser-btn')
+      $('#color-chooser > li > a').click(function (e) {
+        e.preventDefault()
+        //Save color
+        currColor = $(this).css('color')
+        //Add color effect to button
+        $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
+      })
+      $('#add-new-event').click(function (e) {
+        e.preventDefault()
+        //Get value and make sure it is not null
+        var val = $('#new-event').val()
+        if (val.length == 0) {
+          return
+        }
+
+        //Create events
+        var event = $('<div />')
+        event.css({
+          'background-color': currColor,
+          'border-color'    : currColor,
+          'color'           : '#fff'
+        }).addClass('external-event')
+        event.html(val)
+        $('#external-events').prepend(event)
+
+        //Add draggable funtionality
+        init_events(event)
+
+        //Remove event from text input
+        $('#new-event').val('')
+      })
     
   }
   

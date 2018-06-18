@@ -20,6 +20,7 @@ use App\Notifications\EventConfirmNotification;
 use App\Notifications\EventDenyNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Webpatser\Uuid\Uuid;
 
 class EventController extends Controller
 {
@@ -103,35 +104,37 @@ class EventController extends Controller
   public function drop_event(Request $request)
   {
     $data = $request->json();
-    $event = $request->input('event');
+    $e = $request->input('event');
 		
-		$start_date = new \DateTime($this->fix_date($event['start'], 0));
-		$end_date = new \DateTime($this->fix_date($event['start'], 0));
+		$start_date = \Carbon\Carbon::parse($this->fix_date($e['start'], 0))->format('Y-m-d H:i:s');
+		$end_date = \Carbon\Carbon::parse($this->fix_date($e['start'], 0))->addHour()->format('Y-m-d H:i:s');
 		
 		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
-				
+    
+    $event_uuid = Uuid::generate()->string;
+    
 		foreach($events as $event){
-			$event_start_date = new \DateTime($start_date);
-			$event_end_date = new \DateTIme($end_date);
+
+			$event_start_date = \Carbon\Carbon::parse($event->start_date)->format('Y-m-d H:i:s');
+			$event_end_date = \Carbon\Carbon::parse($event->end_date)->format('Y-m-d H:i:s');
 			//print_r("Start date from form: " . $start_date->format('Y-m-d H:i:s') . " Start date from event: " . $event_start_date->format('Y-m-d H:i:s') . " End date from form: " . $end_date->format('Y-m-d H:i:s') . " End date from event: " . $event_end_date->format('Y-m-d H:i:s'));
 
-			if(($start_date > $event_start_date && $start_date < $event_end_date) || ($end_date < $event_end_date && $end_date > $event_start_date))
+			if(($start_date > $event_start_date && $start_date < $event_end_date) || ($end_date < $event_end_date && $end_date > $event_start_date)){
 				return redirect('/dashboard/calendar')->withErrors(['There is an existing appointment in the time selected.  Please choose another time.']);
 			}
-			
-		$event = Event::updateOrCreate([
-			'id' => !empty($data['id']) ? $data['id'] : "",
-		],
-		[
-			'name' => $event['title'],
+    }		
+    
+		$event = Event::create([
+      'uuid' => $event_uuid,
+			'name' => $e['title'],
 			'start_date' => $start_date,
 			'end_date' => $end_date,
-			'start_time' => $data['start_time'],
-			'end_time' => $data['end_time'],
+			'start_time' => '0000-00-00 00:00:00',
+			'end_time' => '0000-00-00 00:00:00',
 			'approved' => 1,
-			'u_id' => $u_id,
-			'co_id' => isset($data['co_id']) ? $data['co_id'] : "",
-			'c_id' => isset($data['c_id']) ? $data['c_id'] : "",
+			'u_id' => $this->user['id'],
+			'co_id' => "",
+			'c_id' => "",
 			'f_id' => $this->settings->firm_id,
 		]);   
   }
@@ -155,7 +158,9 @@ class EventController extends Controller
 			$contact = Contact::where('has_login', $this->user['id'])->first();
 			$events = Event::where(['u_id' => $contact->user_id, 'approved' => 1])->get();
 		}
-				
+		
+
+    
 		foreach($events as $event){
 			
 			$event_start_date = new \DateTime($event['start_date']);
@@ -170,7 +175,8 @@ class EventController extends Controller
 		$u_id = $this->user['id'];
 		$approved = 1;
 		$message = 'Event '.$status.' successfully!';
-		
+   
+    $event_uuid = Uuid::generate()->string;		
 		if($this->user->hasRole('client')){
 			$contact = Contact::where('has_login', $this->user['id'])->first();
 			$u_id = $contact->user_id;
@@ -178,13 +184,13 @@ class EventController extends Controller
 			$data['co_id'] = $contact->id;
 			$data['c_id'] = $contact->case_id;
 			$message = 'Appointment request submitted.  If approved, you will receive an email letting you know it was approved or denied.';
-
 		}
-		
+		    
 		$event = Event::updateOrCreate([
 			'id' => !empty($data['id']) ? $data['id'] : "",
 		],
 		[
+      'uuid' => $event_uuid,
 			'name' => $data['name'],
 			'description' => $data['description'],
 			'start_date' => $this->fix_date($data['start_date'], $data['start_time']),
@@ -259,6 +265,63 @@ class EventController extends Controller
 			return redirect('/dashboard/calendar/events/')->withErrors(['Could not find event']);			
 		}
 	}
+  
+  public function modify_event(Request $request)
+  {
+
+    $e = $request->input('event');
+    $new_start_date = $request->input('new_start_date');
+    $new_end_date = $request->input('new_end_date');
+    $loaded_event = Event::where('uuid', $e)->first();   
+    $start_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_start_date);
+    $end_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_end_date);    
+    
+    $new_start_date_parsed = \Carbon\Carbon::parse($start_date_without_tz)->format('Y-m-d H:i:s');
+    $new_end_date_parsed = \Carbon\Carbon::parse($end_date_without_tz)->format('Y-m-d H:i:s');
+
+    
+	  $events = Event::where('u_id', $this->user['id'])->get();	    
+		foreach($events as $event){
+			$event_start_date = \Carbon\Carbon::parse($event->start_date)->format('Y-m-d H:i:s');
+			$event_end_date = \Carbon\Carbon::parse($event->end_date)->format('Y-m-d H:i:s');
+
+			if(($new_start_date_parsed > $event_start_date && $new_start_date_parsed < $event_end_date) || ($new_end_date_parsed < $event_end_date && $new_end_date_parsed > $event_start_date)){
+				return redirect('/dashboard/calendar')->withErrors(['There is an existing appointment in the time selected.  Please choose another time.']);
+			}
+    }		
+    
+		$event = Event::where('uuid', $e)->update([
+			'start_date' => $new_start_date_parsed,
+			'end_date' => $new_end_date_parsed,
+			'start_time' => '0000-00-00 00:00:00',
+			'end_time' => '0000-00-00 00:00:00',
+		]);   
+  }
+  
+  public function extend_event(Request $request)
+  {
+    $e = $request->input('event');
+    $new_end_date = $request->input('new_end_date');
+    $loaded_event = Event::where('uuid', $e)->first();   
+    $end_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_end_date);    
+    
+    $new_end_date_parsed = \Carbon\Carbon::parse($end_date_without_tz)->format('Y-m-d H:i:s');
+
+    
+	  $events = Event::where('u_id', $this->user['id'])->get();	    
+		foreach($events as $event){
+			$event_start_date = \Carbon\Carbon::parse($event->start_date)->format('Y-m-d H:i:s');
+			$event_end_date = \Carbon\Carbon::parse($event->end_date)->format('Y-m-d H:i:s');
+
+			if($new_end_date_parsed < $event_end_date && $new_end_date_parsed > $event_start_date){
+				return redirect('/dashboard/calendar')->withErrors(['There is an existing appointment in the time selected.  Please choose another time.']);
+			}
+    }		
+    
+		$event = Event::where('uuid', $e)->update([
+			'end_date' => $new_end_date_parsed,
+		]);     
+  }
 	
 	private function fix_date($dts, $dte)
 	{

@@ -22,14 +22,16 @@ Route::get('/register', function() {
   return view('auth/register');
 });
 
-Route::get('/register/payment', function() {
-  return view('vendor/adminlte/payment');
-});
+Route::get('/register/payment', [
+    'as' => 'addmoney.paywithstripe',
+    'uses' => 'Auth\StripeController@add_payment'
+    ]
+);
 
 Route::post('/register/payment', 
   [
     'as' => 'addmoney.stripe',
-    'uses' => 'Dashboard\DashboardController@add_stripe_payment'
+    'uses' => 'Auth\StripeController@add_stripe_payment'
   ]
 );
 
@@ -151,6 +153,8 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
             Route::group(['prefix' => 'calendar'], function () {
                 Route::get('/', 'Dashboard\EventController@index');
                 Route::post('/drop-event', 'Dashboard\EventController@drop_event');
+                Route::post('/modify-event', 'Dashboard\EventController@modify_event');  
+                Route::post('/extend-event', 'Dashboard\EventController@extend_event');
                 Route::get('/events', 'Dashboard\EventController@client_events');
                 Route::post('/event/add', 'Dashboard\EventController@add');
                 Route::post('/events/{id}/approve', 'Dashboard\EventController@approve_event');
