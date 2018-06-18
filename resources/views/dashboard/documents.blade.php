@@ -14,7 +14,7 @@
      <div class="panel-body">
 		
        
-       <iframe src="https://legalkeeper.rob/laravel-filemanager?type=file"></iframe>
+       <iframe src="https://{{ env('APP_DOMAIN') }}/laravel-filemanager?type=file"></iframe>
  
 <script type="text/javascript">
 	var $ = jQuery;
