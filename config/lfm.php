@@ -15,7 +15,7 @@ return [
     'middlewares' => ['web', 'auth'],
 
     // The url to this package. Change it if necessary.
-    'url_prefix' => 'laravel-filemanager',
+    'url_prefix' => 'filemanager',
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +50,7 @@ return [
 
     'shared_folder_name' => 'shares',
     'thumb_folder_name'  => 'thumbs',
+    'firm_folder_name' => 'firm',
 
     /*
     |--------------------------------------------------------------------------

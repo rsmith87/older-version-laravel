@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Media;
 
 use Illuminate\Support\Facades\File;
+use App\Firm;
 
 /**
  * Class FolderController.
@@ -26,8 +27,11 @@ class FolderController extends LfmController
         if (parent::allowShareFolder()) {
             $folder_types['share'] = 'shares';
         }
+        
+        $folder_types['firm'] = 'root';
 
         foreach ($folder_types as $folder_type => $lang_key) {
+            
             $root_folder_path = parent::getRootFolderPath($folder_type);
 
             $children = parent::getDirectories($root_folder_path);
@@ -36,7 +40,7 @@ class FolderController extends LfmController
             });
 
             array_push($root_folders, (object) [
-                'name' => trans('laravel-filemanager::lfm.title-' . $lang_key),
+                'name' => trans('lfm.title-' . $lang_key),
                 'path' => parent::getInternalPath($root_folder_path),
                 'children' => $children,
                 'has_next' => ! ($lang_key == end($folder_types)),
