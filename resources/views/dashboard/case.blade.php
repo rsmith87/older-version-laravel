@@ -30,8 +30,8 @@
 	</nav>  	
 			@include('dashboard.includes.alerts')
 
-	<div class="panel panel-primary">
-		<div class="panel-heading" style="overflow:hidden;">
+	<div>
+		<div >
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-balance-scale"></i> Case
 			</h1>
@@ -40,7 +40,7 @@
 				Case information for {{ $case->name }}
 			</p>							
 		</div>
-		<div class="panel-body">
+		<div>
 			<div class="col-sm-6 col-12">
 				<label>Status</label>
 				<p>{{ ucfirst($case->status) }}</p>
@@ -119,8 +119,8 @@
 							</h3>
 							<table id="clients" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 								<thead>
-									<tr> 
-										<th>Id</th>
+									<tr class="bg-primary"> 
+										<th >Id</th>
 										<th>Name</th> 
 										<th>Phone Number</th>
 										<th>Email</th>
@@ -151,7 +151,7 @@
 							</h3>
 							<table id="contacts" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 								<thead>
-									<tr> 
+									<tr class="bg-primary"> 
 										<th>Id</th>
 										<th>Name</th> 
 										<th>Phone Number</th>
@@ -182,7 +182,7 @@
 					</h3>
 					<table id="documents" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
 						<thead>
-							<tr> 
+							<tr class="bg-primary"> 
                 <th>Id</th>
 								<th>File name</th> 
 								<th>File description</th>
@@ -212,7 +212,7 @@
            </h3>
         <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
-            <tr> 
+            <tr class="bg-primary"> 
               <th>ID</th>
               <th>Name</th> 
               <th>Description</th>

@@ -24,16 +24,17 @@
 
 					@include('dashboard.includes.alerts')
 
-   <div class="panel panel-primary">
+   <div>
 
-      <div class="panel-heading" style="overflow:hidden;">
+      <div>
         <h1 class="pull-left ml-4 mt-4 mb-2"> 
           <i class="fa fa-user"></i> {{ ucfirst(Request::segment(3)) }} 
         </h1>
+        <div class="clearfix"></div>
         <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
 
      </div>
-     <div class="panel-body">
+     <div>
 		
 			
 				 <div class="col-sm-6 col-12">
@@ -72,7 +73,7 @@
            </h3>
         <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
-            <tr> 
+            <tr class="bg-primary"> 
               <th>ID</th>
               <th>Comm. Type</th> 
               <th>Description</th>
@@ -132,7 +133,7 @@
            
            <table id="documents" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
-            <tr> 
+            <tr class="bg-primary"> 
               <th>ID</th>
               <th>File name</th> 
               <th>File description</th>
@@ -172,7 +173,7 @@
            </h3>
         <table id="tasks" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
           <thead>
-            <tr> 
+            <tr class="bg-primary"> 
               <th>ID</th>
               <th>Name</th> 
               <th>Description</th>

@@ -9,17 +9,10 @@
  
   			@include('dashboard.includes.alerts')	
 			
-						@if (count($tasks) === 0)
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					No tasks for this tasklist, yet! <strong>Add a new task below!</strong>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				</div>
-			@endif
+				
   
-	<div class="panel panel-primary">
-		<div class="panel-heading" style="overflow:hidden;">
+	<div>
+		<div>
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-tasks"></i> Task list
 			</h1>
@@ -32,7 +25,15 @@
 			</div>
 		
      @if(count($tasks) > 0)
-     <div class="panel-body">
+     <div>
+  		@if (count($tasks) === 0)
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					No tasks for this tasklist, yet! <strong>Add a new task below!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+			@endif     
 <div class="box box-primary">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
               <i class="ion ion-clipboard"></i>

@@ -25,17 +25,6 @@
 
               <p class="text-muted text-center">{{ $settings->title }}</p>
 
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Followers</b> <a class="pull-right">1,322</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Following</b> <a class="pull-right">543</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Friends</b> <a class="pull-right">13,287</a>
-                </li>
-              </ul>
             </div>
             <!-- /.box-body -->
           </div>
@@ -59,18 +48,6 @@
               <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
 
               <p class="text-muted">{{ $settings->location }}</p>
-
-              <hr>
-
-              <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-              <p>
-                <span class="label label-danger">UI Design</span>
-                <span class="label label-success">Coding</span>
-                <span class="label label-info">Javascript</span>
-                <span class="label label-warning">PHP</span>
-                <span class="label label-primary">Node.js</span>
-              </p>
 
               <hr>
 
@@ -137,32 +114,10 @@
                       <textarea class="form-control" id="inputExperience" name="location" placeholder="Location">{{ $settings->location }}</textarea>
                     </div>
                   </div>
-                   <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" name="experience" placeholder="Experience">{{ $settings->experience }}</textarea>
-                    </div>
-                  </div>                 
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" name="skills" placeholder="Skills">
-                    </div>
-                  </div>
+                   
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                   </div>
                 </form>
@@ -179,7 +134,8 @@
     <input type="text" class="form-control" value="{{ count($settings->instagram) > 0 ? $settings->instagram : "" }}" name="instagram" />
     <label>Avvo URL</label>
     <input type="text" class="form-control" value="{{ count($settings->avvo) > 0 ? $settings->avvo : "" }}" name="avvo" />
-    <button type="submit" class="btn btn-primary btn-block">
+    <div class="clearfix"></div>
+    <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">
       Submit
     </button>
   </form>

@@ -9,17 +9,10 @@
   </nav>    
   
 				@include('dashboard.includes.alerts')	
-			@if (count($tasks) === 0)
-       <div class="alert alert-warning alert-dismissible fade in" role="alert">
-        No tasks for this user, yet! <strong>Add a new task above!</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-       @endif		
+
        
-   <div class="panel panel-primary">
-      <div class="panel-heading" style="overflow:hidden;">
+    <div>
+      <div>
         <h1 class="pull-left ml-3 mt-4 mb-2">
           <i class="fas fa-tasks"></i> Task lists
         </h1>
@@ -28,7 +21,15 @@
 		
      </div>
 		 @if(count($tasks) > 0)
-     <div class="panel-body">
+     <div>
+			@if (count($tasks) === 0)
+       <div class="alert alert-warning alert-dismissible fade in" role="alert">
+        No tasks for this user, yet! <strong>Add a new task above!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+       @endif		       
         @foreach ($tasks as $task)
         <div class="col-md-4 col-xs-12">
           <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>

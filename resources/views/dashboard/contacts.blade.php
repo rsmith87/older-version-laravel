@@ -19,18 +19,18 @@
 
 			  		  @elseif (count($contacts) >= 1)  
 
-   <div class="panel panel-primary">
-    <div class="panel-heading" style="overflow:hidden;">
+   <div>
+    <div>
         <h1 class="pull-left ml-3 mt-4 mb-2">
          <i class="fas fa-address-card"></i> Contacts
         </h1>
 				<div class="clearfix"></div>
-        <p class="ml-3 mb-2">Contacts shows all of your client information.  Click on a contact to show information.</p>							 
+        <p class="ml-3 mb-2">Contacts shows all of your contact information.  Click on a contact to show information.</p>							 
      </div>
-     <div class="panel-body">
+     <div>
         <table id="main" class="table dataTable table-responsive table-striped table-hover">
                     <thead> 
-            <tr>           
+            <tr class="bg-primary">           
           @foreach($columns as $column)
 
               <th class="sorting" scope="col">{{ ucfirst(str_replace("_", " ", $column)) }}</th>

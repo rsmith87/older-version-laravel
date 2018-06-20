@@ -20,8 +20,8 @@
 				</div>
 			@endif			
       
-	<div class="panel panel-primary">
-		<div class="panel-heading" style="overflow:hidden;">
+	<div>
+		<div>
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-tasks"></i> Task list: {{ $task_list->task_list_name }}
 			</h1>
@@ -34,13 +34,13 @@
 			</div>
 		
      @if(count($tasks) > 0)
-     <div class="panel-body">
+     <div>
 
        
 
           <table class="mb-5 table table-responsive table-{{ $table_color }} table-{{ $table_size }}">
             <thead> 
-              <tr>
+              <tr class="bg-primary">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Due date</th>

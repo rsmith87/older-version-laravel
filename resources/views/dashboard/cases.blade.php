@@ -34,7 +34,7 @@
 					<thead> 
 						<tr>           
 							@foreach($columns as $column)
-                <th class="sorting" scope="col">{{ ucfirst(str_replace("_", " ", $column)) }}</th>     							
+                <th class="sorting bg-primary" scope="col">{{ ucfirst(str_replace("_", " ", $column)) }}</th>     							
               @endforeach
 						</tr> 
 					</thead> 

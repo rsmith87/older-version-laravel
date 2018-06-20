@@ -781,6 +781,11 @@ nav .show > .btn-primary.dropdown-toggle {
 .subtask-row td:nth-child(2) {
   padding-left: 40px;
 }
+.dashboard .card-body {
+  background-color: white;
+  padding: 4px;
+  padding-bottom: 0px;
+}
 .dashboard .card-body:first-of-type h5 {
   margin-top: 0;
 }
@@ -1067,4 +1072,14 @@ iframe .phpdebugbar {
 .iframe-content th:nth-child(1),
 .iframe-content td:nth-child(1) {
   display: block;
+}
+.modal-dialog {
+  width: 85%;
+  height: 85%;
+  margin: 0;
+  padding: 0;
+}
+.modal-content {
+  height: auto;
+  border-radius: 0;
 }

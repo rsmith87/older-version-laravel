@@ -10,12 +10,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fas fa-quote-left"></i> Mailbox
-        <small>13 new messages</small>
+        <i class="fas fa-quote-left"></i> Messages
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Mailbox</li>
+        <li class="active">Messages</li>
       </ol>
     </section>
     <!-- Main content -->
