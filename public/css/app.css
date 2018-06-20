@@ -1013,10 +1013,32 @@ iframe .phpdebugbar {
 }
 .iframe-content {
   display: block;
+  padding-top: 30px;
   background-color: transparent;
 }
+.iframe-content td.actions a {
+  padding: 0 5px;
+}
 .iframe-content #lfm-loader {
+  min-height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
   text-align: center;
+  top: 0;
+  padding-top: 200px;
+  z-index: 1041;
+}
+.iframe-content .img-row {
+  background-color: #FFF;
+  overflow: hidden;
+}
+.iframe-content .img-row .square {
+  max-width: 100%;
+  min-height: 230px;
+}
+.iframe-content .img-row .square img {
+  max-width: 100%;
 }
 .iframe-content .navbar {
   min-height: 50px;
@@ -1027,13 +1049,7 @@ iframe .phpdebugbar {
 .iframe-content .navbar .navbar-nav > li > a {
   color: #fff;
 }
-.iframe-content .navbar .img-row {
-  overflow: hidden;
-}
-.iframe-content .navbar .img-row img {
-  max-width: 100%;
-}
-.iframe-content .col-lg-1.img-row img {
+.iframe-content .img-row img {
   max-width: 100%;
   padding: 5px;
   margin-left: 6px;
