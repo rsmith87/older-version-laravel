@@ -25,9 +25,12 @@
           <a href="javascript:download('{{ $item->name }}')" title="{{ Lang::get('laravel-filemanager::lfm.menu-download') }}">
             <i class="fa fa-download fa-fw"></i>
           </a>
-        <a href="#" onclick="doModal('#myModal', )" title="Relate to case/contact/client">
+          <a href="#" data-toggle="modal" data-target="#relate-modal-{{ preg_replace("/[^ \w]+/", "", $item->name) }}" href="#" title="Relate to case/contact/client">
             <i class="fa fa-sitemap fa-fw"></i>
-          </a>                
+          </a>  
+          <a href="#" data-toggle="modal" data-target="#share-modal-{{ preg_replace("/[^ \w]+/", "", $item->name) }}" href="#" title="Share with user/client/contact">
+            <i class="fa fa-share"></i>
+          </a>
           @if($item->thumb)
             <a href="javascript:fileView('{{ $item->url }}', '{{ $item->updated }}')" title="{{ Lang::get('laravel-filemanager::lfm.menu-view') }}">
               <i class="fa fa-image fa-fw"></i>
@@ -91,8 +94,10 @@
 @else
 <p>{{ trans('laravel-filemanager::lfm.message-empty') }}</p>
 @endif
-          
-<div class="modal fade" id="relate-modal">
+
+
+@foreach($items as $item)
+<div class="modal fade" id="relate-modal-{{preg_replace("/[^ \w]+/", "", $item->name)}}">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -103,9 +108,13 @@
 				<hr />        
         <form method="POST" action="/dashboard/contacts/contact/delete">
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
-          <input type="hidden" name="id" value="" />
-          <p>Click the button below to confirm the  deletion.</p>
-          <button type="submit" class="form-control mt-3 btn btn-danger">
+          <input type="hidden" name="id" value="{{ $item->name }}" />
+          <p>Search below in the text input to relate this media to a Case, client or contact.</p>
+       
+            <label>Case/Contact/Client</label>
+            <input type="text" name="relate_media" class="form-control" />
+    
+          <button type="submit" class="form-control mt-3 btn btn-primary">
             Delete
           </button>
         </form>
@@ -113,7 +122,32 @@
     </div>
   </div>
 </div>
-           
+
+<div class="modal fade" id="share-modal-{{preg_replace("/[^ \w]+/", "", $item->name)}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+				<h3>
+          <i class="fas fa-trash-alt"></i> Relate media to case/contact/client		
+        </h3>
+				<div class="clearfix"></div>
+				<hr />        
+        <form method="POST" action="/dashboard/contacts/contact/delete">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
+          <input type="hidden" name="id" value="{{ $item->name }}" />
+          <p>Share the media with the user/client/contact below.</p>
+       
+          
+    
+          <button type="submit" class="form-control mt-3 btn btn-primary">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach     
 <script type="text/javascript">
                   
 function doModal(placementId, heading, formContent, btnText)
