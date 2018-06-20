@@ -8,16 +8,9 @@
 
   </nav>  
 			@include('dashboard.includes.alerts')
-@if (count($cases) === 0)
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					No cases for this user, yet! <strong>Add a new case above!</strong>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-			@endif
-	<div class="panel panel-primary">
-		<div class="panel-heading" style="overflow:hidden;">
+
+	<div>
+		<div>
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-balance-scale"></i> Cases
 			</h1>
@@ -26,7 +19,16 @@
 
 			
 		</div>
-		<div class="panel-body">
+		<div>
+      @if (count($cases) === 0)
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					No cases for this user, yet! <strong>Add a new case above!</strong>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+      @endif      
+      
 			@if (count($cases) > 0)
 				<table id="main" class="table dataTable table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 					<thead> 
