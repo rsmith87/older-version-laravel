@@ -4,23 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMediaTable extends Migration
+class Mediashare extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('media_share', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uuid');
-            $table->string('name');
-            $table->string('file_name');
-            $table->string('mime_type')->nullable();
-            $table->string('disk');
+            $table->uuid('media_uuid');
             $table->integer('user_id');
-            $table->unsignedInteger('size');
-            $table->unsignedInteger('order_column')->nullable();
+            $table->integer('user_id_share_with');
+            $table->integer('firm_id_share_with');            
             $table->nullableTimestamps();
             $table->softDeletes();
         });
@@ -31,6 +27,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('media_share');
     }
 }

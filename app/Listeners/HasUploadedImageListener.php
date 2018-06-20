@@ -12,16 +12,6 @@ use Webpatser\Uuid\Uuid;
 class HasUploadedImageListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  object  $event
@@ -33,23 +23,25 @@ class HasUploadedImageListener
         $media_uuid = Uuid::generate()->string;
         $publicFilePath = str_replace(public_path(), "", $event->path());
         $file = pathinfo($publicFilePath);
+        //$var = public_path() . '/files/'. \Auth::id() .'/' . $file['basename'];
+        $size = filesize($event->path());
         $filename = $file['filename'];
         $extension = $file['extension'];
-        $basename = $file['basename']
+        $basename = $file['basename'];
         
-        /*Media::create(
+        //NEED TO GET SIZE OF DOCUMENT OR IMAGE
+        //ALSO VERIFY $filename AND $basename AND $extension AND $file
+        
+        Media::create(
           [
-            'path' => $publicFilePath,
             'uuid' => $media_uuid,
-            'model' => '',
-            'model_id' => '',
-            'name' => '',
-            'file_name' => '',
-            'mime_type' => '',
+            'name' => $basename,
+            'file_name' => $filename,
+            'mime_type' => $extension,
             'disk' => 'public',
-            'user_id' = \Auth::id(),
-            'size' => '',
+            'user_id' => \Auth::id(),
+            'size' => $size.'B',
           ]
-        );*/
+        );
     }
 }

@@ -4,23 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMediaTable extends Migration
+class MediaRelationship extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('media_relationship', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uuid');
-            $table->string('name');
-            $table->string('file_name');
-            $table->string('mime_type')->nullable();
-            $table->string('disk');
+            $table->uuid('media_uuid');
+            $table->text('model');
+            $table->integer('model_id');
             $table->integer('user_id');
-            $table->unsignedInteger('size');
-            $table->unsignedInteger('order_column')->nullable();
             $table->nullableTimestamps();
             $table->softDeletes();
         });
@@ -31,6 +27,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('media_relationship');
     }
 }
