@@ -11,14 +11,7 @@
   
  @include('dashboard.includes.alerts')	
 			
-			@if (count($tasks) === 0)
-				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					No tasks for this task list, yet! <strong>Add a new task above!</strong>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				</div>
-			@endif			
+		
       
 	<div>
 		<div>
@@ -36,7 +29,14 @@
      @if(count($tasks) > 0)
      <div>
 
-       
+ 			@if (count($tasks) === 0)
+				<div class="alert alert-warning alert-dismissible fade in" role="alert">
+					No tasks for this task list, yet! <strong>Add a new task above!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+			@endif	      
 
           <table class="mb-5 table table-responsive table-{{ $table_color }} table-{{ $table_size }}">
             <thead> 
