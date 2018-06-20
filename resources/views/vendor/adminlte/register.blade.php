@@ -112,13 +112,11 @@
                 
 
                 <button type="submit"
-                        class="btn btn-primary btn-block btn-flat"
-                >{{ trans('adminlte::adminlte.register') }}</button>
+                        class="btn btn-primary btn-submit btn-block btn-flat"
+                >{{ trans('Continue to payment details') }}<i class="fas fa-arrow-right"></i></button>
             </form>
-            <div class="social-register">
-              <a href="{{ url('/auth/google') }}" class="btn btn-danger float-left"><i class="fab fa-google"></i> Google</a>
-              <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook float-left"><i class="fab fa-facebook-square"></i> Facebook</a>
-            </div>
+            
+            
             <div class="auth-links">
                 <a href="{{ url(config('adminlte.login_url', 'login')) }}"
                    class="text-center">Login</a>

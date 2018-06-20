@@ -7,16 +7,7 @@
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#client-modal" href="#"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Add client</a>
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/client/mine"><i class="fa fa-users"></i> My clients</a>
   </nav> 
-				 	@if (count($contacts) < 1)
-           <div class="alert alert-warning alert-dismissible in" role="alert">
-						No clients for this user, yet! <strong>Add a new client above!</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</label>
-            </button>
-           </div>
-          							@include('dashboard.includes.alerts')
 
-		  		  @elseif (count($contacts) >= 1) 
 
    <div>
     <div>
@@ -28,6 +19,16 @@
  
             
      </div>
+     				 	@if (count($contacts) < 1)
+           <div class="alert alert-warning alert-dismissible in" role="alert">
+						No clients for this user, yet! <strong>Add a new client above!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</label>
+            </button>
+           </div>
+          							@include('dashboard.includes.alerts')
+
+		  		  @elseif (count($contacts) >= 1) 
      <div>
         <table id="main" class="table dataTable table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
                     <thead> 
