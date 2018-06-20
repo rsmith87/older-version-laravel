@@ -95,7 +95,6 @@
 <p>{{ trans('laravel-filemanager::lfm.message-empty') }}</p>
 @endif
 
-
 @foreach($items as $item)
 <div class="modal fade" id="relate-modal-{{preg_replace("/[^ \w]+/", "", $item->name)}}">
   <div class="modal-dialog">
@@ -106,7 +105,7 @@
         </h3>
 				<div class="clearfix"></div>
 				<hr />        
-        <form method="POST" action="/dashboard/contacts/contact/delete">
+        <form method="POST" action="/dashboard/documents/document/relate">
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
           <input type="hidden" name="id" value="{{ $item->name }}" />
           <p>Search below in the text input to relate this media to a Case, client or contact.</p>
@@ -132,13 +131,14 @@
         </h3>
 				<div class="clearfix"></div>
 				<hr />        
-        <form method="POST" action="/dashboard/contacts/contact/delete">
+        <form method="POST" action="/dashboard/documents/document/share">
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
           <input type="hidden" name="id" value="{{ $item->name }}" />
-          <p>Share the media with the user/client/contact below.</p>
-       
+          <p>Share person</p>
+          <select name='firm_users'>
           
-    
+          
+          </select>
           <button type="submit" class="form-control mt-3 btn btn-primary">
             Delete
           </button>
@@ -148,34 +148,3 @@
   </div>
 </div>
 @endforeach     
-<script type="text/javascript">
-                  
-function doModal(placementId, heading, formContent, btnText)
-{
-    var html =  '<div id="modalWindow" class="modal hide fade in" style="display:none;">';
-    html += '<div class="modal-header">';
-    html += '<a class="close" data-dismiss="modal">×</a>';
-    html += '<h4>'+heading+'</h4>'
-    html += '</div>';
-    html += '<div class="modal-body">';
-    html += '<p>';
-    html += formContent;
-    html += '</div>';
-    html += '<div class="modal-footer">';
-    if (btnText!='') {
-        html += '<span class="btn btn-success">';
-        html += btnText;
-        html += '</span>';
-    }
-    html += '<span class="btn" data-dismiss="modal">';
-    html += 'Close';
-    html += '</span>'; // close button
-    html += '</div>';  // footer
-    html += '</div>';  // modalWindow
-    $("#"+placementId).html(html);
-    $("#modalWindow").modal();
-}
-
-</script>
-
-
