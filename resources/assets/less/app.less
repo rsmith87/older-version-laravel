@@ -23,7 +23,9 @@ body {
   &.login-page{
     display: block;
   }
+
 }
+
 
 .main-header .sidebar-toggle:before{
   content:"";
@@ -1101,6 +1103,11 @@ select.form-control:not([size]):not([multiple]){
 }
 
 .register-box{
+  .btn-submit{
+    svg{
+      margin-left:5px;
+    }
+  }
   .btn.btn-flat{
     margin:1em 0;
   }
@@ -1216,4 +1223,43 @@ iframe .phpdebugbar{
 
 .login-box-body, .register-box-body{
   overflow:hidden;
+}
+
+.iframe-content{
+    display:block;
+    background-color:transparent;
+        
+    .navbar{
+      min-height:50px;
+      background: #3c8dbc;
+      border-radius: 0;
+      .navbar-nav>li>a{
+        color:#fff;
+      }
+      .img-row{
+        overflow:hidden;
+        img{
+          max-width:100%;
+        }
+      }
+    }
+  .col-lg-1.img-row img {
+    max-width: 100%;
+    padding: 5px;
+    margin-left: 6px;
+  }  
+  .navbar-default .navbar-brand{
+    color:#FFF;
+  }
+  
+  .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .clickable{
+    cursor:pointer;
+  }
+  th:nth-child(1), td:nth-child(1) {
+    display: block;
+  }    
 }

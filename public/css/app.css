@@ -930,6 +930,9 @@ select.form-control:not([size]):not([multiple]) {
   width: 100%;
   text-align: center;
 }
+.register-box .btn-submit svg {
+  margin-left: 5px;
+}
 .register-box .btn.btn-flat {
   margin: 1em 0;
 }
@@ -1007,4 +1010,41 @@ iframe .phpdebugbar {
 .login-box-body,
 .register-box-body {
   overflow: hidden;
+}
+.iframe-content {
+  display: block;
+  background-color: transparent;
+}
+.iframe-content .navbar {
+  min-height: 50px;
+  background: #3c8dbc;
+  border-radius: 0;
+}
+.iframe-content .navbar .navbar-nav > li > a {
+  color: #fff;
+}
+.iframe-content .navbar .img-row {
+  overflow: hidden;
+}
+.iframe-content .navbar .img-row img {
+  max-width: 100%;
+}
+.iframe-content .col-lg-1.img-row img {
+  max-width: 100%;
+  padding: 5px;
+  margin-left: 6px;
+}
+.iframe-content .navbar-default .navbar-brand {
+  color: #FFF;
+}
+.iframe-content .navbar-nav > li > a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.iframe-content .clickable {
+  cursor: pointer;
+}
+.iframe-content th:nth-child(1),
+.iframe-content td:nth-child(1) {
+  display: block;
 }

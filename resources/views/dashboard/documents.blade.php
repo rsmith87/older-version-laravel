@@ -4,17 +4,17 @@
 <script src="{{ asset('vendor/laravel-filemanager/js/lfm.js') }}"></script>
 
  		
-   <div class="panel panel-primary panel-documents">
-      <div class="panel-heading" style="overflow:hidden;">
+   <div class="panel-documents">
+   
         <h1 class="pull-left ml-4 mt-4 mb-3"> 
          <i class="fas fa-cloud-upload-alt"></i> Documents
         </h1>
         @include('dashboard.includes.alerts')
      </div>
-     <div class="panel-body">
+     <div>
 		
        
-       <iframe src="https://{{ env('APP_DOMAIN') }}/laravel-filemanager?type=file"></iframe>
+       <iframe src="/laravel-filemanager?type=file" style="width: 100%; height: 500px; overflow: hidden; border: none;"></iframe>
  
 <script type="text/javascript">
 	var $ = jQuery;

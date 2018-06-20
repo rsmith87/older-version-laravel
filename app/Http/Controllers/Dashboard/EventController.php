@@ -295,6 +295,7 @@ class EventController extends Controller
 			'end_date' => $new_end_date_parsed,
 			'start_time' => '0000-00-00 00:00:00',
 			'end_time' => '0000-00-00 00:00:00',
+
 		]);   
   }
   

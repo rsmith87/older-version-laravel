@@ -1,6 +1,6 @@
 <ul class="list-unstyled">
   @foreach($root_folders as $root_folder)
-    <li>
+    <li class="list-parent">
       <a class="clickable folder-item" data-id="{{ $root_folder->path }}">
         <i class="fa fa-folder"></i> {{ $root_folder->name }}
       </a>

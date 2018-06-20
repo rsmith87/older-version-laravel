@@ -3,7 +3,7 @@
 <div class="row">
 
   @foreach($items as $item)
-  <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 img-row">
+  <div class="col-xs-4 col-sm-3 col-md-2 col-lg-1 img-row">
     <?php $item_name = $item->name; ?>
     <?php $thumb_src = $item->thumb; ?>
     <?php $item_path = $item->is_file ? $item->url : $item->path; ?>
