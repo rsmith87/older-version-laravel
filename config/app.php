@@ -158,7 +158,26 @@ return [
         App\Providers\RouteServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
       
-
+        /*
+         * Roberto Added Service Providers
+         */
+      
+        Aloha\Twilio\Support\Laravel\ServiceProvider::class,
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
+        Snowfire\Beautymail\BeautymailServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,  
+        Spatie\Permission\PermissionServiceProvider::class,
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Shivella\Bitly\BitlyServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        Creativeorange\Gravatar\GravatarServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
+        Jrean\UserVerification\UserVerificationServiceProvider::class,
+        Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,   
+        Lubusin\Decomposer\DecomposerServiceProvider::class,
 
     ],
 
