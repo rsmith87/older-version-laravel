@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Media;
 
-use Unisharp\Laravelfilemanager\traits\LfmHelpers;
+use App\Http\Controllers\Traits\LfmHelpers;
+use App\User;
+use App\LawCase;
+use App\Contact;
 
 /**
  * Class LfmController.
@@ -25,7 +28,15 @@ class LfmController extends Controller
      */
     public function show()
     {
-        return view('laravel-filemanager::index');
+        $cases = LawCase::where('u_id', \Auth::id())->get();
+        $contacts = Contact::where(['user_id' => \Auth::id(), 'is_client' => 0])->get();
+        $clients = Contact::where(['user_id' => \Auth::id(), 'is_client' => 1])->get();
+      
+        return view('laravel-filemanager::index', [
+            'cases' => $cases,
+            'contacts' => $contacts,
+            'clients' => $clients,  
+        ]);
     }
 
     public function getErrors()

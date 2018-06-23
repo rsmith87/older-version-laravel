@@ -33,7 +33,8 @@ return [
     // Then you can rewrite userField function in App\Handler\ConfigHander class
     // And set 'user_field' to App\Handler\ConfigHander::class
     // Ex: The private folder of user will be named as the user id.
-    'user_field' => Unisharp\Laravelfilemanager\Handlers\ConfigHandler::class,
+    'user_field' => App\Handlers\ConfigHandler::class,
+    'firm_field' => App\Handlers\FirmHandler::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +49,7 @@ return [
     'images_folder_name' => 'photos',
     'files_folder_name'  => 'files',
 
-    'shared_folder_name' => 'shares',
+    'shared_folder_name' => 'full_user_base_shares',
     'thumb_folder_name'  => 'thumbs',
     'firm_folder_name' => 'firm',
 
