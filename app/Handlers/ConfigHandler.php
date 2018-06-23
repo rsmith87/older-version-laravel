@@ -6,12 +6,12 @@ class ConfigHandler
 {
     public function userField()
     {
-        return auth()->user()->id;
+        return \Auth::id();
     }
     
     public function firmField()
     {
-      $firm_id = Settings::where('user_id', auth()->user()->id)->first();
+      $firm_id = Settings::where('user_id', \Auth::id())->first();
       return $firm_id->firm_id;
     }     
 }
