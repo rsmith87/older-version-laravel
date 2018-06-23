@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Handlers;
+use App\Settings;
 
 class ConfigHandler
 {

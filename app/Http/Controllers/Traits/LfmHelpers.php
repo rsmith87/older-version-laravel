@@ -612,16 +612,14 @@ trait LfmHelpers
     
     public function getFirmSlug(){
       
-      $settings = Settings::where('user_id', \Auth::id())->first();
-      $firm_id = $settings->firm_id;
         if (is_callable(config('lfm.firm_field'))) {
             $slug_of_firm = call_user_func(config('lfm.firm_field'));
-        } elseif (class_exists(config('lfm.firm_field'))) {
-            $config_handler = config('lfm.firm_field');
+        } elseif (class_exists(config('lfm.user_field'))) {
+            $config_handler = config('lfm.user_field');
             $slug_of_firm = app()->make($config_handler)->firmField();
         } else {
-            $old_slug_of_firm = config('lfm.firm_field');
-            $slug_of_firm = empty($firm_id) ? '' : $firm_id;
+            $old_slug_of_firm = config('lfm.user_field');
+            $slug_of_firm = empty(auth()->user()) ? '' : auth()->user()->$old_slug_of_firm;
         }
 
         return $slug_of_firm;      
