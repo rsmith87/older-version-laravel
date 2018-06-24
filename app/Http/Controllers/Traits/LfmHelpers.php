@@ -618,7 +618,7 @@ trait LfmHelpers
             $config_handler = config('lfm.user_field');
             $slug_of_firm = app()->make($config_handler)->firmField();
         } else {
-            $old_slug_of_firm = config('lfm.user_field');
+            $old_slug_of_firm = config('lfm.firm_field');
             $slug_of_firm = empty(auth()->user()) ? '' : auth()->user()->$old_slug_of_firm;
         }
 

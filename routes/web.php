@@ -257,8 +257,8 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
         
         
         $middleware = array_merge(\Config::get('lfm.middlewares'), [
-            '\Unisharp\Laravelfilemanager\middlewares\MultiUser',
-            '\Unisharp\Laravelfilemanager\middlewares\CreateDefaultFolder',
+            '\App\Http\Middleware\MultiUser',
+            '\App\Http\Middleware\CreateDefaultFolder',
         ]);
         $prefix = \Config::get('lfm.url_prefix', \Config::get('lfm.prefix', 'laravel-filemanager'));
         $as = 'unisharp.lfm.';
