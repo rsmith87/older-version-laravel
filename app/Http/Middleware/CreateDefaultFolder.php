@@ -17,7 +17,7 @@ class CreateDefaultFolder
         return $next($request);
     }
 
-    private function checkDefaultFolderExists($type = 'share')
+    private function checkDefaultFolderExists($type)
     {
         if ($type === 'user' && ! $this->allowMultiUser()) {
             return;
@@ -26,6 +26,7 @@ class CreateDefaultFolder
         if ($type === 'share' && ! $this->allowShareFolder()) {
             return;
         }
+       
 
         $path = $this->getRootFolderPath($type);
 

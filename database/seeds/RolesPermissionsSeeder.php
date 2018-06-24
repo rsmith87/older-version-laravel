@@ -98,6 +98,18 @@ class RolesPermissionsSeeder extends Seeder
           'role_id' => 2,
       ]);
       
+      $user_second = User::create([
+        'email' => 'robby@legalkeeper.com',
+        'password' => bcrypt('123456'),
+        'verified' => 1,
+      ]);
+      
+      DB::table('model_has_roles')->insert([
+         'model_type' => 'App\User',
+          'model_id' => $user->id,
+          'role_id' => 3,
+      ]);      
+      
       DB::table('firm')->insert([
           'name' => 'Admin Firm',
           'address_1' => '1800 Meridian Ave',
@@ -107,6 +119,15 @@ class RolesPermissionsSeeder extends Seeder
           'phone' => '2544059664',
       ]);
       
+      DB::table('firm')->insert([
+          'name' => 'Admin Second Firm',
+          'address_1' => '132 W. Johnson St.',
+          'state' => 'TX',
+          'city' => 'Hewitt',
+          'zip' => '76643',
+          'phone' => '2544059664',
+      ]);      
+      
       DB::table('settings')->insert([
         'user_id' => $user->id,
         'theme' => 'flatly',
@@ -115,23 +136,51 @@ class RolesPermissionsSeeder extends Seeder
         'tz' => 'America\Chicago',
         'firm_id' => 1,
       ]);
+
+      DB::table('settings')->insert([
+        'user_id' => $user_second->id,
+        'theme' => 'flatly',
+        'table_color' => 'light',
+        'table_size' => 'lg',
+        'tz' => 'America\Chicago',
+        'firm_id' => 2,
+      ]);
       
       DB::table('views')->insert([
         'view_type' => 'contact',
         'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' =>  $user->id,
       ]);  
+      
+      DB::table('views')->insert([
+        'view_type' => 'contact',
+        'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
+        'u_id' =>  $user_second->id,
+      ]);       
 
       DB::table('views')->insert([
         'view_type' => 'case',
         'view_data' => json_encode(['case_uuid', 'name', 'court_name'], true),
         'u_id' =>  $user->id,
-      ]); 
+      ]);
+      
+      DB::table('views')->insert([
+        'view_type' => 'case',
+        'view_data' => json_encode(['case_uuid', 'name', 'court_name'], true),
+        'u_id' =>  $user_second->id,
+      ]);       
       DB::table('views')->insert([
         'view_type' => 'client',
         'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' =>  $user->id,
-      ]);        
+      ]);
+      
+      DB::table('views')->insert([
+        'view_type' => 'client',
+        'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
+        'u_id' =>  $user_second->id,
+      ]);  
+
 
     }
 }

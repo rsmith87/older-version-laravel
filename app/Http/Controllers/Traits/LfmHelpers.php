@@ -107,7 +107,7 @@ trait LfmHelpers
         $prefix = config('lfm.' . $this->currentLfmType() . 's_folder_name', $default_folder_name);
         $base_directory = config('lfm.base_directory', 'public');
 
-        if ($type === 'dir') {
+        if ($type === 'dir' && $prefix === 'files') {
             $prefix = $base_directory . '/' . $prefix;
         }
 
@@ -127,8 +127,8 @@ trait LfmHelpers
     {
         $working_dir = request('working_dir');
 
-        if (empty($working_dir)) {
-            $default_folder_type = 'share';
+        if (!empty($working_dir)) {
+            $default_folder_type = 'user';
             if ($this->allowMultiUser()) {
                 $default_folder_type = 'user';
             }
@@ -612,14 +612,16 @@ trait LfmHelpers
     
     public function getFirmSlug(){
       
+        $settings = Settings::where('user_id', \Auth::id())->first();
+        $firm_id = $settings->firm_id;
         if (is_callable(config('lfm.firm_field'))) {
             $slug_of_firm = call_user_func(config('lfm.firm_field'));
-        } elseif (class_exists(config('lfm.user_field'))) {
-            $config_handler = config('lfm.user_field');
+        } elseif (class_exists(config('lfm.firm_field'))) {
+            $config_handler = config('lfm.firm_field');
             $slug_of_firm = app()->make($config_handler)->firmField();
         } else {
             $old_slug_of_firm = config('lfm.firm_field');
-            $slug_of_firm = empty(auth()->user()) ? '' : auth()->user()->$old_slug_of_firm;
+            $slug_of_firm = empty($firm_id) ? '' : $firm_id;
         }
 
         return $slug_of_firm;      
