@@ -1,18 +1,18 @@
 <?php
 
 namespace App\Handlers;
-use App\Settings;
+//use App\Settings;
 
 class ConfigHandler
 {
     public function userField()
     {
-        return \Auth::id();
+        return auth()->user()->id;
     }
     
     public function firmField()
     {
-      $firm_id = Settings::where('user_id', \Auth::id())->first();
+      $firm_id = \App\Settings::where('user_id', auth()->user()->id)->first();
       return $firm_id->firm_id;
     }     
 }
