@@ -12,7 +12,6 @@ class CreateDefaultFolder
     {
         $this->checkDefaultFolderExists('user');
         $this->checkDefaultFolderExists('share');
-        $this->checkDefaultFolderExists('firm');
 
         return $next($request);
     }
@@ -26,7 +25,7 @@ class CreateDefaultFolder
         if ($type === 'share' && ! $this->allowShareFolder()) {
             return;
         }
-       
+
 
         $path = $this->getRootFolderPath($type);
 

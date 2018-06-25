@@ -165,7 +165,7 @@
 @if (isset($clients))
         @if (count($clients) > 0)
         var clients = {!! json_encode($clients->toArray()) !!}
-;
+
 for (var i = 0; i < clients.length; i++) {
 clients[i].data = clients[i]['id'];
 clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];

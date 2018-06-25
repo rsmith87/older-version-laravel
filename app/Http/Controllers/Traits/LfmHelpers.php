@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Traits;
 
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\User;
-use App\Settings;
 
 trait LfmHelpers
 {
@@ -107,7 +105,7 @@ trait LfmHelpers
         $prefix = config('lfm.' . $this->currentLfmType() . 's_folder_name', $default_folder_name);
         $base_directory = config('lfm.base_directory', 'public');
 
-        if ($type === 'dir' && $prefix === 'files') {
+        if ($type === 'dir') {
             $prefix = $base_directory . '/' . $prefix;
         }
 
@@ -127,12 +125,11 @@ trait LfmHelpers
     {
         $working_dir = request('working_dir');
 
-        if (!empty($working_dir)) {
-            $default_folder_type = 'user';
+        if (empty($working_dir)) {
+            $default_folder_type = 'share';
             if ($this->allowMultiUser()) {
                 $default_folder_type = 'user';
             }
-           
 
             $working_dir = $this->rootFolder($default_folder_type);
         }
@@ -170,12 +167,9 @@ trait LfmHelpers
     public function rootFolder($type)
     {
         if ($type === 'user') {
-            $folder_name = 'user/'.$this->getUserSlug();
-        } else if ($type === 'firm'){
-            $folder_name = 'firm/'.$this->getFirmSlug();
-        } else {
-            $folder_name = config('lfm.shared_folder_name');
-        }
+            $folder_name = $this->getUserSlug();
+        } 
+
         return $this->ds . $folder_name;
     }
 
@@ -336,7 +330,12 @@ trait LfmHelpers
      */
     public function isProcessingImages()
     {
-      return lcfirst(str_singular(request('type') ? request('type') : '')) === 'image';    
+      if(request('type') === null){
+        $request = 'file';
+      } else {
+        $request = request('type');
+      }
+      return lcfirst(str_singular($request)) === 'image';
     }
 
     /**
@@ -609,24 +608,6 @@ trait LfmHelpers
 
         return $slug_of_user;
     }
-    
-    public function getFirmSlug(){
-      
-        $settings = Settings::where('user_id', \Auth::id())->first();
-        $firm_id = $settings->firm_id;
-        if (is_callable(config('lfm.firm_field'))) {
-            $slug_of_firm = call_user_func(config('lfm.firm_field'));
-        } elseif (class_exists(config('lfm.firm_field'))) {
-            $config_handler = config('lfm.firm_field');
-            $slug_of_firm = app()->make($config_handler)->firmField();
-        } else {
-            $old_slug_of_firm = config('lfm.firm_field');
-            $slug_of_firm = empty($firm_id) ? '' : $firm_id;
-        }
-
-        return $slug_of_firm;      
-    }
-            
 
     /**
      * Shorter function of getting localized error message..

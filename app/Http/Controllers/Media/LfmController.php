@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Media;
 
-use App\Http\Controllers\Traits\LfmHelpers;
-use App\User;
 use App\LawCase;
 use App\Contact;
 
@@ -12,7 +10,7 @@ use App\Contact;
  */
 class LfmController extends Controller
 {
-    use LfmHelpers;
+    use \App\Http\Controllers\Traits\LfmHelpers;
 
     protected static $success_response = 'OK';
 

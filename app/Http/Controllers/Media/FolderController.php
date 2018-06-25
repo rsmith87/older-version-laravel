@@ -28,7 +28,7 @@ class FolderController extends LfmController
             $folder_types['share'] = 'full_user_base_shares';
         }
         
-        $folder_types['firm'] = 'firm';
+        //$folder_types['firm'] = 'firm';
 
         foreach ($folder_types as $folder_type => $lang_key) {
             

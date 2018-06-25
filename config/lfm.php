@@ -49,7 +49,7 @@ return [
     'images_folder_name' => 'photos',
     'files_folder_name'  => 'files',
 
-    'shared_folder_name' => 'full_user_base_shares',
+    'shared_folder_name' => 'shares',
     'thumb_folder_name'  => 'thumbs',
     'firm_folder_name' => 'firm',
 
