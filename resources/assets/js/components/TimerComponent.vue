@@ -47,10 +47,9 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <input v-model="newTimerName" type="text" class="form-control" id="usrname" placeholder="What are you working on?">
+                                    <button data-dismiss="modal" v-bind:disabled="newTimerName === ''" @click="createTimer(selectedProject)" type="submit" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-play"></i> Start</button> 
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button data-dismiss="modal" v-bind:disabled="newTimerName === ''" @click="createTimer(selectedProject)" type="submit" class="btn btn-default btn-primary"><i class="glyphicon glyphicon-play"></i> Start</button>
+                           
                             </div>
                         </div>
                     </div>

@@ -62235,7 +62235,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62834,33 +62833,31 @@ var render = function() {
                                   _vm.newTimerName = $event.target.value
                                 }
                               }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "modal-footer" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-default btn-primary",
-                              attrs: {
-                                "data-dismiss": "modal",
-                                disabled: _vm.newTimerName === "",
-                                type: "submit"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.createTimer(_vm.selectedProject)
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-default btn-primary",
+                                attrs: {
+                                  "data-dismiss": "modal",
+                                  disabled: _vm.newTimerName === "",
+                                  type: "submit"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.createTimer(_vm.selectedProject)
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "glyphicon glyphicon-play"
-                              }),
-                              _vm._v(" Start")
-                            ]
-                          )
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "glyphicon glyphicon-play"
+                                }),
+                                _vm._v(" Start")
+                              ]
+                            )
+                          ])
                         ])
                       ])
                     ])
