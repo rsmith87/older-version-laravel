@@ -60,7 +60,7 @@ class InvoiceController extends Controller
 			$contact = Contact::where('has_login', $this->user['id'])->first();
 			$orders = Order::where('client_id', $contact->id)->get();
 		}
-    print_r($orders);
+    dd($orders);
 		return view('dashboard/invoices', [
 			'user' => $this->user,  
 			'theme' => $this->settings->theme,

@@ -23,7 +23,7 @@
             
          
       
-                <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!!route('addmoney.stripe')!!}" >
+            <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!!route('addmoney.stripe')!!}" >
                {{ csrf_field() }}
               <input  type='hidden' name="account_type">
                
@@ -65,7 +65,7 @@
                 </div>
                 </div>
              
-                </form>
+             </form>
             
 
 

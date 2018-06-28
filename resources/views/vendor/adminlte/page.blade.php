@@ -284,6 +284,8 @@
   });	 
 	@endif
 	@endif
+  
+  
 
   @if(isset($cases))
 	  @if(count($cases) > 0)
@@ -307,6 +309,24 @@
 			
     }
   });
+  
+  arr = cases.concat(clients, contacts);
+
+  $('input[name="relation"]').autocomplete({
+    lookup: arr,
+    width: 'flex',
+    triggerSelectOnValidInput: true,
+    groupBy: 'data',
+    onSelect: function (suggestion) {
+      var thehtml = '<strong>Case '+suggestion.id+':</strong> ' + suggestion.value + ' ';
+      //alert(thehtml);
+      var $this = $(this);
+      $('#outputcontent').html(thehtml);
+      $this.prev().val(suggestion.data);
+    }
+  });
+  
+  
   
   @endif
   @endif

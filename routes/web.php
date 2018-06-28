@@ -85,13 +85,7 @@ Route::group(['middleware' => ['web']], function () {
         $message = $user->messages()->create([
             'message' => request()->get('message')
         ]);
-    });
-
-        Route::post('/timer-start', 'Dashboard\DashboardController@timer');
-        Route::post('/timer-pause', 'Dashboard\DashboardController@timer_pause');
-        Route::get('/timer-amount', 'Dashboard\DashboardController@timer_amount');
-        Route::post('/timer-stop', 'Dashboard\DashboardController@timer_stop');
-        Route::post('/timer-page-change', 'Dashboard\DashboardController@timer_page');
+      });
 
         Route::group(['prefix' => 'dashboard', 'middleware' => ['isVerified']], function () {
           Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');

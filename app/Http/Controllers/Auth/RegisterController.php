@@ -8,10 +8,6 @@ use App\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Registered;
-use Jrean\UserVerification\Traits\VerifiesUsers;
-use Jrean\UserVerification\Facades\UserVerification;
 
 class RegisterController extends Controller
 {
@@ -26,14 +22,15 @@ class RegisterController extends Controller
     |
     */
 
-    use VerifiesUsers;
     use RegistersUsers;
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/login';
+    
+    protected $redirectPath = '/register/payment';
+    protected $redirectTo = '/register/payment';    
 
     /**
      * Create a new controller instance.
@@ -103,12 +100,9 @@ class RegisterController extends Controller
         'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
         'u_id' => $inserted->id,
       ]);        
-      event(new Registered($inserted));
-      //send(AuthenticatableContract $user, $subject, $from = null, $name = null)
-      UserVerification::generate($user);
-      UserVerification::send($user, 'Legalkeeper User Verification');
 
+      session(['u_i' => $inserted->id]);
       return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath())->with('status', 'Check your email for a link to verify your account!');
+                        ?: redirect($this->redirectPath());
     }
 }
