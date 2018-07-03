@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => env('APP_DOMAIN', 'https://legaleeze-codenerd33.codeanyapp.com/'),
+    'url' => env('APP_DOMAIN', 'http://lgk.rob'),
 
     /*
     |--------------------------------------------------------------------------
@@ -157,15 +157,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
-      
+
         /*
          * Roberto Added Service Providers
          */
-      
+
         Aloha\Twilio\Support\Laravel\ServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
-        Laravel\Cashier\CashierServiceProvider::class,  
+        Laravel\Cashier\CashierServiceProvider::class,
         //Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
@@ -177,8 +177,8 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
         Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,   
-        Lubusin\Decomposer\DecomposerServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        //Lubusin\Decomposer\DecomposerServiceProvider::class,
 
     ],
 
@@ -226,10 +226,10 @@ return [
       'View'      => Illuminate\Support\Facades\View::class,
       'auth.password.tokens' => Illuminate\Auth\Passwords\TokenRepositoryInterface::class,
       'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
-      'Notification' => Illuminate\Support\Facades\Notification::class,    
+      'Notification' => Illuminate\Support\Facades\Notification::class,
       'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
       'Form' => Collective\Html\FormFacade::class,
-      'Html' => Collective\Html\HtmlFacade::class,    
+      'Html' => Collective\Html\HtmlFacade::class,
       'Bitly' => Shivella\Bitly\Facade\Bitly::class,
       'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
       'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
@@ -238,7 +238,7 @@ return [
       'LaravelGmail' => Dacastro4\LaravelGmail\Facades\LaravelGmail::class,
       'Socialite' => Laravel\Socialite\Facades\Socialite::class,
       'Uuid' => Webpatser\Uuid\Uuid::class,
-      
+
     ],
 
 ];

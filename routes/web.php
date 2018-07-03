@@ -28,7 +28,7 @@ Route::get('/register/payment', [
     ]
 );
 
-Route::post('/register/payment', 
+Route::post('/register/payment',
   [
     'as' => 'addmoney.stripe',
     'uses' => 'Auth\StripeController@add_stripe_payment'
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['web']], function () {
         return App\Message::with('user')->get();
     });
 
-    
+
     Route::post('/messages', function () {
         // Store the new message
         $user = Auth::user();
@@ -88,12 +88,12 @@ Route::group(['middleware' => ['web']], function () {
       });
 
         Route::group(['prefix' => 'dashboard', 'middleware' => ['isVerified']], function () {
-          Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
+          //Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
           Route::get('/lock', 'Dashboard\DashboardController@lock');
           Route::post('/unlock', 'Dashboard\DashboardController@unlock');
-          
+
             Route::get('/', 'Dashboard\DashboardController@index');
-            Route::post('/', 'Auth\AuthController@create');
+            //Route::post('/', 'Auth\AuthController@create');
             Route::get('/profile', 'Dashboard\DashboardController@profile');
             Route::post('/profile-update', 'Dashboard\DashboardController@profile_update');
 
@@ -128,8 +128,8 @@ Route::group(['middleware' => ['web']], function () {
                 Route::post('/case/note/edit', 'Dashboard\CaseController@note_edit');
                 Route::post('/case/{id}/log-communication', 'Dashboard\CaseController@log_communication');
                 Route::post('/case/delete', 'Dashboard\CaseController@delete');
-                
-                
+
+
                 Route::get('/timers_cases', 'Dashboard\CaseController@timer_cases');
                 Route::get('/timers_cases/active', 'Dashboard\CaseController@timers_active');
                 Route::post('/case/{id}/timers', 'Dashboard\CaseController@timer_store');
@@ -147,7 +147,7 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
             Route::group(['prefix' => 'calendar'], function () {
                 Route::get('/', 'Dashboard\EventController@index');
                 Route::post('/drop-event', 'Dashboard\EventController@drop_event');
-                Route::post('/modify-event', 'Dashboard\EventController@modify_event');  
+                Route::post('/modify-event', 'Dashboard\EventController@modify_event');
                 Route::post('/extend-event', 'Dashboard\EventController@extend_event');
                 Route::get('/events', 'Dashboard\EventController@client_events');
                 Route::post('/event/add', 'Dashboard\EventController@add');
@@ -155,9 +155,9 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::post('/events/{id}/deny', 'Dashboard\EventController@deny_event');
                 Route::get('/events/denied', 'Dashboard\EventController@denied_events');
             });
-            
-            
-            
+
+
+
 
             Route::group(['prefix' => 'tasks'], function () {
                 Route::get('/', 'Dashboard\TaskController@index');
@@ -172,8 +172,8 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::post('/subtask/delete', 'Dashboard\TaskController@delete_subtask');
                 Route::post('/subtask/category/{id}/delete', 'Dashboard\TaskController@delete_category');
             });
-            
-            Route::group(['prefix' => 'mail'], function () { 
+
+            Route::group(['prefix' => 'mail'], function () {
               Route::get('/', 'Dashboard\MailController@index');
             });
 
@@ -186,14 +186,14 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::get('/delete/{name}', 'Dashboard\DocumentController@delete');
             });
 
-            
+
             Route::group(['prefix' => 'reports'], function () {
               Route::get('/', 'Dashboard\ReportController@index');
               Route::get('/cases', 'Dashboard\ReportController@cases');
               Route::get('/payments', 'Dashboard\ReportController@payments');
               Route::get('/hours', 'Dashboard\ReportController@hours');
             });
-            
+
 
             Route::get('/invoices', 'Dashboard\InvoiceController@index');
             Route::get('/invoices/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');
@@ -218,7 +218,7 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::get('/users', ['as' => 'users.index', 'uses' => 'Dashboard\SettingController@list_users']);
                 Route::get('/users/{id}/edit', 'Dashboard\SettingController@edit_user');
                 Route::post('/users/edit/{id}', ['as' => 'users.edit', 'uses' => 'Dashboard\SettingController@edit_user']);
-                Route::post('/users/destroy', ['as' => 'users.destroy', 'uses' => 'Dashbaord\SettingController@destroy_user']);
+                Route::post('/users/destroy', ['as' => 'users.destroy', 'uses' => 'Dashboard\SettingController@destroy_user']);
                 Route::get('/roles', ['as' => 'roles.index', 'uses' => 'Dashboard\SettingController@list_roles']);
                 Route::get('/roles/{id}/edit', 'Dashboard\SettingController@edit_role');
                 Route::post('/roles/{id}/edit', 'Dashboard\SettingController@update_role');
@@ -230,7 +230,7 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
                 Route::get('/permissions/create', ['as' => 'permissions.create', 'uses' => 'Dashboard\SettingController@create_permission']);
                 Route::post('/permissions/create', ['as' => 'permissions.create', 'uses' => 'Dashboard\SettingController@store_permission']);
             });
-            
+
             //ctf0\MediaManager\MediaRoutes::routes();
 
             Route::group(['prefix' => 'messages'], function () {
@@ -244,12 +244,12 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 
         });
 
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         $middleware = array_merge(\Config::get('lfm.middlewares'), [
             '\App\Http\Middleware\MultiUser',
             '\App\Http\Middleware\CreateDefaultFolder',
@@ -353,10 +353,10 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
             Route::get($files_url, 'RedirectController@getFile')
                 ->where('file_name', '.*');
         });
-        
-        
-        
-        
+
+
+
+
     });
 
 
@@ -364,3 +364,7 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 
 
 // MediaManager
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

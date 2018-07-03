@@ -29,10 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->environment('local', 'testing')) {
-            $this->app->register(DuskServiceProvider::class);
-        }
-      
+
        if(env('REDIRECT_HTTPS')) {
           $this->app['request']->server->set('HTTPS', true);
         }

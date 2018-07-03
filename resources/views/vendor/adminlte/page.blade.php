@@ -14,7 +14,7 @@
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 		<script src="{{ asset('js/timer.js') }}"></script>
@@ -59,7 +59,7 @@
                     </div>
                     <!-- /.navbar-collapse -->
             @else
-                  
+
             <!-- Logo -->
             <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -79,13 +79,13 @@
                 <div class="navbar-custom-menu">
 
                     <ul class="nav navbar-nav">
-                     
+
                         <li>
                           <a class="timer-create" href="#" data-target="#timer-modal" data-toggle="modal"><i class="fas fa-stopwatch"></i></a>
                         </li>
                                                @if(count($threads) > 0)
-   
-                        <li class="dropdown">                           
+
+                        <li class="dropdown">
                             <a id="dLabel" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                               <i class="fas fa-comments"></i>
                             </a>
@@ -102,17 +102,17 @@
                             </ul>
                         </li>
                          @endif
-    
+
                         <li>
                           <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
                         </li>
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
-                                    <i class="fas fa-sign-out-alt"></i> 
+                                    <i class="fas fa-sign-out-alt"></i>
                                 </a>
                             @else
-                                  
+
 
                                 <a href="#"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
@@ -126,7 +126,7 @@
                                     {{ csrf_field() }}
                                 </form>
                             @endif
-                        </li>                        
+                        </li>
                         <li>
                           <a data-toggle="control-sidebar"><i class="fas fa-cogs"></i></a>
                         </li>
@@ -146,7 +146,7 @@
             <section class="sidebar">
                  <!-- Sidebar user panel -->
                   <div class="user-panel">
-                    @if(Gravatar::exists($user->email))  
+                    @if(Gravatar::exists($user->email))
                       <div class="pull-left image">
                         <img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image">
                       </div>
@@ -203,10 +203,10 @@
 <!-- The Right Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
   <!-- Content of the sidebar goes here -->
-   
 
 
-  
+
+
   <div class="panel panel-primary" id="stripe-settings">
       <div class="panel-heading">
         <h2 style="margin-top:0;margin-bottom:0;">
@@ -214,12 +214,14 @@
         </h2>
      </div>
      <div class="panel-body">
+       @if(isset($fs))
 			 @if(count($fs) > 0)
 			 	<p>You have successfully authenticated Legalease and Stripe!  If you'd like to authenticate again, or are having issues with payments click the link below</p>
 			 @endif
+       @endif
 			 <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}" /></a>
      </div>
-  </div> 
+  </div>
 
 </aside>
 <!-- The sidebar's background -->
@@ -240,8 +242,8 @@
 	for(var i = 0; i<clients.length; i++){
 		clients[i].data = clients[i]['id'];
 		clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-	}  
-  
+	}
+
   $('input[name="client_name"]').autocomplete({
     lookup: clients,
 		width: 'flex',
@@ -252,22 +254,22 @@
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
+
     }
   });
-  
+
   @endif
   @endif
   @if(isset($contacts))
   @if(count($contacts) > 0)
-   var contacts = {!! json_encode($contacts->toArray()) !!};	
+   var contacts = {!! json_encode($contacts->toArray()) !!};
 
  	for(var i = 0; i<contacts.length; i++){
 		contacts[i].data = contacts[i]['id'];
 		contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-	}	 
- 
-	
+	}
+
+
  	$('input[name="contact_name"]').autocomplete({
     lookup: contacts,
 		width: 'flex',
@@ -278,14 +280,14 @@
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
+
     }
-		 
-  });	 
+
+  });
 	@endif
 	@endif
-  
-  
+
+
 
   @if(isset($cases))
 	  @if(count($cases) > 0)
@@ -294,8 +296,8 @@
 	for(var i = 0; i<cases.length; i++){
 		cases[i].data = cases[i]['id'];
 		cases[i].value = cases[i]['name'];
-	}  
-  
+	}
+
   $('input[name="case_name"]').autocomplete({
     lookup: cases,
 		width: 'flex',
@@ -306,10 +308,10 @@
 			var $this = $(this);
       $('#outputcontent').html(thehtml);
    		$this.prev().val(suggestion.data);
-			
+
     }
   });
-  
+
   arr = cases.concat(clients, contacts);
 
   $('input[name="relation"]').autocomplete({
@@ -325,12 +327,12 @@
       $this.prev().val(suggestion.data);
     }
   });
-  
-  
-  
+
+
+
   @endif
   @endif
-	
+
 </script>
 
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
@@ -352,17 +354,14 @@
 		<script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
 		<script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
 		<script src="https://www.datejs.com/build/date.js" type="text/javascript"></script>
-		<script src="{{ asset('js/tablesorter.js') }}"></script>	
+		<script src="{{ asset('js/tablesorter.js') }}"></script>
 		<script src="{{ asset('js/tagify.js') }}"></script>
   	<script src="{{ asset('js/match-height.js') }}"></script>
-    <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>   
-    <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>   
+    <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
+    <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
     <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
     <script src="{{ asset('js/dropzone.js') }}"></script>
 		<script src="{{ asset('js/scripts.js') }}"></script>
 		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     @yield('js')
 @stop
-                                  
-
-

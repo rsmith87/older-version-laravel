@@ -135,7 +135,7 @@ return [
     |
     */
 
-    'domain' => env('APP_DOMAIN', 'legaleeze-codenerd33.codeanyapp.com'),
+    'domain' => env('APP_DOMAIN', 'legalkeeper.rob'),
 
     /*
     |--------------------------------------------------------------------------

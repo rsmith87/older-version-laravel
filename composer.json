@@ -39,7 +39,6 @@
         "cmgmyr/messenger": "^2.15",
         "webpatser/laravel-uuid": "^3.0",
         "consoletvs/charts": "6.*",
-        "lubusin/laravel-decomposer": "^1.2",
         "league/flysystem": "^1.0",
         "league/flysystem-cached-adapter": "^1.0",
         "talvbansal/media-manager": "^2.5",
