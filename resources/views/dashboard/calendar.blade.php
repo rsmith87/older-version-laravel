@@ -18,7 +18,8 @@
 	</h1>
 
 	<div class="clearfix"></div>
-	<p class="ml-3 mb-2">Calendar shows all of your events.  Click on an event to edit or create an event above!</p>							
+	<p class="ml-3 mb-2">Calendar shows all of your events.  Create an customized event above or use some of the default events added.</p>		
+  <p>(Times for draggable events set to 1 hour)</p>					
 	@include('dashboard.includes.alerts')
 	@if (count($events) === 0)
 		<div class="alert alert-warning alert-dismissible fade in mt-3 mb-3" role="alert">

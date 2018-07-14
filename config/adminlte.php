@@ -168,12 +168,12 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
         ],
-        /*[
-            'text' => 'Reports',
+        [
+            'text' => 'Reports and analytics',
             'url'  => 'dashboard/reports',
             'icon' => 'chart-line'
             //'can'  => 'view-cases',
-        ],*/      
+        ],      
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',

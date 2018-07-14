@@ -166,8 +166,6 @@ class DashboardController extends Controller
     }
      $settings = Settings::where('user_id', \Auth::id())->update([
       'location' => $data['location'],
-      'experience' => $data['experience'],
-      'focus' => $data['skills'],
       'education' => $data['education'],
       'title' => $data['title'],
       'profile_image' => $filePath,
