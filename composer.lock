@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "603e5ea55d81df2f7084db5037de721c",
+    "content-hash": "3a60a6600a235db64fd7f910bb28e77a",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -123,16 +123,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.62.7",
+            "version": "3.62.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0935b8b9048c9ca803e8afd8aec8f38225f1de79"
+                "reference": "ae9574e690c48fb31846d3f20fc080f54e422cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0935b8b9048c9ca803e8afd8aec8f38225f1de79",
-                "reference": "0935b8b9048c9ca803e8afd8aec8f38225f1de79",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ae9574e690c48fb31846d3f20fc080f54e422cd6",
+                "reference": "ae9574e690c48fb31846d3f20fc080f54e422cd6",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-07-02T20:50:31+00:00"
+            "time": "2018-07-11T21:28:38+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -496,16 +496,16 @@
         },
         {
             "name": "ckeditor/ckeditor",
-            "version": "4.9.2",
+            "version": "4.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "993eb4fba6a70545f6c50da1988d39ecd9cf47a3"
+                "reference": "485918a01ecac5bd286f169e831eddcc895f5132"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/993eb4fba6a70545f6c50da1988d39ecd9cf47a3",
-                "reference": "993eb4fba6a70545f6c50da1988d39ecd9cf47a3",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/485918a01ecac5bd286f169e831eddcc895f5132",
+                "reference": "485918a01ecac5bd286f169e831eddcc895f5132",
                 "shasum": ""
             },
             "type": "library",
@@ -533,7 +533,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2018-04-18T09:04:40+00:00"
+            "time": "2018-07-03T13:41:31+00:00"
         },
         {
             "name": "cmgmyr/messenger",
@@ -2005,17 +2005,83 @@
             "time": "2018-05-22T05:59:20+00:00"
         },
         {
-            "name": "kris/laravel-form-builder",
-            "version": "1.14.0",
+            "name": "khill/lavacharts",
+            "version": "3.1.10",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kristijanhusak/laravel-form-builder.git",
-                "reference": "8d1c67102e20c485717823f1be02b4b2235d072f"
+                "url": "https://github.com/kevinkhill/lavacharts.git",
+                "reference": "e85244b0bb77b3467904d976844e2ae0b1e356ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kristijanhusak/laravel-form-builder/zipball/8d1c67102e20c485717823f1be02b4b2235d072f",
-                "reference": "8d1c67102e20c485717823f1be02b4b2235d072f",
+                "url": "https://api.github.com/repos/kevinkhill/lavacharts/zipball/e85244b0bb77b3467904d976844e2ae0b1e356ec",
+                "reference": "e85244b0bb77b3467904d976844e2ae0b1e356ec",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "~1.14",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "~0.3",
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.8",
+                "satooshi/php-coveralls": "~1.0",
+                "squizlabs/php_codesniffer": "~2.5"
+            },
+            "suggest": {
+                "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Khill\\Lavacharts\\Laravel\\LavachartsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Lava": "Khill\\Lavacharts\\Laravel\\LavachartsFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Khill\\Lavacharts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Hill",
+                    "email": "kevinkhill@gmail.com",
+                    "role": "Creator"
+                }
+            ],
+            "description": "PHP wrapper library for the Google Chart API",
+            "homepage": "http://lavacharts.com",
+            "keywords": [
+                "charts",
+                "google",
+                "graphs",
+                "laravel",
+                "symfony"
+            ],
+            "time": "2018-05-10T16:39:57+00:00"
+        },
+        {
+            "name": "kris/laravel-form-builder",
+            "version": "1.15.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kristijanhusak/laravel-form-builder.git",
+                "reference": "5bb1766e90151b67e8c0a07a3492781ed801caf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kristijanhusak/laravel-form-builder/zipball/5bb1766e90151b67e8c0a07a3492781ed801caf8",
+                "reference": "5bb1766e90151b67e8c0a07a3492781ed801caf8",
                 "shasum": ""
             },
             "require": {
@@ -2031,7 +2097,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12.x-dev"
+                    "dev-master": "1.16.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -2064,7 +2130,7 @@
                 }
             ],
             "description": "Laravel form builder - symfony like",
-            "time": "2017-12-17T16:41:18+00:00"
+            "time": "2018-07-11T10:44:40+00:00"
         },
         {
             "name": "laravel/cashier",
@@ -2133,16 +2199,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.26",
+            "version": "v5.6.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7047df295e77cecb6a2f84736a732af66cc6789c"
+                "reference": "2fe661f2444410a576aa40054ad9b7fe0bb5cee5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7047df295e77cecb6a2f84736a732af66cc6789c",
-                "reference": "7047df295e77cecb6a2f84736a732af66cc6789c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2fe661f2444410a576aa40054ad9b7fe0bb5cee5",
+                "reference": "2fe661f2444410a576aa40054ad9b7fe0bb5cee5",
                 "shasum": ""
             },
             "require": {
@@ -2268,20 +2334,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-06-20T14:21:11+00:00"
+            "time": "2018-07-10T13:47:01+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v6.0.3",
+            "version": "v6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "3abbbca3c58a1a07968bd94096a31891fdb48cad"
+                "reference": "0e961d99ed1717d39fb1ea99dc02a4226e9d8b5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/3abbbca3c58a1a07968bd94096a31891fdb48cad",
-                "reference": "3abbbca3c58a1a07968bd94096a31891fdb48cad",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/0e961d99ed1717d39fb1ea99dc02a4226e9d8b5c",
+                "reference": "0e961d99ed1717d39fb1ea99dc02a4226e9d8b5c",
                 "shasum": ""
             },
             "require": {
@@ -2337,7 +2403,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2018-06-20T14:33:24+00:00"
+            "time": "2018-07-11T13:22:38+00:00"
         },
         {
             "name": "laravel/scout",
@@ -2775,16 +2841,16 @@
         },
         {
             "name": "league/flysystem-cached-adapter",
-            "version": "1.0.7",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-cached-adapter.git",
-                "reference": "60d73d9157b86643551209351c4b8a8fcf5f6da0"
+                "reference": "08ef74e9be88100807a3b92cc9048a312bf01d6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/60d73d9157b86643551209351c4b8a8fcf5f6da0",
-                "reference": "60d73d9157b86643551209351c4b8a8fcf5f6da0",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/08ef74e9be88100807a3b92cc9048a312bf01d6f",
+                "reference": "08ef74e9be88100807a3b92cc9048a312bf01d6f",
                 "shasum": ""
             },
             "require": {
@@ -2818,7 +2884,7 @@
                 }
             ],
             "description": "An adapter decorator to enable meta-data caching.",
-            "time": "2018-06-05T18:59:20+00:00"
+            "time": "2018-07-09T20:51:04+00:00"
         },
         {
             "name": "league/glide",
@@ -3358,16 +3424,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.15",
+            "version": "v2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "10bcb46e8f3d365170f6de9d05245aa066b81f09"
+                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/10bcb46e8f3d365170f6de9d05245aa066b81f09",
-                "reference": "10bcb46e8f3d365170f6de9d05245aa066b81f09",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/29af24f25bab834fcbb38ad2a69fa93b867e070d",
+                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d",
                 "shasum": ""
             },
             "require": {
@@ -3403,7 +3469,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-06-08T15:26:40+00:00"
+            "time": "2018-07-04T16:31:37+00:00"
         },
         {
             "name": "pclzip/pclzip",
@@ -4080,16 +4146,16 @@
         },
         {
             "name": "pusher/pusher-php-server",
-            "version": "v3.0.4",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pusher/pusher-http-php.git",
-                "reference": "1496ef5ae12670ff8ffe83b9f47d1e4514608d9b"
+                "reference": "c13978f756ddd7871318e3a80559efc23218903b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/1496ef5ae12670ff8ffe83b9f47d1e4514608d9b",
-                "reference": "1496ef5ae12670ff8ffe83b9f47d1e4514608d9b",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/c13978f756ddd7871318e3a80559efc23218903b",
+                "reference": "c13978f756ddd7871318e3a80559efc23218903b",
                 "shasum": ""
             },
             "require": {
@@ -4129,7 +4195,7 @@
                 "rest",
                 "trigger"
             ],
-            "time": "2018-05-21T13:25:35+00:00"
+            "time": "2018-07-04T14:07:28+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -4873,16 +4939,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.1.0",
+            "version": "v6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "0ff595e1d9d7d1c929b2a5f7b774bbcfbbd81587"
+                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0ff595e1d9d7d1c929b2a5f7b774bbcfbbd81587",
-                "reference": "0ff595e1d9d7d1c929b2a5f7b774bbcfbbd81587",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
+                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
                 "shasum": ""
             },
             "require": {
@@ -4928,7 +4994,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2018-07-02T20:24:38+00:00"
+            "time": "2018-07-04T11:12:44+00:00"
         },
         {
             "name": "symfony/console",
@@ -6035,24 +6101,24 @@
         },
         {
             "name": "thiagoalessio/tesseract_ocr",
-            "version": "2.5.0",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thiagoalessio/tesseract-ocr-for-php.git",
-                "reference": "5c21a47d80cfe9792143567c3aaf13563c854b83"
+                "reference": "177d42dd78bda0137b65c2b70a25cd684cd65fa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thiagoalessio/tesseract-ocr-for-php/zipball/5c21a47d80cfe9792143567c3aaf13563c854b83",
-                "reference": "5c21a47d80cfe9792143567c3aaf13563c854b83",
+                "url": "https://api.github.com/repos/thiagoalessio/tesseract-ocr-for-php/zipball/177d42dd78bda0137b65c2b70a25cd684cd65fa3",
+                "reference": "177d42dd78bda0137b65c2b70a25cd684cd65fa3",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0"
+                "php": "^5.4 || ^7.0"
             },
             "require-dev": {
                 "codacy/coverage": "dev-master",
-                "phpunit/php-code-coverage": "^4.0.8"
+                "phpunit/php-code-coverage": "^2.2.4"
             },
             "type": "library",
             "autoload": {
@@ -6076,7 +6142,7 @@
                 "Tesseract",
                 "text recognition"
             ],
-            "time": "2018-07-01T20:05:38+00:00"
+            "time": "2018-07-07T14:18:34+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -6127,16 +6193,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.19.5",
+            "version": "5.19.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "165cecbe4f7ac910f016a3e42e5d324765913486"
+                "reference": "eca1d18e57d8331d6a7edb1cfabde96acd23ad8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/165cecbe4f7ac910f016a3e42e5d324765913486",
-                "reference": "165cecbe4f7ac910f016a3e42e5d324765913486",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/eca1d18e57d8331d6a7edb1cfabde96acd23ad8a",
+                "reference": "eca1d18e57d8331d6a7edb1cfabde96acd23ad8a",
                 "shasum": ""
             },
             "require": {
@@ -6169,20 +6235,20 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2018-06-22T00:21:39+00:00"
+            "time": "2018-07-11T22:21:31+00:00"
         },
         {
             "name": "unisharp/laravel-filemanager",
-            "version": "v1.8.5",
+            "version": "v1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UniSharp/laravel-filemanager.git",
-                "reference": "dc772d678b61eb4a056e470d27203ca017f82d19"
+                "reference": "aaf2764f26eb8dcc9356bea1e25010333c2e61f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/laravel-filemanager/zipball/dc772d678b61eb4a056e470d27203ca017f82d19",
-                "reference": "dc772d678b61eb4a056e470d27203ca017f82d19",
+                "url": "https://api.github.com/repos/UniSharp/laravel-filemanager/zipball/aaf2764f26eb8dcc9356bea1e25010333c2e61f4",
+                "reference": "aaf2764f26eb8dcc9356bea1e25010333c2e61f4",
                 "shasum": ""
             },
             "require": {
@@ -6243,7 +6309,7 @@
                 "tinymce",
                 "upload"
             ],
-            "time": "2018-06-28T04:56:53+00:00"
+            "time": "2018-07-05T11:36:08+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -6351,16 +6417,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "11c9c1835e60eef6f9234377a480fcec096ebd9e"
+                "reference": "63d920d1c9ebc009d860c3666593a66298727dd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/11c9c1835e60eef6f9234377a480fcec096ebd9e",
-                "reference": "11c9c1835e60eef6f9234377a480fcec096ebd9e",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/63d920d1c9ebc009d860c3666593a66298727dd6",
+                "reference": "63d920d1c9ebc009d860c3666593a66298727dd6",
                 "shasum": ""
             },
             "require": {
@@ -6410,7 +6476,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2018-06-27T18:52:43+00:00"
+            "time": "2018-07-09T21:17:27+00:00"
         },
         {
             "name": "zendframework/zend-escaper",
@@ -7647,16 +7713,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.8",
+            "version": "6.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4f21a3c6b97c42952fd5c2837bb354ec0199b97b"
+                "reference": "093ca5508174cd8ab8efe44fd1dde447adfdec8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4f21a3c6b97c42952fd5c2837bb354ec0199b97b",
-                "reference": "4f21a3c6b97c42952fd5c2837bb354ec0199b97b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/093ca5508174cd8ab8efe44fd1dde447adfdec8f",
+                "reference": "093ca5508174cd8ab8efe44fd1dde447adfdec8f",
                 "shasum": ""
             },
             "require": {
@@ -7727,7 +7793,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-04-10T11:38:34+00:00"
+            "time": "2018-07-03T06:40:40+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

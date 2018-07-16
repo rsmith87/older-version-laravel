@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use App\Charts\ByMonth;
 use App\Thread;
 
+
+
 class ReportController extends Controller
 {
   /**
@@ -44,6 +46,7 @@ class ReportController extends Controller
 
     print_r($clients);
     //->whereDate('created_at', '<=', Carbon::today()->toDateString())
+    $lava = \Lava::
    
     $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '<=', Carbon::now()->subMonth())->get();
     $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
@@ -82,6 +85,22 @@ class ReportController extends Controller
   public function cases()
   {
     $cases = LawCase::where(['u_id' => $this->user['id'], 'firm_id' => $this->settings->firm_id])->get();
+    
+    $stocksTable = \Lava::DataTable();  // Lava::DataTable() if using Laravel
+
+    $stocksTable->addDateColumn('Day of Month')
+                ->addNumberColumn('Projected')
+                ->addNumberColumn('Official');
+
+    // Random Data For Example
+    for ($a = 1; $a < 30; $a++) {
+        $stocksTable->addRow([
+          '2015-10-' . $a, rand(800,1000), rand(800,1000)
+        ]);
+    }
+
+
+
     
   }
 }

@@ -33,7 +33,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <p v-else>Nothing has been recorded for "{{ project.name }}". Click the play icon to record.</p>
+                        <p v-else>No time has been recorded for "{{ project.name }}".</p>
                     </div>
                 </div>
                 <!-- Create Timer Modal -->

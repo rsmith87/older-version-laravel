@@ -48,7 +48,8 @@
         "intervention/image": "^2.4",
         "unisharp/laravel-filemanager": "~1.8",
         "mercuryseries/flashy": "^1.0",
-        "kris/laravel-form-builder": "^1.14"
+        "kris/laravel-form-builder": "^1.14",
+        "khill/lavacharts": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
