@@ -11,7 +11,7 @@ class LawCase extends Model
 {
     use Searchable, SoftDeletes;
   
-    protected $table = 'case';
+    protected $table = 'lawcase';
     
     /**
      * The attributes that should be mutated to dates.
@@ -23,7 +23,8 @@ class LawCase extends Model
     protected $fillable = [
         'id',
         'case_uuid',
-        'status', 
+        'status',
+        'type',
         'number',  
         'name', 
         'description', 

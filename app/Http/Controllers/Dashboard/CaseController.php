@@ -44,6 +44,7 @@ class CaseController extends Controller
       $this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
       $this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
       $this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
+      $this->case_types = ['choose..' , 'personal_injury', 'estate_and_probate'];
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
       $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
       
@@ -85,6 +86,7 @@ class CaseController extends Controller
       'firm_id' => $this->settings->firm_id,
       'theme' => $this->settings->theme,
       'status_values' => $this->status_values,
+      'case_types' => $this->case_types,
       'all_case_data' => $all_case_data,
       'table_color' => $this->settings->table_color,
       'table_size' => $this->settings->table_size,
@@ -193,7 +195,7 @@ class CaseController extends Controller
       $id = $data['id'];
       $check = 1;
     } else {
-      $id = \DB::table('case')->max('id') + 1;
+      $id = \DB::table('lawcase')->max('id') + 1;
       $check = 0;
     }
     
@@ -215,6 +217,7 @@ class CaseController extends Controller
     ],
     [
       'status' => $data['status'], 
+      'type' => $data['type'],
       'number' => $data['case_number'],
       'name' => $data['name'],
       'description' => $data['description'],
@@ -282,7 +285,7 @@ class CaseController extends Controller
     return Timer::where('user_id', \Auth::id())->with('lawcase')->running()->first() ?? [];
   }
   
-  public function case($id, Request $request)
+  public function lawcase($id, Request $request)
   {
     $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
     if(count($requested_case) === 0){
@@ -328,6 +331,7 @@ class CaseController extends Controller
       'hours_worked' => $hours_amount,
       'order' => $order,
       'status_values' => $this->status_values,
+      'case_types' => $this->case_types,        
       'invoice_amount' =>$invoice_amount, 
 
       'documents' => $documents,

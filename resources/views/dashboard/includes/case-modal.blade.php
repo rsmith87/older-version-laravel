@@ -18,11 +18,13 @@
 			        @endforeach 
 						</select>
 					</div>       
-        
-					<div class="col-sm-6 col-xs-12">
-						<label>Case Number</label>
-						<input type="text" class="form-control" id="case_number" name="case_number" aria-label="Case Number">
-					</div>
+ 					<div class="col-sm-6 col-xs-12">
+						<label>Case Type</label>
+						<select class="form-control" id="inputGroupSelect01" name="type" aria-label="Status" aria-describedby="inputGroup-sizing-sm">
+			        @foreach($case_types as $t)
+         	      <option value={{ $t }}>{{ str_replace('_', ' ', ucwords($t)) }}</option>
+			        @endforeach 
+						</select>					</div>       
 					<div class="col-sm-12 col-xs-12">
 						<label>Name</label>
 						<input type="text" class="form-control" id="name" name="name" aria-label="Name">
@@ -31,6 +33,10 @@
 						<label>Description</label>
 						<textarea class="form-control" aria-label="Description" name="description" id="description"></textarea>
 					</div>
+					<div class="col-sm-6 col-xs-12">
+						<label>Case Number</label>
+						<input type="text" class="form-control" id="case_number" name="case_number" aria-label="Case Number">
+					</div>                                        
 					<div class="col-sm-6 col-xs-12">
 						<label>Court name</label>
 						<input type="text" class="form-control" id="court_name" name="court_name" aria-label="Court name">

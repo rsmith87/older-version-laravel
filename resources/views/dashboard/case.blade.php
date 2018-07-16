@@ -44,6 +44,8 @@
 			<div class="col-sm-6 col-12">
 				<label>Status</label>
 				<p>{{ ucfirst($case->status) }}</p>
+                                <label>Type</label>
+				<p>{{ str_replace('_', ' ', ucfirst($case->type)) }}</p>
 				<label>Name</label>
 				<p>{{ $case->name }}</p>
 				<label>Case number</label>
@@ -418,14 +420,22 @@
 			        @endforeach 
             </select>
          
-          </div>       
+          </div>
+          <div class="col-sm-6 col-xs-12">
+            
+ 
+       
+          <label for="inputGroupSelect01">Type</label>
+         
+            <select class="form-control" name="type" id="inputGroupSelect01" aria-label="Type" aria-describedby="inputGroup-sizing-sm">
+			        @foreach($case_types as $t)
+         	      <option value="{{ $t }}" {{ $t == $case->type ? "selected='selected'" : '' }}>{{ str_replace('_', ' ', ucwords($t)) }}</option>
+			        @endforeach 
+            </select>
+         
+          </div>           
            
-           <div class="col-sm-6 col-xs-12">
-             
-               
-                 <label>Case Number</label>
-               <input type="text" class="form-control" id="case_number" value="{{ $case->number }}" name="case_number" aria-label="Case Number">
-           </div>
+
            <div class="col-sm-12 col-xs-12">
              
                
@@ -438,6 +448,12 @@
                  <label>Description</label>
                <textarea class="form-control" aria-label="Description" name="description" id="description">{{ $case->description }}</textarea>
            </div>
+           <div class="col-sm-6 col-xs-12">
+             
+               
+                 <label>Case Number</label>
+               <input type="text" class="form-control" id="case_number" value="{{ $case->number }}" name="case_number" aria-label="Case Number">
+           </div>          
            <div class="col-sm-6 col-xs-12">
              
                

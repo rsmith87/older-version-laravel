@@ -12,10 +12,11 @@ class CreateCaseTable extends Migration
      */
     public function up()
     {
-      Schema::create('case', function (Blueprint $table) {
+      Schema::create('lawcase', function (Blueprint $table) {
         $table->increments('id');
         $table->uuid('case_uuid');        
-        $table->text('status');        
+        $table->text('status');  
+        $table->text('type');
         $table->longText('number');
         $table->longText('name');
         $table->longText('description');        
