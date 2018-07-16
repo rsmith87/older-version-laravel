@@ -20,11 +20,11 @@
      </div>
      <div class="panel-body">
         <div class="col-sm-12 col-12">
-           {!! \Lava::render('LineChart', 'MyCases', 'cases-chart') !!}
+           {!! \Lava::render('BarChart', 'MyCases', 'cases-chart') !!}
            <div id="cases-chart"></div>
        </div>
        <div class="col-sm-12 col-12">
-        <table class="table table-responsive table-resposive table-striped table-{{ $table_color }} table-{{ $table_size }}">
+        <table class="table table-responsive table-resposive table-striped">
             <thead>
                 <tr>           
                     <th scope="col">Name</th>
