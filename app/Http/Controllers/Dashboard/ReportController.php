@@ -100,8 +100,8 @@ class ReportController extends Controller
     }
 
 
-    $chart = \Lava::LineChart('MyStocks', $stocksTable);
-    echo \Lava::render('LineChart', 'MyStocks', 'stocks-chart');
+    $chart = \Lava::LineChart('MyCases', $stocksTable);
+    
     return view('dashboard/reports/cases', [
       'cases' => $cases,
       'user' => $this->user, 
