@@ -44,9 +44,9 @@ class ReportController extends Controller
     
     $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
 
-    print_r($clients);
+    //print_r($clients);
     //->whereDate('created_at', '<=', Carbon::today()->toDateString())
-    $lava = \Lava::
+    //$lava = \Lava::
    
     $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '<=', Carbon::now()->subMonth())->get();
     $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
@@ -68,7 +68,7 @@ class ReportController extends Controller
     
     
     
-    return view('dashboard/reports', [
+    return view('dashboard/reports/clients', [
       'clients' => $clients,
       'user' => $this->user, 
       'firm_id' => $this->settings->firm_id, 
@@ -100,7 +100,19 @@ class ReportController extends Controller
     }
 
 
-
-    
+    $chart = \Lava::LineChart('MyStocks', $stocksTable);
+    echo \Lava::render('LineChart', 'MyStocks', 'stocks-chart');
+    return view('dashboard/reports/cases', [
+      'cases' => $cases,
+      'user' => $this->user, 
+      'firm_id' => $this->settings->firm_id, 
+      'theme' => $this->settings->theme, 
+      'table_color' => $this->settings->table_color, 
+      'table_size' => $this->settings->table_size,
+      'settings' => $this->settings,
+      'fs' => $this->firm_stripe,
+      'chart' => $chart,
+      'threads' => $this->threads,
+    ]);
   }
 }

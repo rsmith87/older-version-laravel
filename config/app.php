@@ -179,6 +179,8 @@ return [
         Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         //Lubusin\Decomposer\DecomposerServiceProvider::class,
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+
 
     ],
 
@@ -238,6 +240,8 @@ return [
       'LaravelGmail' => Dacastro4\LaravelGmail\Facades\LaravelGmail::class,
       'Socialite' => Laravel\Socialite\Facades\Socialite::class,
       'Uuid' => Webpatser\Uuid\Uuid::class,
+      'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+
 
     ],
 
