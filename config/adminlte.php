@@ -156,7 +156,7 @@ return [
         ],*/
         [
             'text'        => 'Tasks',
-            'url'         => 'dashboard/tasks',
+            'url'         => 'dashboard/tasklists',
             'icon'        => 'clipboard-list',
             //'label'       => 4,
             //'label_color' => 'success',

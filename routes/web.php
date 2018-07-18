@@ -155,7 +155,7 @@ Route::group(['middleware' => ['web']], function () {
 		});
 
 
-		Route::group(['prefix' => 'tasks'], function () {
+		Route::group(['prefix' => 'tasklists'], function () {
 			Route::get('/', 'Dashboard\TaskController@index');
 			Route::post('/add', 'Dashboard\TaskController@add_tasklist');
 			Route::post('/task/add', 'Dashboard\TaskController@add_task');

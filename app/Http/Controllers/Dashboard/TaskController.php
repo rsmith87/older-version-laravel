@@ -11,7 +11,6 @@ use App\LawCase;
 use App\Contact;
 use App\Category;
 use App\Settings;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
 use App\FirmStripe;
@@ -55,7 +54,7 @@ class TaskController extends Controller
 		//$subtasks = Subtask::where('user_id', $this->user['id'])->get();
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
 		$contacts = Contact::where('firm_id', $this->settings->firm_id)->select('id', 'first_name', 'last_name')->get();
-		return view('dashboard/tasks', [
+		return view('dashboard/tasklists', [
 			'tasks'=> $tasks, 
 			//'subtasks' => $subtasks,
 			'user' => $this->user, 

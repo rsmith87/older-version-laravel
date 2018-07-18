@@ -73,8 +73,10 @@
           <div class="{{ null === Request::segment(3) ? 'd-none' : ''  }}">
             
           <label class="ml-3"><i class="fas fa-tags"></i> Categories</label>         
-          <div class="col-sm-12 category-tags">
-           <input name='tags' class="form-field-hide" placeholder='Enter some tags'>
+          <div class="col-sm-12 tasklist-categories">
+            <select class="js-category-tasklist" name="categories[]" multiple="multiple">
+
+            </select>
           </div>
          
           </div>

@@ -272,15 +272,12 @@ table#main tr:active {
 .dashboard.task .modal label {
   margin-top: 1em;
 }
-
 .dashboard.task .category-tags div {
-    display: none;
+  display: none;
 }
-
 .dashboard.task .category-tags div input {
-    display: none;
+  display: none;
 }
-
 .dashboard.task .category-tags div span {
   display: none;
 }
@@ -1097,16 +1094,19 @@ iframe .phpdebugbar {
   height: auto;
   border-radius: 0;
 }
-
 #task-modal .category-tags div {
-    display: none;
+  display: none;
 }
-
 #task-modal .category-tags div input {
-    display: none;
+  display: none;
 }
-
 #task-modal .category-tags div span {
-    display: none;
+  display: none;
+}
+#task-modal .select2-container {
+  width: 100% !important;
+}
+#task-modal .select2-container--default .select2-selection--multiple .select2-selection__choice {
+  color: #333;
 }
 /*# sourceMappingURL=app.css.map */

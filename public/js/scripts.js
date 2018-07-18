@@ -9,6 +9,9 @@ $(function($){
     }
   });
 
+  $('.js-category-tasklist').select2({
+	tags: true,
+  });
   
   $('.download').click(function(e){
     e.preventDefault();
