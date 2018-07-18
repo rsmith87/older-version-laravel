@@ -25,7 +25,6 @@
 				
 			</div>
 		
-     @if(count($tasks) > 0)
      <div>
   		@if (count($tasks) === 0)
 				<div class="alert alert-warning alert-dismissible fade in" role="alert">
@@ -34,7 +33,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 				</div>
-			@endif     
+	    @endif
 <div class="box box-primary">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
 
@@ -52,7 +51,7 @@
 				<h5>Tags</h5>
 			  <select class="js-category-tasklist" name="categories[]" multiple="multiple">
 				@foreach($tags as $c)
-				  <option value="name" selected="selected">{{ $c->name }}</option>
+				  <option value="name" selected="selected">{{ $c[0]->name }}</option>
 				@endforeach
 			  </select>
 			  </div>
@@ -135,7 +134,6 @@
               @endforeach
           </ul>           
               
-			@endif
               </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix no-border">

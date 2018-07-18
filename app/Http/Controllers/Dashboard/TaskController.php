@@ -79,7 +79,10 @@ class TaskController extends Controller
     $tasks = [];
     $cases = [];
 		$task_list = TaskList::where(['task_list_uuid' => $id])->first();
-		$tl_categories = \DB::table('task_categories')->where('id', $task_list->id)->get();
+		$cat_task_link = \DB::table('category_task_link')->where('task_id', $task_list->id)->get();
+		foreach($cat_task_link as $link){
+			$tl_categories[] = \DB::table('task_categories')->where('id', $link->category_id)->get();
+		}
 		//dd($task_list);
     //print_r($task_list);
     if(count($task_list) > 0){
@@ -103,7 +106,7 @@ class TaskController extends Controller
     	return view('dashboard/single_tasklist', [
 				'tasks' => !empty($tasks) ? $tasks : [],
         'task_list' => $task_list,
-				'tags' => $exis_cat,
+				'tags' => $tl_categories,
 				'values' => $values,
 				'count' => $count,
 				'user' => $this->user, 
