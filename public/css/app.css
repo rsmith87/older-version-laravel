@@ -272,7 +272,16 @@ table#main tr:active {
 .dashboard.task .modal label {
   margin-top: 1em;
 }
-.dashboard.task .category-tags .form-field-hide {
+
+.dashboard.task .category-tags div {
+    display: none;
+}
+
+.dashboard.task .category-tags div input {
+    display: none;
+}
+
+.dashboard.task .category-tags div span {
   display: none;
 }
 .modal .col-sm-6,
@@ -1087,5 +1096,17 @@ iframe .phpdebugbar {
 .modal-content {
   height: auto;
   border-radius: 0;
+}
+
+#task-modal .category-tags div {
+    display: none;
+}
+
+#task-modal .category-tags div input {
+    display: none;
+}
+
+#task-modal .category-tags div span {
+    display: none;
 }
 /*# sourceMappingURL=app.css.map */

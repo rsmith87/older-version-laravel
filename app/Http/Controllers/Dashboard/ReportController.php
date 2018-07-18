@@ -44,22 +44,34 @@ class ReportController extends Controller {
     //->whereDate('created_at', '<=', Carbon::today()->toDateString())
     //$lava = \Lava::
 
-    $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '<=', Carbon::now()->subMonth())->get();
-    $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_mar = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_apr = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_may = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_jun = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_jul = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_aug = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_sep = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_oct = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_nov = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
-    $clients_dec = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->where('created_at', '>=', Carbon::now()->subMonth())->get();
+	  $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_mar = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_apr = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_may = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_jun = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_jul = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_aug = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_sep = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_oct = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_nov = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+	  $clients_dec = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
 
     $chart = new ByMonth;
-    $chart->dataset('Clients', 'bar', [count($clients_jan), $clients_feb, $clients_mar, $clients_apr, $clients_may, $clients_jun, $clients_jul,
-        $clients_aug, $clients_sep, $clients_oct, $clients_nov, $clients_dec]);
+	  $chart->dataset('Clients', 'bar', [
+		  count($clients_jan),
+		  count($clients_feb),
+		  count($clients_mar),
+		  count($clients_apr),
+		  count($clients_may),
+		  count($clients_jun),
+		  count($clients_jul),
+		  count($clients_aug),
+		  count($clients_sep),
+		  count($clients_oct),
+		  count($clients_nov),
+		  count($clients_dec),
+	  ]);
 
 
 
@@ -121,5 +133,45 @@ class ReportController extends Controller {
         'threads' => $this->threads,
     ]);
   }
+
+	public function dashboard(Request $request)
+	{
+		$datatable = \Lava::DataTable();
+		$datatable->addStringColumn('Name');
+		$datatable->addNumberColumn('Donuts Eaten');
+		$datatable->addRows([
+			['Michael', 5],
+			['Elisa', 7],
+			['Robert', 3],
+			['John', 2],
+			['Jessica', 6],
+			['Aaron', 1],
+			['Margareth', 8],
+		]);
+		$pieChart = \Lava::PieChart('Donuts', $datatable, [
+			'width' => 400,
+			'pieSliceText' => 'value',
+		]);
+		$filter = \Lava::NumberRangeFilter(1, [
+			'ui' => [
+				'labelStacking' => 'vertical',
+			],
+		]);
+		$control = \Lava::ControlWrapper($filter, 'control');
+		$chart = \Lava::ChartWrapper($pieChart, 'chart');
+		\Lava::Dashboard('Donuts')->bind($control, $chart);
+		return view('dashboard/reports/cases', [
+			'cases' => $cases,
+			'user' => $this->user,
+			'firm_id' => $this->settings->firm_id,
+			'settings' => $this->settings,
+			'fs' => $this->firm_stripe,
+			'chart' => $chart,
+			'threads' => $this->threads,
+			'control' => $control,
+			'chart' => $chart,
+			'piechart' => $piechart,
+		]);
+	}
 
 }

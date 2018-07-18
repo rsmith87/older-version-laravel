@@ -26,7 +26,6 @@ body {
 
 }
 
-
 .main-header .sidebar-toggle:before{
   content:"";
 }
@@ -334,8 +333,14 @@ table{
     }
     
 		.category-tags{
-			.form-field-hide{
-				display:none;
+          div {
+            display: none;
+            input {
+              display: none;
+            }
+            span {
+              display: none;
+            }
 			}
 		}
 	}
@@ -1308,4 +1313,18 @@ iframe .phpdebugbar{
 .modal-content {
   height: auto;
   border-radius: 0;
+}
+
+#task-modal {
+  .category-tags {
+    div {
+      display: none;
+      input {
+        display: none;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
 }
