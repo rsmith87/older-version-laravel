@@ -33,7 +33,7 @@
             <label><i class="fas fa-clock"></i> Due time</label>
             <input type="text" class="form-control timepicker-start" id="due_time" name="due_time" aria-label="Time due">
           </div>          
-          
+          @if(null !== Request::segment(3))
             @hasanyrole('authenticated_user|administrator')
               @if(count($cases) > 0)  
                 <div class="col-sm-6 col-12">
@@ -65,7 +65,7 @@
                 </div>
               @endif
 					  @endhasanyrole     
-          
+          @endif
           <div class="clearfix"></div>
           <hr class="{{ null === Request::segment(3) ? 'd-none' : ''  }}" />
           

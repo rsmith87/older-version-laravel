@@ -15,7 +15,7 @@ class TaskList extends Model
       'id', 
       'task_list_uuid',
       'task_list_name',
-	    'description',
+	    'task_list_description',
       'user_id',
       'f_id', 
       'contact_client_id', 

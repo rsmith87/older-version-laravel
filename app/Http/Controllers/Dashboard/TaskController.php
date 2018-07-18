@@ -79,6 +79,8 @@ class TaskController extends Controller
     $tasks = [];
     $cases = [];
 		$task_list = TaskList::where(['task_list_uuid' => $id])->first();
+		$tl_categories = \DB::table('task_categories')->where('id', $task_list->id)->get();
+		//dd($task_list);
     //print_r($task_list);
     if(count($task_list) > 0){
       $tasks = Task::where('task_list_uuid', $id)->with('subtasks')->with('categories')->get();
@@ -234,6 +236,7 @@ class TaskController extends Controller
       'task_list_uuid' => Uuid::generate()->string,
 			'user_id' => $this->user->id,
 			'task_list_name' => $data['task_name'],
+			'task_list_description' => $data['task_description'],
 			'f_id' => $this->settings->firm_id,
 			'c_id' => isset($data['case_id']) ? $data['case_id'] : "",
 			'contact_client_id' => isset($data['contact_id']) ? $data['contact_id'] : "",

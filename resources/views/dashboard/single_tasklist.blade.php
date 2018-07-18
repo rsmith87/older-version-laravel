@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="container dashboard task col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
        <a class="nav-item nav-link btn btn-info" href="/dashboard/tasklists"><i class="fas fa-arrow-left"></i> Back to tasklists</a>
@@ -36,10 +37,25 @@
 			@endif     
 <div class="box box-primary">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
-              <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">{{ $task_list->task_list_name }}</h3>
 
+			  <div class="col-sm-6 col-xs-12">
+			  <h5>Description</h5>
+			  <p>{{ $task_list->task_list_description }}</p>
+			  </div>
+			  <div class="col-sm-6 col-xs-12">
+				<h5>Due date</h5>
+				<p>{{ $task_list->due }}</p>
+			  </div>
+
+			  <div class="col-xs-12">
+				<h5>Tags</h5>
+			  <select class="js-category-tasklist" name="categories[]" multiple="multiple">
+				@foreach($tags as $c)
+				  <option value="name" selected="selected">{{ $c->name }}</option>
+				@endforeach
+			  </select>
+			  </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -47,7 +63,7 @@
               <ul class="todo-list ui-sortable" data-widget="todo-list">
            @foreach ($tasks as $task)
             @if($task->complete != null)
-                <li class="done">
+                <li class="strikethrough">
             @else
                 <li>
             @endif
@@ -123,7 +139,7 @@
               </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#task-modal"><i class="fa fa-plus"></i> Add item</button>
+              <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#task-modal"><i class="fa fa-plus"></i> Add task</button>
             </div>
           </div>
 	</div>
@@ -263,7 +279,10 @@
    
 
 @endforeach
-
+<script type="text/javascript">
+  var categories = {!! json_encode($tags) !!}
+  console.log(categories);
+</script>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script type="text/javascript">
   @if(count($tasks) > 0)
