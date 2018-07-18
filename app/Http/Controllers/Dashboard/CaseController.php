@@ -401,172 +401,81 @@ class CaseController extends Controller
     $invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
     $task_lists = TaskList::where('c_id', $id)->with('task')->get();
 
+    //init timeline data = cant have a case timeline without a case so it has to have this to be made
     $timeline_data[0]['date'] = $requested_case->created_at;
-
-    $created_time = $requested_case->created_at;
-    $case_created_time = $created_time->toDateTimeString();
-    $case_added_hour = $requested_case->created_at->addHour();
-
-
+    $timeline_data[0]['headline'] = $requested_case->name;
+    $timeline_data[0]['type'] = 'lawcase';
 
 
     if(count($clients) > 0){
       $contact_created_time = $clients->created_at;
-      $contact_added_hour = $clients->created_at->addHour();
-
       array_push($timeline_data,  [
-        'startDate' => $contact_created_time,
-        'endDate' => $contact_added_hour,
+        'date' => $contact_created_time,
         'headline' => 'Added ' . $clients->first_name . " " . $clients->last_name . ' as client.',
-        'text' => 'Client added!',
-        'tag' => '',
-        'classname' => '',
-        'asset' => [
-          'media' =>  '/img/clients-background.png',
-          'credit' => '',
-          'caption' => '',
-        ]
+        'type' => 'client',
       ]);
     }
 
     if(count($case_hours) > 0){
-
       foreach($case_hours as $case_hour){
-
         $task_created_time = $case_hour->created_at;
-        $task_added_hour = Carbon::parse($case_hour->created_at)->addHour();
-
         array_push($timeline_data, [
-          'startDate' => $task_created_time,
-          'endDate' => $task_added_hour,
+          'date' => $task_created_time,
           'headline' => 'Worked '. $case_hour->hours . ' hours on case.',
-          'text' => $case_hour->hours . ' hours worked.',
-          'tag' => '',
-          'classname' => '',
-          'asset' => [
-            'media' => '/img/logo-long-black.png',
-            'credit' => '',
-            'caption' => 'You added a task to this case.',
-          ]
+          'type' => 'hours',
         ]);
-
-
-
-
-
       }
     }
-
 
 
     if(count($task_lists) > 0){
-
       foreach($task_lists as $task_list){
-
       foreach($task_list->Task as $task){
         $task_created_time = $task->due;
-        $task_added_hour = Carbon::parse($task->due)->addHour();
-
         array_push($timeline_data, [
-          'startDate' => $task_created_time,
-          'endDate' => $task_added_hour,
+          'date' => $task_created_time,
           'headline' => 'Added ' . $task->task_name . ' as task.',
-          'text' => $task->task_description,
-          'tag' => '',
-          'classname' => '',
-          'asset' => [
-            'media' =>  '/img/logo-long-black.png',
-            'credit' => '',
-            'caption' => 'You added a task to this case.',
-          ]
+          'type' => 'tasklist',
         ]);
-
         }
+      }
     }
 
-
-
-      }
-
-
-       //print_r(count($timeline_data['timeline']['date']));
     if(count($invoices) > 0){
       foreach($invoices as $invoice){
-
         array_push($timeline_data, [
-          'startDate' =>  $invoice->created_at,
-          'endDate' => $invoice->created_at,
+          'date' =>  $invoice->created_at,
           'headline' => 'Sent ' . $invoice->receiver_info . ' an invoice in the amount of $'. $invoice->total .'.',
-          'text' => 'Invoice created for '. $invoice->receiver_info .'!',
-          'tag' => '',
-          'classname' => '',
-          'asset' => [
-            'media' =>  '/img/logo-long-black.png',
-            'credit' => '',
-            'caption' => '',
-          ]
+          'type' => 'invoice',
         ]);
-
-
-
       }
     }
-
 
     if(count($documents) > 0){
-
       foreach($documents as $document){
-
         $document_created_time = $document->created_at;
-
         array_push($timeline_data, [
-          'startDate' => $document_created_time,
-          'endDate' => $document_created_time,
+          'date' => $document_created_time,
           'headline' => 'Added ' . $document->name . ' document.',
-          'text' => 'Document added!',
-          'tag' => '',
-          'classname' => '',
-          'asset' => [
-            'media' => 'https://s3.amazonaws.com/legaleeze'.$document->path,
-            'credit' => '',
-            'caption' => '',
-          ]
+          'type' => 'document',
         ]);
-
-
       }
     }
-
-
 
     if(count($contacts) > 0){
       foreach($contacts as $contact){
-
-        // print_r($i);
-        $contact_created_time = $contact->created_at;
-        $contact_added_hour = $contact->created_at;
-
+      	$contact_created_time = $contact->created_at;
         array_push($timeline_data, [
-          'startDate' => $contact_created_time,
-          'endDate' => $contact_added_hour,
+          'date' => $contact_created_time,
           'headline' => 'Added ' . $contact->first_name . " " . $contact->last_name . ' as contact.',
-          'text' => 'Contact added!',
-          'tag' => '',
-          'classname' => '',
-          'asset' => [
-            'media' =>  '/img/contacts-background.png',
-            'credit' => '',
-            'caption' => '',
-          ]
+          'type' => 'contact',
         ]);
       }
     }
 
 
-
-
-
-   // print_r($invoices);
+	//complete: need to get all of the timeline data and order it by date
+	  usort($timeline_data, array($this,'date_sort'));
 
     $invoices = Invoice::where('invoicable_id', $id)->get();
 
@@ -657,4 +566,8 @@ class CaseController extends Controller
     $javascript_needed_time = str_replace(' ', ',', $javascript_needed_time);
     return $javascript_needed_time;
   }
+
+	private static function date_sort($a, $b) {
+		return strtotime($a['date']) - strtotime($b['date']);
+	}
 }

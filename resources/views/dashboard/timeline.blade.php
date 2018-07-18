@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container dashboard case col-sm-10 col-12 offset-sm-2">
+<div class="container dashboard case col-sm-12 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-arrow-left"></i> Back to cases</a>  
 		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-balance-scale"></i> Edit case</a>
@@ -30,9 +30,7 @@
 				<i class="fas fa-balance-scale"></i> Case timeline
 			</h1>
 			<div class="clearfix"></div>
-			<p class="ml-3 mb-4">
-				Case timeline for {{ $case->name }}
-			</p>							
+
 			@include('dashboard.includes.alerts')
 		</div>
 		<div class="panel-body">
@@ -46,69 +44,66 @@
 						<ul class="timeline">
 						  <!-- timeline time label -->
 						  <li class="time-label">
-                  <span class="bg-red">
-                    10 Feb. 2014
+							@foreach($timeline_data as $td)
+
+							@if($td['type'] === 'lawcase')
+							  <li class="time-label">
+
+							<span class="bg-blue">
+                     {{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
                   </span>
-							@foreach($timeline_data as $key=>$value)
-							{{ $key[$value] }}
+							  </li>
+							  <!-- timeline item -->
+							  <li>
+							<i class="fas fa-gavel bg-blue"></i>
+							@elseif($td['type'] === 'hours')
+							  <li class="time-label">
+
+							<span class="bg-blue">
+                     {{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
+                  </span>
+							  </li>
+							  <!-- timeline item -->
+							  <li>
+							  <i class="fas fa-clock bg-green"></i>
+							  @elseif($td['type'] === 'tasklist')
+							  <i class="fas fa-list-alt bg-yellow"></i>
+
+							  @elseif($td['type'] === 'invoice')
+							  <i class="fas fa-file-pdf-o bg-red"></i>
+
+							  @elseif($td['type'] === 'document')
+							  <i class="fas fa-file bg-purple"></i>
+
+							  @elseif($td['type'] === 'contact')
+							  <i class="fas fa-user bg-black"></i>
+
+							  @elseif($td['type'] === 'client')
+							  <i class="fas fa-user bg-gray"></i>
+
+							  @elseif($td['type'] === 'message')
+							  <i class="fas fa-envelope bg-orange"></i>
+
+							@endif
+							  <div class="timeline-item">
+							  <span class="time"><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($td['date'])->format('m/d/Y H:i') }}</span>
+
+							  <h3 class="timeline-header">{{ $td['headline'] }}</h3>
+							  <div class="timeline-body">
+								Case created for {{ $td['headline'] }}
+							  </div>
+							  <div class="timeline-footer">
+								<a class="btn btn-primary btn-xs">View</a>
+							  </div>
+							</div>
+						  </li>
+
+						  <!-- END timeline item -->
 							  @endforeach
-						  </li>
 						  <!-- /.timeline-label -->
-						  <!-- timeline item -->
-						  <li>
-							<i class="fas fa-envelope bg-blue"></i>
-
-							<div class="timeline-item">
-							  <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-							  <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-							  <div class="timeline-body">
-								Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-								weebly ning heekya handango imeem plugg dopplr jibjab, movity
-								jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-								quora plaxo ideeli hulu weebly balihoo...
-							  </div>
-							  <div class="timeline-footer">
-								<a class="btn btn-primary btn-xs">Read more</a>
-								<a class="btn btn-danger btn-xs">Delete</a>
-							  </div>
-							</div>
-						  </li>
-						  <!-- END timeline item -->
-						  <!-- timeline item -->
-						  <li>
-							<i class="fas fa-user bg-aqua"></i>
-
-							<div class="timeline-item">
-							  <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-							  <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-							</div>
-						  </li>
-						  <!-- END timeline item -->
-						  <!-- timeline item -->
-						  <li>
-							<i class="fas fa-comments bg-yellow"></i>
-
-							<div class="timeline-item">
-							  <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-							  <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-							  <div class="timeline-body">
-								Take me to your leader!
-								Switzerland is small and neutral!
-								We are more like Germany, ambitious and misunderstood!
-							  </div>
-							  <div class="timeline-footer">
-								<a class="btn btn-warning btn-flat btn-xs">View comment</a>
-							  </div>
-							</div>
-						  </li>
-						  <!-- END timeline item -->
 						  <!-- timeline time label -->
 						  <li class="time-label">
+
                   <span class="bg-green">
                     3 Jan. 2014
                   </span>
@@ -161,55 +156,6 @@
 					</div>
 					<!-- /.row -->
 
-					<div class="row" style="margin-top: 10px;">
-					  <div class="col-md-12">
-						<div class="box box-primary">
-						  <div class="box-header">
-							<h3 class="box-title"><i class="fa fa-code"></i> Timeline Markup</h3>
-						  </div>
-						  <div class="box-body">
-                  <pre style="font-weight: 600;">&lt;ul class="timeline"&gt;
-
-    &lt;!-- timeline time label --&gt;
-    &lt;li class="time-label"&gt;
-        &lt;span class="bg-red"&gt;
-            10 Feb. 2014
-        &lt;/span&gt;
-    &lt;/li&gt;
-    &lt;!-- /.timeline-label --&gt;
-
-    &lt;!-- timeline item --&gt;
-    &lt;li&gt;
-        &lt;!-- timeline icon --&gt;
-        &lt;i class="fa fa-envelope bg-blue"&gt;&lt;/i&gt;
-        &lt;div class="timeline-item"&gt;
-            &lt;span class="time"&gt;&lt;i class="fa fa-clock-o"&gt;&lt;/i&gt; 12:05&lt;/span&gt;
-
-            &lt;h3 class="timeline-header"&gt;&lt;a href="#"&gt;Support Team&lt;/a&gt; ...&lt;/h3&gt;
-
-            &lt;div class="timeline-body"&gt;
-                ...
-                Content goes here
-            &lt;/div&gt;
-
-            &lt;div class="timeline-footer"&gt;
-                &lt;a class="btn btn-primary btn-xs"&gt;...&lt;/a&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/li&gt;
-    &lt;!-- END timeline item --&gt;
-
-    ...
-
-&lt;/ul&gt;
-                  </pre>
-						  </div>
-						  <!-- /.box-body -->
-						</div>
-						<!-- /.box -->
-					  </div>
-					  <!-- /.col -->
-					</div>
 					<!-- /.row -->
 				  </section>
 			</div>
