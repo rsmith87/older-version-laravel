@@ -326,6 +326,7 @@ class CaseController extends Controller
       'contacts' => $this->contacts,
       'cases' => $this->cases,
       'clients' => $this->clients,
+
       
       'project' => $project,  
       'hours_worked' => $hours_amount,
@@ -382,10 +383,15 @@ class CaseController extends Controller
   }
   
   public function timeline($id)
-  {   
+  {
+
+	  //todo: create new timeline
+	  //will need to get all objects into a singular array ordered by date
+	  //each item of the object will have an attribute determining the type of item (case added, hours added, etc)
+	  //then the view will colorize based on type
+  	//init array to create the data array
     $timeline_data = [];
-    $timeline_data['timeline'] = [];    
-    //$case = LawCase::where('id' )
+
     $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
     $case_hours = CaseHours::where('case_uuid', $id)->get();
     $clients = Contact::where(['case_id' => $id, 'is_client' => 1])->first();
@@ -395,68 +401,48 @@ class CaseController extends Controller
     $invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
     $task_lists = TaskList::where('c_id', $id)->with('task')->get();
 
+    $timeline_data[0]['date'] = $requested_case->created_at;
+
     $created_time = $requested_case->created_at;
     $case_created_time = $created_time->toDateTimeString();
     $case_added_hour = $requested_case->created_at->addHour();
-   
 
 
-    $timeline_data['timeline']['date'][0] = [
-      'startDate' => $this->setup_date_timeline($case_created_time),
-      'endDate' => $this->setup_date_timeline($case_added_hour),
-      'headline' => 'Case created',
-      'text' => 'Case created on Legalkeeper!',
-      'tag' => '',
-      'classname' => '',
-    ];
 
-    $timeline_data['timeline']['date'][0]['asset'] = [
-      'media' => '/img/case-background.png',
-      'credit' => '',
-      'caption' => '',
-    ];    
 
-    $timeline_data['timeline']['asset'] = [
-      'media' => '/img/logo-long-black.png',
-      'credit' => 'CREDIT NAME GOES HERE',
-      'caption' => 'CAPTION TEST',
-    ];
- 
-
-   
     if(count($clients) > 0){
-      $contact_created_time = $this->setup_date_timeline($clients->created_at);
-      $contact_added_hour = $this->setup_date_timeline($clients->created_at->addHour());
+      $contact_created_time = $clients->created_at;
+      $contact_added_hour = $clients->created_at->addHour();
 
-      array_push($timeline_data['timeline']['date'],  [
-        'startDate' => $this->setup_date_timeline($contact_created_time),
-        'endDate' => $this->setup_date_timeline($contact_added_hour),
+      array_push($timeline_data,  [
+        'startDate' => $contact_created_time,
+        'endDate' => $contact_added_hour,
         'headline' => 'Added ' . $clients->first_name . " " . $clients->last_name . ' as client.',
         'text' => 'Client added!',
         'tag' => '',
-        'classname' => '', 
+        'classname' => '',
         'asset' => [
           'media' =>  '/img/clients-background.png',
           'credit' => '',
-          'caption' => '',         
+          'caption' => '',
         ]
       ]);
     }
-    
+
     if(count($case_hours) > 0){
- 
+
       foreach($case_hours as $case_hour){
 
-        $task_created_time = $this->setup_date_timeline($case_hour->created_at);
-        $task_added_hour = $this->setup_date_timeline(Carbon::parse($case_hour->created_at)->addHour());
+        $task_created_time = $case_hour->created_at;
+        $task_added_hour = Carbon::parse($case_hour->created_at)->addHour();
 
-        array_push($timeline_data['timeline']['date'], [
-          'startDate' => $this->setup_date_timeline($task_created_time),
-          'endDate' => $this->setup_date_timeline($task_added_hour),
+        array_push($timeline_data, [
+          'startDate' => $task_created_time,
+          'endDate' => $task_added_hour,
           'headline' => 'Worked '. $case_hour->hours . ' hours on case.',
           'text' => $case_hour->hours . ' hours worked.',
           'tag' => '',
-          'classname' => '',       
+          'classname' => '',
           'asset' => [
             'media' => '/img/logo-long-black.png',
             'credit' => '',
@@ -468,26 +454,26 @@ class CaseController extends Controller
 
 
 
-      }  
-    } 
+      }
+    }
 
 
-  
+
     if(count($task_lists) > 0){
- 
-      foreach($task_lists as $task_list){
- 
-      foreach($task_list->Task as $task){
-        $task_created_time = $this->setup_date_timeline($task->due);
-        $task_added_hour = $this->setup_date_timeline(Carbon::parse($task->due)->addHour());
 
-        array_push($timeline_data['timeline']['date'], [
-          'startDate' => $this->setup_date_timeline($task_created_time),
-          'endDate' => $this->setup_date_timeline($task_added_hour),
+      foreach($task_lists as $task_list){
+
+      foreach($task_list->Task as $task){
+        $task_created_time = $task->due;
+        $task_added_hour = Carbon::parse($task->due)->addHour();
+
+        array_push($timeline_data, [
+          'startDate' => $task_created_time,
+          'endDate' => $task_added_hour,
           'headline' => 'Added ' . $task->task_name . ' as task.',
           'text' => $task->task_description,
           'tag' => '',
-          'classname' => '',       
+          'classname' => '',
           'asset' => [
             'media' =>  '/img/logo-long-black.png',
             'credit' => '',
@@ -500,46 +486,46 @@ class CaseController extends Controller
 
 
 
-      }  
-    
+      }
+
 
        //print_r(count($timeline_data['timeline']['date']));
     if(count($invoices) > 0){
       foreach($invoices as $invoice){
 
-        array_push($timeline_data['timeline']['date'], [
-          'startDate' =>  $this->setup_date_timeline($invoice->created_at),
-          'endDate' => $this->setup_date_timeline($invoice->created_at),
+        array_push($timeline_data, [
+          'startDate' =>  $invoice->created_at,
+          'endDate' => $invoice->created_at,
           'headline' => 'Sent ' . $invoice->receiver_info . ' an invoice in the amount of $'. $invoice->total .'.',
           'text' => 'Invoice created for '. $invoice->receiver_info .'!',
           'tag' => '',
-          'classname' => '',  
+          'classname' => '',
           'asset' => [
             'media' =>  '/img/logo-long-black.png',
             'credit' => '',
-            'caption' => '',         
+            'caption' => '',
           ]
         ]);
 
 
 
-      }        
+      }
     }
 
 
     if(count($documents) > 0){
-    
+
       foreach($documents as $document){
 
-        $document_created_time = $this->setup_date_timeline($document->created_at);
+        $document_created_time = $document->created_at;
 
-        array_push($timeline_data['timeline']['date'], [
+        array_push($timeline_data, [
           'startDate' => $document_created_time,
           'endDate' => $document_created_time,
           'headline' => 'Added ' . $document->name . ' document.',
           'text' => 'Document added!',
           'tag' => '',
-          'classname' => '',    
+          'classname' => '',
           'asset' => [
             'media' => 'https://s3.amazonaws.com/legaleeze'.$document->path,
             'credit' => '',
@@ -550,23 +536,23 @@ class CaseController extends Controller
 
       }
     }
-    
-   
+
+
 
     if(count($contacts) > 0){
       foreach($contacts as $contact){
 
         // print_r($i);
-        $contact_created_time = $this->setup_date_timeline($contact->created_at);
-        $contact_added_hour = $this->setup_date_timeline($contact->created_at);
+        $contact_created_time = $contact->created_at;
+        $contact_added_hour = $contact->created_at;
 
-        array_push($timeline_data['timeline']['date'], [
+        array_push($timeline_data, [
           'startDate' => $contact_created_time,
           'endDate' => $contact_added_hour,
           'headline' => 'Added ' . $contact->first_name . " " . $contact->last_name . ' as contact.',
           'text' => 'Contact added!',
           'tag' => '',
-          'classname' => '',   
+          'classname' => '',
           'asset' => [
             'media' =>  '/img/contacts-background.png',
             'credit' => '',
@@ -575,11 +561,7 @@ class CaseController extends Controller
         ]);
       }
     }
-    
-    // print_r($timeline_data['timeline']);
-    $timeline_data['timeline']['headline'] = '';
-    $timeline_data['timeline']['type'] = "default";
-    $timeline_data['timeline']['text'] = "";
+
 
 
 
@@ -587,38 +569,39 @@ class CaseController extends Controller
    // print_r($invoices);
 
     $invoices = Invoice::where('invoicable_id', $id)->get();
-    
+
     $case_hours = CaseHours::where('case_uuid', $id)->get();
     $hours_amount = '0';
     foreach($case_hours as $ch){
       $hours_amount += $ch->hours;
     }
-    
+
     if($requested_case->billing_type === 'fixed'){
       $invoice_amount = $requested_case->billing_rate;
     } else {
       $invoice_amount = $requested_case->billing_rate * $hours_amount;
     }
-    
+
     return view('dashboard.timeline', [
-    'user' => $this->user,
-    'case' => $requested_case,
-    'firm_id' => $this->settings->firm_id,
-    'theme' => $this->settings->theme,
-    'clients' => $clients,
-    'order' => $order,
-    'status_values' => $this->status_values,
-    'invoice_amount' =>$invoice_amount,
-    'table_color' => $this->settings->table_color,
-    'table_size' => $this->settings->table_size,  
-    'cases' => $this->cases,
-    'contacts' => $this->contacts,
-    'clients' => $this->clients,
-    'documents' =>$requested_case->Documents,
-    'timeline_data' => $timeline_data,
-    'settings' => $this->settings,
-    'fs' => $this->firm_stripe,
-    'threads' => $this->threads,
+	    'user' => $this->user,
+	    'case' => $requested_case,
+	    'firm_id' => $this->settings->firm_id,
+	    'theme' => $this->settings->theme,
+	    'clients' => $clients,
+	    'order' => $order,
+	    'status_values' => $this->status_values,
+	    'invoice_amount' =>$invoice_amount,
+	    'table_color' => $this->settings->table_color,
+	    'table_size' => $this->settings->table_size,
+	    'cases' => $this->cases,
+	    'contacts' => $this->contacts,
+	    'clients' => $this->clients,
+	    'documents' =>$requested_case->Documents,
+	    'timeline_data' => $timeline_data,
+	    'settings' => $this->settings,
+	    'fs' => $this->firm_stripe,
+	    'threads' => $this->threads,
+	   'case_types' => $this->case_types,
     ]);
   }
   

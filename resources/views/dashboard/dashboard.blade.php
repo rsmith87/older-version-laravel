@@ -32,7 +32,7 @@
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
                 <li><a href="/dashboard/cases">Cases <span class="pull-right badge bg-blue">{{ count($cases) }}</span></a></li>
-                <li><a href="/dashboard/tasks">Tasks <span class="pull-right badge bg-aqua">{{ $task_count }}</span></a></li>
+                <li><a href="/dashboard/tasklists">Tasks <span class="pull-right badge bg-aqua">{{ $task_count }}</span></a></li>
                 <li><a href="/dashboard/invoices">Invoices <span class="pull-right badge bg-green">{{ count($invoices) }}</span></a></li>
                 <li><a href="/dashboard/calendar">Events <span class="pull-right badge bg-red">{{ count($events) }}</span></a></li>
               </ul>
