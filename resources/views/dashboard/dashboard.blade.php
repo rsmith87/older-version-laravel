@@ -41,7 +41,7 @@
           <!-- /.widget-user -->
  </div>
     
-      <div class="col-md-3 col-xs-12">
+      <div class="col-md-3 col-xs-12 hidden-xs">
       <div class="small-box bg-yellow">
             <div class="inner">
               <h3>{{ count($clients) }}</h3>
@@ -54,7 +54,7 @@
             <a href="/dashboard/clients" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
       </div>
-      <div class="col-md-3 col-xs-12">
+      <div class="col-md-3 col-xs-12 hidden-xs">
           <div class="small-box bg-aqua">
             <div class="inner">
               <h3>{{ $task_count }}</h3>
@@ -64,10 +64,10 @@
             <div class="icon">
               <i class="fa fa-tasks"></i>
             </div>
-            <a href="/dashboard/tasks" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="/dashboard/tasklists" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
       </div>
-      <div class="col-md-3 col-xs-12">
+      <div class="col-md-3 col-xs-12 hidden-xs">
           <div class="small-box bg-red">
             <div class="inner">
               <h3>{{ count($events) }}</h3>
@@ -80,7 +80,7 @@
             <a href="/dashboard/calendar" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
       </div>
-      <div class="col-md-3 col-xs-12">
+      <div class="col-md-3 col-xs-12 hidden-xs">
       <div class="small-box bg-green">
             <div class="inner">
               <h3>{{ count($invoices) }}</h3>
@@ -93,26 +93,28 @@
             <a href="/dashboard/invoices" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
     </div>
-<div class="col-md-6 col-xs-12">
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">{{ $firm->name }}</h3>
 
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="">
-              <p>Numbers are up in 2018, as we've kicked off a rally in style to raise nearly $150,000 since the beginning of the year!  Keep up the great work!</p>
-              <p>- Robby</p>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
+<div class="col-md-6 col-xs-12">
+  <div class="box box-warning">
+    <div class="box-header with-border">
+      <h3 class="box-title">{{ $firm->name }}</h3>
+
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+        </button>
+      </div>
+      <!-- /.box-tools -->
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body" style="">
+      <p>Numbers are up in 2018, as we've kicked off a rally in style to raise nearly $150,000 since the beginning of the year!  Keep up the great work!</p>
+      <p>- Robby</p>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+</div>
+
       @if(count($tasklists) > 0)
     <div class="col-sm-6 col-xs-12 mb-4">
    <div class="box box-primary">

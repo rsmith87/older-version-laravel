@@ -257,46 +257,46 @@ class TaskController extends Controller
 		}      
 
 
-		$category = explode(',', $data['tags']);
-	
-		if(!empty($category)){
-		foreach($category as $c){
-			//existing category
-			$exis_cat = \DB::table('task_categories')->where('name', $c)->get();
-			
-			//creating a new category with name
-			if(count($exis_cat) < 1)
-			{	
-				//INSERT INTO TASK CATEGORY AS NEW CATEGORY and put ID in the Category class
-				$insert = \DB::table('task_categories')->insert([ ['name'=> $c] ]);
-				$added = \DB::table('task_categories')->where('name', $c)->first();
-				
-				//NOW MAKE THE AFFILIATION ON Category for category ID and task ID
-				Category::firstOrCreate( 
-					[ 
-						'category_id' => $added->id 
-					], [ 
-						'task_id' => $data['id']
-					]);
+		//$category = explode(',', $data['tags']);
 
-				
-			}
-			//else THIS CATEGORY EXISTS
-			else{
-				$already = \DB::table('task_categories')->where('name', $c)->first();
-				
-				Category::firstOrCreate(
-				[
-					'category_id' => $already->id
-				], [
-					'task_id' => $data['id']
-				]);
-			}
-		}
-    }
-    if(empty($data['due_time'])){
-      $data['due_time'] = "00:00";
-    }
+	  foreach($data['categories'] as $c)
+	  {
+		  //existing category
+		  $exis_cat = \DB::table('task_categories')->where('name', $c)->get();
+
+		  //creating a new category with name
+		  if(count($exis_cat) < 1)
+		  {
+			  //INSERT INTO TASK CATEGORY AS NEW CATEGORY and put ID in the Category class
+			  $insert = \DB::table('task_categories')->insert([ ['name'=> $c] ]);
+			  $added = \DB::table('task_categories')->where('name', $c)->first();
+
+			  //NOW MAKE THE AFFILIATION ON Category for category ID and task ID
+			  Category::firstOrCreate(
+				  [
+					  'category_id' => $added->id
+				  ], [
+				  'task_id' => $data['id']
+			  ]);
+
+
+		  }
+		  //else THIS CATEGORY EXISTS
+		  else{
+			  $already = \DB::table('task_categories')->where('name', $c)->first();
+
+			  Category::firstOrCreate(
+				  [
+					  'category_id' => $already->id
+				  ], [
+				  'task_id' => $data['id']
+			  ]);
+		  }
+	  }
+
+	  if($data['due_time'] === ""){
+		  $data['due_time'] = '00:00';
+	  }
 		
     $task = Task::create(
 		[
@@ -310,7 +310,7 @@ class TaskController extends Controller
       'assigned' => 0,
 		]);
 	//print_r($data['id']);
-		return redirect('/dashboard/tasks/task/'.$task->task_list_uuid)->with('status', 'Task ' . $data['task_name'] . ' ' . $status ."!");
+		return redirect('/dashboard/tasklists/'.$task->task_list_uuid)->with('status', 'Task ' . $data['task_name'] . ' ' . $status ."!");
   }
 
 	public function add_subtask(Request $request)

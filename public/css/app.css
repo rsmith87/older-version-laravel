@@ -1109,4 +1109,10 @@ iframe .phpdebugbar {
 #task-modal .select2-container--default .select2-selection--multiple .select2-selection__choice {
   color: #333;
 }
+.todo-list > li .text {
+  display: inline;
+}
+.strikethrough {
+  text-decoration: line-through;
+}
 /*# sourceMappingURL=app.css.map */

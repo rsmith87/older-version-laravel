@@ -24,6 +24,7 @@ $(function($){
   
   $('.ui-draggable').draggable();
 
+
    $(".todo-list").sortable({
         placeholder: "sort-highlight",
         handle: ".handle",
@@ -36,6 +37,9 @@ $(function($){
     radioClass: 'iradio_square-blue',
     increaseArea: '-10%' // optional
   });
+
+
+
 
   $('.create-timer').click(function(){
     $('#modal').modal('toggle'); 
@@ -587,7 +591,10 @@ function onRemoveAllTagsClick(e){
 
 
 
-
+  $('.todo-list .iCheck-helper').click(function(){
+	var $this = $(this);
+	$this.parent().parent().addClass('strikethrough');
+  });
     
 
 });
