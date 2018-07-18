@@ -155,7 +155,7 @@ return [
             //'can'  => 'view-cases',
         ],*/
         [
-            'text'        => 'Tasks',
+            'text'        => 'Tasklists',
             'url'         => 'dashboard/tasklists',
             'icon'        => 'clipboard-list',
             //'label'       => 4,

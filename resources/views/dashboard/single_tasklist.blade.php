@@ -4,7 +4,7 @@
 
 <div class="container dashboard task col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-       <a class="nav-item nav-link btn btn-info" href="/dashboard/tasks"><i class="fas fa-arrow-left"></i> Back to tasklists</a>
+       <a class="nav-item nav-link btn btn-info" href="/dashboard/tasklists"><i class="fas fa-arrow-left"></i> Back to tasklists</a>
   </nav>    
  
   			@include('dashboard.includes.alerts')	
@@ -14,7 +14,7 @@
 	<div>
 		<div>
 			<h1 class="pull-left ml-3 mt-4 mb-2">
-				<i class="fas fa-tasks"></i> Task list
+              <i class="fas fa-tasks"></i> Task list: {{ $task_list->task_list_name }}
 			</h1>
 			
 			<div class="clearfix"></div>

@@ -18,6 +18,7 @@
 			<h1 class="pull-left ml-3 mt-4 mb-2">
 				<i class="fas fa-tasks"></i> Task list: {{ $task_list->task_list_name }}
 			</h1>
+
 			
 			<div class="clearfix"></div>
 			

@@ -7,7 +7,7 @@
         </h3>
         <div class="clearfix"></div>
         <hr />
-        <form role="form" method="post" action="{{ null !== Request::segment(3) ?'/dashboard/tasks/task/add' : '/dashboard/tasks/add' }} ">
+        <form role="form" method="post" action="{{ null !== Request::segment(3) ?'/dashboard/tasklists/task/add' : '/dashboard/tasklists/add' }} ">
           
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           @if(null !== Request::segment(3))
@@ -49,7 +49,7 @@
               @endif          
               @if(count($contacts) > 0)
                 <div class="col-sm-6 col-12">
-                  <label for="contact_name"><i class="fas fa-user"></i> Contact/Client link</label>
+                  <label for="contact_name"><i class="fas fa-user"></i> Client link</label>
                   @if(!isset($contact))            
                     <input type="hidden" name="contact_id" />
                     <input type="text" name="contact_name" class="form-control" placeholder="Contact name" />
@@ -58,8 +58,7 @@
                     <input type="text" name="contact_name" class="form-control" value="{{ $contact->first_name }} {{ $contact->last_name }}" />             
                   @endif
                 </div>
-              @endif
-              @if(count($contacts) > 0)
+
                 <div class="col-sm-6 col-12">
                   <label for="file_name">Share with client?</label>
                   <input type="checkbox" class="form-control" name="client_share" />

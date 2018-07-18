@@ -52,7 +52,7 @@ class LawCase extends Model
   
 
   
-      /**
+    /**
      * Get all of the contacts for the case.
      */
     public function contacts()

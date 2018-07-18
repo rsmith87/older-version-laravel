@@ -33,7 +33,7 @@
         @foreach ($tasks as $task)
         <div class="col-md-4 col-xs-12">
           <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>
-              <h3>{{ $task->task_list_name }}</h3> 
+              <h3>Name: {{ $task->task_list_name }}</h3>
 
           <div class="col-md-6">
               <label>Due</label>
@@ -53,7 +53,7 @@
                </ol>
               @endif
               <div class="col-xs-12">
-              <a class="btn-block btn btn-primary" href="/dashboard/tasks/task/{{ $task->task_list_uuid }}">View task list</a>
+              <a class="btn-block btn btn-primary" href="/dashboard/tasklists/{{ $task->task_list_uuid }}">View task list</a>
               </div>
         </div>
     @endforeach
