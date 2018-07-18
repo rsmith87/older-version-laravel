@@ -40,7 +40,7 @@ return [
     |
     */
 
-    'url' => env('APP_DOMAIN', 'http://lgk.rob'),
+    'url' => env('APP_DOMAIN', 'legalkeeper.rob'),
 
     /*
     |--------------------------------------------------------------------------

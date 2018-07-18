@@ -148,6 +148,6 @@ return [
     |
     */
 
-    'secure' => env('REDIRECT_HTTPS', 'true'),
+    'secure' => env('REDIRECT_HTTPS', 'false'),
 
 ];
