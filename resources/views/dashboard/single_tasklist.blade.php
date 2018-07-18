@@ -50,9 +50,12 @@
 			  <div class="col-xs-12">
 				<h5>Tags</h5>
 			  <select class="js-category-tasklist" name="categories[]" multiple="multiple">
+				@if(count($tags) > 0)
+
 				@foreach($tags as $c)
 				  <option value="name" selected="selected">{{ $c[0]->name }}</option>
 				@endforeach
+				@endif
 			  </select>
 			  </div>
             </div>

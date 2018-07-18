@@ -78,6 +78,7 @@ class TaskController extends Controller
     $exis_cat = [];
     $tasks = [];
     $cases = [];
+    $tl_categories = [];
 		$task_list = TaskList::where(['task_list_uuid' => $id])->first();
 		$cat_task_link = \DB::table('category_task_link')->where('task_id', $task_list->id)->get();
 		foreach($cat_task_link as $link){
@@ -192,38 +193,37 @@ class TaskController extends Controller
 			$status = "added";
 		}      
 		//$category = explode(',', $data['tags']);
-		foreach($data['categories'] as $c)
-		{
-			//existing category
-			$exis_cat = \DB::table('task_categories')->where('name', $c)->get();
+		if(!empty($data['categories'])) {
+			foreach ($data['categories'] as $c) {
+				//existing category
+				$exis_cat = \DB::table('task_categories')->where('name', $c)->get();
 
-			//creating a new category with name
-			if(count($exis_cat) < 1)
-			{
-				//INSERT INTO TASK CATEGORY AS NEW CATEGORY and put ID in the Category class
-				$insert = \DB::table('task_categories')->insert([ ['name'=> $c] ]);
-				$added = \DB::table('task_categories')->where('name', $c)->first();
+				//creating a new category with name
+				if (count($exis_cat) < 1) {
+					//INSERT INTO TASK CATEGORY AS NEW CATEGORY and put ID in the Category class
+					$insert = \DB::table('task_categories')->insert([['name' => $c]]);
+					$added = \DB::table('task_categories')->where('name', $c)->first();
 
-				//NOW MAKE THE AFFILIATION ON Category for category ID and task ID
-				Category::firstOrCreate(
-					[
-						'category_id' => $added->id
-					], [
-					'task_id' => $data['id']
-				]);
+					//NOW MAKE THE AFFILIATION ON Category for category ID and task ID
+					Category::firstOrCreate(
+						[
+							'category_id' => $added->id
+						], [
+						'task_id' => $data['id']
+					]);
 
 
-			}
-			//else THIS CATEGORY EXISTS
-			else{
-				$already = \DB::table('task_categories')->where('name', $c)->first();
+				} //else THIS CATEGORY EXISTS
+				else {
+					$already = \DB::table('task_categories')->where('name', $c)->first();
 
-				Category::firstOrCreate(
-					[
-						'category_id' => $already->id
-					], [
-					'task_id' => $data['id']
-				]);
+					Category::firstOrCreate(
+						[
+							'category_id' => $already->id
+						], [
+						'task_id' => $data['id']
+					]);
+				}
 			}
 		}
 
