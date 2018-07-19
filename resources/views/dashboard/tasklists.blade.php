@@ -17,8 +17,7 @@
           <i class="fas fa-tasks"></i> Task lists
         </h1>
    			<div class="clearfix"></div>
-        <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
-		
+
      </div>
 		 @if(count($tasks) > 0)
      <div>
@@ -36,8 +35,7 @@
               <h3>Name: {{ $task->task_list_name }}</h3>
 
             <label>Total tasks</label>
-            <p>{{ count($tasks) }}</p>
-
+            <p>{{ count($task->Task) }}</p>
               <label>Due</label>
               <p>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</p>
 

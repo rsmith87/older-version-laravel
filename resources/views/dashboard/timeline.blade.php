@@ -43,28 +43,19 @@
 						<!-- The time line -->
 						<ul class="timeline">
 						  <!-- timeline time label -->
-						  <li class="time-label">
 							@foreach($timeline_data as $td)
-
-							@if($td['type'] === 'lawcase')
-							  <li class="time-label">
-
+							<li class="time-label">
 							<span class="bg-blue">
-                     {{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
-                  </span>
-							  </li>
-							  <!-- timeline item -->
-							  <li>
+                     			{{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
+                  			</span>
+							</li>
+							<!-- timeline item -->
+							<li>
+							@if($td['type'] === 'lawcase')
+
 							<i class="fas fa-gavel bg-blue"></i>
 							@elseif($td['type'] === 'hours')
-							  <li class="time-label">
 
-							<span class="bg-blue">
-                     {{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
-                  </span>
-							  </li>
-							  <!-- timeline item -->
-							  <li>
 							  <i class="fas fa-clock bg-green"></i>
 							  @elseif($td['type'] === 'tasklist')
 							  <i class="fas fa-list-alt bg-yellow"></i>

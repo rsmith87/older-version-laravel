@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'noreply@legaleeze.com', 'name' => "Legality account creation"],
+    'from' => ['address' => 'noreply@legalkeeper.com', 'name' => "Legalkeeper"],
 
     /*
     |--------------------------------------------------------------------------

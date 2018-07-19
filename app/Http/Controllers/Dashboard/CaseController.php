@@ -386,9 +386,10 @@ class CaseController extends Controller
   {
 
 	  //todo: create new timeline
-	  //will need to get all objects into a singular array ordered by date
-	  //each item of the object will have an attribute determining the type of item (case added, hours added, etc)
+	  //complete: will need to get all objects into a singular array ordered by date //complete
+	  //complete: each item of the object will have an attribute determining the type of item (case added, hours added, etc)
 	  //then the view will colorize based on type
+
   	//init array to create the data array
     $timeline_data = [];
 
