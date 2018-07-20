@@ -167,7 +167,9 @@ trait LfmHelpers
 	public function rootFolder($type)
 	{
 		if ($type === 'user') {
-			$folder_name = $this->getUserSlug();
+			$folder_name = 'user/'.$this->getUserSlug();
+		} else if ($type === 'firm') {
+			$folder_name = 'firm/'.$this->getFirmSlug();
 		} else {
 			$folder_name = config('lfm.shared_folder_name');
 		}
@@ -604,6 +606,26 @@ trait LfmHelpers
 		}
 
 		return $slug_of_user;
+	}
+
+	/**
+	 * Get the name of private folder of current users firm.
+	 *
+	 * @return string
+	 */
+	public function getFirmSlug()
+	{
+		if (is_callable(config('lfm.firm_field'))) {
+			$slug_of_firm = call_user_func(config('lfm.firm_field'));
+		} elseif (class_exists(config('lfm.firm_field'))) {
+			$config_handler = config('lfm.firm_field');
+			$slug_of_firm = app()->make($config_handler)->firmField();
+		} else {
+			$old_slug_of_firm = config('lfm.firm_field');
+			$slug_of_firm = empty(auth()->user()) ? '' : auth()->user()->$old_slug_of_firm;
+		}
+
+		return $slug_of_firm;
 	}
 
 	/**
