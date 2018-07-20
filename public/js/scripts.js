@@ -399,6 +399,7 @@ $(function($){
         {
          // retrieve the dropped element's stored Event Object
           var originalEventObject = $(this).data('eventObject');
+
           
           //console.log(date);
 
@@ -406,8 +407,8 @@ $(function($){
           var copiedEventObject = $.extend({}, originalEventObject);
 
           // assign it the date that was reported
-          copiedEventObject.start           = date.format('YYYY-MM-DD');
-          copiedEventObject.end             = date.format('YYYY-MM-DD');
+          copiedEventObject.start           = date.format('YYYY-MM-DD hh:mm:ss');
+          copiedEventObject.end             = date.format('YYYY-MM-DD hh:mm:ss');
           copiedEventObject.allDay          = false;
           copiedEventObject.backgroundColor = $(this).css('background-color');
           copiedEventObject.borderColor     = $(this).css('border-color');
