@@ -12,8 +12,10 @@ class Media extends Model
   public $fillable = [
     'uuid',
     'name',
+	  'path',
     'file_name',
     'mime_type',
+	  'store_folder',
     'disk',
     'size',
     'user_id',

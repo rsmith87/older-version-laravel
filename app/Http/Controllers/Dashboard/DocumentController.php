@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
 use App\FirmStripe;
 use App\Thread;
+use App\Media;
+use App\MediaRelationship;
 
 class DocumentController extends Controller
 {
@@ -277,6 +279,48 @@ class DocumentController extends Controller
 		$this->s3->delete($name);
 		$item = Document::where('path',  $name)->delete();
 		return redirect('/dashboard/documents')->with('status', $name . ' successfully deleted');  
+	}
+
+	public function relate(Request $request)
+	{
+		$data = $request->all();
+		$case_id = $data['case_id'];
+		$contact_id = $data['contact_id'];
+		$client_id = $data['client_id'];
+		$id = $data['id'];
+
+		$media = Media::where('name', $id)->first();
+		if($case_id != "") {
+			$case = LawCase::where('id', $case_id)->first();
+			$relate = MediaRelationship::updateOrCreate([
+				'media_uuid' => $media->uuid,
+			], [
+				'model' => 'case',
+				'model_id' => $case->id,
+				'user_id' => \Auth::id(),
+			]);
+		}
+		if($client_id != "") {
+			$client = Contact::where('id', $client_id)->first();
+			$relate = MediaRelationship::updateOrCreate([
+				'media_uuid' => $media->uuid,
+			], [
+				'model' => 'client',
+				'model_id' => $client->id,
+				'user_id' => \Auth::id(),
+			]);
+		}
+		if($contact_id != "") {
+			$contact = Contact::where('id', $contact_id)->first();
+			$relate = MediaRelationship::updateOrCreate([
+				'media_uuid' => $media->uuid,
+			], [
+				'model' => 'contact',
+				'model_id' => $contact->id,
+				'user_id' => \Auth::id(),
+			]);
+		}
+		return redirect()->back()->with('status', 'Media item relationship created');
 	}
   
   public function create_download_link(Request $request, $id)

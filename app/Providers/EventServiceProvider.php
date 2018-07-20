@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 //events
-use Unisharp\Laravelfilemanager\Events\ImageIsDeleting;
-use Unisharp\Laravelfilemanager\Events\ImageIsRenaming;
-use Unisharp\Laravelfilemanager\Events\ImageIsUploading;
-use Unisharp\Laravelfilemanager\Events\ImageWasUploaded;
+use UniSharp\LaravelFilemanager\Events\ImageIsDeleting;
+use UniSharp\LaravelFilemanager\Events\ImageIsRenaming;
+use UniSharp\LaravelFilemanager\Events\ImageIsUploading;
+use UniSharp\LaravelFilemanager\Events\ImageWasUploaded;
 
 //custom listeners
 use App\Listeners\DeleteImageListener;

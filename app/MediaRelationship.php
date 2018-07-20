@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MediaRelationship extends Model
 {
   use SoftDeletes;
-  
-   public $fillable = [
+
+	protected $table = 'media_relationship';
+
+	public $fillable = [
     'media_uuid',
     'model',
     'model_id',

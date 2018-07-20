@@ -29,14 +29,12 @@ class HasUploadedImageListener
         $extension = $file['extension'];
         $basename = $file['basename'];
         
-        //NEED TO GET SIZE OF DOCUMENT OR IMAGE
-        //ALSO VERIFY $filename AND $basename AND $extension AND $file
-        
         Media::create(
           [
             'uuid' => $media_uuid,
             'name' => $basename,
             'file_name' => $filename,
+            'path' => $publicFilePath,
             'mime_type' => $extension,
             'disk' => 'public',
             'user_id' => \Auth::id(),
