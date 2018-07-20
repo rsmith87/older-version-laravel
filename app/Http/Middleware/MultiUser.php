@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use UniSharp\LaravelFilemanager\Traits\LfmHelpers;
+use App\Http\Controllers\Traits\LfmHelpers;
 
 class MultiUser
 {
