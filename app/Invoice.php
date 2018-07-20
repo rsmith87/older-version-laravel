@@ -19,6 +19,7 @@ class Invoice extends Model
     'invoicable_id',
     'invoicable_type',
     'invoice_uuid',
+	  'description',
     'tax',
     'total',
     'currency',

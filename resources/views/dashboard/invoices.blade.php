@@ -10,7 +10,7 @@
   </nav>  
   
 	@include('dashboard.includes.alerts')
-  @if(count($orders) === 0)
+  @if(count($invoices) === 0)
   <div class="alert alert-warning alert-dismissible fade in" role="alert">
   You haven't created an Invoice yet! <strong>Create one from the case page!</strong>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -28,8 +28,7 @@
      	 
 		 </div>
      <div class="panel-body">	 
-			 @if(count($orders) > 0)
-                 @foreach ($orders as $order)
+			 @if(count($invoices) > 0)
 
        <table id="main" class="table table-responsive table-resposive table-striped table-hover mb-5 table-{{ $table_color }} table-{{ $table_size }}">
           <thead> 
@@ -39,27 +38,25 @@
 							<th>Invoice Amount</th>
             </tr> 
           </thead> 
-          <tbody> 
-            
-            
-						@foreach($order->Invoices as $i)
+          <tbody>
+
+
+		  @foreach ($invoices as $invoice)
             
             <tr> 
-              <td>{{ $i->id }}</td>
-              <td>{{ $i->receiver_info }}</td> 
-							<td>$ {{ $i->total }}.00</td>
+              <td>{{ $invoice->invoice_uuid }}</td>
+              <td>{{ $invoice->receiver_info }}</td>
+							<td>$ {{ $invoice->total }}.00</td>
             </tr> 
-            
-						@endforeach
+		  @endforeach
 						<tr>
 							<td></td>
 							<td></td>
-							<td>Total invoiced:  ${{ number_format($order->amount, 2) }}</td>
+							<td>Total invoiced:  ${{ number_format($invoice->total, 2) }}</td>
 						</tr>					
             <tr class="blank"></tr>
           </tbody> 
        </table>
-                	@endforeach
 
 			 @endif
 		</div>

@@ -18,6 +18,7 @@ class CreateInvoicesTables extends Migration
             $table->uuid('invoice_uuid');
             $table->integer('invoicable_type');
             $table->uuid('invoicable_id');
+            $table->longText('description');
             $table->integer('tax')->default(0)->description('in cents');
             $table->integer('total')->default(0)->description('in cents');
             $table->char('currency', 3);

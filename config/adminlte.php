@@ -147,13 +147,13 @@ return [
             'icon'        => 'envelope',
             //'label'       => 4,
             //'label_color' => 'success',
-        ],        
+        ], */
         [
             'text' => 'Invoices',
             'url'  => 'dashboard/invoices',
             'icon' => 'file-alt'
             //'can'  => 'view-cases',
-        ],*/
+        ],
         [
             'text'        => 'Tasklists',
             'url'         => 'dashboard/tasklists',

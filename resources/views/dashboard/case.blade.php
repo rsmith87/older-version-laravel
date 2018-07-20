@@ -661,6 +661,10 @@
 			<input type="hidden" name="total_amount" value="{{ $invoice_amount }}.00"/>
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="col-12">
+			  <label>Description</label>
+			  <input type="text" class="form-control" name="invoice_description"/>
+			</div>
+			<div class="col-12">
 			  <label>Amount</label>
 			  <input type="text" class="form-control" value="{{ $invoice_amount }}.00" name="amount"/>
 			</div>

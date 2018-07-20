@@ -54,17 +54,16 @@ class InvoiceController extends Controller
 	public function index(Request $request)
 	{
 		if(!$this->user->hasRole('client')){
-			$orders = Order::where('user_id', $this->user['id'])->with('invoices')->get();
+			$invoices= Invoice::where('user_id', $this->user['id'])->get();
 		} 
 		else {
 			$contact = Contact::where('has_login', $this->user['id'])->first();
 			$orders = Order::where('client_id', $contact->id)->get();
 		}
-    dd($orders);
 		return view('dashboard/invoices', [
 			'user' => $this->user,  
 			'theme' => $this->settings->theme,
-			'orders' => $orders,
+			'invoices' => $invoices,
 			'firm_id' => $this->settings->firm_id,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
@@ -159,12 +158,13 @@ class InvoiceController extends Controller
       'invoice_uuid' => $invoice_uuid,
 			'invoicable_id' => $data['case_uuid'],
 			'invoicable_type' => 'app_client',
+			'description' => $data['invoice_description'],
 			'tax' => 0,
 			'total' => $data['amount'],
 			'currency' => 'USD',
 			'status' => 'invoiced',
 			'receiver_info' => $client->first_name . ' ' . $client->last_name,
-			'sender_info' => $this->user['name'] . '<br />' . 'Re: '. $case->name,
+			'sender_info' => 'Re: '. $case->name,
 			'payment_info' => 'stripe',
 			'note' => '',
 			'user_id' => $this->user['id'],
@@ -185,17 +185,19 @@ class InvoiceController extends Controller
 
 	public function invoice_view($id)
 	{
-		$invoice = Invoice::where('id', $id)->with('invoicelines')->first();
-		$case = LawCase::where('id', $invoice->invoicable_id)->with('contacts')->first();
+		$invoice = Invoice::where('invoice_uuid', $id)->with('invoicelines')->first();
+		$case = LawCase::where('case_uuid', $invoice->invoicable_id)->with('contacts')->first();
+		$firm = Firm::where('id', $this->settings->firm_id)->first();
 		foreach($case->Contacts as $contact){
 			if($contact->is_client === 1){
 				$client = $contact;
 			} 
 		}
 
-		return view('vendor.invoicable.receipt', [
+		return view('dashboard.invoice', [
       'user' => $this->user,
 			'invoice' => $invoice,
+			'firm' => $firm,
 			'client' => $client,
 			'case' => $case,
 			'theme' => $this->settings->theme,

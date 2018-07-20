@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace App;
+namespace App\Http\Controllers\Traits;
 
 use Webpatser\Uuid\Uuid;
 
