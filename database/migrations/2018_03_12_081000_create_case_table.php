@@ -47,6 +47,6 @@ class CreateCaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('case');
+        Schema::dropIfExists('lawcase');
     }
 }
