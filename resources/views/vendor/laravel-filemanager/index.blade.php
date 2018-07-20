@@ -142,6 +142,7 @@
     <img src="{{asset('vendor/laravel-filemanager/img/loader.svg')}}">
   </div>
 
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
@@ -207,87 +208,8 @@ acceptedFiles: "{{ lcfirst(str_singular(request('type') ? request('type') : ''))
 maxFilesize: ({{ lcfirst(str_singular(request('type') ? request('type') : '')) == 'image' ? config('lfm.max_image_size') : config('lfm.max_file_size') }} / 1000)
     }
   </script>
+
+
+
 </body>
 </html>
-<script src="{{ asset('js/autocomplete.js') }}"></script>
-
-<script type="text/javascript">
-
-
-@if (isset($clients))
-        @if (count($clients) > 0)
-        var clients = {!! json_encode($clients->toArray()) !!}
-
-for (var i = 0; i < clients.length; i++) {
-clients[i].data = clients[i]['id'];
-clients[i].value = clients[i]['first_name'] + " " + clients[i]['last_name'];
-}
-
-$('input[name="client_name"]').autocomplete({
-lookup: clients,
-        width: 'flex',
-        triggerSelectOnValidInput: true,
-        onSelect: function (suggestion) {
-        var thehtml = '<strong>Case ' + suggestion.data + ':</strong> ' + suggestion.value + ' ';
-        //alert(thehtml);
-        var $this = $(this);
-        $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
-        }
-});
-@endif
-        @endif
-        @if (isset($contacts))
-        @if (count($contacts) > 0)
-        var contacts = {!! json_encode($contacts->toArray()) !!}
-;
-for (var i = 0; i < contacts.length; i++) {
-contacts[i].data = contacts[i]['id'];
-contacts[i].value = contacts[i]['first_name'] + " " + contacts[i]['last_name'];
-}
-
-
-$('input[name="contact_name"]').autocomplete({
-lookup: contacts,
-        width: 'flex',
-        triggerSelectOnValidInput: true,
-        onSelect: function (suggestion) {
-        var thehtml = '<strong>Case ' + suggestion.data + ':</strong> ' + suggestion.value + ' ';
-        //alert(thehtml);
-        var $this = $(this);
-        $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
-        }
-
-});
-@endif
-        @endif
-
-
-
-        @if (isset($cases))
-        @if (count($cases) > 0)
-        var cases = {!! json_encode($cases->toArray()) !!}
-;
-for (var i = 0; i < cases.length; i++) {
-cases[i].data = cases[i]['id'];
-cases[i].value = cases[i]['name'];
-}
-
-$('input[name="case_name"]').autocomplete({
-lookup: cases,
-        width: 'flex',
-        triggerSelectOnValidInput: true,
-        onSelect: function (suggestion) {
-        var thehtml = '<strong>Case ' + suggestion.data + ':</strong> ' + suggestion.value + ' ';
-        //alert(thehtml);
-        var $this = $(this);
-        $('#outputcontent').html(thehtml);
-        $this.prev().val(suggestion.data);
-        }
-});
-
-@endif
-        @endif
-
-                      </script>

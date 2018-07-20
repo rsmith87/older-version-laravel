@@ -6,7 +6,7 @@ namespace App\Listeners;
 use App\Media;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Unisharp\Laravelfilemanager\Events\ImageWasUploaded;
+use UniSharp\LaravelFilemanager\Events\ImageWasUploaded;
 use Webpatser\Uuid\Uuid;
 
 class HasUploadedImageListener

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Media;
 
+use App\LawCase;
+use App\Contact;
 
 /**
  * Class ItemsController.
@@ -17,7 +19,9 @@ class ItemsController extends LfmController
     {
         $path = parent::getCurrentPath();
         $sort_type = request('sort_type');
-
+		    $cases = LawCase::where('u_id', \Auth::id())->get();
+		    $contacts = Contact::where(['user_id' => \Auth::id(), 'is_client' => 0])->get();
+		    $clients = Contact::where(['user_id' => \Auth::id(), 'is_client' => 1])->get();
         $files = parent::sortFilesAndDirectories(parent::getFilesWithInfo($path), $sort_type);
         $directories = parent::sortFilesAndDirectories(parent::getDirectories($path), $sort_type);
         
@@ -26,8 +30,12 @@ class ItemsController extends LfmController
                 'files'       => $files,
                 'directories' => $directories,
                 'items'       => array_merge($directories, $files),
+		            'cases' => $cases,
+		            'contacts' => $contacts,
+		            'clients' => $clients,
             ]),
             'working_dir' => parent::getInternalPath($path),
+
         ];
     }
 

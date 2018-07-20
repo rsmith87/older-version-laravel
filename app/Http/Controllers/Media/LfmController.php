@@ -29,6 +29,7 @@ class LfmController extends Controller
         $cases = LawCase::where('u_id', \Auth::id())->get();
         $contacts = Contact::where(['user_id' => \Auth::id(), 'is_client' => 0])->get();
         $clients = Contact::where(['user_id' => \Auth::id(), 'is_client' => 1])->get();
+        //print_r($cases);
       
         return view('laravel-filemanager::index', [
             'cases' => $cases,
