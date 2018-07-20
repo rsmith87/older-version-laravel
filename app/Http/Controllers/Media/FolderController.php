@@ -25,10 +25,8 @@ class FolderController extends LfmController
         }
 
         if (parent::allowShareFolder()) {
-            $folder_types['share'] = 'full_user_base_shares';
+            $folder_types['share'] = 'shares';
         }
-        
-        //$folder_types['firm'] = 'firm';
 
         foreach ($folder_types as $folder_type => $lang_key) {
             

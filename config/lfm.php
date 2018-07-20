@@ -26,7 +26,7 @@ return [
     // If true, private folders will be created for each signed-in user.
     'allow_multi_user' => true,
     // If true, share folder will be created when allow_multi_user is true.
-    'allow_share_folder' => false,
+    'allow_share_folder' => true,
 
     // Flexible way to customize client folders accessibility
     // If you want to customize client folders, publish tag="lfm_handler"
@@ -34,7 +34,7 @@ return [
     // And set 'user_field' to App\Handler\ConfigHander::class
     // Ex: The private folder of user will be named as the user id.
     'user_field' => App\Handlers\ConfigHandler::class,
-    'firm_field' => App\Handlers\FirmHandler::class,
+    //'firm_field' => App\Handlers\ConfigHandler::class,
 
     /*
     |--------------------------------------------------------------------------
