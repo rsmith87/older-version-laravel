@@ -203,7 +203,33 @@
 					</table>
           </div>
 					@endif
-				
+
+		  @if(!empty($media))
+			@if(count($media) > 0)
+			<div class="col-sm-6 col-xs-12">
+			  <h3 class="mt-5">
+				<i class="fa fa-file"></i> Documents
+			  </h3>
+			  <table id="documents" class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
+				<thead>
+				<tr class="bg-primary">
+				  <th>File name</th>
+				  <th>File description</th>
+
+				</tr>
+				</thead>
+				<tbody>
+				@foreach($media as $m)
+				  <tr>
+					<td>{{ $m[0]->name }}</td>
+					<td>{{ $m[0]->created_at }}</td>
+				  </tr>
+				@endforeach
+				</tbody>
+			  </table>
+			</div>
+			@endif
+		  @endif
 				
 				
 			@if(count($task_lists) > 0)

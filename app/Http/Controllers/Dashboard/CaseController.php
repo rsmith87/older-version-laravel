@@ -20,6 +20,8 @@ use App\FirmStripe;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Webpatser\Uuid\Uuid;
+use App\Media;
+use App\MediaRelationship;
 
 class CaseController extends Controller
 {
@@ -287,11 +289,19 @@ class CaseController extends Controller
   
   public function lawcase($id, Request $request)
   {
+  	//$all_media = [];
     $requested_case = LawCase::where(['firm_id' =>  $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
     if(count($requested_case) === 0){
       return redirect('/dashboard/cases')->withErrors(['You don\'t have access to this case.']);
     }
-    
+
+    $media_relationships = MediaRelationship::where('model_id', $requested_case->id)->get();
+    if(count($media_relationships) > 0) {
+    	foreach($media_relationships as $mr){
+    		$all_media[] = Media::where('uuid', $mr->media_uuid)->get();
+	    }
+    }
+
     $case_hours = CaseHours::where('case_uuid', $id)->get();
     $hours_amount = '0';
     foreach($case_hours as $ch){
@@ -336,6 +346,7 @@ class CaseController extends Controller
       'invoice_amount' =>$invoice_amount, 
 
       'documents' => $documents,
+      'media' => $all_media,
       'notes' => $notes,
       'task_lists' => $task_lists,
       'firm_id' => $this->settings->firm_id,
