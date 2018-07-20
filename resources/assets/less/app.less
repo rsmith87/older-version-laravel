@@ -1341,10 +1341,7 @@ iframe .phpdebugbar{
 }
 
 .strikethrough{
-
-      text-decoration: line-through;
-
-
+  text-decoration: line-through;
 }
 
 .select2-container{
@@ -1355,11 +1352,12 @@ iframe .phpdebugbar{
   color: #333;
 }
 
-.case{
-  #documents{
-    th:nth-child(1),
-    td:nth-child(1) {
-      display: table-cell;
+table{
+  &#documents{
+    td, th{
+      &:nth-child(1){
+        display:table-cell;
+      }
     }
   }
 }
