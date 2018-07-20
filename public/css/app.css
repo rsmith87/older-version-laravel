@@ -1126,4 +1126,8 @@ table#documents td:nth-child(1),
 table#documents th:nth-child(1) {
   display: table-cell;
 }
+.single-invoice td:nth-child(1),
+.single-invoice th:nth-child(1) {
+  display: table-cell;
+}
 /*# sourceMappingURL=app.css.map */

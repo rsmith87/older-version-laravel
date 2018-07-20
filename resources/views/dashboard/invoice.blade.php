@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container dashboard col-sm-10 col-xs-12 offset-sm-2">
+<div class="container dashboard single-invoice col-sm-10 col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
 		@hasanyrole('authenticated_user|administrator')
     <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-briefcase"></i> My cases</a>
@@ -78,19 +78,15 @@
 			<table class="table table-striped">
 			  <thead>
 			  <tr>
-				<th>Qty</th>
-				<th>Case</th>
-				<th>Serial #</th>
 				<th>Description</th>
+				<th>Case</th>
 				<th>Subtotal</th>
 			  </tr>
 			  </thead>
 			  <tbody
 			  <tr>
-				<td>{{ $invoice->id }}</td>
-				<td>{{ $invoice->sender_info }}</td>
-				<td>455-981-221</td>
 				<td>{{ $invoice->description }}</td>
+				<td>{{ $invoice->sender_info }}</td>
 				<td>${{ number_format($invoice->total, 2) }}</td>
 			  </tr>
 			  </tbody>
