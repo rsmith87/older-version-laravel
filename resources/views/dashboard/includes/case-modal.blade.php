@@ -62,8 +62,11 @@
 						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="close_date" name="close_date" aria-label="Close date">
 					</div>
 					<div class="col-sm-6 col-xs-12">
-						<label>Rate</label>
+					  <label>Rate</label>
+					  <div class="input-group">
+						<span class="input-group-addon">$</span>
 						<input type="text" class="form-control" name="billing_rate" aria-label="Amount (to the nearest dollar)">
+					  </div>
 					</div>
 					<div class="col-sm-6 col-xs-12">
 						<label>Hours</label>

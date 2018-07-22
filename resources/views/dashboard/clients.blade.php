@@ -26,7 +26,7 @@
 	  </div>
 	  @if (count($cases) < 1)
 		<div class="alert alert-warning alert-dismissible in" role="alert">
-		  You don't have any cases!  Create a case in order to create a client!
+		  You don't have any cases!  Create a case <a href="/dashboard/cases">here</a> in order to create a client!
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</label>
 		  </button>
