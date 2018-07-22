@@ -193,6 +193,8 @@ class ContactController extends Controller
 		$columns = [];
 		$views = View::where(['u_id' => $this->user->id, 'view_type' => 'client'])->get();
 
+		$cases = LawCase::where('user_id', \Auth::id())->get();
+
 		$view_data_columns = [];
 
 		if (count($views) > 0 && $views[0]->view_data != "") {
@@ -212,6 +214,7 @@ class ContactController extends Controller
 			'user' => $this->user,
 			'columns' => $columns,
 			'views' => $views,
+			'cases' => $cases,
 			'contacts' => $contacts,
 			'other_data' => $other_data,
 			'user_name' => $this->user['name'],
