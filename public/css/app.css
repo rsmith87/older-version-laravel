@@ -1130,4 +1130,10 @@ table#documents th:nth-child(1) {
 .single-invoice th:nth-child(1) {
   display: table-cell;
 }
+.cvc {
+  margin-right: 10px !important;
+}
+.expiration:nth-child(1) {
+  margin-right: 5px !important;
+}
 /*# sourceMappingURL=app.css.map */

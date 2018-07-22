@@ -47,6 +47,11 @@ class DashboardController extends Controller {
     //$this->user = \Auth::user();
   }
 
+
+	public function add_payment(Request $request)
+	{
+		return view('vendor/adminlte/payment');
+	}
   /**
    * Show the application dashboard.
    *

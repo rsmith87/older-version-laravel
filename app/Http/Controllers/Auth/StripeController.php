@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Stripe\Error\Card;
+use Illuminate\Validation\Validator;
 use Cartalyst\Stripe\Stripe;
 use Jrean\UserVerification\Facades\UserVerification;
 use Illuminate\Auth\Events\Registered;
 use Jrean\UserVerification\Traits\VerifiesUsers;
+use App\User;
 
 class StripeController extends Controller
 {
@@ -18,8 +20,8 @@ class StripeController extends Controller
   public function add_stripe_payment(Request $request)
   {
     
-    $request->session()->get('u_e');
-    $validator = Validator::make($request->all(), [
+    $user = $request->session()->get('u_i');
+    $validator =  $request->validate([
       'card_no' => 'required',
       'ccExpiryMonth' => 'required',
       'ccExpiryYear' => 'required',
@@ -29,7 +31,6 @@ class StripeController extends Controller
     
     $input = $request->all();
     
-    if ($validator->passes()) { 
       $input = array_except($input,array('_token'));
       $stripe = Stripe::make(env('STRIPE_SECRET'));
       
@@ -46,21 +47,31 @@ class StripeController extends Controller
         if (!isset($token['id'])) {
           return redirect()->route('addmoney.paywithstripe');
         }
-        $charge = $stripe->charges()->create([
-          'card' => $token['id'],
-          'currency' => 'USD',
-          'amount' => 10.49,
-          'description' => 'Add in wallet',
-        ]);
+	      //need to have way to get user - needs to be through
+	      $user = User::find($user);
 
-        if($charge['status'] == 'succeeded') {
+        if(isset($input['cc_coupon_code'])){
+	        $charge = $user->newSubscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
+        } else {
+	        $charge = $user->newSubscription('main', 'plan_DH9vLJvUYAeco7')->create($token['id']);
+        }
+
+	      if ($user->subscribed('main')) {
           /**
           * Write Here Your Database insert logic.
           */
-          //it has succeeded
-          
-          $this->handle_payment();
-         
+          //if the user is already verified then we send them to login page
+		      if($user->isVerified()){
+		      	return redirect('/login')->with('status', 'Payment updated.  Please login to continue.');
+		      }
+
+		      //if the user is not verified then we send them the verification email to make sure they're good
+	        event(new Registered($user));
+	        UserVerification::generate($user);
+	        UserVerification::send($user, 'Legalkeeper User Verification');
+
+	        return redirect('/login')->with('status', 'Check your email for a link to verify your account!');
+
           
         } else {
           \Session::put('error','Money not added in wallet!!');
@@ -83,7 +94,7 @@ class StripeController extends Controller
         return redirect()->route('addmoney.paywithstripe');
 
       }
-    }
+
   }
   
   
@@ -91,17 +102,5 @@ class StripeController extends Controller
   {
     return view('vendor/adminlte/payment');
   }
-  
-  
-  private function handle_payment()
-  {
-    $user = User::find(1);
 
-    $user->newSubscription('main', 'premium')->create($stripeToken);
-    event(new Registered($inserted));
-    UserVerification::generate($user);
-    UserVerification::send($user, 'Legalkeeper User Verification');
-    
-    return redirect('/login')->with('status', 'Check your email for a link to verify your account!');
-  }
 }

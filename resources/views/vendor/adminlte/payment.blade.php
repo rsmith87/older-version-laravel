@@ -27,9 +27,12 @@
                {{ csrf_field() }}
               <input  type='hidden' name="account_type">
                
-              <input  type='hidden' name="amount" value="">
+              <input  type='hidden' name="amount" value="15.00">
 
                <p>Complete registration by submitting your payment details below.  You will not be charged if you cancel before 14 days from registration.</p>
+				<br /><br />
+				<p><strong>Legalkeeper Starter Plan:</strong></p>
+				<p>$15 a month</p>
               
                 <div class='col-xs-12 form-group card required'>
                 <label class='control-label'>Card Number</label>
@@ -41,16 +44,20 @@
                 <label class='control-label'>CVV</label>
                 <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4' type='text' name="cvvNumber">
                 </div>
-               <div class="clearfix"></div>
                 <div class='col-xs-4 form-group expiration required'>
                 <label class='control-label'>Expiration</label>
                 <input class='form-control card-expiry-month' placeholder='MM' size='2' type='text' name="ccExpiryMonth">
                 </div>
                
                 <div class='col-xs-4 form-group expiration required'>
-                <label class='control-label'> </label>
+                <label class='control-label'> &nbsp;</label>
                 <input class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text' name="ccExpiryYear">
                 </div>
+<div class="clearfix"></div>
+			  <div class='col-xs-12 form-group'>
+				<label class='control-label'> Coupon code</label>
+				<input class='form-control card-expiry-year'  type='text' name="cc_coupon_code">
+			  </div>
             
 
    

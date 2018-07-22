@@ -28,6 +28,23 @@ Route::group([
     });
 });
 
+Route::group([
+	'namespace' => 'v1',
+	'prefix' => 'v1'
+], function() {
+
+	Route::post('/posts', 'PostsController@create');
+
+	Route::get('/posts', 'PostsController@list');
+
+	Route::get('/posts/{uuid}', 'PostsController@get')->middleware('uuid.validate');
+
+	Route::put('/posts/{uuid}', 'PostsController@update')->middleware('uuid.validate');
+
+});
+
+
+
 Route::group(['middleware' => ['web']], function () {    //NEED TO EVENTUALLY MOVE THIS TO API.PHP in ROUTES FOLDER
    
     Route::auth();

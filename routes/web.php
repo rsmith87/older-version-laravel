@@ -64,6 +64,8 @@ Route::group(['middleware' => ['web']], function () {
 		return redirect('/login');;
 	});
 
+
+
 	Route::get('/logout', 'Auth\LoginController@logout');
 
 	Route::get('/home', 'HomeController@index');
@@ -86,7 +88,7 @@ Route::group(['middleware' => ['web']], function () {
 		]);
 	});
 
-	Route::group(['prefix' => 'dashboard', 'middleware' => ['isVerified']], function () {
+	Route::group(['prefix' => 'dashboard', 'middleware' => ['web']], function () {
 		//Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
 		Route::get('/lock', 'Dashboard\DashboardController@lock');
 		Route::post('/unlock', 'Dashboard\DashboardController@unlock');
@@ -95,6 +97,8 @@ Route::group(['middleware' => ['web']], function () {
 		//Route::post('/', 'Auth\AuthController@create');
 		Route::get('/profile', 'Dashboard\DashboardController@profile');
 		Route::post('/profile-update', 'Dashboard\DashboardController@profile_update');
+
+		Route::get('/add-payment', 'Dashboard\DashboardController@add_payment');
 
 		Route::get('/clients', 'Dashboard\ContactController@clients');
 		Route::get('/clients/client/{id}', 'Dashboard\ContactController@client');

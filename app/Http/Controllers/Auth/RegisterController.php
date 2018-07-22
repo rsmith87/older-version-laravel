@@ -9,6 +9,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use Illuminate\Http\Request;
+use Jrean\UserVerification\Facades\UserVerification as UserVerificationFacade;
+use Jrean\UserVerification\Exceptions\UserNotFoundException;
+use Jrean\UserVerification\Exceptions\UserIsVerifiedException;
+use Jrean\UserVerification\Exceptions\TokenMismatchException;
+
 class RegisterController extends Controller
 {
     /*
@@ -105,4 +111,82 @@ class RegisterController extends Controller
       return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());
     }
+
+	/**
+	 * Handle the user verification.
+	 *
+	 * @param  string  $token
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getVerification(Request $request, $token)
+	{
+		if (! $this->validateRequest($request)) {
+			return redirect($this->redirectIfVerificationFails());
+		}
+
+		try {
+			$user = UserVerificationFacade::process($request->input('email'), $token, $this->userTable());
+		} catch (UserNotFoundException $e) {
+			return redirect($this->redirectIfVerificationFails());
+		} catch (UserIsVerifiedException $e) {
+			return redirect($this->redirectIfVerified());
+		} catch (TokenMismatchException $e) {
+			return redirect($this->redirectIfVerificationFails());
+		}
+
+		if (config('user-verification.auto-login') === true) {
+			auth()->loginUsingId($user->id);
+		}
+
+		return redirect($this->redirectAfterVerification());
+	}
+
+	protected function validateRequest(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'email' => 'required|email'
+		]);
+
+		return $validator->passes();
+	}
+
+	/**
+	 * Get the user table name.
+	 *
+	 * @return string
+	 */
+	protected function userTable()
+	{
+		return property_exists($this, 'userTable') ? $this->userTable : 'users';
+	}
+
+	/**
+	 * Get the redirect path if the user is already verified.
+	 *
+	 * @return string
+	 */
+	public function redirectIfVerified()
+	{
+		return property_exists($this, 'redirectIfVerified') ? $this->redirectIfVerified : '/';
+	}
+
+	/**
+	 * Get the redirect path for a successful verification token verification.
+	 *
+	 * @return string
+	 */
+	public function redirectAfterVerification()
+	{
+		return property_exists($this, 'redirectAfterVerification') ? $this->redirectAfterVerification : '/';
+	}
+
+	/**
+	 * Get the redirect path for a failing token verification.
+	 *
+	 * @return string
+	 */
+	public function redirectIfVerificationFails()
+	{
+		return property_exists($this, 'redirectIfVerificationFails') ? $this->redirectIfVerificationFails : route('email-verification.error');
+	}
 }
