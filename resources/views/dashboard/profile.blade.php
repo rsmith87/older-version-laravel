@@ -67,7 +67,7 @@
 		<div class="nav-tabs-custom">
 		  <ul class="nav nav-tabs">
 			<li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a></li>
-			<li><a href="#social-media" data-toggle="tab" aria-expanded="false">Social Media</a></li>
+			<!--<li><a href="#social-media" data-toggle="tab" aria-expanded="false">Social Media</a></li>-->
 
 		  </ul>
 		  <div class="tab-content">
