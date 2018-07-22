@@ -151,10 +151,10 @@ class DashboardController extends Controller {
 
     if ($request->file('file_upload')) {
       $imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
-      $filePath = '/f/' . $this->settings->firm_id . '/u/' . $this->user['id'] . '/' . $imageFileName;
+      $filePath = '/avatars/' . $this->settings->firm_id . '/users/' . $imageFileName;
       $fileMimeType = $request->file('file_upload')->getMimeType();
-      $this->s3->put($filePath, file_get_contents($request->file('file_upload')));
-      $this->s3->url($filePath);
+	    \Storage::disk('local')->put($filePath, file_get_contents($request->file('file_upload')));
+	    \Storage::disk('local')->url($filePath);
     }
     $settings = Settings::where('user_id', \Auth::id())->update([
         'location' => $data['location'],

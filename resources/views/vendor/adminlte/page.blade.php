@@ -159,11 +159,15 @@
 		<section class="sidebar">
 		  <!-- Sidebar user panel -->
 		  <div class="user-panel">
-			@if(Gravatar::exists($user->email))
-			  <div class="pull-left image">
+			<div class="pull-left image">
+
+			@if(isset($settings->profile_image))
+				<img src="/storage{{ $settings->profile_image }}" class="img-circle" alt="User Image">
+			@elseif(Gravatar::exists($user->email))
 				<img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image">
-			  </div>
 			@endif
+			</div>
+
 			<div class="pull-left info">
 			  <p>{{ $user->name }}</p>
 			  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
