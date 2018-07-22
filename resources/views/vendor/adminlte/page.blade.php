@@ -223,14 +223,8 @@
 
 
 
-
-  <div class="panel panel-primary" id="stripe-settings">
-	<div class="panel-heading">
-	  <h2 style="margin-top:0;margin-bottom:0;">
-		<i class="fab fa-cc-stripe"></i> Stripe settings
-	  </h2>
-	</div>
-	<div class="panel-body">
+	<div class="settings-pane">
+	<label>Stripe integration for firm</label>
 	  @if(isset($fs))
 		@if(count($fs) > 0)
 		  <p>You have successfully authenticated Legalease and Stripe! If you'd like to authenticate again, or are
@@ -239,7 +233,18 @@
 	  @endif
 	  <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}"/></a>
 	</div>
+
+   <div class="settings-pane">
+	 <input type="checkbox" class="form-control" name="create_tasklist_on_case_create_global">
+	 <span>Create tasklist on case creation?</span>
+   </div>
+
+  <div class="settings-pane">
+	<input type="checkbox" class="form-control" name="create_document_repo_on_case_create_global">
+	<span>Create document/media location for case on case creation?</span>
+
   </div>
+
 
 </aside>
 <!-- The sidebar's background -->

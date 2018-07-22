@@ -466,8 +466,8 @@ class SettingController extends Controller
 	
 		public function stripe_account_create(Request $request)
 		{
-			$s_client_id = env('STRIPE_CLIENT_ID', 'ca_CY5IehksCRDo83Ev3R0FdzbvKW4VEV7n');
-			return redirect()->away('https://connect.stripe.com/express/oauth/authorize?redirect_uri=http://legality-codenerd33.codeanyapp.com/dashboard/stripe/redirect&client_id='.$s_client_id.'&state='.csrf_token());
+			$s_client_id = env('STRIPE_CLIENT_ID');
+			return redirect()->away('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://'.env('APP_DOMAIN').'/dashboard/stripe/redirect&client_id='.$s_client_id.'&state='.csrf_token());
 		}
 	
 		public function stripe_return(Request $request)
@@ -479,7 +479,7 @@ class SettingController extends Controller
 			$client = new Client(); //GuzzleHttp\Client
 			$response = $client->post('https://connect.stripe.com/oauth/token', [
 				'form_params' => [
-					'client_secret' => env('STRIPE_SECRET', 'sk_test_oYiig9R9nDcpbDRPwAt8sKMp'),
+					'client_secret' => env('STRIPE_SECRET'),
 					'code' => $code,
 					'grant_type' => 'authorization_code',
 				]

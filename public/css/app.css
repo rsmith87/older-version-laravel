@@ -1136,4 +1136,8 @@ table#documents th:nth-child(1) {
 .expiration:nth-child(1) {
   margin-right: 5px !important;
 }
+.settings-pane {
+  margin: 10px 0;
+  clear: both;
+}
 /*# sourceMappingURL=app.css.map */

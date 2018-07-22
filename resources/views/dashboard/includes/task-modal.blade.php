@@ -79,6 +79,11 @@
           </div>
          
           </div>
+
+          <div class="col-sm-6 col-xs-12">
+            <label>Show on dashboard?</label>
+            <input type="checkbox" name="show_task_list_on_dashboard" class="form-control">
+          </div>
      
           <div class="col-12">
             <button type="submit" class="btn btn-primary mt-2 mb-2"><i class="fas fa-check"></i> Submit</button>

@@ -226,7 +226,7 @@ class CaseController extends Controller
 				'statute_of_limitations' => $date,
 				'is_billable' => isset($data['rate']) ? "1" : "0",
 				'billing_type' => isset($data['rate_type']) ? $data['rate_type'] : 'fixed',
-				'billing_rate' => $data['billing_rate'],
+				'billing_rate' =>  isset($data['billing_rate']) ? $data['billing_rate'] : 0.00,
 				'firm_id' => $this->settings->firm_id,
 				'u_id' => $this->user['id'],
 				'user_id' => $this->user['id'],

@@ -71,9 +71,17 @@
 		<div class="col-sm-6 col-12">
 		  <label>Total cost</label>
 		  @if($case->billing_type === 'hourly')
-			<p>${{ number_format($hours_worked * $case->billing_rate, 2) }}</p>
+			@if($case->billing_rate === "")
+			  <p>N/A</p>
+			@else
+			  <p>${{ number_format($hours_worked * $case->billing_rate, 2) }}</p>
+			@endif
 		  @else
-			<p>${{ number_format($case->billing_rate, 2) }}</p>
+			@if($case->billing_rate === "")
+			  <p>N/A</p>
+			@else
+			  <p>${{ (float) number_format($case->billing_rate, 2) }}</p>
+			@endif
 		  @endif
 		  <label>Claim reference number</label>
 		  <p>{{ $case->claim_reference_number }}</p>
