@@ -342,7 +342,7 @@ class CaseController extends Controller
 			'invoice_amount' => $invoice_amount,
 
 			'documents' => $documents,
-			'media' => $all_media,
+			'media' => isset($all_media) ? $all_media : [],
 			'notes' => $notes,
 			'task_lists' => $task_lists,
 			'firm_id' => $this->settings->firm_id,
