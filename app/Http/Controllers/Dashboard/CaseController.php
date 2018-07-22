@@ -186,8 +186,7 @@ class CaseController extends Controller
 		$data = $request->all();
 
 
-		// returns validated data as array
-		//$vue_data = $request->validate(['name' => 'required|between:2,20']);
+
 
 		$check = 0;
 		if (isset($data['id'])) {
@@ -241,6 +240,22 @@ class CaseController extends Controller
 			$timer = $timer->toArray();
 		}
 
+		if(isset($data['create_case_task_list'])){
+			$tl_uuid = Uuid::generate()->string;
+
+			$tl = TaskList::create([
+				'task_list_uuid' => $tl_uuid,
+				'task_list_name' => $data['name'],
+				'c_id' => $id,
+				'user_id' => \Auth::id(),
+				'f_id' => $this->settings->firm_id,
+			]);
+		}
+
+		if(isset($data['create_case_document_directory'])){
+			$directory = \File::makeDirectory(public_path('files/user/'.\Auth::id().'/'.$this->clean($data['name'])));
+		}
+
 		if (isset($data['hours'])) {
 			CaseHours::create([
 				'case_uuid' => $case_uuid,
@@ -252,6 +267,12 @@ class CaseController extends Controller
 		$timers = array_merge($timer, ['timers' => []]);
 		return redirect('dashboard/cases/case/' . $case_uuid)->with('status', 'Case ' . $project->name . ' created successfully');
 
+	}
+
+	private function clean($string) {
+		$string = str_replace(' ', '-', strtolower($string)); // Replaces all spaces with hyphens.
+
+		return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 	}
 
 	public function add_timer(Request $request, $id)

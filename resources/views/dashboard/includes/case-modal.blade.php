@@ -71,10 +71,6 @@
 					<div class="col-sm-6 col-xs-12">
 						<label>Hours</label>
 						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
-					</div>	
-					<div class="col-sm-6 col-xs-12 mt-4">
-						<label>Statute of Limitations</span>
-						<input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
 					</div>
 					<div class="col-sm-6 col-xs-12 mt-4">
 						<label>Fixed rate</label>
@@ -82,6 +78,22 @@
 						<label>Hourly rate</label>
 						<input type="radio" name="rate_type" value="hourly" aria-label="Hourly rate">
 					</div>
+				  <div class="col-sm-6 col-xs-12 mt-4">
+					<label>Statute of Limitations</span>
+					  <input type="checkbox" name="statute_of_limitations" aria-label="Statute of Limitations">
+				  </div>
+				  	<div class="col-sm-6 col-xs-12">
+					  <label>Create task list?</label>
+					  <input type="checkbox" class="form-control" name="create_case_task_list">
+					  <div class="clearfix"></div>
+					  <span>This will create a <a href="/dashboard/tasklists">task list</a> named by the case name.</span>
+					</div>
+				  <div class="col-sm-6 col-xs-12">
+					<label>Create document/media directory?</label>
+					<input type="checkbox" class="form-control" name="create_case_document_directory">
+					<div class="clearfix"></div>
+					<span>This will create a document/media directory named after the case in your user <a href="/dashboard/documents">document repository</a>.</span>
+				  </div>
 					<div class="col-12">
 						<button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>
 					</div>
