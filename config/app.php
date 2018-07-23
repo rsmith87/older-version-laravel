@@ -180,6 +180,9 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         //Lubusin\Decomposer\DecomposerServiceProvider::class,
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+	      ConsoleTVs\Charts\ChartsServiceProvider::class,
+
+
 
 
     ],
@@ -241,6 +244,8 @@ return [
       'Socialite' => Laravel\Socialite\Facades\Socialite::class,
       'Uuid' => Webpatser\Uuid\Uuid::class,
       'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+	    'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+
 
 
     ],

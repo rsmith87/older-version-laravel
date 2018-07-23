@@ -9,8 +9,9 @@ use App\Contact;
 use App\LawCase;
 use App\FirmStripe;
 use Carbon\Carbon;
-use App\Charts\ByMonth;
 use App\Thread;
+use App\Charts\ClientsByMonth;
+
 
 class ReportController extends Controller {
 
@@ -37,44 +38,22 @@ class ReportController extends Controller {
   }
 
   public function index() {
+		$chart_array = [];
+    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])
+	    ->select(\DB::raw("COUNT(*) as count ,  MONTHNAME(created_at) as month"))
+	    ->orderBy("created_at")
+	    ->groupBy(\DB::raw("month(created_at)"))
+	    ->get();
+    $clients_full = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
+		$chart = new ClientsByMonth();
+		print_r($clients);
 
-    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-
-    //print_r($clients);
-    //->whereDate('created_at', '<=', Carbon::today()->toDateString())
-    //$lava = \Lava::
-
-	  $clients_jan = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_feb = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_mar = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_apr = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_may = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_jun = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_jul = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_aug = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_sep = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_oct = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_nov = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-	  $clients_dec = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
-
-    $chart = new ByMonth;
-	  $chart->dataset('Clients', 'bar', [
-		  count($clients_jan),
-		  count($clients_feb),
-		  count($clients_mar),
-		  count($clients_apr),
-		  count($clients_may),
-		  count($clients_jun),
-		  count($clients_jul),
-		  count($clients_aug),
-		  count($clients_sep),
-		  count($clients_oct),
-		  count($clients_nov),
-		  count($clients_dec),
-	  ]);
-
-
-
+	  foreach($clients as $data){
+		  $n_data = [];
+		  array_push($n_data,$data['month'],$data['count']);
+		  array_push($chart_array,$n_data);
+	  }
+	  $chart->dataset('Clients', 'bar', $chart_array);
 
     return view('dashboard/reports/clients', [
         'clients' => $clients,
@@ -87,6 +66,7 @@ class ReportController extends Controller {
         'fs' => $this->firm_stripe,
         'chart' => $chart,
         'threads' => $this->threads,
+	      'clients_full' => $clients_full,
     ]);
   }
 
@@ -121,7 +101,7 @@ class ReportController extends Controller {
 
 
 
-    $chart = \Lava::BarChart('MyCases', $casesTable);
+    $chart = \Lava::LineChart('MyCases', $casesTable);
 
     return view('dashboard/reports/cases', [
         'cases' => $cases,

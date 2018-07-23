@@ -20,7 +20,7 @@
 	</div>
 	<div class="panel-body">
 	  <div class="col-sm-12 col-12">
-		{!! \Lava::render('BarChart', 'MyCases', 'cases-chart') !!}
+		{!! \Lava::render('LineChart', 'MyCases', 'cases-chart') !!}
 		<div id="cases-chart"></div>
 	  </div>
 	  <div class="col-sm-12 col-12">
