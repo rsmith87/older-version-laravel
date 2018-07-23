@@ -121,15 +121,18 @@
             <div class="box-header ui-sortable-handle" style="cursor: move;">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">All tasks</h3>
+              <h3 class="box-title">Tasklists</h3>
 
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list ui-sortable" data-widget="todo-list">
+
                 @foreach($tasklists as $tasklist)
-                  @if(count($tasklist->Dashboardtasks) > 0)
+				  <span class="text">{{ $tasklist->task_list_name }}</span>
+
+				@if(count($tasklist->Dashboardtasks) > 0)
                   @foreach($tasklist->Dashboardtasks as $task)
                  
                   <li>

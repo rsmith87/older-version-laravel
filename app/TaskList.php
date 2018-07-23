@@ -20,6 +20,7 @@ class TaskList extends Model
       'f_id', 
       'contact_client_id', 
       'c_id',
+	    'show_dashboard',
       'assigned', 
       'due',
       'complete',

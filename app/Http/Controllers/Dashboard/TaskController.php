@@ -193,7 +193,7 @@ class TaskController extends Controller
 			$status = "added";
 		}      
 		//$category = explode(',', $data['tags']);
-		if(!empty($data['categories'])) {
+		if(!empty($data['categories']) && isset($data['categories'])) {
 			foreach ($data['categories'] as $c) {
 				//existing category
 				$exis_cat = \DB::table('task_categories')->where('name', $c)->get();
@@ -230,6 +230,8 @@ class TaskController extends Controller
 		if($data['due_time'] === ""){
 			$data['due_time'] = '00:00';
 		}
+
+
 		
 		$tl = TaskList::updateOrCreate(
 		[
@@ -242,6 +244,7 @@ class TaskController extends Controller
 			'task_list_description' => $data['task_description'],
 			'f_id' => $this->settings->firm_id,
 			'c_id' => isset($data['case_id']) ? $data['case_id'] : "",
+			'show_dashboard' => $data['show_dashboard'] === "on" ? 1 : 0,
 			'contact_client_id' => isset($data['contact_id']) ? $data['contact_id'] : "",
 			'due' => $this->fix_date($data['due_date'], $data['due_time']),
 			'assigned' => 0,
@@ -264,39 +267,38 @@ class TaskController extends Controller
 
 
 		//$category = explode(',', $data['tags']);
+	  if(!empty($data['categories']) && isset($data['categories'])) {
 
-	  foreach($data['categories'] as $c)
-	  {
-		  //existing category
-		  $exis_cat = \DB::table('task_categories')->where('name', $c)->get();
+		  foreach ($data['categories'] as $c) {
+			  //existing category
+			  $exis_cat = \DB::table('task_categories')->where('name', $c)->get();
 
-		  //creating a new category with name
-		  if(count($exis_cat) < 1)
-		  {
-			  //INSERT INTO TASK CATEGORY AS NEW CATEGORY and put ID in the Category class
-			  $insert = \DB::table('task_categories')->insert([ ['name'=> $c] ]);
-			  $added = \DB::table('task_categories')->where('name', $c)->first();
+			  //creating a new category with name
+			  if (count($exis_cat) < 1) {
+				  //INSERT INTO TASK CATEGORY AS NEW CATEGORY and put ID in the Category class
+				  $insert = \DB::table('task_categories')->insert([['name' => $c]]);
+				  $added = \DB::table('task_categories')->where('name', $c)->first();
 
-			  //NOW MAKE THE AFFILIATION ON Category for category ID and task ID
-			  Category::firstOrCreate(
-				  [
-					  'category_id' => $added->id
-				  ], [
-				  'task_id' => $data['id']
-			  ]);
+				  //NOW MAKE THE AFFILIATION ON Category for category ID and task ID
+				  Category::firstOrCreate(
+					  [
+						  'category_id' => $added->id
+					  ], [
+					  'task_id' => $data['id']
+				  ]);
 
 
-		  }
-		  //else THIS CATEGORY EXISTS
-		  else{
-			  $already = \DB::table('task_categories')->where('name', $c)->first();
+			  } //else THIS CATEGORY EXISTS
+			  else {
+				  $already = \DB::table('task_categories')->where('name', $c)->first();
 
-			  Category::firstOrCreate(
-				  [
-					  'category_id' => $already->id
-				  ], [
-				  'task_id' => $data['id']
-			  ]);
+				  Category::firstOrCreate(
+					  [
+						  'category_id' => $already->id
+					  ], [
+					  'task_id' => $data['id']
+				  ]);
+			  }
 		  }
 	  }
 

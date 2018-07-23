@@ -82,7 +82,7 @@
 
           <div class="col-sm-6 col-xs-12">
             <label>Show on dashboard?</label>
-            <input type="checkbox" name="show_task_list_on_dashboard" class="form-control">
+            <input type="checkbox" name="show_dashboard" class="form-control">
           </div>
      
           <div class="col-12">

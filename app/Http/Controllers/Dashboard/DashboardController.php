@@ -63,9 +63,9 @@ class DashboardController extends Controller {
     $cases = LawCase::where('u_id', $this->user['id'])->get();
     $contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'user_id' => $this->user['id'], 'is_client' => 0])->get();
 
-    $tasklists = TaskList::where('user_id', $this->user['id'])->with('dashboardtasks')->get();
+    $tasklists = TaskList::where(['user_id' => $this->user['id'], 'show_dashboard' => 1])->with('task')->get();
     foreach ($tasklists as $tl) {
-      foreach ($tl->Dashboardtasks as $dt) {
+      foreach ($tl->Task as $dt) {
         $task_count += count($dt);
       }
     }
@@ -149,18 +149,20 @@ class DashboardController extends Controller {
     $profile_image = $request->file('file_upload');
     $filePath = "";
 
-    if ($request->file('file_upload')) {
+    if ($request->file('file_upload') && $profile_image != "") {
       $imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
       $filePath = '/avatars/' . $this->settings->firm_id . '/users/' . $imageFileName;
       $fileMimeType = $request->file('file_upload')->getMimeType();
 	    \Storage::disk('local')->put($filePath, file_get_contents($request->file('file_upload')));
 	    \Storage::disk('local')->url($filePath);
     }
+
+
     $settings = Settings::where('user_id', \Auth::id())->update([
         'location' => $data['location'],
         'education' => $data['education'],
         'title' => $data['title'],
-        'profile_image' => $filePath,
+        'profile_image' => $filePath != "" ? $filePath : $this->settings->profile_image,
     ]);
 
     User::where('id', \Auth::id())->update([

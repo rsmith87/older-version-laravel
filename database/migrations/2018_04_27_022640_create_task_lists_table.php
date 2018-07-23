@@ -22,6 +22,7 @@ class CreateTaskListsTable extends Migration
             $table->integer('f_id'); 
             $table->integer('contact_client_id'); 
             $table->integer('c_id');
+            $table->integer('show_dashboard');
             $table->integer('assigned'); 
             $table->datetime('due');
             $table->datetime('complete')->nullable();
