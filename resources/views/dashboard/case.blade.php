@@ -51,23 +51,47 @@
 	  </div>
 	  <div>
 		<div class="col-sm-6 col-12">
-		  <label>Status</label>
-		  <p>{{ ucfirst($case->status) }}</p>
-		  <label>Type</label>
-		  <p>{{ str_replace('_', ' ', ucfirst($case->type)) }}</p>
-		  <label>Name</label>
-		  <p>{{ $case->name }}</p>
-		  <label>Case number</label>
-		  <p>{{ $case->number }}</p>
-		  <label>Case description</label>
-		  <p>{{ $case->description }}</p>
-		  <label>Court name</label>
-		  <p>{{ $case->court_name }}</p>
-		  <label>Opposing Councel</label>
-		  <p>{{ $case->opposing_councel }}</p>
-		  <label>Location</label>
-		  <p>{{ $case->location }}</p>
+		  @if($case->status)
+			<label>Status</label>
+			<p>{{ ucfirst($case->status) }}</p>
+		  @endif
+
+		  @if($case->type)
+			<label>Type</label>
+			<p>{{ str_replace('_', ' ', ucfirst($case->type)) }}</p>
+		  @endif
+
+		  @if($case->name)
+			<label>Name</label>
+			<p>{{ $case->name }}</p>
+		  @endif
+
+		  @if($case->number)
+			<label>Case number</label>
+			<p>{{ $case->number }}</p>
+		  @endif
+
+		  @if($case->description)
+			<label>Case description</label>
+			<p>{{ $case->description }}</p>
+		  @endif
+
+		  @if($case->court_name)
+			<label>Court name</label>
+			<p>{{ $case->court_name }}</p>
+		  @endif
+
+		  @if($case->opposing_councel)
+			<label>Opposing Councel</label>
+			<p>{{ $case->opposing_councel }}</p>
+		  @endif
+
+		  @if($case->location)
+			<label>Location</label>
+			<p>{{ $case->location }}</p>
+		  @endif
 		</div>
+
 		<div class="col-sm-6 col-12">
 		  <label>Total cost</label>
 		  @if($case->billing_type === 'hourly')
@@ -83,25 +107,48 @@
 			  <p>${{ (float) number_format($case->billing_rate, 2) }}</p>
 			@endif
 		  @endif
+
+		  @if($case->claim_reference_number)
 		  <label>Claim reference number</label>
 		  <p>{{ $case->claim_reference_number }}</p>
+		  @endif
+
+		  @if($case->statute_of_limitations)
 		  <label>Statute of Limitations</label>
 		  <p>{{ $case->statute_of_limitations }}</p>
+		  @endif
+
+		  @if($case->open_date)
 		  <label>Open date</label>
 		  <p>{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}</p>
+		  @endif
+
+		  @if($case->close_date)
 		  <label>Close date</label>
 		  <p>{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}</p>
+		  @endif
+
+		  @if($case->billing_rate)
 		  <label>Rate</label>
 		  <p>${{ $case->billing_rate }}</p>
+		  @endif
+
+		  @if($hours_worked)
 		  <label>Hours</label>
 		  <p>{{ $hours_worked }} hours</p>
+		  @endif
+
+		  @if($case->billing_type)
 		  <label>Rate type</label>
 		  <p>{{ ucfirst($case->billing_type) }}</p>
+		  @endif
+
 		</div>
 
 		<div class="clearfix"></div>
 
 		@if(count($notes) > 0)
+		  <div class="container-fluid">
 		  <h3 class="mt-5 ml-3">
 			<i class="fas fa-sticky-note"></i> Case notes
 		  </h3>
@@ -125,6 +172,7 @@
 
 
 			@endforeach
+		  </div>
 		  </div>
 		@endif
 		<div class="clearfix"></div>

@@ -45,7 +45,7 @@ class CaseController extends Controller
 			$this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
 			$this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
 			$this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
-			$this->case_types = ['choose..', 'personal_injury', 'estate_and_probate'];
+			$this->case_types = ['choose..', 'personal_injury', 'estate_and_probate', 'common'];
 			$this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 			$this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
 
