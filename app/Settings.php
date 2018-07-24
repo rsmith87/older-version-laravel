@@ -37,4 +37,8 @@ class Settings extends Model
    public function firm(){
    	return $this->hasMany('App\User', 'id', 'user_id');
    }
+
+   public function user(){
+   	return $this->belongsTo('App\User', 'id', 'user_id');
+   }
 }
