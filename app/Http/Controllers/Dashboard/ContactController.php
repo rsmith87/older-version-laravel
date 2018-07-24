@@ -144,7 +144,7 @@ class ContactController extends Controller
 		if (!$requested_contact) {
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
 		}
-
+		$all_media = [];
 		$media_relationships = MediaRelationship::where(['model_id' => $requested_contact->id, 'model' => 'client'])->get();
 		if (count($media_relationships) > 0) {
 			foreach ($media_relationships as $mr) {
@@ -153,7 +153,8 @@ class ContactController extends Controller
 		}
 
 		$cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
-		$notes = Note::where('contlient_uuid', $id)->get();
+		//$notes = Note::where('contlient_uuid', $id)->get();
+		$notes = [];
 		$task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
 		$logs = CommLog::where(['type' => 'contact_client', 'type_id' => $requested_contact->id])->get();
 
@@ -243,7 +244,7 @@ class ContactController extends Controller
 			$updated = 'updated';
 		}
 
-		if (!isset($data['case_id'])) {
+		if (!isset($data['case_id']) || $data['case_id'] === "") {
 			$data['case_id'] = 0;
 		}
 		if (!isset($data['relationship'])) {
@@ -252,7 +253,7 @@ class ContactController extends Controller
 		$contlient_uuid = Uuid::generate()->string;
 
 		if (empty($data['is_client']) or !isset($data['is_client']) || $data['is_client'] === '0') {
-			$redirect = 'dashboard/contacts';
+			$redirect = 'dashboard/contacts/contact/'.$contlient_uuid;
 			$type = 'Contact';
 
 			Contact::updateOrCreate(
@@ -280,12 +281,18 @@ class ContactController extends Controller
 				]);
 
 		} else if ($data['is_client'] === '1') {
-			$redirect = 'dashboard/clients';
+			$redirect = 'dashboard/clients/client/'.$contlient_uuid;
 			$type = 'Client';
 
-			$case = LawCase::where('id', $data['case_id'])->get();
+			$case = LawCase::where('id', $data['case_id'])->first();
 
-			if (count($case) === 1) {
+			if($data['case_id'] != 0) {
+				$more_than_one_client = Contact::where(['is_client' => 1, 'case_id' => $case->id])->get();
+			} else {
+				$more_than_one_client = [];
+			}
+
+			if (count($more_than_one_client) < 1) {
 
 				Contact::updateOrCreate(
 					[
@@ -306,7 +313,6 @@ class ContactController extends Controller
 						'zip' => $data['zip'],
 						'user_id' => $this->user['id'],
 						'firm_id' => $this->settings->firm_id,
-						'case_id' => $data['case_id'],
 						'is_client' => '1',
 					]);
 
@@ -318,7 +324,7 @@ class ContactController extends Controller
 
 		$status = $type . " " . $data['first_name'] . " " . $data['last_name'] . " " . $updated . "!";
 
-		return redirect()->back()->with('status', $status);
+		return redirect($redirect)->with('status', $status);
 
 	}
 

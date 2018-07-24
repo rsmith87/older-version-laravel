@@ -424,6 +424,7 @@ class CaseController extends Controller
 
 		$requested_case = LawCase::where(['firm_id' => $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
 		$case_hours = CaseHours::where('case_uuid', $id)->get();
+		$case_notes = Note::where('case_uuid', $id)->get();
 		$clients = Contact::where(['case_id' => $id, 'is_client' => 1])->first();
 		$contacts = Contact::where(['case_id' => $id, 'is_client' => 0])->get();
 		$order = Order::where('case_uuid', $id)->first();
@@ -435,6 +436,7 @@ class CaseController extends Controller
 		$timeline_data[0]['date'] = $requested_case->created_at;
 		$timeline_data[0]['headline'] = $requested_case->name;
 		$timeline_data[0]['type'] = 'lawcase';
+		$timeline_data[0]['link'] = '/dashboard/cases/case/'.$requested_case->case_uuid;
 
 
 		if (count($clients) > 0) {
@@ -448,15 +450,31 @@ class CaseController extends Controller
 
 		if (count($case_hours) > 0) {
 			foreach ($case_hours as $case_hour) {
-				$task_created_time = $case_hour->created_at;
+				if ($case_hour->hours != 0){
+					$task_created_time = $case_hour->created_at;
 				array_push($timeline_data, [
 					'date' => $task_created_time,
 					'headline' => 'Worked ' . $case_hour->hours . ' hours on case.',
 					'type' => 'hours',
 				]);
+
+				}
 			}
 		}
 
+		if (count($case_notes) > 0) {
+			foreach ($case_notes as $case_note) {
+					$note_created_time = $case_note->created_at;
+					array_push($timeline_data, [
+						'date' => $note_created_time,
+						'headline' => 'Added note ' . $case_note->note,
+						'type' => 'notes',
+						'link' => '/dashboard/cases/case/'.$requested_case->case_uuid,
+					]);
+
+
+			}
+		}
 
 		if (count($task_lists) > 0) {
 			foreach ($task_lists as $task_list) {

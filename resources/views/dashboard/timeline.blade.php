@@ -84,7 +84,7 @@
 								Case created for {{ $td['headline'] }}
 							  </div>
 							  <div class="timeline-footer">
-								<a class="btn btn-primary btn-xs">View</a>
+								<a class="btn btn-primary btn-xs" href="{{ $td['link'] }}">View</a>
 							  </div>
 							</div>
 						  </li>
@@ -92,55 +92,8 @@
 						  <!-- END timeline item -->
 							  @endforeach
 						  <!-- /.timeline-label -->
-						  <!-- timeline time label -->
-						  <li class="time-label">
 
-                  <span class="bg-green">
-                    3 Jan. 2014
-                  </span>
-						  </li>
-						  <!-- /.timeline-label -->
-						  <!-- timeline item -->
-						  <li>
-							<i class="fas fa-camera bg-purple"></i>
 
-							<div class="timeline-item">
-							  <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
-
-							  <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-							  <div class="timeline-body">
-								<img src="http://placehold.it/150x100" alt="..." class="margin">
-								<img src="http://placehold.it/150x100" alt="..." class="margin">
-								<img src="http://placehold.it/150x100" alt="..." class="margin">
-								<img src="http://placehold.it/150x100" alt="..." class="margin">
-							  </div>
-							</div>
-						  </li>
-						  <!-- END timeline item -->
-						  <!-- timeline item -->
-						  <li>
-							<i class="fa fa-video-camera bg-maroon"></i>
-
-							<div class="timeline-item">
-							  <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
-
-							  <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
-
-							  <div class="timeline-body">
-								<div class="embed-responsive embed-responsive-16by9">
-								  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen=""></iframe>
-								</div>
-							  </div>
-							  <div class="timeline-footer">
-								<a href="#" class="btn btn-xs bg-maroon">See comments</a>
-							  </div>
-							</div>
-						  </li>
-						  <!-- END timeline item -->
-						  <li>
-							<i class="fa fa-clock-o bg-gray"></i>
-						  </li>
 						</ul>
 					  </div>
 					  <!-- /.col -->
@@ -158,7 +111,7 @@
 </div>
 
 @include('dashboard.includes.event-modal')
-@include('dashboard.includes.document-modal');
+@include('dashboard.includes.document-modal')
 @include('dashboard.includes.invoice-modal')
 @include('dashboard.includes.case-modal')
 
@@ -174,7 +127,7 @@
 				<hr />        
         <form method="POST" action="/dashboard/cases/case/notes/note/add">
           <input type="hidden" name="_token" value="{{ csrf_token() }}"  />
-          <input type="hidden" name="case_id" value="{{ $case->id }}" />
+          <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}" />
           <label>Note</label>
           <textarea name="note" class="form-control"></textarea>
           <button type="submit" class="form-control mt-3 btn btn-primary">
