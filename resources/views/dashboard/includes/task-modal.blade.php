@@ -79,11 +79,12 @@
           </div>
          
           </div>
-
+          @if(null === Request::segment(3))
           <div class="col-sm-6 col-xs-12">
             <label>Show on dashboard?</label>
             <input type="checkbox" name="show_dashboard" class="form-control">
           </div>
+          @endif
      
           <div class="col-12">
             <button type="submit" class="btn btn-primary mt-2 mb-2"><i class="fas fa-check"></i> Submit</button>

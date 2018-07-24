@@ -18,26 +18,26 @@ Route::get('/', function () {
 
 Route::get('/user-email-verified', 'Controller@email_verified');
 
-Route::get('/register', function() {
-  return view('auth/register');
+Route::get('/register', function () {
+	return view('auth/register');
 });
 
 Route::get('/register/payment', [
-    'as' => 'addmoney.paywithstripe',
-    'uses' => 'Auth\StripeController@add_payment'
+		'as' => 'addmoney.paywithstripe',
+		'uses' => 'Auth\StripeController@add_payment',
 	]
 );
 
 Route::post('/register/payment', [
-    'as' => 'addmoney.stripe',
-    'uses' => 'Auth\StripeController@add_stripe_payment'
+		'as' => 'addmoney.stripe',
+		'uses' => 'Auth\StripeController@add_stripe_payment',
 	]
 );
 
 Route::get('/roles-permissions', 'Controller@create_roles_and_permissions');
 
-Route::get('/password/reset', function() {
-  return view('auth/password/reset');
+Route::get('/password/reset', function () {
+	return view('auth/password/reset');
 });
 
 Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
@@ -63,7 +63,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/', function () {
 		return redirect('/login');;
 	});
-
 
 
 	Route::get('/logout', 'Auth\LoginController@logout');
@@ -351,9 +350,6 @@ Route::group(['middleware' => ['web']], function () {
 			->where('file_name', '.*');
 	});
 });
-
-
-
 
 
 // MediaManager
