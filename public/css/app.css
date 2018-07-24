@@ -1140,4 +1140,10 @@ table#documents th:nth-child(1) {
   margin: 10px 0;
   clear: both;
 }
+#create-message-modal .form_group {
+  overflow: hidden;
+}
+#create-message-modal .checkbox label .icheckbox_square-blue {
+  margin-right: 5px;
+}
 /*# sourceMappingURL=app.css.map */

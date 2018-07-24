@@ -33,4 +33,8 @@ class Settings extends Model
       'instagram',
       'avvo',
    ];
+
+   public function firm(){
+   	return $this->hasMany('App\User', 'id', 'user_id');
+   }
 }

@@ -52,7 +52,7 @@
 
               <div class="box-tools pull-right">
                 <div class="has-feedback">
-                  <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                  <input type="text" class="form-control input-sm" placeholder="Search messages">
                   <span class="glyphicon glyphicon-search form-control-feedback"></span>
                 </div>
               </div>
@@ -96,27 +96,7 @@
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.box-body -->
-            <div class="box-footer no-padding">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                <div class="pull-right">
-                 1 - {{ count($threads) }}/{{ count($threads) }}
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.pull-right -->
-              </div>
-            </div>
+
           </div>
           <!-- /. box -->
         </div>
@@ -155,15 +135,21 @@
                 <label class="control-label">Message</label>
                 <textarea name="message" class="form-control">{{ old('message') }}</textarea>
             </div>
-           
-            @if(count($users) > 0)
+
+          <div class="form_group">
+            <label>Users</label>
+            @if(count($firm_users) > 0)
                 <div class="checkbox">
-                    @foreach($users as $u)
-                        <label title="{{ $u[0]['name'] }}">
-                          <input type="checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{!! $u[0]['name'] !!}</label>
+                    @foreach($firm_users as $f_u)
+                      @foreach($f_u->Firm as $u)
+                        <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
+                          <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name : $u->email }}</label>
+                        <br />
+                        @endforeach
                     @endforeach
                 </div>
             @endif
+          </div>
     
             <!-- Submit Form Input -->
             <div class="form-group">
@@ -176,12 +162,6 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
 
-
-	
-
-
-</script>
 
 @stop

@@ -65,7 +65,8 @@ class MessagesController extends Controller
 			// All threads that user is participating in, with new messages
 			//$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
-      $firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
+      $firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
+
       //print_r($firm_users);
       foreach($firm_users as $u){
         $usrs[] = User::where('id', $u->user_id)->get();
@@ -83,7 +84,8 @@ class MessagesController extends Controller
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
-        'fs' => $this->firm_stripe,          
+        'fs' => $this->firm_stripe,
+				'firm_users' => $firm_users,
 			]);
     }
 
@@ -106,8 +108,8 @@ class MessagesController extends Controller
 			// $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
       $threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
 
-      $firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
-      $userId = Auth::id();
+	    $firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
+	    $userId = Auth::id();
       foreach($firm_users as $u){
         // whereNotIn('id', $thread->participantsUserIds($userId))->
         $usrs[] = User::where('id', $u->user_id)->get();
@@ -127,7 +129,8 @@ class MessagesController extends Controller
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,          
+      'fs' => $this->firm_stripe,
+				'firm_users' => $firm_users,
 			]);
     }
 	

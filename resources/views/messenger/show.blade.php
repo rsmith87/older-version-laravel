@@ -94,15 +94,20 @@
                         <textarea name="message" class="form-control">{{ old('message') }}</textarea>
                     </div>
 
-                    @if(count($users) > 0)
-                        <div class="checkbox">
-                            @foreach($users as $u)
-                                <label title="{{ $u[0]['name'] }}">
-                                    <input type="checkbox" class="message-checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{{ $u[0]['name'] }}
-                                </label>
+                      <div class="form_group">
+                        <label>Users</label>
+                        @if(count($firm_users) > 0)
+                          <div class="checkbox">
+                            @foreach($firm_users as $f_u)
+                              @foreach($f_u->Firm as $u)
+                                <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
+                                  <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name : $u->email }}</label>
+                                <br />
+                              @endforeach
                             @endforeach
-                        </div>
-                    @endif
+                          </div>
+                        @endif
+                      </div>
 
                     <!-- Submit Form Input -->
                     <div class="form-group">
