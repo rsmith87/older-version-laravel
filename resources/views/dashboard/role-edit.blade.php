@@ -34,6 +34,11 @@
     <h5><b>Assign Permissions</b></h5>
     @foreach ($permissions as $permission)
 		<div class="form-group">
+		  @foreach($permissions as $permission)
+			<label>{{ ucfirst($permission->name) . " rate" }}</label>
+			<input type="checkbox" name="permissions[]"
+				   value='{{ $permission->id }}' {{  ? 'checked=checked' : '' }} />
+		  @endforeach
         {{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}
         {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
 		</div>

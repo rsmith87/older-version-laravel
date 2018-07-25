@@ -314,13 +314,15 @@ class SettingController extends Controller
         $permissions = $request['permissions'];
 
         $role->save();
-    		//Looping thru selected permissions
+				$role = Role::where('name', $name)->get();
+
+				//Looping thru selected permissions
         foreach ($permissions as $permission) {
             $p = Permission::where('id', $permission)->first(); 
-         	//Fetch the newly created role and assign permission
-            $role = Role::where('name', $name)->get(); 
-            $role->givePermissionTo($p);
+         	  //Fetch the newly created role and assign permission
+	          $permission->assignRole($role);
         }
+				$role->syncPermissions($permissions);
 
         return redirect()->route('roles.index')
             ->with('flash_message',
@@ -355,10 +357,9 @@ class SettingController extends Controller
 
         $input = $request->except(['permissions']);
         $permissions = $request['permissions'];
-        print_r($input);
-        //print_r($permissions);
+
         $role->fill($input)->save();
-        print_r($role);
+
 
         $p_all = Permission::all();//Get all permissions
 

@@ -45,8 +45,34 @@ class CaseController extends Controller
 			$this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get();
 			$this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
 			$this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
-			$this->status_values = ['choose..', 'potential', 'active', 'closed', 'rejected'];
-			$this->case_types = ['choose..', 'personal_injury', 'estate_and_probate', 'common'];
+
+			$this->status_values = [
+				'choose..',
+				'potential',
+				'active',
+				'closed',
+				'rejected'];
+
+			$this->case_types = [
+				'choose..',
+				'estate_planning',
+				'probate',
+				'divorce',
+				'child_custody',
+				'child_support',
+				'adoption',
+				'name_changes',
+				'criminal',
+				'personal_injury',
+				'real_estate',
+				'bankruptcy',
+				'immigration',
+				'landlord/tenant',
+				'social_security',
+				'tax',
+				'other'
+			];
+
 			$this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 			$this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
 
@@ -257,7 +283,7 @@ class CaseController extends Controller
 			$directory = \File::makeDirectory(public_path('files/user/'.\Auth::id().'/'.$this->clean($data['name'])));
 		}
 
-		if (isset($data['hours'])) {
+		if ($data['hours'] != "") {
 			CaseHours::create([
 				'case_uuid' => $case_uuid,
 				'hours' => $data['hours'],

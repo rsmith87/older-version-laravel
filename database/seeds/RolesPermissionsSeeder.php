@@ -16,48 +16,51 @@ class RolesPermissionsSeeder extends Seeder
      */
     public function run()
     {
-      
+
       // Reset cached roles and permissions
       app()['cache']->forget('spatie.permission.cache');
-      
-      $role = Role::create(['guard_name' => 'admin', 'name' => 'superadmin']);
-            // Create a superadmin role for the admin users
-      $role = Role::create(['guard_name' => 'web', 'name' => 'administrator']);
-            // Create a superadmin role for the admin users
-      $role = Role::create(['guard_name' => 'web', 'name' => 'authenticated_user']);
-            // Create a superadmin role for the admin users
-      $role = Role::create(['guard_name' => 'web', 'name' => 'client']);
-      
-      
-      $permission = Permission::create(['name' => 'view cases']);
-      $permission = Permission::create(['name' => 'view clients']);
-      $permission = Permission::create(['name' => 'view contacts']);
-      $permission = Permission::create(['name' => 'view firm']);
-      $permission = Permission::create(['name' => 'view invoices']);
-      $permission = Permission::create(['name' => 'view calendar']);
-      $permission = Permission::create(['name' => 'view messages']);
-      $permission = Permission::create(['name' => 'view tasks']);
-      $permission = Permission::create(['name' => 'view documents']);
-      $permission = Permission::create(['name' => 'view reports']);
-      $permission = Permission::create(['name' => 'view settings']);
-      $permission = Permission::create(['name' => 'view firms']); 
-      $permission = Permission::create(['name' => 'view users']);       
-      $permission = Permission::create(['name' => 'view roles']);       
-      $permission = Permission::create(['name' => 'view permissions']);        
-      
-      $role = Role::findByName('administrator');
-      $role->givePermissionTo('view cases');
-      $role->givePermissionTo('view clients');   
-      $role->givePermissionTo('view contacts');
-      $role->givePermissionTo('view firm');
-      $role->givePermissionTo('view invoices');
-      $role->givePermissionTo('view calendar');
-      $role->givePermissionTo('view messages');
-      $role->givePermissionTo('view tasks');
-      $role->givePermissionTo('view documents');
-      $role->givePermissionTo('view reports');
-      $role->givePermissionTo('view settings');
-      
+
+      //all the roles used in LGK
+      $role_types = [
+      	'superadmin' => 'admin',
+	      'administrator' => 'web',
+	      'authenticated_user' => 'web',
+	      'firm_manager' => 'web',
+	      'firm_member' => 'web',
+	      'client' => 'web',
+      ];
+
+      //create all the roles used by LGK
+      foreach($role_types as $key=>$index){
+	      Role::create(['guard_name' => $index, 'name' => $key]);
+      }
+
+      //all permissions used in LGK
+      $permissions = [
+      	'view cases',
+	      'view clients',
+	      'view contacts',
+	      'view firm',
+	      'view invoices',
+	      'view calendar',
+	      'view messages',
+	      'view tasks',
+	      'view documents',
+	      'view reports',
+	      'view settings',
+	      'view firms',
+	      'view users',
+	      'view roles',
+	      'view permissions',
+	      ];
+
+      //get admin role and assign all permissions to it
+	    $role = Role::findByName('administrator');
+      foreach($permissions as $permission){
+        Permission::create(['name' => $permission]);
+	      $role->givePermissionTo($permission);
+      }
+
       
       $role = Role::findByName('authenticated_user');
       $role->givePermissionTo('view cases');
@@ -75,15 +78,39 @@ class RolesPermissionsSeeder extends Seeder
       $role->givePermissionTo('view users');       
       $role->givePermissionTo('view roles');       
       $role->givePermissionTo('view permissions'); */
-      
-      /*$role = Role::findByName('client');
-      $role->givePermissionTo('view cases');
-      $role->givePermissionTo('view invoices'); 
-      $role->givePermissionTo('view invoices');
-      $role->givePermissionTo('view calendar');
-      $role->givePermissionTo('view messages');
-      $role->givePermissionTo('view tasks');
-      $role->givePermissionTo('view documents');*/
+
+	    $role_fm = Role::findByName('firm_manager');
+	    $role_fm->givePermissionTo('view cases');
+	    $role_fm->givePermissionTo('view clients');
+	    $role_fm->givePermissionTo('view contacts');
+	    $role_fm->givePermissionTo('view firm');
+	    $role_fm->givePermissionTo('view invoices');
+	    $role_fm->givePermissionTo('view calendar');
+	    $role_fm->givePermissionTo('view messages');
+	    $role_fm->givePermissionTo('view tasks');
+	    $role_fm->givePermissionTo('view documents');
+	    $role_fm->givePermissionTo('view reports');
+	    $role_fm->givePermissionTo('view settings');
+
+	    $role_fmm = Role::findByName('firm_member');
+	    $role_fmm->givePermissionTo('view cases');
+	    $role_fmm->givePermissionTo('view clients');
+	    $role_fmm->givePermissionTo('view contacts');
+	    $role_fmm->givePermissionTo('view invoices');
+	    $role_fmm->givePermissionTo('view calendar');
+	    $role_fmm->givePermissionTo('view messages');
+	    $role_fmm->givePermissionTo('view tasks');
+	    $role_fmm->givePermissionTo('view documents');
+	    $role_fmm->givePermissionTo('view reports');
+	    $role_fmm->givePermissionTo('view settings');
+
+      $role_c = Role::findByName('client');
+      $role_c->givePermissionTo('view cases');
+      $role_c->givePermissionTo('view invoices');
+      $role_c->givePermissionTo('view calendar');
+      $role_c->givePermissionTo('view messages');
+      $role_c->givePermissionTo('view tasks');
+      $role_c->givePermissionTo('view documents');
       
       //$uuid = Uuid::generate()->string;
       $user = User::create([
@@ -107,8 +134,8 @@ class RolesPermissionsSeeder extends Seeder
       
       DB::table('model_has_roles')->insert([
          'model_type' => 'App\User',
-          'model_id' => $user->id,
-          'role_id' => 3,
+          'model_id' => $user_second->id,
+          'role_id' => 4,
       ]);      
       
       DB::table('firm')->insert([
@@ -121,7 +148,7 @@ class RolesPermissionsSeeder extends Seeder
       ]);
       
       DB::table('firm')->insert([
-          'name' => 'Admin Second Firm',
+          'name' => 'Legalkeeper Firm',
           'address_1' => '132 W. Johnson St.',
           'state' => 'TX',
           'city' => 'Hewitt',
