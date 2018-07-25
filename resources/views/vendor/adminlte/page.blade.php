@@ -161,10 +161,14 @@
 		  <div class="user-panel">
 			<div class="pull-left image">
 
-			@if(isset($settings->profile_image))
-				<img src="/storage{{ $settings->profile_image }}" class="img-circle" alt="User Image">
-			@elseif(Gravatar::exists($user->email))
+			@if(Gravatar::exists($user->email))
 				<img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image">
+
+			@elseif(isset($settings->profile_image))
+				<img src="/storage{{ $settings->profile_image }}" class="img-circle" alt="User Image">
+			@elseif((isset($settings->profile_image)) && Gravatar::exists($user->email))
+				<img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image">
+
 			@endif
 			</div>
 
