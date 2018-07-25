@@ -118,12 +118,12 @@
 		  <p>{{ $case->statute_of_limitations }}</p>
 		  @endif
 
-		  @if($case->open_date)
+		  @if($case->open_date != "0000-00-00 00:00:00")
 		  <label>Open date</label>
 		  <p>{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}</p>
 		  @endif
 
-		  @if($case->close_date)
+		  @if($case->close_date != "0000-00-00 00:00:00")
 		  <label>Close date</label>
 		  <p>{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}</p>
 		  @endif
@@ -618,7 +618,7 @@
 
 			  <label>Open date</label>
 			  <input type="text" class="form-control datepicker"
-					 value="{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}" id="open_date"
+					 value="{{ $case->open_date != "0000-00-00 00:00:00" ? \Carbon\Carbon::parse($case->open_date)->format('m/d/Y'): "" }}" id="open_date"
 					 name="open_date" aria-label="Open date">
 			</div>
 			<div class="col-sm-6 col-xs-12">
@@ -626,7 +626,7 @@
 
 			  <label>Close date</label>
 			  <input type="text" class="form-control datepicker" id="close_date"
-					 value="{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}"
+					 value="{{ $case->close_date != "0000-00-00 00:00:00" ? \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') : ""}}"
 					 name="close_date" aria-label="Close date">
 			</div>
 
