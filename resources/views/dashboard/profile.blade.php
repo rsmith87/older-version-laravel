@@ -24,10 +24,10 @@
 					 alt="User profile picture">
 			  @elseif(isset($settings->profile_image) && Gravatar::exists($user->email))
 				<img class="profile-user-img img-responsive img-circle" src="{{ Gravatar::get($user->email) }}"
-					 alt="User profile picture">>
+					 alt="User profile picture">
 			  @elseif(Gravatar::exists($user->email))
 				<img class="profile-user-img img-responsive img-circle" src="{{ Gravatar::get($user->email) }}"
-					 alt="User profile picture">>
+					 alt="User profile picture">
 			  @endif
 
 			<h3 class="profile-username text-center">{{ $user->name }}</h3>
@@ -79,50 +79,39 @@
 				<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 				<input type="hidden" name="u_id" value="{{ $user->id }}"/>
 				<div class="form-group">
-				  <label for="inputName" class="col-sm-2 control-label">Name</label>
+				  <label for="inputName">Name</label>
 
-				  <div class="col-sm-10">
+
 					<input class="form-control" id="inputName" name="name" value="{{ $user->name }}" placeholder="Name">
-				  </div>
 				</div>
 				<div class="form-group">
-				  <label for="inputSkills" class="col-sm-2 control-label">Title</label>
+				  <label for="inputSkills">Title</label>
 
-				  <div class="col-sm-10">
 					<input type="text" class="form-control" value="{{ $settings->title }}" id="inputSkills" name="title"
 						   placeholder="Title">
-				  </div>
 				</div>
 				<div class="form-group">
-				  <label for="profile-image" class="col-sm-2 control-label">Profile image</label>
+				  <label for="profile-image">Profile image</label>
 
-				  <div class="col-sm-10">
 					<input type="file" class="form-control" name="file_upload"/>
-				  </div>
 				</div>
 				<div class="form-group">
-				  <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+				  <label for="inputEmail">Email</label>
 
-				  <div class="col-sm-10">
 					<input type="email" class="form-control" id="inputEmail" name="email" value="{{ $user->email }}"
 						   placeholder="Email">
-				  </div>
 				</div>
 				<div class="form-group">
-				  <label for="inputExperience" class="col-sm-2 control-label">Education</label>
+				  <label for="inputExperience">Education</label>
 
-				  <div class="col-sm-10">
 					<textarea class="form-control" id="inputExperience" name="education"
 							  placeholder="Education">{{ $settings->education }}</textarea>
-				  </div>
 				</div>
 				<div class="form-group">
-				  <label for="inputExperience" class="col-sm-2 control-label">Location</label>
+				  <label for="inputExperience">Location</label>
 
-				  <div class="col-sm-10">
 					<textarea class="form-control" id="inputExperience" name="location"
 							  placeholder="Location">{{ $settings->location }}</textarea>
-				  </div>
 				</div>
 
 				<div class="form-group">

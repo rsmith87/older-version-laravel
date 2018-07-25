@@ -1127,6 +1127,9 @@ table#documents td:nth-child(1),
 table#documents th:nth-child(1) {
   display: table-cell;
 }
+.single-invoice button a {
+  color: #FFF;
+}
 .single-invoice td:nth-child(1),
 .single-invoice th:nth-child(1) {
   display: table-cell;

@@ -840,9 +840,9 @@
 			  </div>
 			</div>
 			<div class="col-sm-6 payment-double col-xs-12">
-			<label>Date</label>
+			<label>Due date (configurable in firm)</label>
 			<input type="text" class="form-control datepicker"
-				   value="{{ \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('m/d/Y') }}" id="invoice_date"
+				   value="{{ \Carbon\Carbon::parse(\Carbon\Carbon::now())->addDays(7)->format('m/d/Y') }}" id="invoice_date"
 				   name="invoice_date" aria-label="Invoice date">
 			</div>
 

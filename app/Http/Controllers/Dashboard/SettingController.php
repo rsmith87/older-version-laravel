@@ -16,6 +16,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use App\Thread;
 
 class SettingController extends Controller
 {
@@ -35,6 +36,8 @@ class SettingController extends Controller
 						//return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 					//}
 					$this->settings = Settings::where('user_id', $this->user['id'])->first();
+	        $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+	        $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
 					return $next($request);
         });
     }
@@ -244,7 +247,9 @@ class SettingController extends Controller
 				'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
-				'firm_id' => $this->settings->firm_id,   					
+				'firm_id' => $this->settings->firm_id,
+	      'threads' => $this->threads,
+	        'user' => $this->user,
 				]);
 		}
 	public function create_permission() {
@@ -256,7 +261,9 @@ class SettingController extends Controller
 				'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
-				'firm_id' => $this->settings->firm_id,  	
+				'firm_id' => $this->settings->firm_id,
+	        'threads' => $this->threads,
+	        'user' => $this->user,
 				]);
     }
 	
@@ -331,7 +338,9 @@ class SettingController extends Controller
 					'theme' => $this->settings->theme,
 					'table_color' => $this->settings->table_color,
 					'table_size' => $this->settings->table_size,
-					'firm_id' => $this->settings->firm_id,   							
+					'firm_id' => $this->settings->firm_id,
+	        'threads' => $this->threads,
+	        'user' => $this->user,
 				]); 
 		}
 	
@@ -380,7 +389,9 @@ class SettingController extends Controller
 					'theme' => $this->settings->theme,
 					'table_color' => $this->settings->table_color,
 					'table_size' => $this->settings->table_size,
-					'firm_id' => $this->settings->firm_id, 					
+					'firm_id' => $this->settings->firm_id,
+	        'threads' => $this->threads,
+	        'user' => $this->user,
 				]);
 		}
 	
@@ -411,6 +422,8 @@ class SettingController extends Controller
 					'table_size' => $this->settings->table_size,
           'theme' => $this->settings->theme,
            'users' => $users,
+	       'threads' => $this->threads,
+	       'user' => $this->user,
 				 ]);
 		}
 	 /**

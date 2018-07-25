@@ -88,6 +88,7 @@ class RolesPermissionsSeeder extends Seeder
       //$uuid = Uuid::generate()->string;
       $user = User::create([
         'email' => 'codenut33@gmail.com',
+        'name' => 'Robby Smith',
         'password' => bcrypt('123456'),
         'verified' => 1,
       ]);

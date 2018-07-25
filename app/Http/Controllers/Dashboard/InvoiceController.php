@@ -210,4 +210,17 @@ class InvoiceController extends Controller
 		]);
 	}
 
+	public function invoice_pdf_download(Request $request, $id)
+	{
+		$invoice = Invoice::where('invoice_uuid', $id)->first();
+		$firm = Firm::where('id', $this->settings->firm_id)->first();
+		$case = LawCase::where('case_uuid', $invoice->invoicable_id)->first();
+		$client= Contact::where('case_id', $case->id)->first();
+
+		$pdf = \PDF::loadView('pdf.invoice', ['invoice' => $invoice, 'firm' => $firm, 'client' => $client]);
+
+		return $pdf->download('invoice_'.$invoice->invoice_uuid.'.pdf');
+
+	}
+
 }

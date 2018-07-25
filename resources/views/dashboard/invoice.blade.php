@@ -141,7 +141,9 @@
 			<button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
 			</button>
 			<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-			  <i class="fa fa-download"></i> Generate PDF
+			  <a href="/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/download">
+			  	<i class="fa fa-download"></i> Generate PDF
+			  </a>
 			</button>
 		  </div>
 		</div>

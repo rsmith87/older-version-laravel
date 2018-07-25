@@ -33,10 +33,10 @@
 
     <h5><b>Assign Permissions</b></h5>
     @foreach ($permissions as $permission)
-
+		<div class="form-group">
         {{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}
         {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
+		</div>
     @endforeach
     <br>
     {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
