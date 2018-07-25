@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Webpatser\Uuid\Uuid;
 use App\Media;
 use App\MediaRelationship;
+use App\Event;
 
 class CaseController extends Controller
 {
@@ -361,6 +362,7 @@ class CaseController extends Controller
 			'status_values' => $this->status_values,
 			'case_types' => $this->case_types,
 			'invoice_amount' => $invoice_amount,
+			'case_hours' => $case_hours,
 
 			'documents' => $documents,
 			'media' => isset($all_media) ? $all_media : [],
@@ -408,8 +410,10 @@ class CaseController extends Controller
 		if (count($order) > 0) {
 			Order::where('case_uuid', $data['case_uuid'])->update(['amount_remaining' => $order->amount_remaining + ($hours_amount * $case->billing_rate)]);
 		}
-		return redirect('/dashboard/cases/case/' . $data['case_uuid'])->with('status', 'Hours updated');
+		return redirect()->back()->with('status', 'Hours updated');
 	}
+
+
 
 	public function timeline($id)
 	{
@@ -425,12 +429,14 @@ class CaseController extends Controller
 		$requested_case = LawCase::where(['firm_id' => $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
 		$case_hours = CaseHours::where('case_uuid', $id)->get();
 		$case_notes = Note::where('case_uuid', $id)->get();
-		$clients = Contact::where(['case_id' => $id, 'is_client' => 1])->first();
-		$contacts = Contact::where(['case_id' => $id, 'is_client' => 0])->get();
+		$clients = Contact::where(['case_id' => $requested_case->id, 'is_client' => 1])->first();
+		$contacts = Contact::where(['case_id' => $requested_case->id, 'is_client' => 0])->get();
 		$order = Order::where('case_uuid', $id)->first();
 		$documents = Document::where('case_id', $id)->get();
 		$invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
 		$task_lists = TaskList::where('c_id', $id)->with('task')->get();
+		$events = Event::where('c_id', $requested_case->id)->get();
+
 
 		//init timeline data = cant have a case timeline without a case so it has to have this to be made
 		$timeline_data[0]['date'] = $requested_case->created_at;
@@ -445,6 +451,7 @@ class CaseController extends Controller
 				'date' => $contact_created_time,
 				'headline' => 'Added ' . $clients->first_name . " " . $clients->last_name . ' as client.',
 				'type' => 'client',
+				'link' => '/dashboard/clients/client/'.$clients->contlient_uuid,
 			]);
 		}
 
@@ -454,8 +461,9 @@ class CaseController extends Controller
 					$task_created_time = $case_hour->created_at;
 				array_push($timeline_data, [
 					'date' => $task_created_time,
-					'headline' => 'Worked ' . $case_hour->hours . ' hours on case.',
+					'headline' => $case_hour->note,
 					'type' => 'hours',
+					'link' => '/dashboard/cases/case/'.$requested_case->case_uuid,
 				]);
 
 				}
@@ -476,6 +484,20 @@ class CaseController extends Controller
 			}
 		}
 
+		if (count($events) > 0) {
+			foreach ($events as $event) {
+				$event_created_time = $event->created_at;
+				array_push($timeline_data, [
+					'date' => $event_created_time,
+					'headline' => 'Added event ' . $event->name,
+					'type' => 'events',
+					'link' => '/dashboard/calendar',
+				]);
+
+
+			}
+		}
+
 		if (count($task_lists) > 0) {
 			foreach ($task_lists as $task_list) {
 				foreach ($task_list->Task as $task) {
@@ -484,6 +506,7 @@ class CaseController extends Controller
 						'date' => $task_created_time,
 						'headline' => 'Added ' . $task->task_name . ' as task.',
 						'type' => 'tasklist',
+						'link' => '/dashboard/tasklists/'.$task_list->task_list_uuid,
 					]);
 				}
 			}
@@ -495,6 +518,7 @@ class CaseController extends Controller
 					'date' => $invoice->created_at,
 					'headline' => 'Sent ' . $invoice->receiver_info . ' an invoice in the amount of $' . $invoice->total . '.',
 					'type' => 'invoice',
+					'link' => '/dashboard/invoices/invoice'.$invoice->invoice_uuid,
 				]);
 			}
 		}
@@ -506,6 +530,7 @@ class CaseController extends Controller
 					'date' => $document_created_time,
 					'headline' => 'Added ' . $document->name . ' document.',
 					'type' => 'document',
+					'link' => '/dashboard/documents',
 				]);
 			}
 		}
@@ -517,9 +542,11 @@ class CaseController extends Controller
 					'date' => $contact_created_time,
 					'headline' => 'Added ' . $contact->first_name . " " . $contact->last_name . ' as contact.',
 					'type' => 'contact',
+					'link' => '/dashboard/contacts/contact/'.$contact->contlient_uuid,
 				]);
 			}
 		}
+
 
 
 		//complete: need to get all of the timeline data and order it by date
@@ -553,6 +580,7 @@ class CaseController extends Controller
 			'cases' => $this->cases,
 			'contacts' => $this->contacts,
 			'clients' => $this->clients,
+			'case_uuid' => $requested_case->case_uuid,
 			'documents' => $requested_case->Documents,
 			'timeline_data' => $timeline_data,
 			'settings' => $this->settings,
@@ -597,6 +625,22 @@ class CaseController extends Controller
 
 		$note = Note::where('id', $data['id'])->delete();
 		return redirect()->back()->with('status', 'Note deleted successfully');
+	}
+
+	public function hours_edit(Request $request)
+	{
+		$data = $request->all();
+
+		$hours = CaseHours::where('id', $data['id'])->update(['hours' => $data['hours'], 'note' => $data['note']]);
+		return redirect()->back()->with('status', 'Hours edited successfully');
+	}
+
+	public function hours_delete(Request $request)
+	{
+		$data = $request->all();
+
+		$case_hours = CaseHours::where('id', $data['id'])->delete();
+		return redirect()->back()->with('status', 'Hours deleted succesfully!');
 	}
 
 	private function fix_date($dts)

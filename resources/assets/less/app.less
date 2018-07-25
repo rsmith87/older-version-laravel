@@ -1087,9 +1087,10 @@ select.form-control:not([size]):not([multiple]){
     position: absolute;
     color: #666;
     background: #d2d6de;
-    border-radius: 50%;
+    border-radius: 5px;
     text-align: center;
     left: 18px;
+    padding:5px;
     top: 0;
 }
 }
@@ -1392,6 +1393,14 @@ table{
       .icheckbox_square-blue {
         margin-right: 5px;
       }
+    }
+  }
+}
+
+#payment-modal-full{
+  input{
+    &.btn {
+      margin-top: 15px;
     }
   }
 }

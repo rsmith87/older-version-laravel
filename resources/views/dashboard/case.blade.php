@@ -175,6 +175,36 @@
 		  </div>
 		  </div>
 		@endif
+
+		@if(count($case_hours) > 0)
+		  <div class="container-fluid">
+			<h3 class="mt-5 ml-3">
+			  <i class="fas fa-clock"></i> Case hours
+			</h3>
+			<div class="clearfix"></div>
+			<div class="mb-3 ml-3" style="overflow:hidden;">
+
+
+			  @foreach($case_hours as $case_hour)
+				<div>
+				@if($case_hour->hours != 0)
+				  <div class="card-body">
+					<a class="pull-right" data-toggle="modal" data-target="#delete-hours-modal-{{ $case_hour->id }}"><i
+							  class="fas fa-trash-alt"></i></a>
+					<a data-toggle="modal" class="pull-right" data-target="#edit-hours-modal-{{ $case_hour->id }}"><i
+							  class="fas fa-edit"></i></a>
+					<h5 class="card-title">
+					  Created: {{ \Carbon\Carbon::parse($case_hour->created_at)->format('m/d/Y H:i:s') }}</h5>
+					<p class="card-text"><strong>Hours</strong>: {{ $case_hour->hours }} <br /> <strong>Note</strong>: {{ $case_hour->note }}</p>
+				  </div>
+				</div>
+				@endif
+
+
+			  @endforeach
+			</div>
+		  </div>
+		@endif
 		<div class="clearfix"></div>
 
 
@@ -668,8 +698,13 @@
 			<form method="POST" action="/dashboard/cases/case/note/edit">
 			  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 			  <input type="hidden" name="id" value="{{ $note->id }}"/>
+			  <div class="col-xs-12">
+				<label>Note</label>
 			  <input type="text" class='form-control' name="note" value="{{ $note->note }}"/>
+			  </div>
+			  <div class="col-xs-12">
 			  <input type="submit" class="form-control mt-3 btn btn-primary" value="Save"/>
+			  </div>
 			</form>
 		  </div>
 		</div>
@@ -692,10 +727,68 @@
 				{{ $note->note }}
 			  </p>
 			  <p>
-				If you'd like to delete this note, click delete below!
+				Warning: This is permanent!  If you'd like to delete this note, click delete below!
 			  </p>
-			  <input type="submit" class="form-control mt-3 btn btn-danger" value="Delete note"/>
+			  <input type="submit" class="form-control mt-3 btn btn-danger" value="Delete "/>
 			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  @endforeach
+
+  @foreach($case_hours as $note)
+	<div class="modal fade" id="edit-hours-modal-{{ $note->id }}">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-body">
+			<h3>
+			  <i class="fas fa-clock"></i> Edit hours
+			</h3>
+			<div class="clearfix"></div>
+			<hr/>
+			<form method="POST" action="/dashboard/cases/case/hours/edit">
+			  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+			  <input type="hidden" name="id" value="{{ $note->id }}"/>
+			  <div class="col-xs-12">
+				<label>Hours</label>
+			  <input type="text" class="form-control" name="hours" value="{{ $note->hours }}" />
+			  </div>
+			  <div class="col-xs-12">
+				<label>Note</label>
+			  <input type="text" class='form-control' name="note" value="{{ $note->note }}"/>
+			  </div>
+			  <div class="col-xs-12">
+			  <input type="submit" class="form-control mt-3 btn btn-primary" value="Save"/>
+			  </div>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="modal fade" id="delete-hours-modal-{{ $note->id }}">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-body">
+			<h3>
+			  <i class="fas fa-clock"></i> Delete hours
+			</h3>
+			<div class="clearfix"></div>
+			<hr/>
+			<div class="col-xs-12">
+			<form method="POST" action="/dashboard/cases/case/hours/delete">
+			  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+			  <input type="hidden" name="id" value="{{ $note->id }}"/>
+			  <p>
+				{{ $note->hours }} : {{ $note->note }}
+			  </p>
+			  <p>
+				If you'd like to delete these hours, click delete below!
+			  </p>
+			  <input type="submit" class="form-control mt-3 btn btn-danger" value="Delete hours"/>
+			</form>
+			</div>
 		  </div>
 		</div>
 	  </div>
@@ -716,16 +809,8 @@
 			<input type="hidden" name="invoicable_id" value="{{ !empty($invoicable_id) ? $invoicable_id : "" }}"/>
 			<input type="hidden" name="total_amount" value="{{ $invoice_amount }}.00"/>
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<div class="col-12">
-			  <label>Description</label>
-			  <input type="text" class="form-control" name="invoice_description"/>
-			</div>
-			<div class="col-12">
-			  <label>Amount</label>
-			  <input type="text" class="form-control" value="{{ $invoice_amount }}.00" name="amount"/>
-			</div>
-			<div class="col-12 mb-2">
-			  <label class="mt-2">Client</label>
+			<div class="col-sm-12">
+			  <label>Client</label>
 			  @if(!empty($case->Contacts))
 				@foreach($case->Contacts as $contact)
 				  @if($contact->is_client)
@@ -743,7 +828,25 @@
 				<input type="text" class="form-control" class="mb-3" name="contact_name"/>
 			  @endif
 			</div>
-			<div class="col-12">
+			<div class="col-sm-12">
+			  <label>Description</label>
+			  <input type="text" class="form-control" name="invoice_description"/>
+			</div>
+			<div class="col-sm-6 payment-double col-xs-12">
+			  <label>Amount</label>
+			  <div class="input-group">
+				<span class="input-group-addon">$</span>
+			  <input type="text" class="form-control" value="{{ $invoice_amount }}.00" name="amount"/>
+			  </div>
+			</div>
+			<div class="col-sm-6 payment-double col-xs-12">
+			<label>Date</label>
+			<input type="text" class="form-control datepicker"
+				   value="{{ \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('m/d/Y') }}" id="invoice_date"
+				   name="invoice_date" aria-label="Invoice date">
+			</div>
+
+			<div class="col-sm-12">
 			  <input type="submit" class="btn btn-primary mt-2 form-control"/>
 			</div>
 		  </form>

@@ -4,12 +4,12 @@
 
 <div class="container dashboard case col-sm-12 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-arrow-left"></i> Back to cases</a>  
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->case_uuid }}"><i class="fas fa-arrow-left"></i> Back to case</a>
 		<a class="nav-item nav-link btn btn-info"  data-toggle="modal" data-target="#case-edit-modal" href="#"><i class="fas fa-balance-scale"></i> Edit case</a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i class="fas fa-clock"></i> Add hours worked</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i class="fas fa-sticky-note"></i> Add note</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a> 
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>
 		@if(!empty($case->Contacts))		
 		@foreach($case->Contacts as $contact)
 			@if($contact->is_client)	
@@ -20,14 +20,13 @@
 		@if(count($order) > 0)
 		<a class="nav-item nav-link btn btn-info" href="/dashboard/invoices"><i class="fa fa-file"></i> View invoices</a>
 		@endif
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->id }}/timeline"><i class="fas fa-heartbeat"></i> View timeline</a>    
 
 	</nav> 	
 
 	<div class="panel panel-default">
 		<div class="panel-heading" style="overflow:hidden;">
-			<h1 class="pull-left ml-3 mt-4 mb-2">
-				<i class="fas fa-balance-scale"></i> Case timeline
+			<h1 class="pull-left">
+				<i class="fas fa-sm fa-balance-scale"></i> Case timeline
 			</h1>
 			<div class="clearfix"></div>
 
@@ -45,46 +44,56 @@
 						  <!-- timeline time label -->
 							@foreach($timeline_data as $td)
 							<li class="time-label">
+							  @if(\Carbon\Carbon::parse($td['date']) === \Carbon\Carbon::parse(prev($td['date'])))
 							<span class="bg-blue">
                      			{{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
                   			</span>
+								@endif
 							</li>
 							<!-- timeline item -->
 							<li>
 							@if($td['type'] === 'lawcase')
 
-							<i class="fas fa-gavel bg-blue"></i>
+							<i class="fas fa-sm fa-gavel bg-blue"></i>
 							@elseif($td['type'] === 'hours')
 
-							  <i class="fas fa-clock bg-green"></i>
+							  <i class="fas fa-sm fa-clock bg-green"></i>
 							  @elseif($td['type'] === 'tasklist')
-							  <i class="fas fa-list-alt bg-yellow"></i>
+							  <i class="fas fa-sm fa-list-alt bg-yellow"></i>
 
 							  @elseif($td['type'] === 'invoice')
-							  <i class="fas fa-file-pdf-o bg-red"></i>
+							  <i class="fas fa-sm fa-file-alt bg-red"></i>
 
 							  @elseif($td['type'] === 'document')
-							  <i class="fas fa-file bg-purple"></i>
+							  <i class="fas fa-sm fa-file bg-purple"></i>
 
 							  @elseif($td['type'] === 'contact')
-							  <i class="fas fa-user bg-black"></i>
+							  <i class="fas fa-sm fa-user bg-black"></i>
 
 							  @elseif($td['type'] === 'client')
-							  <i class="fas fa-user bg-gray"></i>
+							  <i class="fas fa-sm fa-user bg-gray"></i>
 
 							  @elseif($td['type'] === 'message')
-							  <i class="fas fa-envelope bg-orange"></i>
+							  <i class="fas fa-sm fa-envelope bg-orange"></i>
+
+							  @elseif($td['type'] === 'notes')
+								<i class="fas fa-sm fa-sticky-note bg-orange"></i>
+							  @elseif($td['type'] === 'events')
+								<i class="fas fa-sm fa-calendar-alt bg-red"></i>
+
 
 							@endif
 							  <div class="timeline-item">
-							  <span class="time"><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($td['date'])->format('m/d/Y H:i') }}</span>
+							  <span class="time"><i class="fas fa-sm fa-clock"></i> {{ \Carbon\Carbon::parse($td['date'])->format('m/d/Y H:i') }}</span>
 
-							  <h3 class="timeline-header">{{ $td['headline'] }}</h3>
-							  <div class="timeline-body">
-								Case created for {{ $td['headline'] }}
-							  </div>
+								<h3 class="timeline-header"><strong>{{ ucfirst($td['type']) }}</strong> added</h3>
+								@if($td['headline'])
+								  <div class="timeline-body">
+									{{ $td['headline'] }}
+								  </div>
+								  @endif
 							  <div class="timeline-footer">
-								<a class="btn btn-primary btn-xs" href="{{ $td['link'] }}">View</a>
+								<a class="btn btn-primary btn-xs" href="{{ $td['link'] }}">View {{ $td['type'] }}</a>
 							  </div>
 							</div>
 						  </li>
@@ -121,7 +130,7 @@
     <div class="modal-content">
       <div class="modal-body">
 				<h3>
-          <i class="fas fa-sticky-note"></i> Add Note				
+          <i class="fas fa-sm fa-sticky-note"></i> Add Note				
         </h3>
 				<div class="clearfix"></div>
 				<hr />        
@@ -144,12 +153,12 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<h3>
-					<i class="fas fa-tasks"></i> Add hours to case
+					<i class="fas fa-sm fa-tasks"></i> Add hours to case
 				</h3>
 				<div class="clearfix"></div>
 				<hr />
 				<form role="form" method="post" action="/dashboard/cases/case/add-hours">
-					<input type="hidden" name="case_id" value="{{ $case->id }}"/>
+					<input type="hidden" name="case_uuid" value="{{ $case_uuid }}"/>
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-12">
 						<label>Amount</label>
@@ -286,7 +295,7 @@
 					</div>	
 					 <div class="col-sm-12 col-xs-12">
 					             
-                 <button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>             
+                 <button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>
         
 					 
 					 </div>

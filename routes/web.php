@@ -128,6 +128,8 @@ Route::group(['middleware' => ['web']], function () {
 			Route::post('/case/notes/note/add', 'Dashboard\CaseController@note_add');
 			Route::post('/case/note/delete', 'Dashboard\CaseController@note_delete');
 			Route::post('/case/note/edit', 'Dashboard\CaseController@note_edit');
+			Route::post('/case/hours/delete', 'Dashboard\CaseController@hours_delete');
+			Route::post('/case/hours/edit', 'Dashboard\CaseController@hours_edit');
 			Route::post('/case/{id}/log-communication', 'Dashboard\CaseController@log_communication');
 			Route::post('/case/delete', 'Dashboard\CaseController@delete');
 
