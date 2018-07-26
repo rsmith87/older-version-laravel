@@ -66,7 +66,9 @@
 		  <div class="col-sm-4 invoice-col">
 			<b>Invoice #{{ $invoice->id }}</b><br>
 			<br>
-			<b>Payment Due:</b> 2/22/2014<br>
+			@if($invoice->due_date != '0000-00-00 00:00:00')
+				<b>Payment Due:</b> {{ \Carbon\Carbon::parse($invoice->due_date)->format('m/d/Y') }}<br>
+			@endif
 		  </div>
 		  <!-- /.col -->
 		</div>
@@ -111,8 +113,11 @@
 		  </div>
 		  <!-- /.col -->
 		  <div class="col-xs-6">
-			<p class="lead">Amount Due 2/22/2014</p>
+			@if($invoice->due_date != '0000-00-00 00:00:00')
 
+			<p class="lead">Date Due: {{ \Carbon\Carbon::parse($invoice->due_date)->format('m/d/Y') }}</p>
+
+			@endif
 			<div class="table-responsive">
 			  <table class="table">
 				<tbody><tr>
@@ -147,6 +152,7 @@
 			</button>
 		  </div>
 		</div>
+
 	  </section>
 	  <!-- /.content -->
 	  <div class="clearfix"></div>

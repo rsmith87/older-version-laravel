@@ -21,6 +21,7 @@ class CreateInvoicesTables extends Migration
             $table->longText('description');
             $table->integer('tax')->default(0)->description('in cents');
             $table->integer('total')->default(0)->description('in cents');
+            $table->dateTime('due_date');
             $table->char('currency', 3);
             $table->char('reference', 17);
             $table->char('status', 16)->nullable();

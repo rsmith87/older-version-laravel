@@ -110,20 +110,16 @@ class InvoiceController extends Controller
 		else {
 			$total_amount = $case->billing_rate;
 		}
-  
     
 		$amount_remaining = $total_amount - $data['amount'];
-    
     $mycase = Order::where(['user_id' => $this->user['id'], 'case_uuid' => $case->case_uuid])->first();
 
 		if(count($mycase) > 0){
 			$orig_amount = $mycase->amount + floatval($data['amount']);
       LawCase::where('id', $case->id)->update(['order_id' => $mycase->id]);
-      
 		} else {
       $orig_amount = 0;
     }
-    
     
     $email_send = $client->sendTaskDueReminder($client);
 
@@ -136,8 +132,9 @@ class InvoiceController extends Controller
     if(isset($data['invoice_uuid'])){
       $invoice_uuid = $data['invoice_uuid'];
     } else {
-        $invoice_uuid = Uuid::generate()->string;
-    }              
+    	$invoice_uuid = Uuid::generate()->string;
+    }
+
 		Order::updateOrCreate([
       'order_uuid' => $order_uuid,
 		],
@@ -159,6 +156,7 @@ class InvoiceController extends Controller
 			'invoicable_id' => $data['case_uuid'],
 			'invoicable_type' => 'app_client',
 			'description' => $data['invoice_description'],
+			'due_date' => $data['invoice_date'] != "" ? \Carbon\Carbon::parse($data['invoice_date'])->format('Y-m-d H:i:s') : "0000-00-00 00:00:00",
 			'tax' => 0,
 			'total' => $data['amount'],
 			'currency' => 'USD',

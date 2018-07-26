@@ -17,7 +17,7 @@ return [
 
     'title_prefix' => '',
 
-    'title_postfix' => '',
+    'title_postfix' => '| Legalkeeper Law Firm Management',
 
     /*
     |--------------------------------------------------------------------------
@@ -112,14 +112,14 @@ return [
         [
             'text' => 'Cases',
             'url'  => 'dashboard/cases',
-            'icon' => 'gavel'
-            //'can'  => 'view-cases',
+            'icon' => 'gavel',
+            'can'  => 'view cases',
         ],
         [
             'text' => 'Clients',
             'url'  => 'dashboard/clients',
             'icon' => 'users',
-              //'can'  => 'view-cases',
+	          'can'  => 'view clients',
         ],
         [
             'text'        => 'Contacts',
@@ -127,12 +127,13 @@ return [
             'icon'        => 'address-book',
             //'label'       => 4,
             //'label_color' => 'success',
+	          'can' => 'view contacts',
         ],   
         [
             'text' => 'Calendar',
             'url'  => 'dashboard/calendar',
-            'icon' => 'calendar-alt'
-            //'can'  => 'view-cases',
+            'icon' => 'calendar-alt',
+            'can'  => 'view calendar',
         ],
         [
             'text'        => 'Messages',
@@ -140,6 +141,7 @@ return [
             'icon'        => 'comments',
             //'label'       => 4,
             //'label_color' => 'success',
+	          'can' => 'view messages',
         ],
         /*[
             'text'        => 'Gmail',
@@ -151,8 +153,8 @@ return [
         [
             'text' => 'Invoices',
             'url'  => 'dashboard/invoices',
-            'icon' => 'file-alt'
-            //'can'  => 'view-cases',
+            'icon' => 'file-alt',
+            'can'  => 'view invoices',
         ],
         [
             'text'        => 'Tasklists',
@@ -160,6 +162,7 @@ return [
             'icon'        => 'clipboard-list',
             //'label'       => 4,
             //'label_color' => 'success',
+	          'can' => 'view tasklists',
         ],
         [
             'text'        => 'Documents',
@@ -167,12 +170,13 @@ return [
             'icon'        => 'file',
             //'label'       => 4,
             //'label_color' => 'success',
+	          'can' => 'view documents',
         ],
         [
             'text' => 'Reports and analytics',
             'url'  => 'dashboard/reports',
-            'icon' => 'chart-line'
-            //'can'  => 'view-cases',
+            'icon' => 'chart-line',
+            'can'  => 'view cases',
         ],      
         'ACCOUNT SETTINGS',
         [
@@ -186,6 +190,7 @@ return [
             'icon'        => 'building',
             //'label'       => 4,
             //'label_color' => 'success',
+	          'can' => 'view firm',
         ],        
         /*[
             'text' => 'Change Password',

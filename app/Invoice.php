@@ -31,6 +31,7 @@ class Invoice extends Model
     'created_at',
     'updated_at',
     'user_id',
+	  'due_date',
   ];
   
   /**
