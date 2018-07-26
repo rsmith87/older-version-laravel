@@ -502,7 +502,7 @@ class CaseController extends Controller
 					array_push($timeline_data, [
 						'date' => $note_created_time,
 						'headline' => 'Added note ' . $case_note->note,
-						'type' => 'notes',
+						'type' => 'note',
 						'link' => '/dashboard/cases/case/'.$requested_case->case_uuid,
 					]);
 
@@ -516,7 +516,7 @@ class CaseController extends Controller
 				array_push($timeline_data, [
 					'date' => $event_created_time,
 					'headline' => 'Added event ' . $event->name,
-					'type' => 'events',
+					'type' => 'event',
 					'link' => '/dashboard/calendar',
 				]);
 

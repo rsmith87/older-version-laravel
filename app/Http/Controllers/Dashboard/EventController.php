@@ -147,12 +147,17 @@ class EventController extends Controller
 		}
 		else {
 			$status = 'added';
-		}		
+		}
+
+		if($data['end_time'] === ""){
+			$data['end_time'] = '00:00';
+		}
 		
 		$start_date = new \DateTime($this->fix_date($data['start_date'], $data['start_time']));
-		$end_date = new \DateTime($this->fix_date($data['end_date'], $data['end_time']));
+		$end_date = $data['end_date'] != "" ? new \DateTime($this->fix_date($data['end_date'], $data['end_time'])) : "";
 		
 		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
+
 		//clients accessing lawyer events
 		if($this->user->hasRole('client')){
 			$contact = Contact::where('has_login', $this->user['id'])->first();
@@ -194,9 +199,9 @@ class EventController extends Controller
 			'name' => $data['name'],
 			'description' => $data['description'],
 			'start_date' => $this->fix_date($data['start_date'], $data['start_time']),
-			'end_date' => $this->fix_date($data['end_date'], $data['end_time']),
-			'start_time' => $data['start_time'],
-			'end_time' => $data['end_time'],
+			'end_date' => $data['end_date'] != "" ? $this->fix_date($data['end_date'], $data['end_time']): "",
+			'start_time' => $data['start_time'] != "" ? $data['start_time'] : "",
+			'end_time' => $data['end_time'] != "" ? $data['end_time'] : "",
 			'approved' => $approved,
 			'u_id' => $u_id,
 			'co_id' => isset($data['co_id']) ? $data['co_id'] : "",

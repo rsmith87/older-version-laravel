@@ -299,6 +299,7 @@ class ContactController extends Controller
 						'id' => $data['id'],
 					],
 					[
+						'case_id' => isset($data['case_id']) ? $data['case_id'] : 0,
 						'contlient_uuid' => $contlient_uuid,
 						'first_name' => $data['first_name'],
 						'last_name' => $data['last_name'],

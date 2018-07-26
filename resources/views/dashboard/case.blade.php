@@ -26,12 +26,17 @@
 		  @if($contact->is_client)
 			<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i
 					  class="fas fa-dollar-sign"></i> Bill {{ $contact->first_name }} {{ $contact->last_name }}</a>
+			<a class="nav-item nav-link btn btn-info" href="/dashboard/clients/client/{{ $contact->contlient_uuid }}"><i
+					  class="fas fa-user"></i> View {{ $contact->first_name }} {{ $contact->last_name }}</a>
 		  @endif
 		@endforeach
 	  @else
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#"><i
-				  class="fas fa-dollar-sign"></i> Reference client to case</a>
-	@endif
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#">
+		  <i class="fas fa-dollar-sign"></i> Reference client to case</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#client-modal" href="#">
+		  <i class="fas fa-user"></i> Create client for case
+		</a>
+	  @endif
 	<!-- <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> -->
 	  <a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i
 				class="fas fa-trash-alt"></i> Delete case</a>
@@ -115,7 +120,7 @@
 
 		  @if($case->statute_of_limitations)
 		  <label>Statute of Limitations</label>
-		  <p>{{ $case->statute_of_limitations }}</p>
+		  <p>{{ $case->statute_of_limitations ? "Complete" : "Not complete" }}</p>
 		  @endif
 
 		  @if($case->open_date != "0000-00-00 00:00:00")
@@ -365,6 +370,7 @@
   </div>
 
   @include('dashboard.includes.event-modal')
+  @include('dashboard.includes.client-modal')
   @include('dashboard.includes.case-modal')
 
   <div class="modal fade" id="add-notes-modal">

@@ -7,7 +7,14 @@
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="is_client" value="1" />
 					<input type="hidden" name="type" value="client">
-					
+
+				    @if(isset($requested_case) && count($requested_case) > 0)
+					  <input type="hidden" name="case_id" value="{{ $requested_case->id }}" />
+					@endif
+				  	@if(isset($case) && count($case) > 0)
+					<input type="hidden" name="case_id" value="{{ $case->id }}" />
+
+				    @endif
 					<h3>
 						<i class="fas fa-address-card"></i> Add a Client
 					</h3>
@@ -69,14 +76,14 @@
 						<input type="text" class="form-control" name="zip" aria-label="Address">
 					</div>
 					<div class="clearfix"></div>
-          @if(count($cases) > 0)
+          			@if(count($cases) > 0 && !isset($case->id))
 					<hr />
 					<div class="col-sm-12 col-xs-12">
 						<label>Case</label>
 						<input type="hidden" name="case_id" />
 						<input type="text" name="case_name" class="form-control" />
 					</div>   
-          @endif
+          			@endif
 					<button class="btn btn-primary mt-3 mb-1">
 						<i class="fas fa-check"></i> Submit
 					</button>

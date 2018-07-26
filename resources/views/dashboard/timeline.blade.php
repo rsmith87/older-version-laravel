@@ -76,9 +76,9 @@
 							  @elseif($td['type'] === 'message')
 							  <i class="fas fa-sm fa-envelope bg-orange"></i>
 
-							  @elseif($td['type'] === 'notes')
+							  @elseif($td['type'] === 'note')
 								<i class="fas fa-sm fa-sticky-note bg-orange"></i>
-							  @elseif($td['type'] === 'events')
+							  @elseif($td['type'] === 'event')
 								<i class="fas fa-sm fa-calendar-alt bg-red"></i>
 
 

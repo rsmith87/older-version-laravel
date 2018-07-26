@@ -123,7 +123,7 @@
     <form action="{{ route('messages.store') }}" method="post">
         {{ csrf_field() }}
             <!-- Subject Form Input -->
-            <div class="form-group">
+            <div class="col-xs-12">
                 <label class="control-label">Subject</label>
                 <input type="text" class="form-control" name="subject" placeholder="Subject"
                        value="{{ old('subject') }}">
@@ -131,20 +131,22 @@
 
 
             <!-- Message Form Input -->
-            <div class="form-group">
+            <div class="col-xs-12">
                 <label class="control-label">Message</label>
                 <textarea name="message" class="form-control">{{ old('message') }}</textarea>
             </div>
 
-          <div class="form_group">
+          <div class="col-xs-12">
             <label>Users</label>
             @if(count($firm_users) > 0)
                 <div class="checkbox">
                     @foreach($firm_users as $f_u)
                       @foreach($f_u->Firm as $u)
+                        @if($u->email != $user->email)
                         <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
-                          <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name : $u->email }}</label>
+                          <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name.": ". $u->email : $u->email }}</label>
                         <br />
+                        @endif
                         @endforeach
                     @endforeach
                 </div>
@@ -152,7 +154,7 @@
           </div>
     
             <!-- Submit Form Input -->
-            <div class="form-group">
+            <div class="col-xs-12">
                 <button type="submit" class="btn btn-primary form-control">Submit</button>
             </div>
      

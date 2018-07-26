@@ -1153,4 +1153,7 @@ table#documents th:nth-child(1) {
 #payment-modal-full input.btn {
   margin-top: 15px;
 }
+#create-message-modal .checkbox label {
+  padding-left: 0;
+}
 /*# sourceMappingURL=app.css.map */
