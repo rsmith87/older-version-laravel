@@ -510,7 +510,7 @@ class SettingController extends Controller
 				'stripe_account_id' => $id,
 				'user_id' => $this->user['id'],
 			]);
-			return redirect('/dashboard/settings')->with('status', 'Your stripe account is created and has been connected!');
+			return redirect('/dashboard')->with('status', 'Your Stripe account is created and has been connected!');
 		}
   
 

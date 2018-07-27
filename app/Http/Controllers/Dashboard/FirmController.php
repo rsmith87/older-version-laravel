@@ -148,11 +148,11 @@ class FirmController extends Controller
         'phone' => $data['phone'],
         'fax' => $data['fax'],
         'email' => $data['email'],
+	      'billing_details' => $data['billing_details'],
       ]);
       
       return redirect('/dashboard/firm')->with('status', 'Firm updated!');
-      
-      
+
   }
 
   public function add_user(Request $request)
