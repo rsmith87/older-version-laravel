@@ -87,6 +87,9 @@ Route::group(['middleware' => ['web']], function () {
 		]);
 	});
 
+	Route::get('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@get_payment_details');
+	Route::post('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@post_payment_details');
+
 	Route::group(['prefix' => 'dashboard', 'middleware' => ['web']], function () {
 		//Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
 		Route::get('/lock', 'Dashboard\DashboardController@lock');

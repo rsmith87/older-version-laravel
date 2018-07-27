@@ -151,8 +151,11 @@
 		<div class="row no-print">
 		  <div class="col-xs-12">
 			<a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-			<button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-			</button>
+			@if($user->hasRole('client'))
+			  <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button>
+			@else
+			  <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Send invoice to {{ $client->first_name }} {{ $client->last_name }}</button>
+			@endif
 			<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
 			  <a href="/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/download">
 			  	<i class="fa fa-download"></i> Generate PDF

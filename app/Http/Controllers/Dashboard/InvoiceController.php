@@ -208,6 +208,13 @@ class InvoiceController extends Controller
 		]);
 	}
 
+	public function send_invoice(Request $request)
+	{
+		$data = $request->all();
+
+
+	}
+
 	public function invoice_pdf_download(Request $request, $id)
 	{
 		$invoice = Invoice::where('invoice_uuid', $id)->first();

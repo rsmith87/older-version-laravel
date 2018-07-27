@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Notifications\InvoiceCreatedNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Cashier\Billable;
 
 class Contact extends Model
 {
   
-    use Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes, Billable;
     protected $table = "contact";
     /**
      * The attributes that are mass assignable.

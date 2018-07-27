@@ -126,6 +126,7 @@
 	  </div>
 	  <!-- /.col -->
 	</div>
+
 	<div class="clearfix"></div>
 	<!-- /.row -->
 	<div class="row">

@@ -30,6 +30,7 @@ class CreateInvoicesTables extends Migration
             $table->text('payment_info')->nullable();
             $table->integer('user_id');
             $table->text('note')->nullable();
+            $table->integer('paid');
             $table->timestamps();
             $table->softDeletes();
         });
