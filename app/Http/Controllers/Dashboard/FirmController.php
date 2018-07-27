@@ -119,13 +119,27 @@ class FirmController extends Controller
       {
         $id = $this->settings->firm_id;       
       }
+
+		  $profile_image = $request->file('file_upload');
+		  $filePath = "";
+
+		  if ($request->file('file_upload') != "") {
+			  $imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
+			  $filePath = '/logos/' . $this->settings->firm_id .'/' . $imageFileName;
+			  $fileMimeType = $request->file('file_upload')->getMimeType();
+			  \Storage::disk('local')->put($filePath, file_get_contents($request->file('file_upload')));
+			  \Storage::disk('local')->url($filePath);
+		  } else {
+		  	$logo = "";
+		  }
  
       Firm::updateOrCreate(
       [
         'id' => $id, 
       ],
       [
-        'name' => $data['name'], 
+        'name' => $data['name'],
+        'logo' => isset($filePath) ? $filePath : "",
         'address_1' => $data['address_1'],
 				'address_2' => $data['address_2'],
 				'city' => $data['city'],

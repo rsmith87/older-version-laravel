@@ -13,9 +13,12 @@
 
 
 			<h1  class="mb-3 mt-4">
-				<i class="fas fa-address-card"></i> Firm information
+			  @if($firm->logo != "")
+				<img src="/storage{{ $firm->logo}}" />
+			  @else
+			    <i class="fas fa-address-card"></i> Firm Information
+			  @endif
 			</h1>
-      <p class="ml-3 mb-2">Clients shows all of your client information regarding all cases.  Click on a client to show information.</p>							
 
 
 			<div class="col-sm-6 col-12">
@@ -49,7 +52,7 @@
         
 				<div class="clearfix"></div>
 				<hr />	
-			<form class="form-horizontal" method="post" action="/dashboard/firm/add">
+			<form class="form-horizontal" method="post" action="/dashboard/firm/add" enctype="multipart/form-data">
 				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 			<div class="col-sm-6"><!-- Text input-->
@@ -58,6 +61,13 @@
 					<input id="firm_name" name="name" type="text" value="{{ $firm['name'] }}" placeholder="Firm Name" class="form-control input-md" required="true">
 		
 			</div>
+
+			  <div class="col-sm-6"><!-- Text input-->
+				<label class="control-label" for="firm-logo">Logo</label>
+
+				<input name="file_upload" id="firm-logo" type="file" class="form-control">
+
+			  </div>
 
 			<div class="col-sm-6"><!-- Text input-->
 

@@ -15,6 +15,7 @@ class CreateFirmTable extends Migration
         Schema::create('firm', function (Blueprint $table) {
           $table->increments('id');
           $table->longText('name');
+          $table->longText('logo');
           $table->longText('address_1');
           $table->longText('address_2');
           $table->text('city');

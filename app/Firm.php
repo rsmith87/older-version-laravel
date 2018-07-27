@@ -15,7 +15,7 @@ class Firm extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'address_1', 'address_2', 'city','state', 'zip', 'email', 'phone', 'fax'
+        'name', 'logo', 'address_1', 'address_2', 'city','state', 'zip', 'email', 'phone', 'fax'
     ];
 
     /**
