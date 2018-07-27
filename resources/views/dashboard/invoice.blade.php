@@ -112,7 +112,11 @@
 			<img src="{{ asset('img/paypal2.png') }}" alt="Paypal">
 
 			<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-			  We expect prompt payment for services rendered.
+			  @if(!isset($firm->billing_details))
+			  	We expect prompt payment for services rendered.
+			  @else
+				{{ $firm->billing_details }}
+			  @endif
 			</p>
 		  </div>
 		  <!-- /.col -->

@@ -126,8 +126,17 @@
 	  </div>
 	  <!-- /.col -->
 	</div>
+	<div class="clearfix"></div>
 	<!-- /.row -->
-
+	<div class="row">
+	  <div class="col-xs-12">
+		@if(!isset($firm->billing_details))
+		  We expect prompt payment for services rendered.
+		@else
+		  {{ $firm->billing_details }}
+		@endif
+	  </div>
+	</div>
   </section>
   <!-- /.content -->
   <div class="clearfix"></div>
