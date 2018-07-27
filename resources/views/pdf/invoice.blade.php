@@ -38,8 +38,11 @@
 	<div class="row">
 	  <div class="col-xs-12">
 		<h2 class="page-header">
-		  <i class="fa fa-globe"></i> {{ $firm->name }}
-		  <small class="pull-right">Date: {{ \Carbon\Carbon::parse($invoice->created_at)->format('m/d/Y') }}</small>
+		  @if($firm->logo != "")
+			<img src="{{ public_path('/storage/'.$firm->logo) }}" />
+		  @else
+			<i class="fa fa-globe"></i> {{ $firm->name }}
+		  @endif
 		  <small class="pull-right">Date: {{ \Carbon\Carbon::parse($invoice->created_at)->format('m/d/Y') }}</small>
 		</h2>
 	  </div>

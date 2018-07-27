@@ -33,7 +33,11 @@
 		<div class="row">
 		  <div class="col-xs-12">
 			<h2 class="page-header">
-			  <i class="fa fa-globe"></i> {{ $firm->name }}
+			  @if($firm->logo != "")
+				<img src="/storage{{ $firm->logo}}" />
+			  @else
+				<i class="fa fa-globe"></i> {{ $firm->name }}
+			  @endif
 			  <small class="pull-right">Date: {{ \Carbon\Carbon::parse($invoice->created_at)->format('m/d/Y') }}</small>
 			</h2>
 		  </div>
@@ -125,7 +129,7 @@
 				  <td>${{ number_format($invoice->total, 2) }}</td>
 				</tr>
 				<tr>
-				  <th>Tax (0%)</th>
+				  <th>Tax (8.25%)</th>
 				  <td>$0.00</td>
 				</tr>
 				<tr>
