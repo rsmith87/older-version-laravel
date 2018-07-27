@@ -13,10 +13,10 @@
 
 
 			<h1  class="mb-3 mt-4">
-			  @if($firm->logo != "" || isset($firm->logo))
-				<img src="/storage{{ $firm->logo}}" />
+			  @if(empty($firm->logo) ||  !isset($firm->logo) || $firm_logo === "")
+				<i class="fas fa-address-card"></i> Firm Information
 			  @else
-			    <i class="fas fa-address-card"></i> Firm Information
+				<img src="/storage{{ $firm->logo}}" />
 			  @endif
 			</h1>
 
