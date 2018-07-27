@@ -16,6 +16,7 @@ class CreateFirmTable extends Migration
           $table->increments('id');
           $table->longText('name');
           $table->longText('logo');
+          $table->longText('billing_details');
           $table->longText('address_1');
           $table->longText('address_2');
           $table->text('city');
