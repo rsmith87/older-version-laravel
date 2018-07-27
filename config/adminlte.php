@@ -17,7 +17,7 @@ return [
 
     'title_prefix' => '',
 
-    'title_postfix' => '| Legalkeeper Law Firm Management',
+    'title_postfix' => '| Law Firm Management Software',
 
     /*
     |--------------------------------------------------------------------------
@@ -162,7 +162,7 @@ return [
             'icon'        => 'clipboard-list',
             //'label'       => 4,
             //'label_color' => 'success',
-	          'can' => 'view tasklists',
+	          'can' => 'view tasks',
         ],
         [
             'text'        => 'Documents',

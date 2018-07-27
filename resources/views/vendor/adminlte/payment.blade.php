@@ -33,6 +33,8 @@
 				<br /><br />
 				<p><strong>Legalkeeper Starter Plan:</strong></p>
 				<p>$15 a month</p>
+                <p>Tax: 8.25% : $1.24 </p>
+                <p>Total: $16.24 per month per user</p>
               
                 <div class='col-xs-12 form-group card required'>
                 <label class='control-label'>Card Number</label>

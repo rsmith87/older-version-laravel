@@ -32,6 +32,9 @@
 		<!-- title row -->
 		<div class="row">
 		  <div class="col-xs-12">
+			@if($invoice->paid)
+			  <h1>PAID</h1>
+			  @endif
 			<h2 class="page-header">
 			  @if($firm->logo != "")
 				<img src="/storage{{ $firm->logo}}" />
@@ -154,7 +157,9 @@
 			@if($user->hasRole('client'))
 			  <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button>
 			@else
+			  @if(!$invoice->paid)
 			  <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Send invoice to {{ $client->first_name }} {{ $client->last_name }}</button>
+				@endif
 			@endif
 			<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
 			  <a href="/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/download">

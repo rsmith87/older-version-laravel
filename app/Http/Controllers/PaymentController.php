@@ -53,7 +53,7 @@ class PaymentController extends Controller
 					"amount" => $invoice->total*100,
 					"currency" => "usd",
 					"source" => $data['stripeToken'],
-					'statement_descriptor' => $invoice->sender_info,
+					'statement_descriptor' =>  substr($invoice->sender_info, 0, 22),
 				), array("stripe_account" => $fs->stripe_account_id));
 
 				Invoice::where('invoice_uuid', $invoice_id)->update([

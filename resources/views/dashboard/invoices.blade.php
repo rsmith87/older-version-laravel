@@ -35,7 +35,8 @@
             <tr>
               <th>Id</th>
               <th>Client</th>
-							<th>Invoice Amount</th>
+			  <th>Invoice Amount</th>
+			  <th>Paid</th>
             </tr> 
           </thead> 
           <tbody>
@@ -46,7 +47,8 @@
             <tr> 
               <td>{{ $invoice->invoice_uuid }}</td>
               <td>{{ $invoice->receiver_info }}</td>
-							<td>$ {{ $invoice->total }}.00</td>
+			  <td>$ {{ $invoice->total }}.00</td>
+			  <td>{{ $invoice->paid ? "Yes" : "No" }}</td>
             </tr> 
 		  @endforeach
 						<tr>

@@ -36,7 +36,7 @@
 				<p>{{ $firm['address_1'] }}<br />
 					{{ isset($firm['address_2']) ? $firm['address_2'] : "" }}<br />
 					{{ $firm['city'] }}, {{ $firm['state'] }} {{ $firm['zip'] }}</p>
-			  	<label>Billing Details</label>
+			  	<label>Invoice Details</label>
 			  	<p>{{ $firm['billing_details'] }}</p>
 			</div>
 	
