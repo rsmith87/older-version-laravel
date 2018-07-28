@@ -118,7 +118,7 @@
 
 
 			  @foreach($notes as $note)
-				@if($note->contlient_id != 0)
+				@if($note->contlient_uuid != 0)
 				<div>
 
 				  <div class="card-body">
