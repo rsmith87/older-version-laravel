@@ -30,11 +30,17 @@
 					  class="fas fa-user"></i> View {{ $contact->first_name }} {{ $contact->last_name }}</a>
 		  @endif
 		@endforeach
+		  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#">
+			<i class="fas fa-user"></i> Add Contact
+		  </a>
 	  @else
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#">
 		  <i class="fas fa-dollar-sign"></i> Reference client to case</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#client-modal" href="#">
 		  <i class="fas fa-user"></i> Create client for case
+		</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#">
+		  <i class="fas fa-user"></i> Add Contact
 		</a>
 	  @endif
 	<!-- <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> -->
@@ -245,8 +251,8 @@
 		  @endforeach
 		@endif
 
-		@if(!empty($case->Contacts))
-		  @foreach($case->Contacts as $contact)
+		@if(!empty($contacts))
+		  @foreach($contacts as $contact)
 			@if($contact->is_client != 1)
 			  <div class="col-sm-6 col-xs-12">
 				<div class="clearfix"></div>
@@ -371,6 +377,7 @@
 
   @include('dashboard.includes.event-modal')
   @include('dashboard.includes.client-modal')
+  @include('dashboard.includes.contact-modal')
   @include('dashboard.includes.case-modal')
 
   <div class="modal fade" id="add-notes-modal">

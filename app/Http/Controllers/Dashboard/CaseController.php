@@ -364,6 +364,7 @@ class CaseController extends Controller
 		$documents = Document::where('case_id', $id)->get();
 		$notes = Note::where('case_uuid', $id)->get();
 		$task_lists = TaskList::where('c_id', $id)->with('task')->get();
+		$case_contacts = Contact::where('case_id', $requested_case->id)->get();
 		foreach ($invoices as $invoice) {
 			$line = InvoiceLine::where('invoice_id', $invoice->id)->select('amount')->first();
 			$invoice_amount = $invoice_amount - $line->amount;
@@ -377,9 +378,9 @@ class CaseController extends Controller
 
 			'case' => $requested_case,
 
-			'contacts' => $this->contacts,
+			'contacts' => $case_contacts,
 			'cases' => $this->cases,
-			
+
 			'clients' => $this->clients,
 
 			'project' => $project,

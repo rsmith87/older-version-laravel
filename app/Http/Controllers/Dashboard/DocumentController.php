@@ -290,6 +290,7 @@ class DocumentController extends Controller
 		$id = $data['id'];
 
 		$media = Media::where('name', $id)->first();
+
 		if($case_id != "") {
 			$case = LawCase::where('id', $case_id)->first();
 			$relate = MediaRelationship::updateOrCreate([
@@ -300,6 +301,7 @@ class DocumentController extends Controller
 				'user_id' => \Auth::id(),
 			]);
 		}
+
 		if($client_id != "") {
 			$client = Contact::where('id', $client_id)->first();
 			$relate = MediaRelationship::updateOrCreate([
@@ -310,6 +312,7 @@ class DocumentController extends Controller
 				'user_id' => \Auth::id(),
 			]);
 		}
+
 		if($contact_id != "") {
 			$contact = Contact::where('id', $contact_id)->first();
 			$relate = MediaRelationship::updateOrCreate([
