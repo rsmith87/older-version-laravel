@@ -227,16 +227,7 @@
 
 
 
-	<div class="settings-pane">
-	<label>Stripe integration for firm</label>
-	  @if(isset($fs))
-		@if(count($fs) > 0)
-		  <p>You have successfully authenticated Legalease and Stripe! If you'd like to authenticate again, or are
-			having issues with payments click the link below</p>
-		@endif
-	  @endif
-	  <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}"/></a>
-	</div>
+
 
    <div class="settings-pane">
 	 <input type="checkbox" class="form-control" name="create_tasklist_on_case_create_global">

@@ -153,8 +153,8 @@ class ContactController extends Controller
 		}
 
 		$cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
-		//$notes = Note::where('contlient_uuid', $id)->get();
-		$notes = [];
+		$notes = Note::where('contlient_uuid', $id)->get();
+		//$notes = [];
 		$task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
 		$logs = CommLog::where(['type' => 'contact_client', 'type_id' => $requested_contact->id])->get();
 

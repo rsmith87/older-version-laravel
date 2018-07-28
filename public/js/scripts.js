@@ -224,7 +224,7 @@ $(function($){
   });
   
   $('input[name=open_date], input[name=close_date]').inputmask({ "mask": "99/99/9999" });
-  $('input[name=phone]').inputmask("mask", "(999) 999-9999"); //specifying options
+  $('input[name=phone], input[name=fax]').inputmask("mask", "(999) 999-9999"); //specifying options
   //$(selector).inputmask("9-a{1,3}9{1,3}"); //mask with dynamic syntax
   $('input[name=email]').inputmask({
     mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",

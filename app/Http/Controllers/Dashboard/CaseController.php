@@ -379,8 +379,8 @@ class CaseController extends Controller
 
 			'contacts' => $this->contacts,
 			'cases' => $this->cases,
+			
 			'clients' => $this->clients,
-
 
 			'project' => $project,
 			'hours_worked' => $hours_amount,

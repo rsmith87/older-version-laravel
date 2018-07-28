@@ -118,6 +118,7 @@
 
 
 			  @foreach($notes as $note)
+				@if($note->contlient_id != 0)
 				<div>
 
 				  <div class="card-body">
@@ -130,6 +131,7 @@
 					<p class="card-text">{{ $note->note }}</p>
 				  </div>
 				</div>
+				@endif
 
 
 			  @endforeach

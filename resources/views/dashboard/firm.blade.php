@@ -7,6 +7,7 @@
 		@hasanyrole('administrator|authenticated_user')
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-calendar-plus"></i> Edit firm</a>
 		@endhasrole
+
 	</nav>
   
   @include('dashboard.includes.alerts')
@@ -39,7 +40,7 @@
 			  	<label>Invoice Details</label>
 			  	<p>{{ $firm['billing_details'] }}</p>
 			</div>
-	
+
 	
 </div>
 
@@ -167,6 +168,7 @@
 		</form>
 	 </fieldset>
 
+  <h3><strong>Users</strong></h3>
 	@if (count($firm_staff) > 0)
 
 				<table class="table table-responsive table-resposive table-striped table-hover">
@@ -191,12 +193,22 @@
 			@endif	 
 </div>
 	<hr />
-	
+<div class="col-sm-5">
+  <label>Stripe integration for firm</label>
+  @if(isset($fs))
+	@if(count($fs) > 0)
+	  <p>You have successfully authenticated Legalease and Stripe! If you'd like to authenticate again, or are
+		having issues with payments click the link below</p>
+	@endif
+  @endif
+  <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}"/></a>
+</div>
+<div class="clearfix"></div>
 <div id="add-client-user" class="col-md-6 col-sm-12">
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-user-plus"></i>Give a client login access
         </h2>
-<div class="clearfix"></div>
+		<div class="clearfix"></div>
 
 			<fieldset>
 			<form class="form-horizontal" method="post" action="/dashboard/firm/user/client/add">
@@ -217,10 +229,11 @@
 					<button id="submit" name="submit" class="btn btn-success">Submit</button>
 				</div>
 			</div>
-			</div>		
+			</div>
 				</form>
 			 </fieldset>
-			 
+
+  <h3><strong>Client Users</strong></h3>
 			 @if(count($clients) > 0)
 				<table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 					<thead> 
@@ -245,6 +258,7 @@
 			@endif	 
 </div>
 
+<div class="clearfix"></div>
 
 
  @endhasanyrole

@@ -1156,4 +1156,16 @@ table#documents th:nth-child(1) {
 #create-message-modal .checkbox label {
   padding-left: 0;
 }
+#add-client-user,
+#add-user {
+  background-color: rgba(0, 0, 0, 0.25);
+  margin-bottom: 10px;
+}
+#add-client-user .form-group .col-sm-12,
+#add-user .form-group .col-sm-12,
+#add-client-user .form-group .col-md-4,
+#add-user .form-group .col-md-4 {
+  padding-left: 0;
+  padding-right: 0;
+}
 /*# sourceMappingURL=app.css.map */
