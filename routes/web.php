@@ -193,6 +193,7 @@ Route::group(['middleware' => ['web']], function () {
 			Route::post('/upload', 'Dashboard\DocumentController@upload');
 			Route::post('/document/delete', 'Dashboard\DocumentController@delete');
 			Route::post('/document/relate', 'Dashboard\DocumentController@relate');
+			Route::post('/document/send', 'Dashboard\DocumentController@send_email');
 		});
 
 

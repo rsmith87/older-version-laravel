@@ -286,6 +286,16 @@ class DocumentController extends Controller
 		return redirect()->back()->with('status', $data['media_name'] . ' successfully deleted');
 	}
 
+	public function send_email(Request $request)
+	{
+		$data = $request->all();
+		$media = Media::where('uuid', $data['media_id'])->first();
+
+
+		$relationship = MediaRelationship::where('media_uuid', $data['media_id'])->delete();
+		return redirect()->back()->with('status', $data['media_name'] . ' successfully deleted');
+	}
+
 	public function relate(Request $request)
 	{
 		$data = $request->all();

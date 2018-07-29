@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\LawCase;
 use App\Contact;
 use App\Settings;
+use App\User;
 use App\View;
 use App\Timer;
 use App\Order;
@@ -373,6 +374,12 @@ class CaseController extends Controller
 		$project = $requested_case;
 		$project = $project ? array_merge($project->toArray(), ['timers' => []]) : false;
 
+		$firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
+
+		//print_r($firm_users);
+		foreach($firm_users as $u){
+			$usrs[] = User::where('id', $u->user_id)->get();
+		}
 		return view('dashboard.case', [
 			'user' => $this->user,
 
@@ -403,6 +410,7 @@ class CaseController extends Controller
 			'settings' => $this->settings,
 			'fs' => $this->firm_stripe,
 			'threads' => $this->threads,
+			'firm_users' => $usrs,
 		]);
 
 	}

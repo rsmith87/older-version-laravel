@@ -338,7 +338,6 @@
 					<td>{{ $m[0]->created_at }}</td>
 					<td>
 					  <a data-toggle="modal" data-target='#view-media-modal-{{ $m[0]->uuid }}' href='#'>View</a> |
-					  <a data-toggle="modal" data-target='#send-media-modal-{{ $m[0]->uuid }}' href='#'>Send</a> |
 					  <a data-toggle="modal" data-target='#delete-media-modal-{{ $m[0]->uuid }}' href='#'>Delete</a>
 					</td>
 				  </tr>
@@ -412,12 +411,15 @@
 				</h3>
 				<div class="clearfix"></div>
 				<hr/>
-				<form method="POST" action="/dashboard/cases/case/notes/note/add">
+				<form method="POST" action="/dashboard/documents/document/send">
 				  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 				  <input type="hidden" name="media_uuid" value="{{ $m[0]->uuid }}"/>
 				  <label>Email to send media</label>
-				  <input name="media_send_email" class="form-control" />
-				  <button type="submit" class="form-control mt-3 btn btn-primary">
+				  <select name="client" class="form-control">
+					@foreach($firm_users as $t)
+					  <option value="{{ $t[0]->id }}">{{ ucwords($t[0]->name) . " (" . $t[0]->email . ")" }}</option>
+					@endforeach
+				  </select>				  <button type="submit" class="form-control mt-3 btn btn-primary">
 					Submit
 				  </button>
 				</form>
