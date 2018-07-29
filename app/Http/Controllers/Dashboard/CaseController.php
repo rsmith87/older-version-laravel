@@ -284,7 +284,7 @@ class CaseController extends Controller
 			$directory = \File::makeDirectory(public_path('files/user/'.\Auth::id().'/'.$this->clean($data['name'])));
 		}
 
-		if ($data['hours'] != "") {
+		if ($data['hours'] != "" || $data['hours'] > 0 || $data['hours'] != 0) {
 			CaseHours::create([
 				'case_uuid' => $case_uuid,
 				'hours' => $data['hours'],
@@ -364,7 +364,7 @@ class CaseController extends Controller
 		$invoices = Invoice::where('invoicable_id', $id)->get();
 		$documents = Document::where('case_id', $id)->get();
 		$notes = Note::where('case_uuid', $id)->get();
-		$task_lists = TaskList::where('c_id', $id)->with('task')->get();
+		$task_lists = TaskList::where('c_id', $requested_case->id)->with('task')->get();
 		$case_contacts = Contact::where('case_id', $requested_case->id)->get();
 		foreach ($invoices as $invoice) {
 			$line = InvoiceLine::where('invoice_id', $invoice->id)->select('amount')->first();

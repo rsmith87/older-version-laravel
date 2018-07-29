@@ -4,7 +4,6 @@
 
   <div class="container dashboard case col-sm-12 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
-	  <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-arrow-left"></i> Back to cases</a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-edit-modal" href="#"><i
 				class="fas fa-balance-scale"></i> Edit case</a>
 	   |
@@ -16,7 +15,10 @@
 				class="fas fa-calendar-plus"></i> Add event</a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#">
 		<i class="fas fa-user"></i> Add Contact
-	  </a> |
+	  </a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#">
+		<i class="fas fa-file"></i> Add Document
+	  </a>|
 	  <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>-->
 
 	  @if(count($order) > 0)
@@ -387,19 +389,32 @@
   @include('dashboard.includes.case-modal')
 
 
+  <div class="modal fade" id="add-document">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-body">
+		  <h3>
+			<i class="fas fa-sticky-note"></i> Send media
+		  </h3>
+		  <div class="clearfix"></div>
+		  <hr/>
+		  <form method="POST" action="/dashboard/documents/document/send">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+			<label>Email to send media</label>
+			<select name="client" class="form-control">
+
+			</select>				  <button type="submit" class="form-control mt-3 btn btn-primary">
+			  Submit
+			</button>
+		  </form>
+		</div>
+	  </div>
+	</div>
+  </div>
+
   @if(!empty($media))
 	@if(count($media) > 0)
 	  @foreach($media as $m)
-
-		<div class="modal fade" id="view-media-modal-{{ $m[0]->uuid }}">
-		  <div class="modal-dialog">
-			<div class="modal-content">
-			  <div class="modal-body">
-				<img src="{{ $m[0]->path }}" />
-			  </div>
-			</div>
-		  </div>
-		</div>
 
 
 		<div class="modal fade" id="send-media-modal-{{ $m[0]->uuid }}">
@@ -519,35 +534,13 @@
 		  <hr/>
 		  <form method="post" action="/dashboard/documents/upload" enctype="multipart/form-data">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<div class="col-sm-6 col-12">
+			<input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}"
+			<div class="col-xs-12">
 			  <label for="file_upload">File</label>
 			  <input type="file" class="form-control" name="file_upload"/>
-			</div>
-			<div class="col-sm-6 col-12">
-			  <label for="file_name">File Name</label>
-			  <input type="text" class="form-control" name="file_name" placeholder="File Name"/>
-			</div>
-			<div class="clearfix"></div>
-			<div class="col-sm-6 col-12">
-			  <label for="file_description">File Description</label>
-			  <input type="text" class="form-control" name="file_description" placeholder="File Description"/>
-			</div>
-			<div class="clearfix"></div>
-			<hr/>
+			  <p>Documents added through case page are automatically related to the case.</p>
 
-			@hasanyrole('administrator')
-			@if(count($cases) > 0)
-			  <div class="col-sm-6 col-12">
-				<label for="case_name">Case link</label>
-				<input type="hidden" name="case_id" value="{{ $case->id }}"/>
-				<input type="text" name="case_name" class="form-control" value="{{ $case->name }}"/>
-			  </div>
-			@endif
-			@endhasanyrole
-			@hasanyrole('client|authenticated_user')
-			<input type="hidden" name="case_id" value="{{ $case->id }}"/>
-			@endhasanyrole
-			<div class="col-12">
+
 			  <button class="btn btn-primary mt-3 mb-3" type="submit">
 				<i class="fas fa-check"></i> Submit
 			  </button>
