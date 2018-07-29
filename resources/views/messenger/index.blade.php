@@ -18,6 +18,45 @@
         <li class="active">Messages</li>
       </ol>
     </section>
+
+	  <div class="chat-history">
+		<ul id="talkMessages">
+
+		  @foreach($messages as $message)
+			@if($message->sender->id == auth()->user()->id)
+			  <li class="clearfix" id="message-{{$message->id}}">
+				<a href="/messages/{{ $message->id }}">
+				<div class="message-data align-right">
+				  <span class="message-data-time" >{{$message->humans_time}} ago</span> &nbsp; &nbsp;
+				  <span class="message-data-name" >{{$message->sender->name}}</span>
+				  <a href="#" class="talkDeleteMessage" data-message-id="{{$message->id}}" title="Delete Message"><i class="fa fa-close"></i></a>
+				</div>
+				<div class="message other-message float-right">
+				  {{$message->message}}
+				</div>
+				</a>
+			  </li>
+			@else
+
+			  <li id="message-{{$message->id}}">
+				<a href="/messages/{{ $message->id }}">
+				<div class="message-data">
+				  <span class="message-data-name"> <a href="#" class="talkDeleteMessage" data-message-id="{{$message->id}}" title="Delete Messag"><i class="fa fa-close" style="margin-right: 3px;"></i></a>{{$message->sender->name}}</span>
+				  <span class="message-data-time">{{$message->humans_time}} ago</span>
+				</div>
+				<div class="message my-message">
+				  {{$message->message}}
+				</div>
+				</a>
+			  </li>
+			@endif
+		  @endforeach
+
+
+		</ul>
+
+	  </div> <!-- end chat-history -->
+
     <!-- Main content -->
       <section class="content messaging-content">
         <div class="chat-container clearfix">
@@ -30,7 +69,7 @@
 
 			  @foreach($firm_users as $f_u)
 				<li class="clearfix">
-				  <a href="#">
+				  <a href="/messages/" class="viewMessageFromUser">
 				  @if(Gravatar::exists($user->email))
 					<img src="{{ Gravatar::get($user->email) }}" alt="avatar" />
 				  @else
@@ -45,95 +84,7 @@
 				  </a>
 				</li>
 			  @endforeach
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Aiden Chavez</div>
-                  <div class="status">
-                    <i class="fa fa-circle offline"></i> left 7 mins ago
-                  </div>
-                </div>
-              </li>
 
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Mike Thomas</div>
-                  <div class="status">
-                    <i class="fa fa-circle online"></i> online
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Erica Hughes</div>
-                  <div class="status">
-                    <i class="fa fa-circle online"></i> online
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_05.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Ginger Johnston</div>
-                  <div class="status">
-                    <i class="fa fa-circle online"></i> online
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_06.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Tracy Carpenter</div>
-                  <div class="status">
-                    <i class="fa fa-circle offline"></i> left 30 mins ago
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_07.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Christian Kelly</div>
-                  <div class="status">
-                    <i class="fa fa-circle offline"></i> left 10 hours ago
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_08.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Monica Ward</div>
-                  <div class="status">
-                    <i class="fa fa-circle online"></i> online
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_09.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Dean Henry</div>
-                  <div class="status">
-                    <i class="fa fa-circle offline"></i> offline since Oct 28
-                  </div>
-                </div>
-              </li>
-
-              <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_10.jpg" alt="avatar" />
-                <div class="about">
-                  <div class="name">Peyton Mckinney</div>
-                  <div class="status">
-                    <i class="fa fa-circle online"></i> online
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
 

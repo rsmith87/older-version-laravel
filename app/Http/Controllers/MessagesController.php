@@ -39,7 +39,10 @@ class MessagesController extends Controller
           return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
         }	
         $this->settings = Settings::where('user_id', $this->user['id'])->first();
-
+	      \View::composer('partials.peoplelist', function($view) {
+		      $threads = Talk::threads();
+		      $view->with(compact('threads'));
+	      });
 
         return $next($request);
       });
@@ -79,7 +82,7 @@ class MessagesController extends Controller
 				$users = User::where('id', $case->u_id)->first();
 			}
 
-	    $conversations = \Talk::getMessagesByUserId(\Auth::id(), 0, 5);
+	    $conversations = Talk::getMessagesByUserId($id, 0, 5);
 	    $user = '';
 	    $messages = [];
 	    if(!$conversations) {
@@ -91,20 +94,38 @@ class MessagesController extends Controller
 	    if (count($messages) > 0) {
 		    $messages = $messages->sortBy('id');
 	    }
+
 			return view('messenger.index', [
         'user' => $this->user,
 
 				//'inboxes' => $inboxes,
-				'users' => $usrs, 
+				'users' => $usrs,
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
 				'messages' => $messages,
 
 				'firm_users' => $usrs,
+				'messages' => $messages,
 			]);
     }
 
+		public function chatHistory($id)
+		{
+			$conversations = Talk::getMessagesByUserId($id, 0, 5);
+			$user = '';
+			$messages = [];
+			if(!$conversations) {
+				$user = User::find($id);
+			} else {
+				$user = $conversations->withUser;
+				$messages = $conversations->messages;
+			}
+			if (count($messages) > 0) {
+				$messages = $messages->sortBy('id');
+			}
+			return view('messages.conversations', compact('messages', 'user'));
+		}
     /**
      * Shows a message thread.
      *
