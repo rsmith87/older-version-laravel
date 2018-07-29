@@ -81,7 +81,7 @@ class RegisterController extends Controller
         ]);
       
       $inserted = User::where('email', $data['email'])->first();
-      $inserted->assignRole('authenticated_user');
+      $inserted->assignRole('firm_manager');
 
       Settings::create([
         'user_id' => $inserted->id,

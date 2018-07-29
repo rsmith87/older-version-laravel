@@ -148,7 +148,7 @@ class InvoiceController extends Controller
 		]);
 
 
-		Invoice::updateOrCreate([
+		$invoice = Invoice::updateOrCreate([
 			'id' => $invoice_id,
 		],
 		[
@@ -178,7 +178,7 @@ class InvoiceController extends Controller
 			'description' => $client->id . ": " .$client->first_name . " " . $client->last_name,
 		]);
 
-		return redirect('/dashboard/invoices')->with('message', 'Your invoice is being generated and a link to the invoice will show when it is ready.');
+		return redirect('/dashboard/invoices/invoice/'.$invoice->invoice_uuid)->with('message', 'Invoice created successfully!');
 	}
 
 	public function invoice_view($id)
