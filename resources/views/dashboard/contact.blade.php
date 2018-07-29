@@ -62,12 +62,15 @@
 			  {{ $contact->city }}<br/>
 			  {{ $contact->state }}<br/>
 			  {{ $contact->zip }}</a></p>
-
+		  <label>Phone</label>
+		  <p><a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a></p>
 
 		</div>
 		<div class="col-sm-6 col-12">
-		  <label>Phone</label>
-		  <p><a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a></p>
+		  @if(!empty($contact->case_id) || $contact->case_id === 0)
+		  <label>Case</label>
+		  <p><a href="/dashboard/cases/case/{{ $case->case_uuid }}">{{ $case->name }}</a></p>
+		  @endif
 		  <label>Company</label>
 		  <p>{{ $contact->company }}</p>
 		  <label>Company title</label>

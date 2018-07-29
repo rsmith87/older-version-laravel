@@ -200,4 +200,12 @@ class DashboardController extends Controller {
     }
   }
 
+  public function api_passport(Request $request)
+  {
+  	return view('dashboard.admin', [
+  		'threads' => $this->threads,
+		  'fs' => $this->firm_stripe,
+		  'user' => $this->user,
+	  ]);
+  }
 }

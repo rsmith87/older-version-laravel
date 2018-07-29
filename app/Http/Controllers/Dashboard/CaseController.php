@@ -670,6 +670,22 @@ class CaseController extends Controller
 		return redirect()->back()->with('status', 'Hours deleted succesfully!');
 	}
 
+	public function update_client(Request $request)
+	{
+		$data = $request->all();
+
+		$case = LawCase::where('case_uuid', $data['case_uuid'])->first();
+
+		$client = Contact::where('case_id', $case->id)->update(
+			[
+				'case_id' => $case->id,
+			]);
+
+
+
+		return redirect()->back()->with('status', 'Case client updated successfully!');
+	}
+
 	private function fix_date($dts)
 	{
 		$d = Carbon::parse($dts)->format('Y-m-d');
