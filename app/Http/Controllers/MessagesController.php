@@ -8,10 +8,11 @@ use App\LawCase;
 use App\Contact;
 use Carbon\Carbon;
 use App\Settings;
-use App\FirmStripe;
+
 use App\Message;
+use Talk;
 use Cmgmyr\Messenger\Models\Participant;
-use App\Thread;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -38,8 +39,7 @@ class MessagesController extends Controller
           return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
         }	
         $this->settings = Settings::where('user_id', $this->user['id'])->first();
-        $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-        //$this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
 
         return $next($request);
       });
@@ -60,8 +60,8 @@ class MessagesController extends Controller
 
 
 			// All threads that user is participating in
-			$threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
-
+			// controller method
+	    //$inboxes = \Talk::user(\Auth::id())->threads();
 			// All threads that user is participating in, with new messages
 			//$threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
@@ -69,23 +69,39 @@ class MessagesController extends Controller
 
       //print_r($firm_users);
       foreach($firm_users as $u){
-        $usrs[] = User::where('id', $u->user_id)->get();
+        $usrs[] = User::where('id', $u->user_id)->with('settings')->get();
       }
+
 			//$users = User::where('id',  '!=', \Auth::id())->get();
 			if($this->user->hasRole('client')){
 				$contact = Contact::where('has_login', $this->user['id'])->first();
 				$case = LawCase::where('id', $contact->case_id)->first();
 				$users = User::where('id', $case->u_id)->first();
 			}
+
+	    $conversations = \Talk::getMessagesByUserId(\Auth::id(), 0, 5);
+	    $user = '';
+	    $messages = [];
+	    if(!$conversations) {
+		    $user = User::find($id);
+	    } else {
+		    $user = $conversations->withUser;
+		    $messages = $conversations->messages;
+	    }
+	    if (count($messages) > 0) {
+		    $messages = $messages->sortBy('id');
+	    }
 			return view('messenger.index', [
         'user' => $this->user,
-				'threads' => $threads, 
+
+				//'inboxes' => $inboxes,
 				'users' => $usrs, 
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
-        'fs' => $this->firm_stripe,
-				'firm_users' => $firm_users,
+				'messages' => $messages,
+
+				'firm_users' => $usrs,
 			]);
     }
 
@@ -129,7 +145,7 @@ class MessagesController extends Controller
 				'theme' => $this->settings->theme,
 				'firm_id' => $this->settings->firm_id,
       'settings' => $this->settings,
-      'fs' => $this->firm_stripe,
+
 				'firm_users' => $firm_users,
 			]);
     }
@@ -177,33 +193,14 @@ class MessagesController extends Controller
      *
      * @return mixed
      */
-    public function store()
+    public function store(Request $request)
     {
-        $input = Input::all();
-        
-        $thread_uuid = Uuid::generate()->string;
+        $data = $request->all();
 
-        $thread = Thread::create([
-          'subject' => $input['subject'],
-          'thread_uuid' => $thread_uuid,
-          'firm_id' => $this->settings->firm_id,      
-        ]);
-        // Message
-        Message::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => $input['message'],
-        ]);
-        // Sender
-        Participant::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'last_read' => new Carbon,
-        ]);
-        // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipant($input['recipients']);
-        }
+	      $message = \Talk::sendMessage($data['conversation_id'], $data['message']);
+        
+        $message_uuid = Uuid::generate()->string;
+
         return redirect()->route('messages');
     }
 
@@ -249,4 +246,30 @@ class MessagesController extends Controller
 
         return redirect()->back();
     }
+
+		public function ajaxSendMessage(Request $request)
+		{
+			if ($request->ajax()) {
+				$rules = [
+					'message-data'=>'required',
+					'_id'=>'required'
+				];
+				$this->validate($request, $rules);
+				$body = $request->input('message-data');
+				$userId = $request->input('_id');
+				if ($message = Talk::sendMessageByUserId($userId, $body)) {
+					$html = view('ajax.newMessageHtml', compact('message'))->render();
+					return response()->json(['status'=>'success', 'html'=>$html], 200);
+				}
+			}
+		}
+		public function ajaxDeleteMessage(Request $request, $id)
+		{
+			if ($request->ajax()) {
+				if(Talk::deleteMessage($id)) {
+					return response()->json(['status'=>'success'], 200);
+				}
+				return response()->json(['status'=>'errors', 'msg'=>'something went wrong'], 401);
+			}
+		}
 }

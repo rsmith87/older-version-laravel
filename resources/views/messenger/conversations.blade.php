@@ -21,30 +21,34 @@
     <!-- Main content -->
       <section class="content messaging-content">
         <div class="chat-container clearfix">
-          <div class="people-list col-sm-2" id="people-list">
+          <div class="people-list" id="people-list">
             <div class="search">
               <input type="text" placeholder="search" />
               <i class="fa fa-search"></i>
             </div>
             <ul class="list">
 
-			  @foreach($firm_users as $f_u)
-				<li class="clearfix">
-				  <a href="#">
-				  @if(Gravatar::exists($user->email))
-					<img src="{{ Gravatar::get($user->email) }}" alt="avatar" />
-				  @else
-				  	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
-				  @endif
-				  <div class="about">
-					<div class="name">{{ $f_u[0]->name }}</div>
-					<div class="status">
-					  <i class="fa fa-circle online"></i> online
-					</div>
-				  </div>
-				  </a>
-				</li>
-			  @endforeach
+              @foreach($firm_users as $f_u)
+                <li class="clearfix">
+                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
+                  <div class="about">
+                    <div class="name">Vincent Porter</div>
+                    <div class="status">
+                      <i class="fa fa-circle online"></i> online
+                    </div>
+                  </div>
+                </li>
+              @endforeach
+              <li class="clearfix">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
+                <div class="about">
+                  <div class="name">Vincent Porter</div>
+                  <div class="status">
+                    <i class="fa fa-circle online"></i> online
+                  </div>
+                </div>
+              </li>
+
               <li class="clearfix">
                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" />
                 <div class="about">
@@ -137,7 +141,7 @@
             </ul>
           </div>
 
-          <div class="chat col-sm-10">
+          <div class="chat">
             <div class="chat-header clearfix">
               <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
 
@@ -245,7 +249,98 @@
         </script>
 
       </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-md-3">
+          <a class="btn btn-primary btn-block margin-bottom" data-toggle="modal" data-target="#create-message-modal">Compose</a>
 
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Folders</h3>
+
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+              <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
+                  <span class="label label-primary pull-right">4</span></a></li>
+                <li><a href="#"><i class="far fa-share-square"></i> Threads</a></li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Inbox</h3>
+
+              <div class="box-tools pull-right">
+                <div class="has-feedback">
+                  <input type="text" class="form-control input-sm" placeholder="Search messages">
+                  <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                </div>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-sync-alt"></i></button>
+                <div class="pull-right">
+                  1- 4/4
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <ul>
+                  @foreach($inboxes as $inbox)
+                    <li>
+                      <h2>{{$inbox->withUser->name}}</h2>
+                      <p>{{$inbox->thread->message}}</p>
+                      <span>{{$inbox->thread->humans_time}}</span>
+                    </li>
+                  @endforeach
+                </ul>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
+     
+    
+  </div>
+  </section>
+
+	<div class="col-sm-7 offset-sm-5 actual-message col-12">
+
+	</div>
+
+	<div class="clearfix"></div>
+	<div class="col-12">
+	</div>
 </div>
 
 <div class="modal" id="create-message-modal" href="#">
@@ -265,7 +360,19 @@
 
           <div class="col-xs-12">
             <label>Users</label>
->
+            @if(count($firm_users) > 0)
+                <div class="checkbox">
+                    @foreach($firm_users as $f_u)
+                      @foreach($f_u->Firm as $u)
+                        @if($u->email != $user->email)
+                        <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
+                          <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name.": ". $u->email : $u->email }}</label>
+                        <br />
+                        @endif
+                        @endforeach
+                    @endforeach
+                </div>
+            @endif
           </div>
     
             <!-- Submit Form Input -->

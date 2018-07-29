@@ -184,7 +184,7 @@ class DashboardController extends Controller {
     $data = $request->all();
     // if user in not logged in 
     if (!\Auth::check()) {
-      return redirect('/login');
+      return redirect('/dashboard/lock')->withErrors(['You must be logged in to unlock your account.']);
     }
     $password = $data['password'];
 

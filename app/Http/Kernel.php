@@ -30,7 +30,10 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
 	          \App\Http\Middleware\IsSubscribed::class,
-	          \Jrean\UserVerification\Middleware\IsVerified::class
+	          \Jrean\UserVerification\Middleware\IsVerified::class,
+	          \Nahid\Talk\Middleware\TalkMiddleware::class,
+	          \App\Http\Middleware\LogLastUserActivity::class,
+	          //\App\Http\Middleware\Lock::class
         ],
 
         'api' => [

@@ -15,9 +15,13 @@ class Lock
      */
     public function handle($request, Closure $next)
     {
-      if ($request->session()->has('locked')) {           
-        return redirect('/dashboard/lock');        
-      }      
+      if ($request->session()->has('locked')) {
+	      if (!$request->is('dashboard/lock')) {
+		      return redirect('/dashboard/lock');
+	      } else {
+	      	return $next($request);
+	      }
+      }
       return $next($request);
     }
 }
