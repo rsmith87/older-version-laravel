@@ -274,11 +274,16 @@ class DocumentController extends Controller
 		$image = $request->file('image');
 	}
 
-	public function delete($name)
+	public function delete(Request $request)
 	{
-		$this->s3->delete($name);
-		$item = Document::where('path',  $name)->delete();
-		return redirect('/dashboard/documents')->with('status', $name . ' successfully deleted');  
+		$data = $request->all();
+		$media = Media::where('uuid', $data['media_id'])->first();
+		if(\File::exists($media->path)) {
+			\File::delete($media->path);
+		}
+		$media->delete();
+		$relationship = MediaRelationship::where('media_uuid', $data['media_id'])->delete();
+		return redirect()->back()->with('status', $data['media_name'] . ' successfully deleted');
 	}
 
 	public function relate(Request $request)

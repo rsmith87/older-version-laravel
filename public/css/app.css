@@ -264,7 +264,8 @@ table#main tr:active {
   margin-right: 5px;
 }
 .dashboard.case .col-sm-6,
-.dashboard.case .col-md-6 {
+.dashboard.case .col-md-6,
+.dashboard.case .col-xs-12 {
   padding-left: 0;
   padding-right: 10px;
 }

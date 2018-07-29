@@ -197,7 +197,6 @@
 			<div class="clearfix"></div>
 			<div class="mb-3 ml-3" style="overflow:hidden;">
 
-
 			  @foreach($case_hours as $case_hour)
 				<div>
 				@if($case_hour->hours != 0)
@@ -294,13 +293,13 @@
 			  <i class="fa fa-file"></i> Documents
 			</h3>
 			<table id="documents"
-				   class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
+				   class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }} mb-3">
 			  <thead>
 			  <tr class="bg-primary">
 				<th>Id</th>
 				<th>File name</th>
 				<th>File description</th>
-
+				<th>Actions</th>
 			  </tr>
 			  </thead>
 			  <tbody>
@@ -309,6 +308,7 @@
 				  <td>{{ $document->document_uuid }}</td>
 				  <td>{{ $document->name }}</td>
 				  <td>{{ $document->description }}</td>
+				  <td><a href="#">View</a> | <a href="#">Send</a> | <a href="#">Delete</a></td>
 				</tr>
 			  @endforeach
 			  </tbody>
@@ -323,12 +323,12 @@
 				<i class="fa fa-file"></i> Documents
 			  </h3>
 			  <table id="documents"
-					 class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
+					 class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }} mb-3">
 				<thead>
 				<tr class="bg-primary">
 				  <th>File name</th>
 				  <th>File description</th>
-
+				  <th>Actions</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -336,6 +336,11 @@
 				  <tr>
 					<td>{{ $m[0]->name }}</td>
 					<td>{{ $m[0]->created_at }}</td>
+					<td>
+					  <a data-toggle="modal" data-target='#view-media-modal-{{ $m[0]->uuid }}' href='#'>View</a> |
+					  <a data-toggle="modal" data-target='#send-media-modal-{{ $m[0]->uuid }}' href='#'>Send</a> |
+					  <a data-toggle="modal" data-target='#delete-media-modal-{{ $m[0]->uuid }}' href='#'>Delete</a>
+					</td>
 				  </tr>
 				@endforeach
 				</tbody>
@@ -352,7 +357,7 @@
 				<i class="fa fa-clipboard-list"></i> Task list {{ $task_list->task_list_name }}
 			  </h3>
 			  <table id="tasks"
-					 class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
+					 class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }}">
 				<thead>
 				<tr class="bg-primary">
 				  <th>ID</th>
@@ -381,6 +386,80 @@
   @include('dashboard.includes.client-modal')
   @include('dashboard.includes.contact-modal')
   @include('dashboard.includes.case-modal')
+
+
+  @if(!empty($media))
+	@if(count($media) > 0)
+	  @foreach($media as $m)
+
+		<div class="modal fade" id="view-media-modal-{{ $m[0]->uuid }}">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-body">
+				<img src="{{ $m[0]->path }}" />
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
+		<div class="modal fade" id="send-media-modal-{{ $m[0]->uuid }}">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-body">
+				<h3>
+				  <i class="fas fa-sticky-note"></i> Send media
+				</h3>
+				<div class="clearfix"></div>
+				<hr/>
+				<form method="POST" action="/dashboard/cases/case/notes/note/add">
+				  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+				  <input type="hidden" name="media_uuid" value="{{ $m[0]->uuid }}"/>
+				  <label>Email to send media</label>
+				  <input name="media_send_email" class="form-control" />
+				  <button type="submit" class="form-control mt-3 btn btn-primary">
+					Submit
+				  </button>
+				</form>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
+		<div class="modal fade" id="delete-media-modal-{{ $m[0]->uuid }}">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-body">
+				<h3>
+				  <i class="fas fa-sticky-note"></i> Delete media
+				</h3>
+				<div class="clearfix"></div>
+				<hr/>
+				<form method="POST" action="/dashboard/documents/document/delete">
+				  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+				  <input type="hidden" name="media_id" value="{{ $m[0]->uuid }}"/>
+				  <input type="hidden" name="media_name" value="{{ $m[0]->name }}"
+				  <p>
+					{{ $m[0]->name }}
+				  </p>
+				  <p>
+					<img src="{{ $m[0]->path }}" />
+				  </p>
+				  <p>
+					Warning: This is permanent!  If you'd like to delete this document/media, click delete below!
+				  </p>
+				  <input type="submit" class="form-control mt-3 btn btn-danger" value="Delete "/>
+				</form>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
+		@endforeach
+	  @endif
+	@endif
 
   <div class="modal fade" id="add-notes-modal">
 	<div class="modal-dialog">

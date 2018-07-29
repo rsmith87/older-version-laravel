@@ -191,7 +191,7 @@ Route::group(['middleware' => ['web']], function () {
 			Route::get('/document/{id}/send', 'Dashboard\DocumentController@create_download_link');
 			Route::post('/create', 'Dashboard\DocumentController@create');
 			Route::post('/upload', 'Dashboard\DocumentController@upload');
-			Route::get('/delete/{name}', 'Dashboard\DocumentController@delete');
+			Route::post('/document/delete', 'Dashboard\DocumentController@delete');
 			Route::post('/document/relate', 'Dashboard\DocumentController@relate');
 		});
 

@@ -146,7 +146,7 @@ $(function($){
     window.location='/dashboard/contacts/contact/'+$id;    
   });   
   $('table#documents tr td').click(function(){
-    window.location='/dashboard/documents';
+    //window.location='/dashboard/documents';
   });     
   $('table#main tr td').click(function(){
     var $this = $(this);
