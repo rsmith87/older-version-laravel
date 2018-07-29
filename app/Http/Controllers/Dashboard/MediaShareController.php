@@ -18,8 +18,7 @@ class MediaShareController extends Controller
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}						
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
-      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
       
 			$this->s3 = \Storage::disk('s3');
 			return $next($request);

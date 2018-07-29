@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Media;
 
 use Illuminate\Support\Facades\File;
 use App\Settings;
-use App\FirmStripe;
-use App\Thread;
+
 
 /**
  * Class FolderController.
@@ -29,8 +28,7 @@ class FolderController extends LfmController
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
-			$this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-			$this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
 
 			return $next($request);
 		});

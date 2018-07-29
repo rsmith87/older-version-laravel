@@ -7,9 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Settings;
 use App\Contact;
 use App\LawCase;
-use App\FirmStripe;
 use Carbon\Carbon;
-use App\Thread;
 use App\Charts\ClientsByMonth;
 
 
@@ -30,8 +28,7 @@ class ReportController extends Controller {
         return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
       }
       $this->settings = Settings::where('user_id', $this->user['id'])->first();
-      $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
 
       return $next($request);
     });
@@ -63,9 +60,7 @@ class ReportController extends Controller {
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
         'settings' => $this->settings,
-        'fs' => $this->firm_stripe,
         'chart' => $chart,
-        'threads' => $this->threads,
 	      'clients_full' => $clients_full,
     ]);
   }
@@ -108,9 +103,7 @@ class ReportController extends Controller {
         'user' => $this->user,
         'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
-        'fs' => $this->firm_stripe,
         'chart' => $chart,
-        'threads' => $this->threads,
     ]);
   }
 
@@ -145,9 +138,7 @@ class ReportController extends Controller {
 			'user' => $this->user,
 			'firm_id' => $this->settings->firm_id,
 			'settings' => $this->settings,
-			'fs' => $this->firm_stripe,
 			'chart' => $chart,
-			'threads' => $this->threads,
 			'control' => $control,
 			'chart' => $chart,
 			'piechart' => $piechart,

@@ -36,8 +36,6 @@ class SettingController extends Controller
 						//return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 					//}
 					$this->settings = Settings::where('user_id', $this->user['id'])->first();
-	        $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-	        $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
 					return $next($request);
         });
     }
@@ -113,7 +111,6 @@ class SettingController extends Controller
         'table_sizes' => ['sm', 'lg'],
         'table_size' => $this->settings->table_size,
 				'firm_id' => $this->settings->firm_id,   
-				'fs' => $fs,
         'fb' => $this->settings->fb,
         'twitter' => $this->settings->twitter,
         'instagram' => $this->settings->instagram,

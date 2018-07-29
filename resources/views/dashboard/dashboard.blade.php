@@ -177,24 +177,7 @@
 
   </div> 
     @endif
-   <div class="col-sm-6 col-xs-12 mb-4">
-   <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h2>
-          <i class="fas fa-cogs"></i> Quick note
-        </h2>
-     </div>
-     <div class="panel-body">
-        <form>
-          <label>Note</label>
-          <textarea name="quick_note" class="form-control"></textarea>
-          <label>Relation</label>
-          <input type="text" name="relation" class="form-control mt-2 mb-2" />
-          <button type="submit" class="btn btn-primary form-control">Submit</button>
-       </form>
-     </div>
-  </div>   
-  </div>
+
 
   <div class="col-sm-6 col-xs-12">
     <div class="box box-solid bg-green-gradient">
@@ -209,10 +192,9 @@
             <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bars"></i></button>
             <ul class="dropdown-menu pull-right" role="menu">
-              <li><a href="#">Add new event</a></li>
-              <li><a href="#">Clear events</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#event-modal" >Add new event</a></li>
               <li class="divider"></li>
-              <li><a href="#">View calendar</a></li>
+              <li><a href="/dashboard/calendar">View calendar</a></li>
             </ul>
           </div>
           <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>

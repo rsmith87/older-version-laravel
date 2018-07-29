@@ -15,8 +15,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Firm;
-use App\Message;
-use App\Thread;
 use MercurySeries\Flashy\Flashy;
 
 class DashboardController extends Controller {
@@ -39,7 +37,7 @@ class DashboardController extends Controller {
       }
       $this->s3 = \Storage::disk('s3');
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-      $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+      //$this->threads = Thread::forUser(\Auth::id())->get();
       $this->case_types = ['choose..', 'personal_injury', 'estate_and_probate'];
 
       return $next($request);
@@ -91,8 +89,7 @@ class DashboardController extends Controller {
         'status_values' => $this->status_values,
         'invoices' => $invoices,
         'task_count' => $task_count,
-        'fs' => $fs,
-        'threads' => $this->threads,
+
     ]);
   }
 
@@ -139,8 +136,7 @@ class DashboardController extends Controller {
         'profile_image' => $this->settings->profile_image,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
-        'fs' => $this->firm_stripe,
-        'threads' => $this->threads,
+
     ]);
   }
 
@@ -203,8 +199,7 @@ class DashboardController extends Controller {
   public function api_passport(Request $request)
   {
   	return view('dashboard.admin', [
-  		'threads' => $this->threads,
-		  'fs' => $this->firm_stripe,
+
 		  'user' => $this->user,
 	  ]);
   }

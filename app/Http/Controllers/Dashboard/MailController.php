@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Settings;
-use App\FirmStripe;
-use App\Thread;
 use App\Http\Controllers\Controller;
 
 class MailController extends Controller
@@ -26,8 +24,7 @@ class MailController extends Controller
           return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
         }	
         $this->settings = Settings::where('user_id', $this->user['id'])->first();
-        $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
-        $this->threads = Thread::forUser(\Auth::id())->where('firm_id', $this->settings->firm_id)->latest('updated_at')->get();
+
         
         return $next($request);
       });
@@ -38,9 +35,7 @@ class MailController extends Controller
       return view('messenger.mail', [
          'user' => $this->user,
          'firm_id' => $this->settings->firm_id,
-         'fs' => $this->firm_stripe,
          'settings' => $this->settings,
-         'threads' => $this->threads
       ]);
     }
 }
