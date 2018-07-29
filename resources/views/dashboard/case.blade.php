@@ -4,7 +4,7 @@
 
   <div class="container dashboard case col-sm-12 col-12 offset-sm-2">
 	<nav class="nav nav-pills">
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#case-edit-modal" href="#"><i
+	  <a class="nav-item nav-link btn btn-warning" data-toggle="modal" data-target="#case-edit-modal" href="#"><i
 				class="fas fa-balance-scale"></i> Edit case</a>
 	   |
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i
@@ -18,7 +18,7 @@
 	  </a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#">
 		<i class="fas fa-file"></i> Add Document
-	  </a>|
+	  </a> |
 	  <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>-->
 
 	  @if(count($order) > 0)
@@ -29,24 +29,24 @@
 	  @if(count($case->Contacts) > 0)
 		@foreach($case->Contacts as $contact)
 		  @if($contact->is_client)
-			<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#payment-modal-full" href="#"><i
+			<a class="nav-item nav-link btn btn-success" data-toggle="modal" data-target="#payment-modal-full" href="#"><i
 					  class="fas fa-dollar-sign"></i> Bill client {{ $contact->first_name }} {{ $contact->last_name }}</a>
-			<a class="nav-item nav-link btn btn-info" href="/dashboard/clients/client/{{ $contact->contlient_uuid }}"><i
+			<a class="nav-item nav-link btn btn-success" href="/dashboard/clients/client/{{ $contact->contlient_uuid }}"><i
 					  class="fas fa-user"></i> View client {{ $contact->first_name }} {{ $contact->last_name }}</a>
-			<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#change-client-modal" href="#">
+			<a class="nav-item nav-link btn btn-success" data-toggle="modal" data-target="#change-client-modal" href="#">
 			  <i class="fas fa-user"></i> Change client
 			</a>
 		  @endif
 		@endforeach
 	  @else
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#reference-modal-full" href="#">
+		<a class="nav-item nav-link btn btn-success" data-toggle="modal" data-target="#reference-modal-full" href="#">
 		  <i class="fas fa-dollar-sign"></i> Reference client to case</a>
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#client-modal" href="#">
+		<a class="nav-item nav-link btn btn-success" data-toggle="modal" data-target="#client-modal" href="#">
 		  <i class="fas fa-user"></i> Create client for case
 		</a>
 	  @endif
-	  |	<a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->case_uuid }}/timeline"><i
-				class="fas fa-heartbeat"></i> View timeline</a>
+	  |	<a class="nav-item nav-link btn btn-primary" href="/dashboard/cases/case/{{ $case->case_uuid }}/timeline"><i
+				class="fas fa-heartbeat"></i> View timeline</a> |
 	<!-- <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-user"></i> Case Progress</a> -->
 	  <a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i
 				class="fas fa-trash-alt"></i> Delete case</a>
