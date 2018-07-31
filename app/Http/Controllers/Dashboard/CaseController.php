@@ -393,6 +393,7 @@ class CaseController extends Controller
 			'order' => $order,
 			'status_values' => $this->status_values,
 			'case_types' => $this->case_types,
+			'invoices' => $invoices,
 			'invoice_amount' => $invoice_amount,
 			'case_hours' => $case_hours,
 

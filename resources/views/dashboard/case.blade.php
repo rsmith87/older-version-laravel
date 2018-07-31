@@ -350,6 +350,36 @@
 		  @endif
 		@endif
 
+		@if(!empty($invoices))
+		  @if(count($invoices) > 0)
+			<div class="col-sm-6 col-xs-12">
+			  <h3 class="mt-5">
+				<i class="fa fa-file"></i> Invoices
+			  </h3>
+			  <table id="invoices"
+					 class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }} mb-3">
+				<thead>
+				<tr class="bg-primary">
+				  <th>Id</th>
+				  <th>Description</th>
+				  <th>Amount</th>
+				  <th>Paid</th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach($invoices as $i)
+				  <tr>
+					<td>{{ $i->id  }}</td>
+					<td>{{ $i->description }}</td>
+					<td>${{ $i->total }}</td>
+					<td>{{ $i->paid != 0 ? "Yes" : "No" }}</td>
+				  </tr>
+				@endforeach
+				</tbody>
+			  </table>
+			</div>
+		  @endif
+		@endif
 
 		@if(count($task_lists) > 0)
 		  @foreach($task_lists as $task_list)
@@ -532,9 +562,9 @@
 		  </h3>
 		  <div class="clearfix"></div>
 		  <hr/>
-		  <form method="post" action="/dashboard/documents/upload" enctype="multipart/form-data">
+		  <form method="post" action="/dashboard/documents/case/upload" enctype="multipart/form-data">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}"
+			<input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}">
 			<div class="col-xs-12">
 			  <label for="file_upload">File</label>
 			  <input type="file" class="form-control" name="file_upload"/>
