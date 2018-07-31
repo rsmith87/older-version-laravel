@@ -55,7 +55,7 @@ class FirmStripeController extends Controller
 	      $subaccount = User::find($input['sa_id']);
 
         if(isset($input['cc_coupon_code']) && $input['cc_coupon_code'] != ""){
-	        $charge = $subaccount->subscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
+	        $charge = $subaccount->newSubscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
         } else {
 	        $charge = $subaccount->newSubscription('main', 'plan_DH9vLJvUYAeco7')->create($token['id']);
         }
