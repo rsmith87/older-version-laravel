@@ -16,6 +16,7 @@ class Firm extends Model
      */
     protected $fillable = [
     	'name',
+	    'uuid',
 	    'logo',
 	    'address_1',
 	    'address_2',

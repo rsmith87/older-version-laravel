@@ -22,6 +22,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\ResetEmailNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Webpatser\Uuid\Uuid;
 
 class FirmController extends Controller
 {
@@ -104,8 +105,15 @@ class FirmController extends Controller
   public function add(Request $request)
   {
       $data = $request->all();
-      
-      if(empty($this->settings->firm_id)){
+
+      if(empty($data['firm_uuid'])){
+	      $uuid = Uuid::generate()->string;
+      } else {
+      	$uuid = $data['firm_uuid'];
+      }
+
+
+	  if(empty($this->settings->firm_id)){
         $id = \DB::table('firm')->max('id') + 1;
         $this->settings->firm_id = $id;
         $this->settings->save();         
@@ -134,6 +142,7 @@ class FirmController extends Controller
       ],
       [
         'name' => $data['name'],
+        'uuid' => $uuid,
         'logo' => isset($filePath) ? $filePath : "",
         'address_1' => $data['address_1'],
 				'address_2' => $data['address_2'],

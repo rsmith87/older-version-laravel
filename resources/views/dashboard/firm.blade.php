@@ -57,6 +57,7 @@
 				<hr />	
 			<form class="form-horizontal" method="post" action="/dashboard/firm/add" enctype="multipart/form-data">
 			  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+			  <input type="hidden" name="firm_uuid" value="{{ isset($firm['uuid']) ? $firm['uuid'] : "" }}" />
 
 			  <div class="col-sm-6"><!-- Text input-->
 				  <label class=" control-label" for="firm_name">Name</label>
