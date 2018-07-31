@@ -166,38 +166,51 @@ class FirmController extends Controller
     
     if(!isset($data['existing_name'])){
 		
-   //generate a password for the new users
-    $pw = $this->generatePassword();
-    //add new user to database
-    $u = new User;
-    $u->name = $data['name'];
-    $u->email = $data['email'];
-    $u->password = $pw;
-			
-    $u->save();    
-    
-    $id = User::where('email', $data['email'])->first();
-    $id->assignRole('authenticated_user');			
-    
-    $s = new Settings;
-    $s->firm_id = $this->settings->firm_id;
-    $s->theme = $this->settings->theme;
-    $s->user_id = $id->id;
-    $s->save();
-					
+	    //generate a password for the new users
+	    $pw = $this->generatePassword();
+	    //add new user to database
+
+
+
+		  $user = User::create([
+		    'name' => $data['name'],
+		    'email' => $data['email'],
+		    'password' => $pw,
+			  'verified' => 1,
+		  ]);
+
+
+
+	    $id = User::where('email', $data['email'])->first();
+	    //assigns firm_member role
+	    $id->assignRole('firm_member');
+
+	    $s = new Settings;
+	    $settings = Settings::create([
+	      'firm_id' => $this->settings->firm_id,
+		    'theme' => $this->settings->theme,
+		    'user_id' => $id->id,
+	    ]);
+
+
 		
-    $status = 'User created and an email was sent to user\'s email address provided.';
-    }
-    else {   
+      $status = 'Please provide payment details for your new user below';
+	    return view('vendor.adminlte.payment-user', [
+	    	'firm_id' => $this->settings->firm_id,
+		    'type' => 'subaccount',
+	    ])->with('status', $status);
+
+    } else {
       $update_user = User::where('email', $data['existing_email'])->first();
       
       $update_user->name = $data['existing_name'];
       $update_user->email = $data['existing_email'];
       $update_user->save();
       $status = "User updated!";
+	    return redirect()->back()->with('status', $status);
+
     }
     
-    return redirect('/dashboard/firm')->with('status', $status);
 
      
   }
@@ -232,8 +245,22 @@ class FirmController extends Controller
 		$email_send = $id->sendPasswordResetNotification($id);
 		
 
-		return redirect('/dashboard/firm')->with('status', 'Client '.$id->name.' added and reset password email sent!');
+		return redirect('/dashboard/firm/add-user-payment')->with('status', 'Client '.$id->name.' added and reset password email sent!');
 
+	}
+
+	public function add_user_payment(Request $request)
+	{
+		return view('vendor.adminlte.payment-user', [
+			'firm_id' => $this->settings->firm_id,
+		]);
+	}
+
+	public function add_user_payment_complete(Request $request)
+	{
+		return view('vendor.adminlte.payment-user', [
+			'firm_id' => $this->settings->firm_id,
+		]);
 	}
 
 	public static function generatePassword()

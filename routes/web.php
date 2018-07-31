@@ -113,6 +113,9 @@ Route::group(['middleware' => ['web']], function () {
 
 		Route::get('/add-payment', 'Dashboard\DashboardController@add_payment');
 
+		Route::get('/add-user-payment', 'Dashboard\FirmController@add_user_payment');
+
+
 		Route::get('/clients', 'Dashboard\ContactController@clients');
 		Route::get('/clients/client/{id}', 'Dashboard\ContactController@client');
 		Route::post('/clients/client/note/delete', 'Dashboard\ContactController@note_delete');
@@ -161,6 +164,8 @@ Route::group(['middleware' => ['web']], function () {
 			Route::post('/add', 'Dashboard\FirmController@add');
 			Route::post('/user/add', 'Dashboard\FirmController@add_user');
 			Route::post('/user/client/add', 'Dashboard\FirmController@create_client_login');
+			Route::get('/add-user-payment', 'Dashboard\FirmController@add_user_payment');
+			Route::post('/add-user-payment', 'Auth\FirmStripeController@add_stripe_payment');
 		});
 		Route::group(['prefix' => 'calendar'], function () {
 			Route::get('/', 'Dashboard\EventController@index');
@@ -199,7 +204,7 @@ Route::group(['middleware' => ['web']], function () {
 			Route::get('/document/{id}', 'Dashboard\DocumentController@single');
 			Route::get('/document/{id}/send', 'Dashboard\DocumentController@create_download_link');
 			Route::post('/create', 'Dashboard\DocumentController@create');
-			Route::post('/upload', 'Dashboard\DocumentController@upload');
+			Route::post('/{type}/upload', 'Dashboard\DocumentController@upload');
 			Route::post('/document/delete', 'Dashboard\DocumentController@delete');
 			Route::post('/document/relate', 'Dashboard\DocumentController@relate');
 			Route::post('/document/send', 'Dashboard\DocumentController@send_email');

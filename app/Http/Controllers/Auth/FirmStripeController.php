@@ -12,7 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 use App\User;
 
-class StripeController extends Controller
+class FirmStripeController extends Controller
 {
   
   use VerifiesUsers;
@@ -20,14 +20,8 @@ class StripeController extends Controller
   public function add_stripe_payment(Request $request)
   {
 
-	  if(!$request->session()->get('u_i')){
 		  $user = \Auth::id();
-		  if(!$user){
-			  return redirect()->back()->withErrors(['We did not have a user ID for payment']);
-		  }
-	  } else {
-		  $user = $request->session()->get('u_i');
-	  }
+
 
     $validator =  $request->validate([
       'card_no' => 'required',
@@ -55,7 +49,8 @@ class StripeController extends Controller
         if (!isset($token['id'])) {
           return redirect()->route('addmoney.paywithstripe');
         }
-	      //need to have way to get user - needs to be through
+	      //THIS CURRENTLY GETS THE ACTIVE LOGGED IN USER
+	      //NEED TO MAKE IT REFERENECE THE NEW USER CREATED
 	      $user = User::find($user);
 
         if(isset($input['cc_coupon_code']) && $input['cc_coupon_code'] != ""){
@@ -65,20 +60,9 @@ class StripeController extends Controller
         }
 
 	      if ($user->subscribed('main')) {
-          /**
-          * Write Here Your Database insert logic.
-          */
-          //if the user is already verified then we send them to login page
-		      if($user->isVerified()){
-		      	return redirect('/login')->with('status', 'Payment updated.  Please login to continue.');
-		      }
 
-		      //if the user is not verified then we send them the verification email to make sure they're good
-	        event(new Registered($user));
-	        UserVerification::generate($user);
-	        UserVerification::send($user, 'Legalkeeper User Verification');
 
-	        return redirect('/login')->with('status', 'Check your email for a link to verify your account!');
+	        return redirect('/dashboard/firm')->with('status', 'Firm member paid for and can be used for login!  An email to reset their password has been sent to the new users email.');
 
           
         } else {
