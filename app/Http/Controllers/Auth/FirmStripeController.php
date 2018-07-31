@@ -54,9 +54,10 @@ class FirmStripeController extends Controller
 	      $user = User::find($user);
 
         if(isset($input['cc_coupon_code']) && $input['cc_coupon_code'] != ""){
-	        $charge = $user->newSubscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
+	        $charge = $user->subscription('main')->withCoupon($input['cc_coupon_code'])->incrementQuantity(1);
+
         } else {
-	        $charge = $user->newSubscription('main', 'plan_DH9vLJvUYAeco7')->create($token['id']);
+	        $charge = $user->subscription('main')->incrementQuantity(1);
         }
 
 	      if ($user->subscribed('main')) {

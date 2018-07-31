@@ -108,6 +108,9 @@ use HasApiTokens, Notifiable, Billable, HasRoles, Messagable, SoftDeletes, UserV
   {
     // Send email
     $user->notify(new EventDenyNotification($user));
-  }    
-  
+  }
+
+	public function taxPercentage() {
+		return 8.25;
+	}
 }
