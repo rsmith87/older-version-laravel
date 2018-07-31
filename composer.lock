@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccdd0e3e15280d23b9e1b6cfd370bf62",
+    "content-hash": "6505a0dfee85836330d5ac08ac47f5e2",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -4501,6 +4501,49 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "reportico/laravel-reportico",
+            "version": "5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reportico-web/laravel-reportico.git",
+                "reference": "38b80d51875caf4dcc40f87d3be3a3a991b47a47"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reportico-web/laravel-reportico/zipball/38b80d51875caf4dcc40f87d3be3a3a991b47a47",
+                "reference": "38b80d51875caf4dcc40f87d3be3a3a991b47a47",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.2",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations",
+                    "src/controllers"
+                ],
+                "files": [
+                    "src/Reportico/Reportico/reportico.php"
+                ],
+                "psr-0": {
+                    "Reportico\\Reportico\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Reportico",
+                    "email": "info@reportico.org"
+                }
+            ],
+            "time": "2017-04-10T17:00:17+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",

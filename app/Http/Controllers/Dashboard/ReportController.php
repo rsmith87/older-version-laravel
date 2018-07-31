@@ -36,20 +36,17 @@ class ReportController extends Controller {
 
   public function index() {
 		$chart_array = [];
-    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])
-	    ->select(\DB::raw("COUNT(*) as count ,  MONTHNAME(created_at) as month"))
-	    ->orderBy("created_at")
-	    ->groupBy(\DB::raw("month(created_at)"))
-	    ->get();
+    $clients = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
     $clients_full = Contact::where(['is_client' => '1', 'firm_id' => $this->settings->firm_id])->get();
 		$chart = new ClientsByMonth();
-		print_r($clients);
+		//dd($clients);
 
-	  foreach($clients as $data){
+	  foreach($clients_full as $data){
 		  $n_data = [];
 		  array_push($n_data,$data['month'],$data['count']);
 		  array_push($chart_array,$n_data);
 	  }
+	  //dd($chart_array);
 	  $chart->dataset('Clients', 'bar', $chart_array);
 
     return view('dashboard/reports/clients', [

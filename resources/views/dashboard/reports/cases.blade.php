@@ -2,12 +2,11 @@
 
 @section('content')
 
-<div class="container dashboard reports charts col-sm-10 col-xs-12 offset-sm-2">
+<div class="container dashboard reports charts col-sm-12 col-xs-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports"><i class="fas fa-user"></i> Clients by month</a>
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/cases"><i class="fas fa-briefcase"></i> Cases by month</a>
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/payments"><i class="fas fa-dollar-sign"></i> Payments by month</a> 
-    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/hours"><i class="fas fa-clock"></i> Hours worked by week</a>        
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports"><i class="fas fa-user"></i> Clients</a>
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/cases"><i class="fas fa-briefcase"></i> Cases </a>
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/payments"><i class="fas fa-dollar-sign"></i> Payments</a>
   </nav>  
 
   @include('dashboard.includes.alerts')
@@ -20,23 +19,42 @@
 	</div>
 	<div class="panel-body">
 	  <div class="col-sm-12 col-12">
-		{!! \Lava::render('LineChart', 'MyCases', 'cases-chart') !!}
-		<div id="cases-chart"></div>
+
 	  </div>
 	  <div class="col-sm-12 col-12">
-        <table class="table table-responsive table-resposive table-striped">
+        <table class="table table-responsive table-responsive table-striped">
 		  <thead>
 		  <tr>
+			<th scope="col">Status</th>
+			<th scope="col">Type</th>
+			<th scope="col">Number</th>
 			<th scope="col">Name</th>
+			<th scope="col">Court Name</th>
+			<th scope="col">Opposing Counsel</th>
 			<th scope="col">Location</th>
+			<th scope="col">Open date</th>
+			<th scope="col">Close date</th>
+			<th scope="col">S.O.L</th>
+			<th scope="col">Billing Type</th>
+			<th scope="col">Billing Rate</th>
 		  </tr>
 		  </thead>
 		  <tbody>
 		  @foreach($cases as $case)
             <tr>
+			  <td>{{ $case->status }}</td>
+			  <td>{{ $case->type }}</td>
+			  <td>{{ $case->number }}</td>
               <td>{{ $case->name }}</td>
-              <td>{{ $case->location }}</td>
-            </tr>
+			  <td>{{ $case->court_name }}</td>
+			  <td>{{ $case->opposing_counsel }}</td>
+			  <td>{{ $case->location }}</td>
+			  <td>{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}</td>
+			  <td>{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}</td>
+			  <td>{{ isset($case->statute_of_limitations) ? "Yes" : "No" }}</td>
+			  <td>{{ $case->billing_type }}</td>
+			  <td>{{ $case->billing_rate }}</td>
+			</tr>
             @endforeach
 
 

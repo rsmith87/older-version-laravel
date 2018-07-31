@@ -52,7 +52,8 @@
         "khill/lavacharts": "^3.1",
         "maddhatter/laravel-fullcalendar": "^1.3",
         "barryvdh/laravel-dompdf": "^0.8.2",
-        "nahid/talk": "^2.2"
+        "nahid/talk": "^2.2",
+        "reportico/laravel-reportico": "^5.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
