@@ -138,6 +138,8 @@ body.login-page {
 }
 #calendar {
   -webkit-transition: all 2s;
+  -moz-transition: all 2s;
+  -o-transition: all 2s;
   transition: all 2s;
 }
 .dashboard-navigation .navbar-nav span.glyphicon,
@@ -341,6 +343,8 @@ nav.nav-pills a.nav-link {
   border-radius: 0;
   padding-top: 0;
   -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 .dashboard-navigation .navbar-collapse {
@@ -649,6 +653,7 @@ nav .show > .btn-primary.dropdown-toggle {
   font-weight: normal;
   font-size: 1.5em;
   -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
 #searchfield form .biginput:focus {
@@ -825,8 +830,7 @@ nav .show > .btn-primary.dropdown-toggle {
   margin: auto;
   padding: 30px;
   border: 1px solid #eee;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   font-size: 16px;
   line-height: 24px;
   font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
@@ -934,7 +938,7 @@ select.form-control:not([size]):not([multiple]) {
   color: #fff;
   display: block;
   width: 100%;
-  text-align: center;
+  text-align: right;
 }
 .timeType {
   display: block;
@@ -984,6 +988,7 @@ table.dataTable thead td {
   right: -300px;
   width: 300px;
   -webkit-transition: right 0.3s ease-in-out;
+  -o-transition: right 0.3s ease-in-out;
   transition: right 0.3s ease-in-out;
   padding: 20px 10px;
 }
@@ -1175,8 +1180,7 @@ table#documents th:nth-child(1) {
 .messaging-content *,
 .messaging-content *:before,
 .messaging-content *:after {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .messaging-content body {
   background: #C5DDEB;
@@ -1378,3 +1382,4 @@ table#documents th:nth-child(1) {
   clear: both;
   height: 0;
 }
+/*# sourceMappingURL=app.css.map */
