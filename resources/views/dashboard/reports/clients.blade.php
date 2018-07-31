@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container dashboard reports charts col-sm-10 col-xs-12 offset-sm-2">
+<div class="container dashboard reports charts col-sm-12 col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" href="/dashboard/reports"><i class="fas fa-user"></i> Clients</a>
     <a class="nav-item nav-link btn btn-info" href="/dashboard/reports/cases"><i class="fas fa-briefcase"></i> Cases</a>

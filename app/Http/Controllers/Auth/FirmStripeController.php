@@ -19,7 +19,6 @@ class FirmStripeController extends Controller
 
   public function add_stripe_payment(Request $request)
   {
-
 		  $user = \Auth::id();
 
 
@@ -49,20 +48,21 @@ class FirmStripeController extends Controller
         if (!isset($token['id'])) {
           return redirect()->route('addmoney.paywithstripe');
         }
-	      //THIS CURRENTLY GETS THE ACTIVE LOGGED IN USER
-	      //NEED TO MAKE IT REFERENECE THE NEW USER CREATED
-	      $user = User::find($user);
+
+
+        //SA_ID references the user account being created, now the account used to create the subaccount
+	      //Currently it makes it easier to manage on because of the needed middleware for seeing if an account is subscribed
+	      $subaccount = User::find($input['sa_id']);
 
         if(isset($input['cc_coupon_code']) && $input['cc_coupon_code'] != ""){
-	        $charge = $user->subscription('main')->withCoupon($input['cc_coupon_code'])->incrementQuantity(1);
-
+	        $charge = $subaccount->subscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
         } else {
-	        $charge = $user->subscription('main')->incrementQuantity(1);
+	        $charge = $subaccount->newSubscription('main', 'plan_DH9vLJvUYAeco7')->create($token['id']);
         }
 
-	      if ($user->subscribed('main')) {
+	      if ($subaccount->subscribed('main')) {
 
-
+		      $this->sendResetLinkEmail($request);
 	        return redirect('/dashboard/firm')->with('status', 'Firm member paid for and can be used for login!  An email to reset their password has been sent to the new users email.');
 
           

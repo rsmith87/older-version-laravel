@@ -198,6 +198,7 @@ class FirmController extends Controller
 	    return view('vendor.adminlte.payment-user', [
 	    	'firm_id' => $this->settings->firm_id,
 		    'type' => 'subaccount',
+		    'sa_id' => $user,
 	    ])->with('status', $status);
 
     } else {
