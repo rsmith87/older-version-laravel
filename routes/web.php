@@ -166,7 +166,9 @@ Route::group(['middleware' => ['web']], function () {
 			Route::post('/user/client/add', 'Dashboard\FirmController@create_client_login');
 			Route::get('/add-user-payment', 'Dashboard\FirmController@add_user_payment');
 			Route::post('/add-user-payment', 'Auth\FirmStripeController@add_stripe_payment');
+			Route::post('/message/add', 'Dashboard\FirmController@add_firm_message');
 		});
+
 		Route::group(['prefix' => 'calendar'], function () {
 			Route::get('/', 'Dashboard\EventController@index');
 			Route::post('/drop-event', 'Dashboard\EventController@drop_event');

@@ -107,8 +107,7 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body" style="">
-      <p>Numbers are up in 2018, as we've kicked off a rally in style to raise nearly $150,000 since the beginning of the year!  Keep up the great work!</p>
-      <p>- Robby</p>
+      <p>{{ $firm_message->firm_message }}</p>
     </div>
     <!-- /.box-body -->
   </div>

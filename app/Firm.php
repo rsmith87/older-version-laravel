@@ -51,9 +51,14 @@ class Firm extends Model
     {
         return $this->hasMany('App\Note', 'id', 'firm_id');
     }
+
+    public function messages()
+    {
+    	return $this->hasMany('App\FirmMessage', 'firm_id');
+    }
   
-   public function stripe()
-   {
-     return $this->hasOne('App\FirmStripe', 'firm_id');
-   }
+	   public function stripe()
+	   {
+	     return $this->hasOne('App\FirmStripe', 'firm_id');
+	   }
 }

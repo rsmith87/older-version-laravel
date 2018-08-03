@@ -4,10 +4,8 @@
       
 <div class="container dashboard firm col-sm-12 offset-sm-2 scrollspy">
 	<nav class="nav nav-pills">
-		@hasanyrole('administrator|authenticated_user')
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-calendar-plus"></i> Edit firm</a>
-		@endhasrole
-
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-message-modal" href="#"><i class="fas fa-calednar-plus"></i> Edit firm message</a>
 	</nav>
   
   @include('dashboard.includes.alerts')
@@ -123,7 +121,34 @@
 		</div>
 	  </div>
 	</div>
-	
+
+
+<div class="modal fade" id="edit-firm-message-modal">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-body">
+		<h3>
+		  <i class="fas fa-building"></i> Edit firm information
+		</h3>
+
+		<div class="clearfix"></div>
+		<hr />
+		<form class="form-horizontal" method="post" action="/dashboard/firm/message/add">
+		  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+		  <input type="hidden" name="firm_id" value="{{ $firm['id'] }}" />
+
+
+			<label class=" control-label" for="firm_name">Message</label>
+			<textarea name="firm_message" class="form-control"></textarea>
+
+
+			<button id="submit" name="submit" class="btn btn-primary">Submit</button>
+
+		</form>
+	  </div>
+	</div>
+  </div>
+</div>
     @hasanyrole('administrator')
 
 	<hr />

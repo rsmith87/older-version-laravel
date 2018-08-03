@@ -23,6 +23,7 @@ use App\Notifications\ResetPasswordNotification;
 use App\Notifications\ResetEmailNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Webpatser\Uuid\Uuid;
+use App\FirmMessage;
 
 class FirmController extends Controller
 {
@@ -158,6 +159,19 @@ class FirmController extends Controller
       return redirect('/dashboard/firm')->with('status', 'Firm updated!');
 
   }
+
+	public function add_firm_message(Request $request)
+	{
+		$data = $request->all();
+
+		FirmMessage::create([
+			'firm_id' => $data['firm_id'],
+			'firm_message' => $data['firm_message'],
+		]);
+
+		return redirect()->back()->with('status', 'Firm message set succcessfully!');
+
+	}
 
   public function add_user(Request $request)
   {
