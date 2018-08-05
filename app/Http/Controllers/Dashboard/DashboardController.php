@@ -71,6 +71,7 @@ class DashboardController extends Controller {
     $events = Event::where('u_id', $this->user['id'])->get();
     $invoices = Invoice::where('user_id', $this->user['id'])->get();
     $firm = \App\Firm::where('id', $this->settings->firm_id)->first();
+    $firm_message = \App\FirmMessage::where('firm_id', $this->settings->firm_id)->orderBy('created_at', 'desc')->first();
     return view('dashboard/dashboard', [
         'user' => $this->user,
         'firm_id' => $this->settings->firm_id,
@@ -89,6 +90,7 @@ class DashboardController extends Controller {
         'status_values' => $this->status_values,
         'invoices' => $invoices,
         'task_count' => $task_count,
+	      'firm_message' => $firm_message,
 
     ]);
   }

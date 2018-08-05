@@ -44,15 +44,15 @@
 				<!-- Used to display Element errors. -->
 				<div id="card-errors" role="alert"></div>
 			  </div>
+			  <button class='form-control btn btn-primary submit-button' type='submit'>Pay {{ $invoice->total }}.00 »</button>
 
 
-<div class="clearfix"></div>
+			  <div class="clearfix"></div>
 
             
 
    
                 <div class='col-md-12 form-group'>
-                <button class='form-control btn btn-primary submit-button' type='submit'>Pay {{ $invoice->total }}.00 »</button>
                 </div>
             
      

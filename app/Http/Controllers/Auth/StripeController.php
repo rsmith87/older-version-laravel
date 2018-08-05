@@ -29,11 +29,17 @@ class StripeController extends Controller
 		  $user = $request->session()->get('u_i');
 	  }
 
+	  //getting expiration as one field - exp-date
+	  //need to seperate the values in the field
+	  //data sample: 02 / 20
+	  //get only first two digits for month
+	  //get only last two digits for year
+	  //basic php
+
     $validator =  $request->validate([
-      'card_no' => 'required',
-      'ccExpiryMonth' => 'required',
-      'ccExpiryYear' => 'required',
-      'cvvNumber' => 'required',
+      'cardnumber' => 'required',
+      'exp-date' => 'required',
+      'cvc' => 'required',
       'amount' => 'required',
     ]);
     
@@ -45,10 +51,11 @@ class StripeController extends Controller
       try {
         $token = $stripe->tokens()->create([
           'card' => [
-          'number' => $request->get('card_no'),
+          'number' => $request->get('cardnumber'),
+          //handle with php to seperate values for exp-date
           'exp_month' => $request->get('ccExpiryMonth'),
           'exp_year' => $request->get('ccExpiryYear'),
-          'cvc' => $request->get('cvvNumber'),
+          'cvc' => $request->get('cvc'),
           ],
         ]);
 

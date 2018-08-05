@@ -206,33 +206,31 @@ class DocumentController extends Controller
 		]);
 	}
 
-	public function upload(Request $request)
+	public function upload(Request $request, $type)
 	{
-		$data = $request->all();
+		$data = $request->file('file_upload');
 
     $uuid = Uuid::generate()->string;
-    
-    $file_name = 'file_upload';
-    if(isset($data['dz'])){
-      $file_name = 'file';
-      $data['file_description'] = 'uploaded through dropzone';
-    }
-    
-		if(!isset($data['id'])){
-			$data['id'] = \DB::table('document')->max('id') + 1; 
-			$status = 'added';
-			$imageFileName = time() . '.' . $request->file($file_name)->getClientOriginalExtension();
-			$filePath = '/f/'.$this->settings->firm_id.'/u/'.$this->user['id'].'/' .$imageFileName;
-			$fileMimeType = $request->file($file_name)->getMimeType();
-			$this->s3->put($filePath, file_get_contents($request->file($file_name)));
-			$this->s3->url($filePath);        
-		} 
-		else {
-			$status = 'updated';
-			$filePath = $data['file_path'];
-			$imageFileName = $data['file_name'];
-			$fileMimeType = Document::where('id', $data['id'])->select('mime_type')->first()->mime_type;
-		}
+
+
+    //need to create Media model
+		//need to create MediaRelationship model
+		//need to move file to server
+
+		$media_insert = Media::create([
+			'uuid' => $uuid,
+			'name' => $data->getClientOriginalName(),
+			'file_name' => '',
+		]);
+
+		$data['id'] = \DB::table('document')->max('id') + 1;
+		$status = 'added';
+		$imageFileName = time() . '.' . $request->file($file_name)->getClientOriginalExtension();
+		$filePath = '/f/'.$this->settings->firm_id.'/u/'.$this->user['id'].'/' .$imageFileName;
+		$fileMimeType = $request->file($file_name)->getMimeType();
+		$this->s3->put($filePath, file_get_contents($request->file($file_name)));
+		$this->s3->url($filePath);
+
 		
 		if($this->user->hasRole('client')) {			
 			$contact = Contact::where('has_login', $this->user['id'])->first();

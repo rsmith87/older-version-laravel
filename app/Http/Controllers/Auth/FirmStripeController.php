@@ -62,7 +62,8 @@ class FirmStripeController extends Controller
 
 	      if ($subaccount->subscribed('main')) {
 
-		      $this->sendResetLinkEmail($request);
+		      //if the user is not verified then we send them the verification email to make sure they're good
+		      event(new Registered($user));
 	        return redirect('/dashboard/firm')->with('status', 'Firm member paid for and can be used for login!  An email to reset their password has been sent to the new users email.');
 
           
