@@ -93,7 +93,7 @@
             <a href="/dashboard/invoices" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
           </div>
     </div>
-
+@if(!empty($firm_message) || $firm_message === "")
 <div class="col-md-6 col-xs-12">
   <div class="box box-warning">
     <div class="box-header with-border">
@@ -113,6 +113,7 @@
   </div>
   <!-- /.box -->
 </div>
+      @endif
 
       @if(count($tasklists) > 0)
     <div class="col-sm-6 col-xs-12 mb-4">

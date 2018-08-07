@@ -22,32 +22,20 @@ class FirmStripeController extends Controller
 		  $user = \Auth::id();
 
 
-    $validator =  $request->validate([
-      'card_no' => 'required',
-      'ccExpiryMonth' => 'required',
-      'ccExpiryYear' => 'required',
-      'cvvNumber' => 'required',
-      'amount' => 'required',
-    ]);
+
     
     $input = $request->all();
     
-      $input = array_except($input,array('_token'));
+
       $stripe = Stripe::make(env('STRIPE_SECRET'));
       
       try {
-        $token = $stripe->tokens()->create([
-          'card' => [
-          'number' => $request->get('card_no'),
-          'exp_month' => $request->get('ccExpiryMonth'),
-          'exp_year' => $request->get('ccExpiryYear'),
-          'cvc' => $request->get('cvvNumber'),
-          ],
-        ]);
+          $token = $request->get('stripeToken');
 
-        if (!isset($token['id'])) {
-          return redirect()->route('addmoney.paywithstripe');
-        }
+
+          if (empty($token) || $token === "") {
+              return redirect()->route('addmoney.paywithstripe')->withErrors(['Your card had trouble processing.  Please try again.']);
+          }
 
 
         //SA_ID references the user account being created, now the account used to create the subaccount
@@ -55,9 +43,9 @@ class FirmStripeController extends Controller
 	      $subaccount = User::find($input['sa_id']);
 
         if(isset($input['cc_coupon_code']) && $input['cc_coupon_code'] != ""){
-	        $charge = $subaccount->newSubscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
+	        $charge = $subaccount->newSubscription('main', env('STRIPE_SUB_PLAN'))->withCoupon($input['cc_coupon_code'])->create($token);
         } else {
-	        $charge = $subaccount->newSubscription('main', 'plan_DH9vLJvUYAeco7')->create($token['id']);
+	        $charge = $subaccount->newSubscription('main', env('STRIPE_SUB_PLAN'))->create($token);
         }
 
 	      if ($subaccount->subscribed('main')) {

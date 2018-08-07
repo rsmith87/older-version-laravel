@@ -20,33 +20,33 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            
-         
-      
-            <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!!route('addmoney.stripe')!!}" >
-               {{ csrf_field() }}
-              <input  type='hidden' name="account_type">
-               
-              <input  type='hidden' name="amount" value="16.24">
 
-               <p>Complete registration by submitting your payment details below.  You will not be charged if you cancel before 14 days from registration.</p>
-				<br /><br />
-				<p><strong>Legalkeeper Starter Plan:</strong></p>
-				<p>$15 a month</p>
+
+
+            <form class="form-horizontal" method="POST" id="payment-form" role="form" action="{!!route('addmoney.stripe')!!}" >
+                {{ csrf_field() }}
+                <input  type='hidden' name="account_type">
+
+                <input  type='hidden' name="amount" value="16.24">
+
+                <p>Complete registration by submitting your payment details below.  You will not be charged if you cancel before 14 days from registration.</p>
+                <br /><br />
+                <p><strong>Legalkeeper Starter Plan:</strong></p>
+                <p>$15 a month</p>
                 <p>Tax: 8.25% : $1.24 </p>
                 <p>Total: $16.24 per month per user</p>
 
-              <label for="card-element">
-                Credit or debit card
-              </label>
-              <div id="card-element">
-                <!-- A Stripe Element will be inserted here. -->
-              </div>
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
 
-              <!-- Used to display Element errors. -->
-              <div id="card-errors" role="alert"></div>
-              <br />
-              <button class='form-control btn btn-primary submit-button' type='submit'>Pay »</button>
+                <!-- Used to display Element errors. -->
+                <div id="card-errors" role="alert"></div>
+                <br />
+                <button class='form-control btn btn-primary submit-button' type='submit'>Pay »</button>
 
         </div>
             

@@ -36,12 +36,7 @@ class StripeController extends Controller
 	  //get only last two digits for year
 	  //basic php
 
-    $validator =  $request->validate([
-      'cardnumber' => 'required',
-      'exp-date' => 'required',
-      'cvc' => 'required',
-      'amount' => 'required',
-    ]);
+
     
     $input = $request->all();
     
@@ -49,26 +44,18 @@ class StripeController extends Controller
       $stripe = Stripe::make(env('STRIPE_SECRET'));
       
       try {
-        $token = $stripe->tokens()->create([
-          'card' => [
-          'number' => $request->get('cardnumber'),
-          //handle with php to seperate values for exp-date
-          'exp_month' => $request->get('ccExpiryMonth'),
-          'exp_year' => $request->get('ccExpiryYear'),
-          'cvc' => $request->get('cvc'),
-          ],
-        ]);
+        $token = $request->get('stripeToken');
 
-        if (!isset($token['id'])) {
+        if (empty($token) || $token === "") {
           return redirect()->route('addmoney.paywithstripe');
         }
 	      //need to have way to get user - needs to be through
 	      $user = User::find($user);
 
         if(isset($input['cc_coupon_code']) && $input['cc_coupon_code'] != ""){
-	        $charge = $user->newSubscription('main', 'plan_DH9vLJvUYAeco7')->withCoupon($input['cc_coupon_code'])->create($token['id']);
+	        $charge = $user->newSubscription('main', env('STRIPE_SUB_PLAN'))->withCoupon($input['cc_coupon_code'])->create($token);
         } else {
-	        $charge = $user->newSubscription('main', 'plan_DH9vLJvUYAeco7')->create($token['id']);
+	        $charge = $user->newSubscription('main', env('STRIPE_SUB_PLAN'))->create($token);
         }
 
 	      if ($user->subscribed('main')) {
