@@ -16,11 +16,10 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->uuid('uuid')->nullable();
             $table->longText('name');
+            $table->text('type');
             $table->longText('description');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
             $table->integer('approved');
             $table->integer('u_id');
             $table->integer('co_id');

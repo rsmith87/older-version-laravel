@@ -32,14 +32,14 @@ class EventController extends Controller
 	{
 		$this->middleware(function ($request, $next) {
 			$this->user = \Auth::user();
-      if(!$this->user){
+            if(!$this->user){
 				return redirect('/login');
 			}			
 			if(!$this->user->hasPermissionTo('view calendar')){
 				return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 			}		            
 			$this->settings = Settings::where('user_id', $this->user['id'])->first();
-      
+			$this->event_types = ['court', 'client meeting', 'blocker', 'lunch', 'meeting', 'research', 'booked'];
 			return $next($request);
 		});
 	} 
@@ -53,24 +53,25 @@ class EventController extends Controller
       $tasks_events = null;
     }
       
-		$events = Event::where(['u_id' => $this->user->id])->with('user')->with('contact')->get();
-		$contact = null;
-		//clients accessing lawyer events
-		if($this->user->hasRole('client')){
-			$contact = Contact::where('has_login', $this->user['id'])->first();
-			$events = Event::where(['u_id' => $contact->user_id, 'approved' => 1])->with('user')->get();
-		}
+    $events = Event::where(['u_id' => $this->user->id])->with('user')->with('contact')->get();
+    $contact = null;
+    //clients accessing lawyer events
+    if($this->user->hasRole('client')){
+        $contact = Contact::where('has_login', $this->user['id'])->first();
+        $events = Event::where(['u_id' => $contact->user_id, 'approved' => 1])->with('user')->get();
+    }
 
 
-		return view('dashboard/calendar', [
-			'user' => $this->user, 
-			'events' => $events, 
-			'theme' => $this->settings->theme,
-			'firm_id' => $this->settings->firm_id,
-			//'user' => $contact,
+    return view('dashboard/calendar', [
+      'user' => $this->user,
+      'events' => $events,
+      'theme' => $this->settings->theme,
+      'firm_id' => $this->settings->firm_id,
+      //'user' => $contact
+      'types' => $this->event_types,
       'show_task_calendar' => $tasks_events,
       'settings' => $this->settings,
-		]);
+    ]);
 	}
 
 	public function client_events()
@@ -116,14 +117,17 @@ class EventController extends Controller
 				return redirect('/dashboard/calendar')->withErrors(['There is an existing appointment in the time selected.  Please choose another time.']);
 			}
     }		
-    
+    if($e['title'] === 'Office hour booked'){
+        $type = 'booked';
+    } else {
+        $type = strtolower($e['title']);
+    }
 		$event = Event::create([
       'uuid' => $event_uuid,
 			'name' => $e['title'],
+			'type' => $type,
 			'start_date' => $start_date,
 			'end_date' => $end_date,
-			'start_time' => '0000-00-00 00:00:00',
-			'end_time' => '0000-00-00 00:00:00',
 			'approved' => 1,
 			'u_id' => $this->user['id'],
 			'co_id' => "",
@@ -146,8 +150,8 @@ class EventController extends Controller
 			$data['end_time'] = '00:00';
 		}
 		
-		$start_date = new \DateTime($this->fix_date($data['start_date'], $data['start_time']));
-		$end_date = $data['end_date'] != "" ? new \DateTime($this->fix_date($data['end_date'], $data['end_time'])) : "";
+		$start_date = new \DateTime($this->fix_date($data['start_date']));
+		$end_date = $data['end_date'] != "" ? new \DateTime($this->fix_date($data['end_date'])) : "";
 		
 		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
 
@@ -190,20 +194,16 @@ class EventController extends Controller
 		[
       'uuid' => $event_uuid,
 			'name' => $data['name'],
+			'type' => $data['event_type'],
 			'description' => $data['description'],
-			'start_date' => $this->fix_date($data['start_date'], $data['start_time']),
-			'end_date' => $data['end_date'] != "" ? $this->fix_date($data['end_date'], $data['end_time']): "",
-			'start_time' => $data['start_time'] != "" ? $data['start_time'] : "",
-			'end_time' => $data['end_time'] != "" ? $data['end_time'] : "",
+			'start_date' => $this->fix_date($data['start_date']),
+			'end_date' => $data['end_date'] != "" ? $this->fix_date($data['end_date']): "",
 			'approved' => $approved,
 			'u_id' => $u_id,
 			'co_id' => isset($data['co_id']) ? $data['co_id'] : "",
 			'c_id' => isset($data['c_id']) ? $data['c_id'] : "",
 			'f_id' => $this->settings->firm_id,
 		]);
-
-		
-
 
 		return redirect('/dashboard/calendar')->with('status', $message); 
 	}
@@ -265,10 +265,12 @@ class EventController extends Controller
   public function modify_event(Request $request)
   {
 
-    $e = $request->input('event');
+    $e = $request->input('uuid');
+    $name = $request->input('name');
+    $type = $request->input('type');
     $new_start_date = $request->input('new_start_date');
     $new_end_date = $request->input('new_end_date');
-    $loaded_event = Event::where('uuid', $e)->first();   
+    $loaded_event = Event::where('uuid', $e)->first();
     $start_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_start_date);
     $end_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_end_date);    
     
@@ -289,8 +291,9 @@ class EventController extends Controller
 		$event = Event::where('uuid', $e)->update([
 			'start_date' => $new_start_date_parsed,
 			'end_date' => $new_end_date_parsed,
-			'start_time' => '0000-00-00 00:00:00',
-			'end_time' => '0000-00-00 00:00:00',
+			'type' => strtolower($type),
+			'name' => $name,
+			'uuid' => $e,
 
 		]);   
   }

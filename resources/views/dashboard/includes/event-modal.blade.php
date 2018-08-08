@@ -20,6 +20,14 @@
 						<label>Name</label>    
 						<input type="text" class="form-control" name="name" aria-label="Event name">
 					</div>
+					<div class="col-sm-6 col-xs-12">
+						<label>Type</label>
+						<select name="event_type" class="form-control">
+							@foreach($types as $t)
+								<option value={{ $t }}>{{ ucwords($t) }}</option>
+							@endforeach
+						</select>
+					</div>
 					<div class="col-sm-6 col-12">
 						<label>Description</label>
 						<input type="text" class="form-control" name="description" aria-label="Event description">

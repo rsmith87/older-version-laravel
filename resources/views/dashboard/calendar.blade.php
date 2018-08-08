@@ -51,7 +51,7 @@
 				<!-- the events -->
 				<div id="external-events">
 				  <div class="external-event bg-green ui-draggable ui-draggable-handle">Lunch</div>
-				  <div class="external-event bg-yellow ui-draggable ui-draggable-handle">Blocker</div>
+				  <div class="external-event bg-red ui-draggable ui-draggable-handle">Blocker</div>
 				  <div class="external-event bg-aqua ui-draggable ui-draggable-handle">Research</div>
 				  <div class="external-event bg-light-blue ui-draggable ui-draggable-handle">Office hour booked</div>
 				  <div class="checkbox">
@@ -145,6 +145,20 @@
 		  events[i].color = 'gray';
 		} else if (events[i].approved == '2') {
 		  events[i].color = 'red';
+		}
+
+		if(events[i].type == 'lunch') {
+		    events[i].color = 'green';
+		    events[i].textColor = 'white';
+		} else if (events[i].type == 'blocker') {
+		    events[i].color = 'red';
+		    events[i].textColor = 'white';
+		} else if (events[i].type == 'research') {
+		    events[i].color = 'aqua';
+		    events[i].textColor = 'white';
+		} else if (events[i].type == 'booked') {
+		    events[i].color = 'light-blue';
+		    events[i].textColor = 'white';
 		}
 
 		if (events[i].hasOwnProperty('task_name')) {

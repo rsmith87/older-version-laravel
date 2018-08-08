@@ -372,18 +372,24 @@ $(function($){
           var uuid = event.uuid;
           var start_date = event.start_date;
           var end_date = event.end_date;
-          
+          var name = e.name;
+          var type = name.toLowerCase();
+          if(type == 'office hour booked'){
+              type = 'booked';
+          }
 
           var updated_start_moment = moment(start_date).add(new_date);
           var updated_end_moment = moment(end_date).add(new_date);
-          
+          //need to parse out time with both of these so i can update the time - really should just use one startdate and one enddate to handle datetime
           
           $.ajax(
           {
             type: 'POST',
             datatype: 'json',
             data: {
-              'event': uuid,
+              'name': name,
+              'type': type,
+              'uuid': uuid,
               'new_start_date': updated_start_moment._d,
               'new_end_date': updated_end_moment._d,
             },
