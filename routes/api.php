@@ -17,47 +17,45 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
+Route::group(['prefix' => 'v1'], function() {
 
-	Route::post('/cases', 'PostsController@create');
 
-	Route::get('/cases/{case_id}', function (Request $request) {
 
-		return new LawcaseCollection(LawCase::all());
 
-	});
+	//Route::get('/posts/{uuid}', 'PostsController@get')->middleware('uuid.validate');
 
-	Route::get('/posts/{uuid}', 'PostsController@get')->middleware('uuid.validate');
+	//Route::put('/posts/{uuid}', 'PostsController@update')->middleware('uuid.validate');
 
-	Route::put('/posts/{uuid}', 'PostsController@update')->middleware('uuid.validate');
-
-	Route::get('articles', function() {
+        Route::resource('cases', 'Api\LawcaseController');
+        
+	//Route::get('articles', function() {
 		// If the Content-Type and Accept headers are set to 'application/json',
 		// this will return a JSON structure. This will be cleaned up later.
-		return Article::all();
-	});
+	//	return Article::all();
+	//});
 
-	Route::get('articles/{id}', function($id) {
-		return Article::find($id);
-	});
+	//Route::get('articles/{id}', function($id) {
+	//	return Article::find($id);
+	//});
 
-	Route::post('articles', function(Request $request) {
-		return Article::create($request->all);
-	});
+	//Route::post('articles', function(Request $request) {
+	//	return Article::create($request->all);
+	//});
 
-	Route::put('articles/{id}', function(Request $request, $id) {
+	/*Route::put('articles/{id}', function(Request $request, $id) {
 		$article = Article::findOrFail($id);
 		$article->update($request->all());
 
 		return $article;
-	});
+	}); */
 
+   /*     
 	Route::delete('articles/{id}', function($id) {
 		Article::find($id)->delete();
 
 		return 204;
 	});
-
+    */
 });
 
 

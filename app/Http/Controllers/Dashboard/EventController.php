@@ -100,8 +100,8 @@ class EventController extends Controller
     $data = $request->json();
     $e = $request->input('event');
 		
-		$start_date = \Carbon\Carbon::parse($this->fix_date($e['start'], 0))->format('Y-m-d H:i:s');
-		$end_date = \Carbon\Carbon::parse($this->fix_date($e['start'], 0))->addHour()->format('Y-m-d H:i:s');
+		$start_date = \Carbon\Carbon::parse($this->fix_date($e['start']))->format('Y-m-d H:i:s');
+		$end_date = \Carbon\Carbon::parse($this->fix_date($e['start']))->addHour()->format('Y-m-d H:i:s');
 		
 		$events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
     
@@ -323,13 +323,10 @@ class EventController extends Controller
 		]);     
   }
 	
-	private function fix_date($dts, $dte)
+	private function fix_date($dts)
 	{
-    if($dte === 0){
-      $dte = "00:00";
-    }
-		$d = Carbon\Carbon::parse($dts)->format('Y-m-d');
-		$dt = Carbon\Carbon::parse($d. " " . $dte.":00", 'America/Chicago')->format('Y-m-d H:i:s');
-		return $dt;
+		$d = Carbon\Carbon::parse($dts, 'America/Chicago')->format('Y-m-d H:i:s');
+		//$dt = Carbon\Carbon::parse($d. " " . $dte.":00", 'America/Chicago')->format('Y-m-d H:i:s');
+		return $d;
 	}
 }

@@ -155,7 +155,7 @@
 		    events[i].textColor = 'white';
 		} else if (events[i].type == 'research') {
 		    events[i].color = 'aqua';
-		    events[i].textColor = 'white';
+		    events[i].textColor = 'black';
 		} else if (events[i].type == 'booked') {
 		    events[i].color = 'light-blue';
 		    events[i].textColor = 'white';

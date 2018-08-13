@@ -408,6 +408,7 @@ class CaseController extends Controller
 			'table_size' => $this->settings->table_size,
 			'settings' => $this->settings,
 			'firm_users' => $usrs,
+                        'types' => $this->case_types,
 		]);
 
 	}

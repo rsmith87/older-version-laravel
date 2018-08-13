@@ -411,10 +411,12 @@ $(function($){
 
           // we need to copy it, so that multiple events don't have a reference to the same object
           var copiedEventObject = $.extend({}, originalEventObject);
-
+          var start = moment(date.format('YYYY-MM-DD hh:mm:ss'));
+          var end = moment(start).add(moment.duration("01:00:00"));
+         // var startPlusHour = start
           // assign it the date that was reported
-          copiedEventObject.start           = date.format('YYYY-MM-DD hh:mm:ss');
-          copiedEventObject.end             = date.format('YYYY-MM-DD hh:mm:ss');
+          copiedEventObject.start           = start
+          copiedEventObject.end             = end;
           copiedEventObject.allDay          = false;
           copiedEventObject.backgroundColor = $(this).css('background-color');
           copiedEventObject.borderColor     = $(this).css('border-color');

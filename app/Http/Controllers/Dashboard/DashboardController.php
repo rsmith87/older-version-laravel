@@ -39,6 +39,7 @@ class DashboardController extends Controller {
       $this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
       //$this->threads = Thread::forUser(\Auth::id())->get();
       $this->case_types = ['choose..', 'personal_injury', 'estate_and_probate'];
+      $this->event_types = ['court', 'client meeting', 'blocker', 'lunch', 'meeting', 'research', 'booked'];
 
       return $next($request);
     });
@@ -91,7 +92,7 @@ class DashboardController extends Controller {
         'invoices' => $invoices,
         'task_count' => $task_count,
 	      'firm_message' => $firm_message,
-
+        'types' => $this->event_types,
     ]);
   }
 

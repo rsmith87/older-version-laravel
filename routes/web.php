@@ -89,11 +89,11 @@ Route::group(['middleware' => ['web']], function () {
 
 
 
-	Route::get('message/{id}', 'MessageController@chatHistory')->name('message.read');
+	/*Route::get('message/{id}', 'MessageController@chatHistory')->name('message.read');
 	Route::group(['prefix'=>'ajax', 'as'=>'ajax::'], function() {
 		Route::post('message/send', 'MessageController@ajaxSendMessage')->name('message.new');
 		Route::delete('message/delete/{id}', 'MessageController@ajaxDeleteMessage')->name('message.delete');
-	});
+	});*/
 
 
 	Route::get('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@get_payment_details');
