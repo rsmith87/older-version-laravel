@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Contact;
+use App\Http\Resources\ContactResource;
 use App\Http\Controllers\Controller;
-use App\LawCase;
-use App\Http\Resources\LawcaseCollection;
-use App\Http\Resources\LawcaseResource;
 
-class LawcaseController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,8 @@ class LawcaseController extends Controller
      */
     public function index()
     {
-      $cases = LawCase::all();
-      return LawcaseResource::collection($cases);
+        $contacts = Contact::all();
+        return ContactResource::collection($contacts);
     }
 
     /**
@@ -50,7 +49,7 @@ class LawcaseController extends Controller
      */
     public function show($id)
     {
-        $resource = new LawcaseResource(LawCase::find($id));
+        $resource = new ContactResource(Contact::find($id));
         return $resource;
     }
 

@@ -27,7 +27,7 @@ Route::group(['prefix' => 'v1'], function() {
 	//Route::put('/posts/{uuid}', 'PostsController@update')->middleware('uuid.validate');
 
         Route::resource('cases', 'Api\LawcaseController');
-        
+        Route::resource('contacts', 'Api\ContactController');
 	//Route::get('articles', function() {
 		// If the Content-Type and Accept headers are set to 'application/json',
 		// this will return a JSON structure. This will be cleaned up later.
