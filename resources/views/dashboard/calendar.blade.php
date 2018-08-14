@@ -6,14 +6,7 @@
 	<nav class="nav nav-pills">
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i
 				class="fas fa-calendar-plus"></i> Add event</a>
-	  @hasanyrole('authenticated_user|administrator')
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i
-				class="fas fa-calendar-plus"></i> <i class="fas fa-user"></i> Assign events to user</a>
-	  <a class="nav-item nav-link btn btn-info" href="/dashboard/calendar/events"><i class="fas fa-user"></i> <i
-				class="fas fa-calendar-alt"></i> Client events</a>
-	  @endhasrole
-	  <a class="nav-item nav-link btn btn-info" href="/dashboard/calendar/events/denied"><i
-				class="fas fa-calendar-times"></i> Denied events</a>
+
 
 	</nav>
 
@@ -68,6 +61,7 @@
 			<div class="box box-solid">
 			  <div class="box-header with-border">
 				<h3 class="box-title">Create Event</h3>
+                <p>This creates a draggable event above</p>
 			  </div>
 			  <div class="box-body">
 				<div class="btn-group">
@@ -138,8 +132,9 @@
 		events[i].id = events[i]['id'];
 		events[i].title = events[i]['name'];
 		//events[i].client;
-		events[i].start = Date.parse(events[i]['start_date']);
-		events[i].end = Date.parse(events[i]['end_date']);
+		events[i].start = events[i]['start_date'];
+		events[i].end = events[i]['end_date'];
+        console.log(events[i]);
 
 		if (events[i].approved == '0') {
 		  events[i].color = 'gray';

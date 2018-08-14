@@ -97,16 +97,17 @@ class EventController extends Controller
   
   public function drop_event(Request $request)
   {
-    $data = $request->json();
+    $data = $request->all();
     $e = $request->input('event');
 		
-    $start_date = \Carbon\Carbon::parse($this->fix_date($e['start']))->format('Y-m-d H:i:s');
-    $end_date = \Carbon\Carbon::parse($this->fix_date($e['start']))->addHour()->format('Y-m-d H:i:s');
+    $start_date = \Carbon\Carbon::parse($this->fix_date($data['start']))->format('Y-m-d H:i:s');
+    $end_date = \Carbon\Carbon::parse($this->fix_date($data['start']))->addHour()->format('Y-m-d H:i:s');
 
     $events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
 
     $event_uuid = Uuid::generate()->string;
     
+    //getting events and checking if the dropped event overlaps any others
     foreach($events as $event){
       $event_start_date = \Carbon\Carbon::parse($event->start_date)->format('Y-m-d H:i:s');
       $event_end_date = \Carbon\Carbon::parse($event->end_date)->format('Y-m-d H:i:s');
@@ -117,15 +118,15 @@ class EventController extends Controller
       }
     }	
     
-    if($e['title'] === 'Office hour booked'){
+    if($data['title'] === 'Office hour booked'){
       $type = 'booked';
     } else {
-      $type = strtolower($e['title']);
+      $type = strtolower($data['title']);
     }
 	
     $event = Event::create([
       'uuid' => $event_uuid,
-      'name' => $e['title'],
+      'name' => $data['title'],
       'type' => $type,
       'start_date' => $start_date,
       'end_date' => $end_date,
@@ -140,19 +141,7 @@ class EventController extends Controller
   public function add(Request $request)
   {
     $data = $request->all();
-    if(!empty($data['id'])){
-        $status = 'edited';
-    }
-    else {
-        $status = 'added';
-    }
-
-    if($data['end_time'] === ""){
-        $data['end_time'] = '00:00';
-    }
-
-    $start_date = new \DateTime($this->fix_date($data['start_date']));
-    $end_date = $data['end_date'] != "" ? new \DateTime($this->fix_date($data['end_date'])) : "";
+    $start_date = $this->fix_date($data['start_date'] . " " . $data['start_time']);
 
     $events = Event::where(['u_id' => $this->user['id'], 'approved' => 1])->get();
 
@@ -166,19 +155,18 @@ class EventController extends Controller
 
     foreach($events as $event){
 
-      $event_start_date = new \DateTime($event['start_date']);
-      $event_end_date = new \DateTIme($event['end_date']);
+      //$event_start_date = new \DateTime($event['start_date']);
       //print_r("Start date from form: " . $start_date->format('Y-m-d H:i:s') . " Start date from event: " . $event_start_date->format('Y-m-d H:i:s') . " End date from form: " . $end_date->format('Y-m-d H:i:s') . " End date from event: " . $event_end_date->format('Y-m-d H:i:s'));
 
-      if(($start_date > $event_start_date && $start_date < $event_end_date) || ($end_date < $event_end_date && $end_date > $event_start_date)) {
+      /*if(($start_date > $event_start_date && $start_date < $event_end_date)) {
           return redirect('/dashboard/calendar')->withErrors(['There is an existing appointment in the time selected.  Please choose another time.']);
-      }
+      }*/
     }
 
     //clients accessing lawyer events
     $u_id = $this->user['id'];
     $approved = 1;
-    $message = 'Event '.$status.' successfully!';
+    $message = 'Event created successfully!';
 
     $event_uuid = Uuid::generate()->string;		
     if($this->user->hasRole('client')){
@@ -198,8 +186,8 @@ class EventController extends Controller
       'name' => $data['name'],
       'type' => $data['event_type'],
       'description' => $data['description'],
-      'start_date' => $this->fix_date($data['start_date']),
-      'end_date' => $data['end_date'] != "" ? $this->fix_date($data['end_date']): "",
+      'start_date' => $this->fix_date($data['start_date'] . " " . $data['start_time']),
+      'end_date' => $this->fix_date($data['start_date'] . " " . $data['end_time']),
       'approved' => $approved,
       'u_id' => $u_id,
       'co_id' => isset($data['co_id']) ? $data['co_id'] : "",

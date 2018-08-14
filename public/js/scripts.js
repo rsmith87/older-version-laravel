@@ -94,8 +94,9 @@ $(function($){
   $('.timepicker-start').clockpicker({
     'default': 'now',
     donetext: 'Done',
-    placement: 'right',
+    placement: 'top',
     autoclose: true,
+    twelvehour: true,
   });
   
   var date = new Date(); // for now
@@ -109,8 +110,9 @@ $(function($){
   $('.timepicker-end').clockpicker({
     'default': formatAMPM(three_hr),
     donetext: 'Done',
-    placement: 'right',
+    placement: 'top',
     autoclose: true,
+    twelvehour: true,
   });  
   
     
@@ -415,8 +417,8 @@ $(function($){
           var end = moment(start).add(moment.duration("01:00:00"));
          // var startPlusHour = start
           // assign it the date that was reported
-          copiedEventObject.start           = start
-          copiedEventObject.end             = end;
+          copiedEventObject.start           = start._i;
+          copiedEventObject.end             = end._i;
           copiedEventObject.allDay          = false;
           copiedEventObject.backgroundColor = $(this).css('background-color');
           copiedEventObject.borderColor     = $(this).css('border-color');
@@ -437,7 +439,10 @@ $(function($){
             type: 'POST',
             datatype: 'json',
             data: {
-              'event': copiedEventObject,
+              'start': copiedEventObject.start,
+              'end': copiedEventObject.end,
+              'allDay': copiedEventObject.allDay,
+              'title': copiedEventObject.title,
             },
             url: '/dashboard/calendar/drop-event',
             success:function(data){

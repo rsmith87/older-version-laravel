@@ -16,7 +16,12 @@
 				<input type="hidden" name="c_id" value="{{ $requested_case->id }}" />
             @endif
 		  @endif
-					<div class="col-sm-6 col-12">
+					<div class="col-sm-6 col-xs-12">
+						<label>Date</label>
+						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="start_date" name="start_date" aria-label="Start date">
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-sm-6 col-xs-12">
 						<label>Name</label>    
 						<input type="text" class="form-control" name="name" aria-label="Event name">
 					</div>
@@ -28,27 +33,19 @@
 							@endforeach
 						</select>
 					</div>
-					<div class="col-sm-6 col-12">
+					<div class="col-xs-12">
 						<label>Description</label>
-						<input type="text" class="form-control" name="description" aria-label="Event description">
+						<textarea class="form-control" name="description" aria-label="Event description"></textarea>
 					</div>
-					<div class="col-sm-6 col-12">
-						<label>Start date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="start_date" name="start_date" aria-label="Start date">
-					</div>
-					<div class="col-sm-6 col-12">
-						<label>End date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="end_date" name="end_date" aria-label="End date">
-					</div>
-					<div class="col-sm-6 col-12">
-						<label>Time start</label>
+					<div class="col-sm-6 col-xs-12">
+						<label>Start time</label>
 						<input type="text" class="form-control timepicker-start" id="start_time" name="start_time" aria-label="Start time">
 					</div>
-					<div class="col-sm-6 col-12">
-						<label>Time end</label>
-						<input type="text" class="form-control timepicker-end" id="end_time" name="end_time" aria-label="End time">
-					</div>
-					<div class="col-12">
+					<div class="col-sm-6 col-xs-12">
+						<label>End time</label>
+						<input type="text" class="form-control timepicker-start" id="end_time" name="end_time" aria-label="End time">
+					</div>					
+					<div class="col-xs-12">
 						<button class="btn btn-primary mt-4"><i class="fas fa-check"></i> Submit</button>
 					</div>
 				</form>
