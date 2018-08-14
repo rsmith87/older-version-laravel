@@ -596,9 +596,16 @@
 			<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 			<input type="hidden" name="case_id" value="{{ $case->id }}"/>
 			<input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}"/>
-			<label>Client</label>
+	  @if(count($case->Contacts) > 0)
+		@foreach($case->Contacts as $contact)
+		  @if($contact->is_client)
+            <input type="hidden" name="old_client" value="{{ $contact->contlient_uuid }}" />
+          @endif
+        @endforeach
+      @endif    
+            <label>Client</label>
 			<input type="hidden" name="client_id"/>
-			<select name="client" class="form-control">
+			<select name="client_update" class="form-control">
 			  @foreach($clients as $t)
 				<option value="{{ $t->contlient_uuid }}" {{ $t->id == $case->Client->id ? "selected='selected'" : '' }}>{{ ucwords($t->first_name) . " " . ucwords($t->last_name) }}</option>
 			  @endforeach

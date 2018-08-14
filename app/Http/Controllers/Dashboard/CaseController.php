@@ -408,7 +408,7 @@ class CaseController extends Controller
 			'table_size' => $this->settings->table_size,
 			'settings' => $this->settings,
 			'firm_users' => $usrs,
-                        'types' => $this->case_types,
+            'types' => $this->case_types,
 		]);
 
 	}
@@ -681,12 +681,15 @@ class CaseController extends Controller
 
 		$case = LawCase::where('case_uuid', $data['case_uuid'])->first();
 
-		$client = Contact::where('case_id', $case->id)->update(
-			[
-				'case_id' => $case->id,
-			]);
-
-
+        //add new client
+        Contact::where('contlient_uuid', $data['client_update'])->update([
+          'case_id' => $case->id,
+        ]);
+        
+        //remove old client
+       Contact::where('contlient_uuid', $data['old_client'])->update([
+         'case_id' => 0,
+       ]);
 
 		return redirect()->back()->with('status', 'Case client updated successfully!');
 	}
