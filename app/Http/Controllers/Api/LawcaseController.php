@@ -20,17 +20,7 @@ class LawcaseController extends Controller
       $cases = LawCase::all();
       return LawcaseResource::collection($cases);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -55,17 +45,6 @@ class LawcaseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -74,7 +53,8 @@ class LawcaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $resource = new LawcaseResource(LawCase::find($id));
+      return $resource;      
     }
 
     /**
@@ -85,6 +65,9 @@ class LawcaseController extends Controller
      */
     public function destroy($id)
     {
-        //
+      //logic to delete data
+      $resource = new LawcaseResource(LawCase::find($id));
+      //$resource->delete();
+      return $resource;
     }
 }

@@ -16,18 +16,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
-        return ContactResource::collection($contacts);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+      $contacts = Contact::all();
+      return ContactResource::collection($contacts);
     }
 
     /**
@@ -49,19 +39,8 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $resource = new ContactResource(Contact::find($id));
-        return $resource;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+      $resource = new ContactResource(Contact::find($id));
+      return $resource;
     }
 
     /**
@@ -73,7 +52,11 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $resource = new ContactResource(Contact::find($id));
+      //run updaates to model resource here
+      //may need to see if it provides a way to solidily update record
+      //or if it updates transmuted record
+      return $resource;
     }
 
     /**
@@ -84,6 +67,9 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        //
+      //logic to delete data
+      $resource = new ContactResource(Contact::find($id));
+      //$resource->delete();
+      return $resource;
     }
 }
