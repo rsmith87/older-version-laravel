@@ -618,6 +618,7 @@ class CaseController extends Controller
 			'timeline_data' => $timeline_data,
 			'settings' => $this->settings,
 			'case_types' => $this->case_types,
+            'types' => $this->case_types,
 		]);
 	}
 
