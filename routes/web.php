@@ -69,25 +69,6 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/home', 'HomeController@index');
 
-	Route::get('/chat', function () {
-		return view('chat');
-	});
-
-	Route::get('/messages', function () {
-		return App\Message::with('user')->get();
-	});
-
-
-	Route::post('/messages', function () {
-		// Store the new message
-		$user = Auth::user();
-
-		$message = $user->messages()->create([
-			'message' => request()->get('message'),
-		]);
-	});
-
-
 
 	/*Route::get('message/{id}', 'MessageController@chatHistory')->name('message.read');
 	Route::group(['prefix'=>'ajax', 'as'=>'ajax::'], function() {

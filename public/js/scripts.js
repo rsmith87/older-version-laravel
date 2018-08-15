@@ -86,7 +86,7 @@ $(function($){
   return strTime;
 }
  
-  $('.datepicker').datepicker({
+  $('.dp').datepicker({
     container: $(this),
     zIndex: 1999,
   });

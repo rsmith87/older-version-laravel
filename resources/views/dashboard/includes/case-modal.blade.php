@@ -55,11 +55,11 @@
 					</div>   
 					<div class="col-sm-6 col-xs-12">
 						<label>Open date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="open_date" name="open_date" aria-label="Open date">
+						<input type="text" class="form-control dp" data-toggle="dp" id="open_date" name="open_date" aria-label="Open date">
 					</div>  
 					<div class="col-sm-6 col-xs-12">
 						<label>Close date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="close_date" name="close_date" aria-label="Close date">
+						<input type="text" class="form-control dp" data-toggle="dp" id="close_date" name="close_date" aria-label="Close date">
 					</div>
 					<div class="col-sm-6 col-xs-12">
 					  <label>Rate</label>

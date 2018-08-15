@@ -18,7 +18,7 @@
 		  @endif
 					<div class="col-sm-6 col-xs-12">
 						<label>Date</label>
-						<input type="text" class="form-control datepicker" data-toggle="datepicker" id="start_date" name="start_date" aria-label="Start date">
+						<input type="text" class="form-control dp" data-toggle="dp" id="start_date" name="start_date" aria-label="Start date">
 					</div>
 					<div class="clearfix"></div>
 					<div class="col-sm-6 col-xs-12">

@@ -183,7 +183,7 @@
           <input type="text" name="task_name" class="form-control" value="{{ $task->task_name }}" />
           <div class="col-sm-6 col-xs-12">
           <label>Due date</label>
-          <input type="text" name="due_date" class="form-control datepicker" value="{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y') }}" />
+          <input type="text" name="due_date" class="form-control dp" value="{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y') }}" />
           </div>
           <div class="col-sm-6 col-xs-12">
           <label>Due time</label>
@@ -251,7 +251,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right datepicker" id="datetimepicker" name="due_date" aria-label="Due date">
+                      <input type="text" class="form-control pull-right dp" id="datetimepicker" name="due_date" aria-label="Due date">
                     </div>
                   </div>
 

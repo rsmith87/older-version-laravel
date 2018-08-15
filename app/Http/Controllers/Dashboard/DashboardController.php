@@ -139,7 +139,7 @@ class DashboardController extends Controller {
         'profile_image' => $this->settings->profile_image,
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
-
+        'types' => $this->case_types,
     ]);
   }
 

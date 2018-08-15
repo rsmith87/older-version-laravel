@@ -31,7 +31,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
 	          \App\Http\Middleware\IsSubscribed::class,
 	          \Jrean\UserVerification\Middleware\IsVerified::class,
-	          \Nahid\Talk\Middleware\TalkMiddleware::class,
 	          \App\Http\Middleware\LogLastUserActivity::class,
 	          //\App\Http\Middleware\Lock::class
         ],

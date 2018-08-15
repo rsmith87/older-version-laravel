@@ -774,7 +774,7 @@
 
 
 			  <label>Open date</label>
-			  <input type="text" class="form-control datepicker"
+			  <input type="text" class="form-control dp"
 					 value="{{ $case->open_date != "0000-00-00 00:00:00" ? \Carbon\Carbon::parse($case->open_date)->format('m/d/Y'): "" }}" id="open_date"
 					 name="open_date" aria-label="Open date">
 			</div>
@@ -782,7 +782,7 @@
 
 
 			  <label>Close date</label>
-			  <input type="text" class="form-control datepicker" id="close_date"
+			  <input type="text" class="form-control dp" id="close_date"
 					 value="{{ $case->close_date != "0000-00-00 00:00:00" ? \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') : ""}}"
 					 name="close_date" aria-label="Close date">
 			</div>
@@ -998,7 +998,7 @@
 			</div>
 			<div class="col-sm-6 payment-double col-xs-12">
 			<label>Due date (configurable in firm)</label>
-			<input type="text" class="form-control datepicker"
+			<input type="text" class="form-control dp"
 				   value="{{ \Carbon\Carbon::parse(\Carbon\Carbon::now())->addDays(7)->format('m/d/Y') }}" id="invoice_date"
 				   name="invoice_date" aria-label="Invoice date">
 			</div>

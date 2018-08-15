@@ -26,7 +26,7 @@
 
           <div class="col-sm-6 col-12">
             <label><i class="fas fa-calendar-alt"></i> Due date</label>
-            <input type="text" class="form-control datepicker" data-toggle="datepicker" id="due_date" name="due_date" aria-label="Due date">
+            <input type="text" class="form-control dp" data-toggle="dp" id="due_date" name="due_date" aria-label="Due date">
           </div> 
           
           <div class="col-sm-6 col-xs-12">

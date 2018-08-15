@@ -281,13 +281,13 @@
              
                
                  <label>Open date</label>
-               <input type="text" class="form-control datepicker" value="{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}" id="open_date" name="open_date" aria-label="Open date">
+               <input type="text" class="form-control dp" value="{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}" id="open_date" name="open_date" aria-label="Open date">
            </div>  
             <div class="col-sm-6 col-xs-12">
              
                
                  <label>Close date</label>
-               <input type="text" class="form-control datepicker" id="close_date" value="{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}"
+               <input type="text" class="form-control dp" id="close_date" value="{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}"
   name="close_date" aria-label="Close date">
            </div>
            <div class="col-sm-6 col-xs-12 mt-4">
