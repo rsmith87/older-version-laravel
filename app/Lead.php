@@ -12,6 +12,7 @@ class Lead extends Model
         'prefix',
         'first_name',
         'last_name',
+        'converted',
         'company',
         'company_title',
         'phone',

@@ -10,6 +10,7 @@ use App\Lead;
 use Webpatser\Uuid\Uuid;
 use App\CommLog;
 use App\Note;
+use App\Contact;
 
 
 class LeadController extends Controller
@@ -35,7 +36,23 @@ class LeadController extends Controller
     public function index(Request $request)
     {
 
-        $leads = Lead::where('user_id', \Auth::id())->get();
+        $leads = Lead::where(['user_id' => \Auth::id(), 'converted' => 0])->get();
+
+        return view('dashboard/leads', [
+            'user' => $this->user,
+            'leads' => $leads,
+            'firm_id' => $this->settings->firm_id,
+            'theme' => $this->settings->theme,
+            'table_color' => $this->settings->table_color,
+            'table_size' => $this->settings->table_size,
+            'settings' => $this->settings,
+        ]);
+    }
+
+    public function converted(Request $request)
+    {
+
+        $leads = Lead::where(['user_id' => \Auth::id(), 'converted' => 1])->get();
 
         return view('dashboard/leads', [
             'user' => $this->user,
@@ -68,6 +85,7 @@ class LeadController extends Controller
             'zip' => $data['zip'],
             'user_id' => $this->user['id'],
             'firm_id' => $this->settings->firm_id,
+            'converted' => 0,
         ]);
         return redirect()->back()->with('status', 'Lead created successfully');
     }
@@ -122,6 +140,22 @@ class LeadController extends Controller
         return redirect()->back()->with('status', 'Note deleted successfully');
     }
 
+    public function delete(Request $request)
+    {
+        $data = $request->all();
+
+        $contact = Lead::where('lead_uuid', $data['id'])->first();
+
+        if ($contact->is_client != 0) {
+            $type = 'Client';
+        } else {
+            $type = 'Contact';
+        }
+        $contact->delete();
+
+        return redirect()->back()->with('status', $type . ' deleted successfully');
+    }
+
     public function log_communication(Request $request)
     {
         $data = $request->all();
@@ -137,5 +171,35 @@ class LeadController extends Controller
 
         return redirect()->back()->with('status', 'Communication logged!');
 
+    }
+
+    public function convert(Request $request)
+    {
+        $data = $request->all();
+        $lead = Lead::where('lead_uuid', $data['lead_uuid'])->first();
+
+        Lead::where('lead_uuid', $data['lead_uuid'])->update([
+            'converted' => 1,
+        ]);
+
+        Contact::create([
+           'contlient_uuid' => $lead->lead_uuid,
+           'first_name' => $lead->first_name,
+           'last_name' => $lead->last_name,
+           'company' => $lead->company,
+           'company_title' => $lead->company_title,
+            'email' => $lead->email,
+            'phone' => $lead->phone,
+            'address_1' => $lead->address_1,
+            'address_2' => $lead->address_2,
+            'city' => $lead->city,
+            'state' => $lead->state,
+            'zip' => $lead->zip,
+            'user_id' => $this->user['id'],
+            'firm_id' => $this->settings->firm_id,
+            'is_client' => 1,
+        ]);
+
+        return redirect('/dashboard/clients/client/'.$lead->lead_uuid)->with('status', 'Client created from lead '. $lead->first_name . " " . $lead->last_name);
     }
 }

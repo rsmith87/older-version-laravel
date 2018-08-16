@@ -19,6 +19,7 @@ class CreateLeadsTable extends Migration
             $table->text('prefix');
             $table->text('first_name');
             $table->text('last_name');
+            $table->integer('converted');
             $table->text('company');
             $table->text('company_title');
             $table->text('phone');

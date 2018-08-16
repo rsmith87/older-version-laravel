@@ -1393,4 +1393,8 @@ table#documents th:nth-child(1) {
   clear: both;
   height: 0;
 }
+nav.btn-primary:hover,
+nav.btn-primary:active {
+  border-left: 0 !important;
+}
 /*# sourceMappingURL=app.css.map */

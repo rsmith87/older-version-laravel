@@ -6,17 +6,20 @@
 	<nav class="nav nav-pills">
 	  <a class="nav-item nav-link btn btn-info" href="/dashboard/leads"><i
 				class="fas fa-arrow-left"></i> Back to Leads</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#leads-modal" href="#"><i
-				class="fa fa-user"></i> Edit lead</a>
+	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#leads-modal" href="#"><i class="fa fa-user-circle"></i>
+		   Edit lead</a>
 	  <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-print"></i> Print {{ Request::segment(3) }}
 	  </a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i
 				class="fas fa-sticky-note"></i> Add note</a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-communication-modal" href="#"><i
 				class="fas fa-comments"></i> Log communication</a>
-
+		<a class="nav-item nav-link btn btn-primary" data-toggle="modal" data-target="#convert-modal" href="#"><i
+					class="fas fa-user"></i> Convert lead to client</a>
 	  <a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i
 				class="fas fa-trash-alt"></i> Delete {{ Request::segment(3) }}</a>
+
+
 
 	</nav>
 
@@ -26,7 +29,7 @@
 
 	  <div>
 		<h1 class="pull-left ml-4 mt-4 mb-2">
-		  <i class="fa fa-user"></i> {{ ucfirst(Request::segment(3)) }}
+		  <i class="fa fa-user-circle"></i> {{ ucfirst(Request::segment(3)) }}
 		</h1>
 		<div class="clearfix"></div>
 		<p class="ml-3 mb-2">Clients shows all of your client information regarding all cases. Click on a client to show
@@ -163,6 +166,27 @@
 
 
 
+	  <div class="modal fade" id="convert-modal">
+		  <div class="modal-dialog">
+			  <div class="modal-content">
+				  <div class="modal-body">
+					  <h3>
+						  <i class="fas fa-user-circle"></i> Convert lead to client
+					  </h3>
+					  <div class="clearfix"></div>
+					  <hr/>
+					  <form method="POST" action="/dashboard/leads/lead/convert">
+						  <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+						  <input type="hidden" name="lead_uuid" value="{{ $lead->lead_uuid }}"/>
+						  <p>Click submit below to convert {{ $lead->first_name }} {{ $lead->last_name  }} into a client.</p>
+						  <button type="submit" class="form-control mt-3 btn btn-primary">
+							  Convert {{ $lead->first_name }} {{ $lead->last_name }} to a client
+						  </button>
+					  </form>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
 
 
 
