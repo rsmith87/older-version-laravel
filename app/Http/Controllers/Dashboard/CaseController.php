@@ -46,6 +46,7 @@ class CaseController extends Controller
 			$this->cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('timers')->get();
 			$this->contacts = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
 			$this->clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
+			$this->event_types = ['court', 'client meeting', 'blocker', 'lunch', 'meeting', 'research', 'booked'];
 
 			$this->status_values = [
 				'choose..',
@@ -373,6 +374,7 @@ class CaseController extends Controller
 		$project = $project ? array_merge($project->toArray(), ['timers' => []]) : false;
 
 		$firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
+        $events = Event::where('c_id', $requested_case->id)->get();
 
 		//print_r($firm_users);
 		foreach($firm_users as $u){
@@ -393,9 +395,12 @@ class CaseController extends Controller
 			'order' => $order,
 			'status_values' => $this->status_values,
 			'case_types' => $this->case_types,
+			'event_types' => $this->event_types,
+
 			'invoices' => $invoices,
 			'invoice_amount' => $invoice_amount,
 			'case_hours' => $case_hours,
+            'events' => $events,
 
 			'documents' => $documents,
 			'media' => isset($all_media) ? $all_media : [],
@@ -408,7 +413,7 @@ class CaseController extends Controller
 			'table_size' => $this->settings->table_size,
 			'settings' => $this->settings,
 			'firm_users' => $usrs,
-            'types' => $this->case_types,
+			'types' => $this->case_types,
 		]);
 
 	}
@@ -639,7 +644,7 @@ class CaseController extends Controller
 			'firm_id' => $this->settings->firm_id,
 		]);
 
-		return back();
+		return redirect()->back()->with('status', 'Note added');
 
 	}
 

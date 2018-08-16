@@ -182,6 +182,16 @@ Route::group(['middleware' => ['web']], function () {
 			Route::get('/', 'Dashboard\MailController@index');
 		});
 
+		Route::group(['prefix' => 'leads'], function() {
+		   Route::get('/', 'Dashboard\LeadController@index');
+		   Route::get('/lead/{id}', 'Dashboard\LeadController@view');
+		   Route::post('/add', 'Dashboard\LeadController@add');
+		   Route::post('/lead/notes/note/add', 'Dashboard\LeadController@add_note');
+		   Route::post('/lead/note/edit', 'Dashboard\LeadController@note_edit');
+		   Route::post('/lead/note/delete', 'Dashboard\LeadController@note_delete');
+		   Route::post('/lead/log-communication', 'Dashboard\LeadController@log_communication');
+        });
+
 		Route::group(['prefix' => 'documents'], function () {
 			Route::get('/', 'Dashboard\DocumentController@index');
 			Route::get('/document/{id}', 'Dashboard\DocumentController@single');

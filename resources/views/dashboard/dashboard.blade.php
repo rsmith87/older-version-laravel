@@ -183,13 +183,6 @@
 </div>
 </div>
 
-@include('dashboard.includes.contact-modal')
-@include('dashboard.includes.case-modal')
-@include('dashboard.includes.client-modal')
-@include('dashboard.includes.event-modal')
-@include('dashboard.includes.document-modal')
-@include('dashboard.includes.task-modal')
-
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 
 <script type="text/javascript">

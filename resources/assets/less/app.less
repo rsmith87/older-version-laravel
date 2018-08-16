@@ -9,6 +9,9 @@ hr {
 }
 body {
   display: none;
+  .woo{
+    display:block;
+  }
 	&.home{
 		display:block;
 	}
@@ -39,8 +42,14 @@ body {
 }
 .alert {
   margin: 0 0px 10px;
-	overflow:hidden;
+  overflow:hidden;
+  position:fixed;
+  top:80px;
+  right:20px;
+  z-index:9999999;
 }
+
+
 .fontawesome-i2svg-active body {
   display: initial;
 }
@@ -273,7 +282,11 @@ table{
 }
 
 .dashboard{
-
+    &.leads{
+      th:nth-child(1), td:nth-child(1){
+        display:table-cell;
+      }
+    }
 	.col-sm-6{
 		float:left;
 	}
@@ -1694,6 +1707,4 @@ table{
     clear: both;
     height: 0;
   }
-
-
 }

@@ -91,8 +91,9 @@ class DashboardController extends Controller {
         'status_values' => $this->status_values,
         'invoices' => $invoices,
         'task_count' => $task_count,
-	      'firm_message' => $firm_message,
+	    'firm_message' => $firm_message,
         'types' => $this->event_types,
+        'event_types' => $this->event_types,
     ]);
   }
 

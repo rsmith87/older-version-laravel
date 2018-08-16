@@ -28,7 +28,7 @@
 					<div class="col-sm-6 col-xs-12">
 						<label>Type</label>
 						<select name="event_type" class="form-control">
-							@foreach($types as $t)
+							@foreach($event_types as $t)
 								<option value={{ $t }}>{{ ucwords($t) }}</option>
 							@endforeach
 						</select>

@@ -10,6 +10,7 @@ class Note extends Model
       'id',
       'case_uuid',
       'contlient_uuid',
+      'lead_uuid',
       'note',
       'user_id',
       'firm_id',

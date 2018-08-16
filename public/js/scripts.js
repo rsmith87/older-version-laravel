@@ -158,6 +158,8 @@ $(function($){
       window.location="/dashboard/cases/case/"+$id;
     } else if (pathArray[2] == 'contacts'){
       window.location="/dashboard/contacts/contact/"+$id;
+    } else if (pathArray[2] == 'leads') {
+      window.location='/dashboard/leads/lead/'+$id;
     } else if (pathArray[2] == 'clients'){
       window.location='/dashboard/clients/client/'+$id;
     } else if (pathArray[2] == 'documents'){

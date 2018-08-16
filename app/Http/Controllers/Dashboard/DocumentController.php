@@ -216,26 +216,21 @@ class DocumentController extends Controller
     //need to create Media model
 		//need to create MediaRelationship model
 		//need to move file to server
-
-		$media_insert = Media::create([
-			'uuid' => $uuid,
-			'name' => $data->getClientOriginalName(),
-			'file_name' => '',
-		]);
-
-		$data['id'] = \DB::table('document')->max('id') + 1;
+    
+        if($type === 'case'){
+          $model_id = LawCase::where('case_uuid', $request['uuid'])->first();
+        }
+        
 		$status = 'added';
-		$imageFileName = time() . '.' . $request->file($file_name)->getClientOriginalExtension();
-		$filePath = '/f/'.$this->settings->firm_id.'/u/'.$this->user['id'].'/' .$imageFileName;
-		$fileMimeType = $request->file($file_name)->getMimeType();
-		$this->s3->put($filePath, file_get_contents($request->file($file_name)));
-		$this->s3->url($filePath);
+		$imageFileName = time() . '.' . $data->getClientOriginalExtension();
+		$fileMimeType = $data->getMimeType();
+        $path_to_place = "files/user/".\Auth::id()."/";
 
-		
+		\Storage::disk('public')->put($path_to_place, $imageFileName);
 		if($this->user->hasRole('client')) {			
-			$contact = Contact::where('has_login', $this->user['id'])->first();
-			$data['client_id'] = $contact->id;
-			$data['case_id'] = $contact->case_id;
+          $contact = Contact::where('has_login', $this->user['id'])->first();
+          $data['client_id'] = $contact->id;
+          $data['case_id'] = $contact->case_id;
 		}
     
     if(!isset($data['client_share'])){
@@ -247,7 +242,7 @@ class DocumentController extends Controller
 			'id' => $data['id']
 		],
 		[
-      'document_uuid' => $uuid,
+            'document_uuid' => $uuid,
 			'name' =>  !isset($data['file_name']) ? $imageFileName : $data['file_name'],
 			'description' => $data['file_description'],
 			'location' => 's3',
@@ -260,6 +255,20 @@ class DocumentController extends Controller
 			'user_id' => $this->user['id'],
 			'client_share' => isset($data['client_share']) ? 1: 0,
 		]);
+        
+        $media_insert = Media::create([
+			'uuid' => $uuid,
+			'name' => $data->getClientOriginalName(),
+			'file_name' => '',
+		]);
+        
+        $media_relationship = MediaRelationship::create([
+              'media_uuid' => $uuid,
+              'model' => $type,
+              'model_id' => $model_id->id,
+              'user_id' => \Auth::id(),
+        ]);
+
 		return redirect()->back()->with('status', 'Document '.$status.' successfully!');
 	}
 

@@ -68,7 +68,7 @@ class EventController extends Controller
         'theme' => $this->settings->theme,
         'firm_id' => $this->settings->firm_id,
         //'user' => $contact
-        'types' => $this->event_types,
+        'event_types' => $this->event_types,
         'show_task_calendar' => $tasks_events,
         'settings' => $this->settings,
       ]);
@@ -195,7 +195,7 @@ class EventController extends Controller
       'f_id' => $this->settings->firm_id,
     ]);
 
-    return redirect('/dashboard/calendar')->with('status', $message); 
+    return redirect()->back()->with('status', $message); 
   }
 
   public function denied_events()

@@ -128,7 +128,14 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
 	          'can' => 'view contacts',
-        ],   
+        ],
+        [
+            'text'        => 'Leads',
+            'url'         => 'dashboard/leads',
+            'icon'        => 'user-circle',
+            //'label'       => 4,
+            //'label_color' => 'success',
+        ],
         [
             'text' => 'Calendar',
             'url'  => 'dashboard/calendar',

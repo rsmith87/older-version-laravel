@@ -16,7 +16,7 @@
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#">
 		<i class="fas fa-user"></i> Add Contact
 	  </a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#">
+	  <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#">
 		<i class="fas fa-file"></i> Add Document
 	  </a> |
 	  <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>-->
@@ -289,7 +289,37 @@
 			@endif
 		  @endforeach
 		@endif
-
+        
+		@if(!empty($events))
+		  @if(count($events) > 0)
+			<div class="col-sm-6 col-xs-12">
+			  <h3 class="mt-5">
+				<i class="fa fa-file"></i> Events
+			  </h3>
+			  <table id="events"
+					 class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }} mb-3">
+				<thead>
+				<tr class="bg-primary">
+				  <th>Id</th>
+				  <th>Name</th>
+				  <th>Start date</th>
+				  <th>Complete</th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach($events as $i)
+				  <tr>
+					<td>{{ $i->id  }}</td>
+					<td>{{ $i->name }}</td>
+					<td>${{ $i->start_date }}</td>
+					<td>{{ $i->complete != 0 ? "Yes" : "No" }}</td>
+				  </tr>
+				@endforeach
+				</tbody>
+			  </table>
+			</div>
+		  @endif
+		@endif
 
 		@if(count($case->Documents) > 0)
 		  <div class="col-sm-6 col-xs-12">
@@ -566,7 +596,7 @@
 		  <hr/>
 		  <form method="post" action="/dashboard/documents/case/upload" enctype="multipart/form-data">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}">
+			<input type="hidden" name="uuid" value="{{ $case->case_uuid }}">
 			<div class="col-xs-12">
 			  <label for="file_upload">File</label>
 			  <input type="file" class="form-control" name="file_upload"/>
