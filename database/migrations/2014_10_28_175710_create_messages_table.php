@@ -20,7 +20,6 @@ class CreateMessagesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->text('body');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
