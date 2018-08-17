@@ -2,19 +2,20 @@
 
 @section('content')
 
-<div class="container dashboard messages home col-sm-12 offset-sm-2">
+  <div class="container dashboard messages home col-sm-12 offset-sm-2">
 
-	@include('messenger.partials.flash')
-	
-    <!-- Content Header (Page header) -->
+  @include('messenger.partials.flash')
+
+  @include('dashboard.includes.alerts')
+  <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fas fa-quote-left"></i> Messages
-        <small></small>
+        <i class="fas fa-quote-left"></i> Mailbox
+        <small>13 new messages</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Messages</li>
+        <li class="active">Mailbox</li>
       </ol>
     </section>
     <!-- Main content -->
@@ -35,7 +36,7 @@
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                  <span class="label label-primary pull-right">{{ count($threads) }}</span></a></li>
+                    <span class="label label-primary pull-right">{{ count($threads) }}</span></a></li>
                 <li><a href="#"><i class="far fa-share-square"></i> Threads</a></li>
               </ul>
             </div>
@@ -51,7 +52,7 @@
 
               <div class="box-tools pull-right">
                 <div class="has-feedback">
-                  <input type="text" class="form-control input-sm" placeholder="Search messages">
+                  <input type="text" class="form-control input-sm" placeholder="Search Mail">
                   <span class="glyphicon glyphicon-search form-control-feedback"></span>
                 </div>
               </div>
@@ -82,11 +83,11 @@
                 <table class="table table-hover table-striped">
                   <tbody>
                   @foreach($threads as $thread)
-                  <tr class="thread">
-                    <td><input type="checkbox" class="checkbox" /></td>
-                    <td class="mailbox-subject"><b><a href="/dashboard/messages/{{ $thread->thread_uuid }}">{{ $thread->subject }}</a></td>
-                    <td class="mailbox-date">{{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</td>
-                  </tr>
+                    <tr class="thread">
+                      <td><input type="checkbox" class="checkbox" /></td>
+                      <td class="mailbox-subject"><b><a href="/dashboard/messages/{{ $thread->thread_uuid }}">{{ $thread->subject }}</a></td>
+                      <td class="mailbox-date">{{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</td>
+                    </tr>
                   @endforeach
                   </tbody>
                 </table>
@@ -95,72 +96,92 @@
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.box-body -->
-
+            <div class="box-footer no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                  1 - {{ count($threads) }}/{{ count($threads) }}
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
+              </div>
+            </div>
           </div>
           <!-- /. box -->
         </div>
         <!-- /.col -->
-     
-    
+
+
+      </div>
+    </section>
+
+    <div class="col-sm-7 offset-sm-5 actual-message col-12">
+
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="col-12">
+    </div>
   </div>
-  </section>
 
-	<div class="col-sm-7 offset-sm-5 actual-message col-12">
-
-	</div>
-
-	<div class="clearfix"></div>
-	<div class="col-12">
-	</div>
-</div>
-
-<div class="modal" id="create-message-modal" href="#">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-    <h1>Create a new message</h1>
-    <form action="{{ route('messages.store') }}" method="post">
-        {{ csrf_field() }}
-            <!-- Subject Form Input -->
+  <div class="modal" id="create-message-modal" href="#">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h1>Create a new message</h1>
+          <form action="{{ route('messages.store') }}" method="post">
+          {{ csrf_field() }}
+          <!-- Subject Form Input -->
             <div class="form-group">
-                <label class="control-label">Subject</label>
-                <input type="text" class="form-control" name="subject" placeholder="Subject"
-                       value="{{ old('subject') }}">
+              <label class="control-label">Subject</label>
+              <input type="text" class="form-control" name="subject" placeholder="Subject"
+                     value="{{ old('subject') }}">
             </div>
 
 
             <!-- Message Form Input -->
             <div class="form-group">
-                <label class="control-label">Message</label>
-                <textarea name="message" class="form-control">{{ old('message') }}</textarea>
+              <label class="control-label">Message</label>
+              <textarea name="message" class="form-control">{{ old('message') }}</textarea>
             </div>
 
-          <div class="form_group">
-            <label>Users</label>
-            @if(isset($firm_users) && count($firm_users) > 0)
-                <div class="checkbox">
-                    @foreach($firm_users as $f_u)
-                      @foreach($f_u->Firm as $u)
-                        <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
-                          <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name : $u->email }}</label>
-                        <br />
-                        @endforeach
-                    @endforeach
-                </div>
-            @endif
-          </div>
-    
-            <!-- Submit Form Input -->
+            @if(count($users) > 0)
+              <div class="checkbox">
+                @foreach($users as $u)
+                  <label title="{{ $u[0]['name'] }}">
+                    <input type="checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{!! $u[0]['name'] !!}</label>
+                @endforeach
+              </div>
+          @endif
+
+          <!-- Submit Form Input -->
             <div class="form-group">
-                <button type="submit" class="btn btn-primary form-control">Submit</button>
+              <button type="submit" class="btn btn-primary form-control">Submit</button>
             </div>
-     
-      </form>
-      
+
+          </form>
+
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <script type="text/javascript">
 
+
+
+
+
+  </script>
 
 @stop

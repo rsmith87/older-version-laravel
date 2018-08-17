@@ -6,6 +6,7 @@
 <div class="container dashboard task col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
        <a class="nav-item nav-link btn btn-info" href="/dashboard/tasklists"><i class="fas fa-arrow-left"></i> Back to tasklists</a>
+       <a class="nav-item nav-link btn btn-info" href="#">Print tasklist</a>
   </nav>    
  
   			@include('dashboard.includes.alerts')	
@@ -102,38 +103,7 @@
                     <i class="fa fa-trash" data-toggle="modal" data-target="#delete-task-modal-{{ $task->task_uuid }}"></i>
                   </div>
                 </li>
-                @foreach($task->Subtasks as $subtask)                 
-                
-                <li>
-<!-- drag handle -->
-                  <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  <input type="checkbox" class="subtask-checkbox" name="subtask_complete_{{ $subtask->id }}" value="">
-                  <!-- todo text -->
-                  <span class="text">-->{{ $subtask->subtask_name }}</span>
-                  <!-- Emphasis label -->
-                  @if(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now())                  
-                  <small class="label label-danger"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
-                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHour())
-                  <small class="label label-warning"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
-                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(4))
-                  <small class="label label-info"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
-                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(8))
-                  <small class="label label-success"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
-                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(16))
-                  <small class="label label-primary"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
-                  @elseif(\Carbon\Carbon::parse($subtask->due) < \Carbon\Carbon::now()->addHours(24))
-                  <small class="label label-default"><i class="fa fa-clock"></i>{{ \Carbon\Carbon::parse($subtask->due)->diffForHumans() }}</small>
-                  @endif
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <span>Delete from the task modal</span>
-                  </div>
-                </li>
-                @endforeach
+
               @endforeach
           </ul>           
               

@@ -12,6 +12,10 @@ $(function($){
   $('.js-category-tasklist').select2({
 	tags: true,
   });
+
+  $('.task-checkbox').click(function(){
+
+  });
   
   $('.download').click(function(e){
     e.preventDefault();
@@ -166,28 +170,27 @@ $(function($){
       window.location='/dashboard/documents/document/'+$id;
     } else if (pathArray[2] == 'invoices'){
       window.location='/dashboard/invoices/invoice/'+$id;
-    } else if (pathArray[2] == 'tasks'){
-      
-      if (pathArray[3] === 'task'){
+    } else if (pathArray[2] == 'tasklists'){
+
         
- 
-        
-        $('input[type=checkbox]').change(function(){
+        $('.iCheck-helper').click(function(){
           var $this = $(this);
           var $tds = [];
-          $tds = $this.parent().parent().find('td');
           $tds.each(function(){
-           // var $this = $(this);
-            //var $html = $("<s>"+ $this.text() + "</s>").html();
-           // $this.html($html);
+            var $this = $(this);
+            var $html = $("<s>"+ $this.text() + "</s>").html();
+            $this.html($html);
           });
-          var subtask_id = $this.parent().parent().find('td:nth-child(1)').text();
           $.ajax(
             {
             type: 'POST',
             contentType: "application/json; charset=utf-8", 
             datatype: 'json',
-            url: '/dashboard/tasks/task/complete-subtask/'+subtask_id+'/subtask',
+            url: '/dashboard/tasklists/task/add',
+            data: {
+                'event': uuid,
+                'new_end_date': updated_end_moment._d,
+            },
             success:function(data){
               //console.log('success');
               //console.log(data);
@@ -195,9 +198,7 @@ $(function($){
           });
 
         });
-      } else {
-       window.location='/dashboard/tasks/task/'+$id;
-      }
+
   
     } else if (pathArray[2] == 'messages'){
 

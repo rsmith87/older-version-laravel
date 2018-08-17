@@ -8,7 +8,7 @@
     <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>-->
   </nav>    
   
-				@include('dashboard.includes.alerts')	
+    @include('dashboard.includes.alerts')
 
        
     <div>
@@ -33,11 +33,17 @@
         <div class="col-md-4 col-xs-6">
           <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>
               <h3>Name: {{ $task->task_list_name }}</h3>
+          <label>Due</label>
+          <p>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</p>
 
-            <label>Total tasks</label>
-            <p>{{ count($task->Task) }}</p>
-              <label>Due</label>
-              <p>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</p>
+            @if(count($task->Task) > 0)
+              <label>Tasks:</label>
+          <ol>
+            @foreach($task->Task as $t)
+              <li>{{ $t->task_name }}</li>
+              @endforeach
+          </ol>
+          @endif
 
               <label>Created</label>
               <p>{{ \Carbon\Carbon::parse($task->created_at)->format('m/d/Y H:i') }}</p>
@@ -52,6 +58,8 @@
                </ol>
               @endif
               <a class="btn-block btn btn-primary" href="/dashboard/tasklists/{{ $task->task_list_uuid }}">View task list</a>
+              <a class="btn-block btn btn-success" href="/dashboard/tasklists/{{ $task->task_list_uuid }}/complete">Complete task list</a>
+
         </div>
     @endforeach
 

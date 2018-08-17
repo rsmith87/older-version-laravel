@@ -227,19 +227,19 @@ class TaskController extends Controller
 		
 		$tl = TaskList::updateOrCreate(
 		[
-			'id' => $data['id'],
+        'id' => $data['id'],
 		],
 		[
-      'task_list_uuid' => Uuid::generate()->string,
-			'user_id' => $this->user->id,
-			'task_list_name' => $data['task_name'],
-			'task_list_description' => $data['task_description'],
-			'f_id' => $this->settings->firm_id,
-			'c_id' => isset($data['case_id']) ? $data['case_id'] : "",
-			'show_dashboard' => $data['show_dashboard'] === "on" ? 1 : 0,
-			'contact_client_id' => isset($data['contact_id']) ? $data['contact_id'] : "",
-			'due' => $this->fix_date($data['due_date'], $data['due_time']),
-			'assigned' => 0,
+        'task_list_uuid' => Uuid::generate()->string,
+        'user_id' => $this->user->id,
+        'task_list_name' => $data['task_name'],
+        'task_list_description' => $data['task_description'],
+        'f_id' => $this->settings->firm_id,
+        'c_id' => isset($data['case_id']) ? $data['case_id'] : "",
+        'show_dashboard' => isset($data['show_dashboard']) ? 1 : 0,
+        'contact_client_id' => isset($data['contact_id']) ? $data['contact_id'] : "",
+        'due' => $this->fix_date($data['due_date'], $data['due_time']),
+        'assigned' => 0,
 		]);
     
 	//print_r($data['id']);
@@ -364,7 +364,8 @@ class TaskController extends Controller
 	private function fix_date($dts, $dte)
 	{
 		$d = Carbon\Carbon::parse($dts)->format('Y-m-d');
-		$dt = Carbon\Carbon::parse($d. " " . $dte.":00", 'America/Chicago')->format('Y-m-d H:i:s');
+		$hour = Carbon\Carbon::parse($dte)->format('H:i:s');
+		$dt = Carbon\Carbon::parse($d. " " . $hour, 'America/Chicago')->format('Y-m-d H:i:s');
 		return $dt;
 	}
 

@@ -59,10 +59,6 @@
                   @endif
                 </div>
 
-                <div class="col-sm-6 col-12">
-                  <label for="file_name">Share with client?</label>
-                  <input type="checkbox" class="form-control" name="client_share" />
-                </div>
               @endif
 					  @endhasanyrole     
           @endif
