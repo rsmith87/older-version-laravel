@@ -14,7 +14,7 @@
     <div>
       <div>
         <h1 class="pull-left ml-3 mt-4 mb-2">
-          <i class="fas fa-tasks"></i> Task lists
+          <i class="fas fa-tasks"></i> Task boards
         </h1>
    			<div class="clearfix"></div>
 
@@ -30,7 +30,7 @@
         </div>
        @endif		       
         @foreach ($tasks as $task)
-        <div class="col-md-4 col-xs-6">
+        <div class="col-md-4 col-xs-6 tasklist">
           <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>
               <h3>Name: {{ $task->task_list_name }}</h3>
           <label>Due</label>

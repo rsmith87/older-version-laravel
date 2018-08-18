@@ -1397,4 +1397,12 @@ nav.btn-primary:hover,
 nav.btn-primary:active {
   border-left: 0 !important;
 }
+.tasklist {
+  background-color: white;
+  border-radius: 3px;
+  padding: 10px;
+}
+.tasklist h3 {
+  margin-top: 0;
+}
 /*# sourceMappingURL=app.css.map */

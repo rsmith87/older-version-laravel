@@ -164,7 +164,7 @@ return [
             'can'  => 'view invoices',
         ],
         [
-            'text'        => 'Tasklists',
+            'text'        => 'Task boards',
             'url'         => 'dashboard/tasklists',
             'icon'        => 'clipboard-list',
             //'label'       => 4,
