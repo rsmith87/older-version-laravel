@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <h3>
-          <i class="fas fa-tasks"></i> Create a {{ null !== Request::segment(3) ? "Task" : "Task list" }} 
+          <i class="fas fa-tasks"></i> Create a {{ null !== Request::segment(3) ? "Task" : "Task board" }}
         </h3>
         <div class="clearfix"></div>
         <hr />
@@ -63,26 +63,29 @@
 					  @endhasanyrole     
           @endif
           <div class="clearfix"></div>
-          <hr class="{{ null === Request::segment(3) ? 'd-none' : ''  }}" />
-          
-          <div class="{{ null === Request::segment(3) ? 'd-none' : ''  }}">
-            
-          <label class="ml-3"><i class="fas fa-tags"></i> Categories</label>         
+
+           @if(null != Request::segment(3))
+            <hr class="{{ null === Request::segment(3) ? 'd-none' : ''  }}" />
+
+            <div class="{{ null === Request::segment(3) ? 'd-none' : ''  }}">
+            <label class="ml-3"><i class="fas fa-tags"></i> Categories</label>
           <div class="col-sm-12 tasklist-categories">
             <select class="js-category-tasklist" name="categories[]" multiple="multiple">
 
             </select>
           </div>
-         
-          </div>
+            </div>
+
+          @endif
           @if(null === Request::segment(3))
           <div class="col-sm-6 col-xs-12">
-            <label>Show on dashboard?</label>
             <input type="checkbox" name="show_dashboard" class="form-control">
+            <label>  Show on dashboard?</label>
+
           </div>
           @endif
      
-          <div class="col-12">
+          <div class="col-xs-12">
             <button type="submit" class="btn btn-primary mt-2 mb-2"><i class="fas fa-check"></i> Submit</button>
           </div>         
         </form>

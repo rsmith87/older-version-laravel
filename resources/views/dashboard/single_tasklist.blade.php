@@ -3,10 +3,10 @@
 @section('content')
 
 
-<div class="container dashboard task col-sm-12 col-12 offset-sm-2">
+<div class="container dashboard task taskboard col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-       <a class="nav-item nav-link btn btn-info" href="/dashboard/tasklists"><i class="fas fa-arrow-left"></i> Back to tasklists</a>
-       <a class="nav-item nav-link btn btn-info" href="#">Print tasklist</a>
+       <a class="nav-item nav-link btn btn-info" href="/dashboard/tasklists"><i class="fas fa-arrow-left"></i> Back to task boards</a>
+       <a class="nav-item nav-link btn btn-info" href="#">Print task board</a>
   </nav>    
  
   			@include('dashboard.includes.alerts')	
@@ -16,7 +16,7 @@
 	<div>
 		<div>
 			<h1 class="pull-left ml-3 mt-4 mb-2">
-              <i class="fas fa-tasks"></i> Task list: {{ $task_list->task_list_name }}
+              <i class="fas fa-tasks"></i> Task board: {{ $task_list->task_list_name }}
 			</h1>
 			
 			<div class="clearfix"></div>
@@ -29,7 +29,7 @@
      <div>
   		@if (count($tasks) === 0)
 				<div class="alert alert-warning alert-dismissible fade in" role="alert">
-					No tasks for this tasklist, yet! <strong>Add a new task below!</strong>
+					No tasks for this task board, yet! <strong>Add a new task below!</strong>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -45,7 +45,7 @@
 			  </div>
 			  <div class="col-sm-6 col-xs-12">
 				<h5>Due date</h5>
-				<p>{{ $task_list->due }}</p>
+				<p>{{ \Carbon\Carbon::parse($task_list->due)->format('m/d/Y g:i A') }}</p>
 			  </div>
 
 			  <div class="col-xs-12">

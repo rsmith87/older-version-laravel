@@ -4,7 +4,7 @@
 
 <div class="container dashboard tasks tasks-lists-multi col-sm-12 col-12 offset-sm-2">
   <nav class="nav nav-pills">
-    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-briefcase"></i> Add task list</a>
+    <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-plus"></i> <i class="fas fa-tasks"></i> Create task board</a>
     <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#user-modal" href="#"><i class="fas fa-briefcase"></i> Assiged tasks</a>-->
   </nav>    
   
@@ -34,7 +34,7 @@
           <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>
               <h3>Name: {{ $task->task_list_name }}</h3>
           <label>Due</label>
-          <p>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y H:i') }}</p>
+          <p>{{ \Carbon\Carbon::parse($task->due)->format('m/d/Y g:i A') }}</p>
 
             @if(count($task->Task) > 0)
               <label>Tasks:</label>
@@ -46,7 +46,7 @@
           @endif
 
               <label>Created</label>
-              <p>{{ \Carbon\Carbon::parse($task->created_at)->format('m/d/Y H:i') }}</p>
+              <p>{{ \Carbon\Carbon::parse($task->created_at)->format('m/d/Y g:i A') }}</p>
 
               @if(count($task->Tasks) > 0)
               <ol>
