@@ -67,7 +67,7 @@
 
 		</div>
 		<div class="col-sm-6 col-12">
-		  @if(!empty($contact->case_id) || $contact->case_id === 0)
+		  @if(!empty($contact->case_id) || $contact->case_id != 0)
 		  <label>Case</label>
 		  <p><a href="/dashboard/cases/case/{{ $case->case_uuid }}">{{ $case->name }}</a></p>
 		  @endif

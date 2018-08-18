@@ -110,6 +110,8 @@
 		</div>
 
 		<div class="col-sm-6 col-12">
+		  <label>Created</label>
+			<p>{{ \Carbon\Carbon::parse($case->created_at)->format('m/d/Y g:i A') }}</p>
 		  <label>Total cost</label>
 		  @if($case->billing_type === 'hourly')
 			@if($case->billing_rate === "")
@@ -182,7 +184,7 @@
 				  <a data-toggle="modal" class="pull-right" data-target="#edit-note-modal-{{ $note->id }}"><i
 							class="fas fa-edit"></i></a>
 				  <h5 class="card-title">
-					Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
+					Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y g:i A') }}</h5>
 				  <p class="card-text">{{ $note->note }}</p>
 				</div>
 			  </div>
@@ -210,7 +212,7 @@
 					<a data-toggle="modal" class="pull-right" data-target="#edit-hours-modal-{{ $case_hour->id }}"><i
 							  class="fas fa-edit"></i></a>
 					<h5 class="card-title">
-					  Created: {{ \Carbon\Carbon::parse($case_hour->created_at)->format('m/d/Y H:i:s') }}</h5>
+					  Created: {{ \Carbon\Carbon::parse($case_hour->created_at)->format('m/d/Y g:i A') }}</h5>
 					<p class="card-text"><strong>Hours</strong>: {{ $case_hour->hours }} <br /> <strong>Note</strong>: {{ $case_hour->note }}</p>
 				  </div>
 				</div>

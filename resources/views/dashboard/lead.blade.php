@@ -14,8 +14,10 @@
 				class="fas fa-sticky-note"></i> Add note</a>
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-communication-modal" href="#"><i
 				class="fas fa-comments"></i> Log communication</a>
+		@if($lead->converted != 1)
 		<a class="nav-item nav-link btn btn-primary" data-toggle="modal" data-target="#convert-modal" href="#"><i
 					class="fas fa-user"></i> Convert lead to client</a>
+		@endif
 	  <a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i
 				class="fas fa-trash-alt"></i> Delete {{ Request::segment(3) }}</a>
 
@@ -39,6 +41,14 @@
 	  <div>
 
 
+		  @if($lead->converted === 1)
+			  <div class="alert alert-warning fade in ml-3 mr-3 mb-4" role="alert'">
+				  This lead has already been converted to a client!
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+				  </button>
+			  </div>
+		  @endif
 		<div class="col-sm-6 col-12">
 		  <label>Name</label>
 		  <p>{{ $lead->first_name }} {{ $lead->last_name }}</p>
@@ -55,7 +65,8 @@
 
 		</div>
 		<div class="col-sm-6 col-12">
-
+		  <label>Date created</label>
+			<p>{{ \Carbon\Carbon::parse($lead->created_at)->format('m/d/Y g:i A') }}</p>
 		  <label>Company</label>
 		  <p>{{ $lead->company }}</p>
 		  <label>Company title</label>

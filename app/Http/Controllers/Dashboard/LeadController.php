@@ -198,6 +198,7 @@ class LeadController extends Controller
             'user_id' => $this->user['id'],
             'firm_id' => $this->settings->firm_id,
             'is_client' => 1,
+            'case_id' => 0,
         ]);
 
         return redirect('/dashboard/clients/client/'.$lead->lead_uuid)->with('status', 'Client created from lead '. $lead->first_name . " " . $lead->last_name);
