@@ -69,7 +69,7 @@ class LeadController extends Controller
     {
         $data = $request->all();
         $lead_uuid = Uuid::generate()->string;
-        Lead::create(
+        $lead = Lead::create(
         [
             'lead_uuid' => $lead_uuid,
             'first_name' => $data['first_name'],
@@ -87,7 +87,7 @@ class LeadController extends Controller
             'firm_id' => $this->settings->firm_id,
             'converted' => 0,
         ]);
-        return redirect()->back()->with('status', 'Lead created successfully');
+        return redirect('/dashboard/leads/lead/'.$lead->lead_uuid)->with('status', 'Lead created successfully');
     }
 
     public function view(Request $request, $id)
@@ -96,10 +96,16 @@ class LeadController extends Controller
         $lead = Lead::where('lead_uuid', $id)->first();
         $logs = CommLog::where(['type' => 'lead', 'type_id' => $lead->id])->get();
         $notes = Note::where('lead_uuid', $id)->get();
+        if ($lead->converted != 0) {
+            $client_created = Contact::where('contlient_uuid', $id)->first();
+        } else {
+            $client_created = [];
+        }
 
         return view('dashboard/lead', [
             'user' => $this->user,
             'lead' => $lead,
+            'client' => $client_created,
             'logs' => $logs,
             'notes' => $notes,
             'firm_id' => $this->settings->firm_id,
@@ -144,16 +150,12 @@ class LeadController extends Controller
     {
         $data = $request->all();
 
-        $contact = Lead::where('lead_uuid', $data['id'])->first();
+        $lead = Lead::where('id', $data['id'])->first();
 
-        if ($contact->is_client != 0) {
-            $type = 'Client';
-        } else {
-            $type = 'Contact';
-        }
-        $contact->delete();
 
-        return redirect()->back()->with('status', $type . ' deleted successfully');
+        $lead->delete();
+
+        return redirect('/dashboard/leads')->with('status', 'Lead deleted successfully');
     }
 
     public function log_communication(Request $request)

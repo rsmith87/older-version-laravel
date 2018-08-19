@@ -5,7 +5,9 @@
 <div class="container dashboard leads col-sm-12 offset-sm-2">
   <nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#leads-modal" href="#"><i class="fa fa-plus"></i> <i class="fa fa-user-circle"></i> Add lead</a>
-        <a class="nav-item nav-link btn btn-info" href="/dashboard/leads/converted"><i class="fa fa-user"></i> Converted leads</a>
+      <a class="nav-item nav-link btn btn-info" href="/dashboard/leads"><i class="fa fa-user"></i> Active leads</a>
+
+      <a class="nav-item nav-link btn btn-info" href="/dashboard/leads/converted"><i class="fa fa-user"></i> Converted leads</a>
 
   </nav> 
  					
@@ -16,7 +18,6 @@
           <i class="fas fa-user-circle"></i> {{ Request::segment(3) === 'converted' ? "Converted" : "" }} Leads
         </h1>
 				<div class="clearfix"></div>
-        <p class="ml-3 mb-2">Leads shows all of your contact information.  Click on a contact to show information.</p>
      </div>
      <div>
       @if (count($leads) < 1)

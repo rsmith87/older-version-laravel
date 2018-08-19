@@ -65,8 +65,12 @@
 
 		</div>
 		<div class="col-sm-6 col-12">
-		  <label>Date created</label>
+		  <label>Date lead created</label>
 			<p>{{ \Carbon\Carbon::parse($lead->created_at)->format('m/d/Y g:i A') }}</p>
+			@if($lead->converted === 1 && count($client) > 0)
+				<label>Date lead converted</label>
+				<p>{{ \Carbon\Carbon::parse($client->created_at)->format('m/d/Y g:i A') }}</p>
+			@endif
 		  <label>Company</label>
 		  <p>{{ $lead->company }}</p>
 		  <label>Company title</label>
