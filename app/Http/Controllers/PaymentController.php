@@ -59,7 +59,7 @@ class PaymentController extends Controller
 				Invoice::where('invoice_uuid', $invoice_id)->update([
 					'paid' => 1,
 				]);
-				return redirect()->back()->with('status', 'Thank you for your payment!  Your payment has been submitted successfully.');
+				return redirect()->back()->with('status', 'Thank you for your payment!  Your payment has been submitted successfully.  You can now close this window.');
 
 			} catch (Exception $e) {
 				//charge failed

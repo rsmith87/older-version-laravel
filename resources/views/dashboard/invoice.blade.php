@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container dashboard single-invoice col-sm-10 col-xs-12 offset-sm-2">
+<div class="container dashboard single-invoice col-xs-12 offset-sm-2">
     <nav class="nav nav-pills">
 		@hasanyrole('authenticated_user|administrator')
     <a class="nav-item nav-link btn btn-info" href="/dashboard/cases"><i class="fas fa-briefcase"></i> My cases</a>
@@ -28,13 +28,15 @@
 	  </section>
 
 	  <!-- Main content -->
-	  <section class="invoice">
+	  <section class="invoice box-shadow">
 		<!-- title row -->
 		<div class="row">
 		  <div class="col-xs-12">
 			@if($invoice->paid)
-			  <h1>PAID</h1>
-			  @endif
+				  <div class="background">
+					  <h1 class="text-center text-red paid-text">PAID</h1>
+				  </div>
+					@endif
 			<h2 class="page-header">
 			  @if($firm->logo != "")
 				<img src="/storage{{ $firm->logo}}" />
@@ -159,7 +161,11 @@
 			@else
 			  @if(!$invoice->paid)
 			  <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Send invoice to {{ $client->first_name }} {{ $client->last_name }}</button>
-				@endif
+			  @else
+			  <div class="background">
+				  <h1 class="text-center text-red paid-text">PAID</h1>
+			  </div>
+			  @endif
 			@endif
 			<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
 			  <a href="/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/download">

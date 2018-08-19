@@ -4,8 +4,9 @@
       
 <div class="container dashboard firm col-sm-12 offset-sm-2 scrollspy">
 	<nav class="nav nav-pills">
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-calendar-plus"></i> Edit firm</a>
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-message-modal" href="#"><i class="fas fa-calednar-plus"></i> Edit firm message</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-building"></i> Edit firm</a>
+		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-message-modal" href="#"><i class="fas fa-comment"></i> Edit firm message</a>
+		<a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#cancel-subscription" href="#"><i class="fas fa-ban"></i> Cancel account</a>
 	</nav>
   
   @include('dashboard.includes.alerts')
@@ -152,11 +153,23 @@
     @hasanyrole('administrator')
 
 	<hr />
+<div class="col-sm-12">
 
-<div id="add-user" class="col-md-6 col-sm-12">
+	@if(isset($fs))
+		@if(count($fs) > 0)
+			<p>You have successfully authenticated Legalease and Stripe! If you'd like to authenticate again, or are
+				having issues with payments click the link below</p>
+		@endif
+	@else
+		<a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}"/></a>
+	@endif
+</div>
+<div class="clearfix"></div>
+<hr />
+<div id="add-user" class="col-md-5 col-sm-12 box-shadow">
 
         <h2 class="pull-left ml-3 mt-3">
-		    <i class="fas fa-user-plus"></i>Add a user
+		    <i class="fas fa-user-plus"></i> Add a user
         </h2>
 
   		<div class="clearfix"></div>
@@ -218,21 +231,10 @@
 				</table>
 			@endif	 
 </div>
-	<hr />
-<div class="col-sm-5">
-  <label>Stripe integration for firm</label>
-  @if(isset($fs))
-	@if(count($fs) > 0)
-	  <p>You have successfully authenticated Legalease and Stripe! If you'd like to authenticate again, or are
-		having issues with payments click the link below</p>
-	@endif
-  @endif
-  <a href="/dashboard/settings/stripe/create"><img src="{{ asset('img/blue-on-light.png') }}"/></a>
-</div>
-<div class="clearfix"></div>
-<div id="add-client-user" class="col-md-6 col-sm-12">
+
+<div id="add-client-user" class="col-md-5 col-sm-12 box-shadow">
         <h2 class="pull-left ml-3 mt-3">
-         <i class="fas fa-user-plus"></i>Give a client login access
+         <i class="fas fa-users"></i> Give a client login access
         </h2>
 		<div class="clearfix"></div>
 

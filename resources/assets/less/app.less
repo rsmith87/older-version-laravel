@@ -40,6 +40,7 @@ body {
 .in{
   opacity:1;
 }
+
 .alert {
   margin: 0 0px 10px;
   overflow:hidden;
@@ -47,6 +48,9 @@ body {
   top:60px;
   right:20px;
   z-index:9999999;
+  button{
+    margin: 0 0 0 10px;
+  }
 }
 
 
@@ -284,7 +288,7 @@ table{
 .dashboard{
     &.leads{
       th:nth-child(1), td:nth-child(1){
-        display:table-cell;
+        //display:table-cell;
       }
     }
 	.col-sm-6{
@@ -1382,6 +1386,9 @@ table{
   }
 }
 .single-invoice{
+  .table-responsive{
+    margin: 20px 0 40px;
+  }
   button{
     a{
       color:#FFF;
@@ -1440,6 +1447,7 @@ table{
 #add-client-user, #add-user{
   background-color:rgba(0,0,0,0.25);
   margin-bottom:10px;
+  margin-right:10px;
   .form-group{
     .col-sm-12, .col-md-4{
       padding-left:0;
@@ -1729,3 +1737,14 @@ nav{
     margin-top:0;
   }
 }
+
+.box-shadow{
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14),
+  0 3px 1px -2px rgba(0, 0, 0, .2),
+  0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+.disabled{
+  cursor: not-allowed;
+}
+

@@ -146,7 +146,7 @@ class InvoiceController extends Controller
 			'id' => $invoice_id,
 		],
 		[
-      'invoice_uuid' => $invoice_uuid,
+            'invoice_uuid' => $invoice_uuid,
 			'invoicable_id' => $data['case_uuid'],
 			'invoicable_type' => 'app_client',
 			'description' => $data['invoice_description'],

@@ -77,8 +77,35 @@
 		</div>
 		<div class="clearfix"></div>
 
+			  @if(count($notes) > 0)
+				  <div class="col-sm-12">
+					  <h3 class="mt-5 ml-3">
+						  <i class="fas fa-sticky-note"></i> Notes
+					  </h3>
+					  <div class="clearfix"></div>
+					  <div class="mb-3 ml-3" style="overflow:hidden;">
+
+
+						  @foreach($notes as $note)
+							  <div>
+
+								  <div class="card-body">
+									  <a class="pull-right" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i
+												  class="fas fa-trash-alt"></i></a>
+									  <a data-toggle="modal" class="pull-right" data-target="#edit-note-modal-{{ $note->id }}"><i
+												  class="fas fa-edit"></i></a>
+									  <h5 class="card-title">
+										  Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y g:i A') }}</h5>
+									  <p class="card-text">{{ $note->note }}</p>
+								  </div>
+							  </div>
+
+						  @endforeach
+					  </div>
+				  </div>
+			  @endif
 		@if(count($logs) > 0)
-		  <div class="col-md-6 col-sm-12">
+		  <div class="col-sm-12">
 			<h3 class="mt-5 ml-3">
 			  <i class="fas fa-user"></i>Communication Logs
 			</h3>
@@ -98,7 +125,7 @@
 				@if($log->type_id != 0)
 				  <tr>
 					<td>{{ $log->id }}</td>
-					  <td>{{ $log->created_at }}</td>
+					  <td>{{ \Carbon\Carbon::parse($log->created_at)->format('m/d/Y g:i A') }}</td>
 
 					<td>{{ $log->comm_type }}</td>
 					<td>{{ $log->log }}</td>
@@ -111,36 +138,6 @@
 		@endif
 
 
-		@if(count($notes) > 0)
-		  <div class="col-md-6 col-sm-12">
-			<h3 class="mt-5 ml-3">
-			  <i class="fas fa-sticky-note"></i> Notes
-			</h3>
-			<div class="clearfix"></div>
-			<div class="mb-3 ml-3" style="overflow:hidden;">
-
-
-			  @foreach($notes as $note)
-				@if($note->lead_uuid != 0)
-				<div>
-
-				  <div class="card-body">
-					<a class="pull-right" data-toggle="modal" data-target="#delete-note-modal-{{ $note->id }}"><i
-							  class="fas fa-trash-alt"></i></a>
-					<a data-toggle="modal" class="pull-right" data-target="#edit-note-modal-{{ $note->id }}"><i
-							  class="fas fa-edit"></i></a>
-					<h5 class="card-title">
-					  Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
-					<p class="card-text">{{ $note->note }}</p>
-				  </div>
-				</div>
-				@endif
-
-
-			  @endforeach
-			</div>
-		  </div>
-		@endif
 
 		<div class="clearfix"></div>
 

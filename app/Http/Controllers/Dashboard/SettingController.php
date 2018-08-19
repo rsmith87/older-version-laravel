@@ -480,7 +480,7 @@ class SettingController extends Controller
 			$s_client_id = env('STRIPE_CLIENT_ID');
 			return redirect()->away('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://'.env('APP_DOMAIN').'/dashboard/stripe/redirect&client_id='.$s_client_id.'&state='.csrf_token());
 		}
-	
+
 		public function stripe_return(Request $request)
 		{
 			
@@ -507,7 +507,7 @@ class SettingController extends Controller
 				'stripe_account_id' => $id,
 				'user_id' => $this->user['id'],
 			]);
-			return redirect('/dashboard')->with('status', 'Your Stripe account is created and has been connected!');
+			return redirect('/dashboard/firm')->with('status', 'Your Stripe account is created and has been connected!');
 		}
   
 

@@ -94,7 +94,7 @@ class LeadController extends Controller
     {
 
         $lead = Lead::where('lead_uuid', $id)->first();
-        $logs = CommLog::where(['type' => 'lead', 'type_id' => $lead->lead_uuid])->get();
+        $logs = CommLog::where(['type' => 'lead', 'type_id' => $lead->id])->get();
         $notes = Note::where('lead_uuid', $id)->get();
 
         return view('dashboard/lead', [

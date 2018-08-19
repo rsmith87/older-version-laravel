@@ -108,7 +108,7 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',    
+        'NAVIGATION',
         [
             'text' => 'Cases',
             'url'  => 'dashboard/cases',
@@ -122,19 +122,19 @@ return [
 	          'can'  => 'view clients',
         ],
         [
+            'text'        => 'Leads',
+            'url'         => 'dashboard/leads',
+            'icon'        => 'user-circle',
+            //'label'       => 4,
+            //'label_color' => 'success',
+        ],
+        [
             'text'        => 'Contacts',
             'url'         => 'dashboard/contacts',
             'icon'        => 'address-book',
             //'label'       => 4,
             //'label_color' => 'success',
 	          'can' => 'view contacts',
-        ],
-        [
-            'text'        => 'Leads',
-            'url'         => 'dashboard/leads',
-            'icon'        => 'user-circle',
-            //'label'       => 4,
-            //'label_color' => 'success',
         ],
         [
             'text' => 'Calendar',
@@ -185,7 +185,7 @@ return [
             'icon' => 'chart-line',
             'can'  => 'view cases',
         ],      
-        'ACCOUNT SETTINGS',
+        'PREFERENCES',
         [
             'text' => 'Profile',
             'url'  => 'dashboard/profile',

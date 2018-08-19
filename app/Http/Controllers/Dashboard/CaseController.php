@@ -105,7 +105,6 @@ class CaseController extends Controller
 
 		$cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('timers')->with('contacts')->with('documents')->get();
 
-
 		return view('dashboard/cases',
 			[
 				'user' => $this->user,
@@ -375,6 +374,7 @@ class CaseController extends Controller
 
 		$firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
         $events = Event::where('c_id', $requested_case->id)->get();
+        $firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 
 		//print_r($firm_users);
 		foreach($firm_users as $u){
@@ -407,6 +407,7 @@ class CaseController extends Controller
 			'notes' => $notes,
 			'task_lists' => $task_lists,
 			'firm_id' => $this->settings->firm_id,
+			'firm_stripe' => $firm_stripe,
 
 			'theme' => $this->settings->theme,
 			'table_color' => $this->settings->table_color,

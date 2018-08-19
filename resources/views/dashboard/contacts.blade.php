@@ -21,7 +21,7 @@
      <div>
       @if (count($contacts) < 1)
           <div class="alert alert-warning alert-dismissible in" role="alert">
-						No contacts for this user, yet! <strong>Add a new contact above!</strong>
+              No contacts for this user, yet! <strong>Add a new contact above!</strong>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</label>
         </button>
@@ -35,6 +35,7 @@
           @foreach($columns as $column)
             <th class="sorting" scope="col">{{ ucfirst(str_replace("_", " ", $column)) }}</th>
           @endforeach
+                
 
           </tr> 
           </thead>  
@@ -43,6 +44,7 @@
             @foreach($contacts as $contact)
 						<tr>
               @foreach ($columns as $column)
+
               <td>{{ ucfirst($contact->$column) }}</td>
               @endforeach
             </tr>

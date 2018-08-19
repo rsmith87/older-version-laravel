@@ -9,6 +9,8 @@ $(function($){
     }
   });
 
+  $('[data-toggle="tooltip"]').tooltip()
+
   $('.js-category-tasklist').select2({
 	tags: true,
   });

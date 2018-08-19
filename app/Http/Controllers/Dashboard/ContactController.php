@@ -193,14 +193,9 @@ class ContactController extends Controller
 
 		$view_data_columns = [];
 
-		if (count($views) > 0 && $views[0]->view_data != "") {
-			foreach ($views as $view_data) {
-				$data = $view_data->view_data;
-			}
-			$columns = json_decode($data, true);
-		} else {
-			$columns = ["id", "first_name", "last_name", "phone", "email"];
-		}
+
+		$columns = ["id", "first_name", "last_name", "phone", "email"];
+
 
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
 		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '1', 'user_id' => $this->user['id']])->select($columns)->with('documentsclients')->with('tasks')->get();
