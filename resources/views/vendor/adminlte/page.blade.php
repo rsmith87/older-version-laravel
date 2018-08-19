@@ -269,6 +269,5 @@
 <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
 <script src="{{ asset('js/dropzone.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 @yield('js')
 @stop

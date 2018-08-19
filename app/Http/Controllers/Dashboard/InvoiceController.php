@@ -50,11 +50,11 @@ class InvoiceController extends Controller
 	public function index(Request $request)
 	{
 		if(!$this->user->hasRole('client')){
-			$invoices= Invoice::where('user_id', $this->user['id'])->get();
+			$invoices= Invoice::where(['user_id' => $this->user['id'], 'paid' => 0])->get();
 		} 
 		else {
 			$contact = Contact::where('has_login', $this->user['id'])->first();
-			$orders = Order::where('client_id', $contact->id)->get();
+			$invoices = Order::where('client_id', $contact->id)->get();
 		}
 		return view('dashboard/invoices', [
 			'user' => $this->user,  
@@ -63,9 +63,25 @@ class InvoiceController extends Controller
 			'firm_id' => $this->settings->firm_id,
 			'table_color' => $this->settings->table_color,
 			'table_size' => $this->settings->table_size,
-      'settings' => $this->settings,
+            'settings' => $this->settings,
 		]);
 	}
+
+    public function paid_invoices(Request $request)
+    {
+            $invoices= Invoice::where(['user_id' => $this->user['id'], 'paid' => 1])->get();
+
+
+        return view('dashboard/invoices', [
+            'user' => $this->user,
+            'theme' => $this->settings->theme,
+            'invoices' => $invoices,
+            'firm_id' => $this->settings->firm_id,
+            'table_color' => $this->settings->table_color,
+            'table_size' => $this->settings->table_size,
+            'settings' => $this->settings,
+        ]);
+    }	
 
   
 	public function create(Request $request)

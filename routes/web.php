@@ -221,6 +221,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/invoices/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');
 		Route::get('/invoices/invoice/{id}/download', 'Dashboard\InvoiceController@invoice_pdf_download');
 		Route::post('/invoices/invoice/create', 'Dashboard\InvoiceController@create');
+		Route::get('/invoices/paid', 'Dashboard\InvoiceController@paid_invoices');
 
 		Route::get('/marketing', 'Dashboard\MarketingController@index');
 

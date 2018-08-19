@@ -160,7 +160,7 @@ return [
         [
             'text' => 'Invoices',
             'url'  => 'dashboard/invoices',
-            'icon' => 'file-alt',
+            'icon' => 'file-invoice',
             'can'  => 'view invoices',
         ],
         [
