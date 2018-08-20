@@ -10,5 +10,6 @@ class CaseHours extends Model
       'case_uuid',
       'hours',
       'note',
+      'timer_id',
     ];
 }

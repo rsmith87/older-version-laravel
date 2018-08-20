@@ -132,7 +132,7 @@ class CaseController extends Controller
 	{
 		$projects = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id(), 'case_uuid' => $id])->with('timers')->get()->toArray();
 
-		return $project;
+		return $projects;
 
 	}
 
@@ -149,31 +149,55 @@ class CaseController extends Controller
 	{
 
 		if ($timer = Timer::where(['user_id' => \Auth::id(), 'stopped_at' => null])->first()) {
-			$timer->update(['stopped_at' => new Carbon]);
+
+
+		    //come back - need to get the timestamp converted to floating point with 2 decimal places
+            // but on the right track and now the times are stored in DB the right way
+            // so timers are showing right
+            $stop_time =  \Carbon\Carbon::parse(Carbon::now(), str_replace("\\", "/", $this->settings->tz))->format('Y-m-d H:i:s');
+
+			$timer->update(['started_at' => $timer->started_at, 'stopped_at' => $stop_time]);
+			$timer = Timer::where(['user_id' => \Auth::id(), 'stopped_at' => $stop_time])->orderBy('updated_at', 'desc')->first();
+
+            $started = \Carbon\Carbon::parse($timer->started_at);
+            $stopped = \Carbon\Carbon::parse($timer->stopped_at);
+            $diff = $stopped->diff($started);
+            $diff_secs = $started->getTimestamp() - $stopped->getTimestamp();
+           // $diff_to_seconds = \Carbon\Carbon::parse($diff)->total('seconds');
+            $secs = 3600 + $diff_secs;
+            $hour_time = $diff->format('%h');
+            $minute_time = $diff->format('%m');
+            $second_time = $diff->format('%s');
+
+            if($hour_time === '0'){
+                $hour_time = '00';
+            }
+            if($minute_time === '0'){
+                $minute_time = '00';
+            }
+            $time_elapsed = $hour_time . ":" . $minute_time . ":" . $second_time;
+            //convert seconds to match a 100 scale rather than 60 so it can match with the format in the database
+
+            $decmial_time =  $this->time_to_decimal($time_elapsed);
+
+            //test this more becace the house didn't come through - something messed up
+            //UPDATE CASE HOURS TABLE HERE
+            $case_hours = CaseHours::insert([
+                'case_uuid' => $timer->law_case_id,
+                'hours' => $decmial_time,
+                'note' => 'from app timer',
+            ]);
+
+            return $timer;
+
 		}
 
-		$started = new \DateTime($timer->started_at);
-		$stopped = new \DateTime($timer->stopped_at);
-		$diff = $stopped->diff($started);
-		$hour_time = $diff->format('%h');
-		$minute_time = $diff->format('%m');
-		$second_time = $diff->format('%s');
-
-		(float)$minute_time_float = $minute_time / 60;
-		//convert seconds to match a 100 scale rather than 60 so it can match with the format in the database
-
-		$time_to_add = $hour_time . "." . $minute_time;
-
-		//test this more becace the house didn't come through - something messed up
-		//UPDATE CASE HOURS TABLE HERE
-		$case_hours = CaseHours::insert([
-			'case_uuid' => $timer->law_case_id,
-			'hours' => (float)$time_to_add,
-			'note' => 'from app timer',
-		]);
-		return $timer;
-
 	}
+
+	private function time_to_decimal($time) {
+        $hms = explode(":", $time);
+        return ($hms[0] + ($hms[1]/60) + ($hms[2]/3600));
+    }
 
 	public function case_timers(Request $request)
 	{
@@ -192,19 +216,21 @@ class CaseController extends Controller
 	{
 		$data = $request->validate(['name' => 'required|between:3,100']);
 
+		//required so time is exact even if php processes slow or I debug
+		$now_time = \Carbon\Carbon::parse(Carbon::now(), str_replace('\\', '/', $this->settings->tz))->format('Y-m-d H:i:s');
 
 		$timer = Timer::insert([
 			'name' => $data['name'],
 			'user_id' => \Auth::id(),
-			'started_at' => new Carbon,
-			'created_at' => new Carbon,
+			'started_at' => $now_time,
+			'created_at' => $now_time,
 			'law_case_id' => $id,
 		]);
 
 		$timer = Timer::where(['name' => $data['name'], 'law_case_id' => $id])->with('lawcase')->first();
 
 
-		return $timer;
+		return $timer->toArray();
 	}
 
 	public function add(Request $request)

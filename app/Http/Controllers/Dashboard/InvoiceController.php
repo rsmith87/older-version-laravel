@@ -131,7 +131,7 @@ class InvoiceController extends Controller
       $orig_amount = 0;
     }
     
-    $email_send = $client->sendTaskDueReminder($client);
+    //$email_send = $client->sendTaskDueReminder($client);
 
     if(isset($data['order_uuid'])){
       $order_uuid = $data['order_uuid'];
@@ -145,6 +145,7 @@ class InvoiceController extends Controller
     	$invoice_uuid = Uuid::generate()->string;
     }
 
+    //create public accessible invoice access page as well
 		Order::updateOrCreate([
       'order_uuid' => $order_uuid,
 		],
@@ -219,8 +220,13 @@ class InvoiceController extends Controller
 	public function send_invoice(Request $request)
 	{
 		$data = $request->all();
+        $invoice = $data['invoice_uuid'];
 
-
+        /*
+        /nonuser/payment/firm/{firm_id}/invoice/{invoice_uuid}
+        */
+        //generate email and send email
+        //or create modal with secure generated link to send to client email
 	}
 
 	public function invoice_pdf_download(Request $request, $id)

@@ -4,9 +4,9 @@
             <div v-if="projects.length > 0">
                 <div class="panel panel-default" v-for="project in projects" :key="project.case_uuid">
                     <div class="panel-heading clearfix">
-                        <h4 class="pull-left col-md-6 col-sm-12">{{ project.name }}</h4>
+                        <h4 class="pull-left">{{ project.name }}</h4>
 
-                        <div class="col-md-6 col-sm-12">
+                        <div>
                         <button class="btn btn-success btn-sm pull-right create-timer" :disabled="counter.timer" data-toggle="modal" data-target="#timerCreate" @click="selectedProject = project">
                             <i class="glyphicon glyphicon-plus"></i>
                         </button>
@@ -125,7 +125,7 @@ export default {
          */
         calculateTimeSpent: function (timer) {
             if (timer.stopped_at) {
-                const started = moment(timer.started_at)
+                const started = moment(timer.created_at)
                 const stopped = moment(timer.stopped_at)
                 const time = this._readableTimeFromSeconds(
                     parseInt(moment.duration(stopped.diff(started)).asSeconds())
@@ -149,7 +149,7 @@ export default {
          * Start counting the timer. Tick tock.
          */
         startTimer: function (project, timer) {
-            const started = moment(timer.started_at)
+            const started = moment(timer.created_at)
 
             this.counter.timer = timer
             this.counter.timer.project = project

@@ -16,8 +16,9 @@ class CreateCaseHoursTable extends Migration
         Schema::create('case_hours', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('case_uuid');
-            $table->float('hours', 4, 2);
+            $table->dateTime('timespan');
             $table->longText('note');
+            $table->integer('timer_id');
             $table->timestamps();
         });
     }

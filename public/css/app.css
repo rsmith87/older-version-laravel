@@ -1425,4 +1425,11 @@ nav.btn-primary:active {
 .invoice-small .btn-primary {
   margin-bottom: 10px;
 }
+.non-logged-in .content-wrapper {
+  padding-top: 0;
+  margin-left: 0;
+}
+.non-logged-in .non-logged-in-invoice h1 {
+  display: none;
+}
 /*# sourceMappingURL=app.css.map */

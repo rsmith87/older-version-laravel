@@ -40,6 +40,13 @@ Route::get('/password/reset', function () {
 	return view('auth/password/reset');
 });
 
+Route::get('/nonuser/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@get_invoice');
+Route::get('/nonuser/payment/firm/{firm_id}/invoice/{invoice_id}/pay', 'PaymentController@get_payment_details');
+
+Route::post('/nonuser/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@post_payment_details');
+
+
+
 Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
