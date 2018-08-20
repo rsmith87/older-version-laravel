@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Mail;
 use App\Settings;
 use App\User;
 use App\Firm;
@@ -19,6 +18,7 @@ use Faker\Factory;
 use Carbon;
 use SanderVanHooft\Invoicable\MoneyFormatter;
 use Webpatser\Uuid\Uuid;
+use App\Mail\InvoiceCreated;
 
 
 use App\Http\Controllers\Controller;
@@ -131,7 +131,7 @@ class InvoiceController extends Controller
       $orig_amount = 0;
     }
     
-    //$email_send = $client->sendTaskDueReminder($client);
+
 
     if(isset($data['order_uuid'])){
       $order_uuid = $data['order_uuid'];
@@ -178,6 +178,10 @@ class InvoiceController extends Controller
 			'note' => '',
 			'user_id' => $this->user['id'],
 		]);
+		////$invoice = Invoice::where('invoice_uuid', $invoice_uuid)->first();
+        //$email_send = $client->sendTaskDueReminder($client);
+       //// Mail::to($client->email)->send(new InvoiceCreated($invoice));
+
 
 		InvoiceLine::updateOrCreate([
 			'id' => $invoice_line_id,
@@ -198,9 +202,9 @@ class InvoiceController extends Controller
 		$case = LawCase::where('case_uuid', $invoice->invoicable_id)->with('contacts')->first();
 		$firm = Firm::where('id', $this->settings->firm_id)->first();
 		foreach($case->Contacts as $contact){
-			if($contact->is_client === 1){
-				$client = $contact;
-			} 
+            if($contact->is_client === 1){
+                $client = $contact;
+            }
 		}
 
 		return view('dashboard.invoice', [
@@ -217,16 +221,29 @@ class InvoiceController extends Controller
 		]);
 	}
 
-	public function send_invoice(Request $request)
+	public function send_invoice(Request $request, $id)
 	{
 		$data = $request->all();
-        $invoice = $data['invoice_uuid'];
+        $firm_id = $data['firm_id'];
 
+        $firm = Firm::where('id', $this->settings->firm_id)->first();
+
+        $invoice = Invoice::where('invoice_uuid', $id)->first();
+        //$invoice->invoicable_id references lawcase
+        $case = LawCase::where('case_uuid', $invoice->invoicable_id)->first();
+
+        $client = Contact::where(['case_id' => $case->id, 'is_client' => 1])->first();
         /*
         /nonuser/payment/firm/{firm_id}/invoice/{invoice_uuid}
         */
+
+
+
+        Mail::to($client->email)->send(new InvoiceCreated($invoice, $firm, $client));
+
         //generate email and send email
         //or create modal with secure generated link to send to client email
+        return redirect('/nonuser/payment/firm/'.$firm_id.'/invoice/'.$id)->with('status', 'Invoice sent successfully');
 	}
 
 	public function invoice_pdf_download(Request $request, $id)

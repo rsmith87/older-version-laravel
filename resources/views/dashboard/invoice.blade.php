@@ -170,7 +170,12 @@
 			  <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button>
 			@else
 			  @if(!$invoice->paid)
-			  <a href="/nonuser/payment/firm/{{ $firm_id }}/invoice/{{ $invoice->invoice_uuid }}" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Send invoice to {{ $client->first_name }} {{ $client->last_name }}</a>
+				  <form method="POST" action="/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/send">
+					 <input type="hidden" name="invoice_uuid" value="{{ $invoice->invoice_uuid }}"/>
+					 {!! csrf_field() !!}
+					  <input type="hidden" name="firm_id" value="{{ $firm_id }}" />
+					  <button type="submit" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Send invoice to {{ $client->first_name }} {{ $client->last_name }}</button>
+				  </form>
 			  @else
 			  <div class="background">
 				  <h1 class="text-center text-green paid-text">PAID</h1>
