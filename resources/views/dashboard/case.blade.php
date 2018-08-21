@@ -16,6 +16,9 @@
 	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#">
 		<i class="fas fa-user"></i> Add Contact
 	  </a>
+	<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#tasklist-modal" href="#">
+		<i class="fas fa-clipboard-list"></i> Add Taskboard
+	</a>
 	  <!--<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#">
 		<i class="fas fa-file"></i> Add Document
 	  </a> |
@@ -719,7 +722,39 @@
 	</div>
   </div>
 
-
+  <div class="modal fade" id="tasklist-modal">
+	  <div class="modal-dialog">
+		  <div class="modal-content">
+			  <div class="modal-body">
+				  <h3>
+					  <i class="fas fa-tasks"></i> Add taskboard
+				  </h3>
+				  <div class="clearfix"></div>
+				  <hr/>
+				  <form role="form" method="post" action="/dashboard/cases/case/create-tasklist">
+					  <input type="hidden" name="case_id" value="{{ $case->id }}"/>
+					  <input type="hidden" name="case_uuid" value="{{ $case->case_uuid }}"/>
+					  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+					  <div class="col-xs-12">
+						  <label>Name</label>
+						  <input type="text" class="form-control" name="tasklist_name"/>
+					  </div>
+					  <div class="col-xs-12 col-sm-6">
+						  <label>Due date</label>
+						  <input type="text" name="tasklist_due_date" class="form-control dp" />
+					  </div>
+					  <div class="col-xs-12 col-sm-6">
+						  <label>Time due</label>
+						  <input type="text" name="tasklist_due_time" class="form-control timepicker-end" />
+					  </div>
+					  <div class="col-xs-12">
+						  <input type="submit" class="btn btn-primary mt-2 form-control"/>
+					  </div>
+				  </form>
+			  </div>
+		  </div>
+	  </div>
+  </div>
 
   <div class="modal fade" id="case-edit-modal">
 	<div class="modal-dialog modal-lg">

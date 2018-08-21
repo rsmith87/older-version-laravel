@@ -128,6 +128,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::group(['prefix' => 'cases'], function () {
 			Route::get('/', 'Dashboard\CaseController@index');
 			Route::get('/case/{id}', 'Dashboard\CaseController@lawcase');
+			Route::post('/case/create-tasklist', 'Dashboard\CaseController@create_case_tasklist');
 			Route::post('/create', 'Dashboard\CaseController@add');
 			Route::post('/case/add-hours', 'Dashboard\CaseController@add_hours');
 			Route::post('/case/reference', 'Dashboard\CaseController@reference_client');

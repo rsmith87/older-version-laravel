@@ -745,4 +745,22 @@ class CaseController extends Controller
 	{
 		return strtotime($a['date']) - strtotime($b['date']);
 	}
+
+	public function create_case_tasklist(Request $request)
+    {
+        $data = $request->all();
+
+        $tl_uuid = Uuid::generate()->string;
+
+        $tl = Tasklist::create([
+           'task_list_name' => $data['tasklist_name'],
+           'task_list_uuid' => $tl_uuid,
+           'user_id' => \Auth::id(),
+           'f_id' => $this->settings->firm_id,
+           'c_id' => $data['case_id'],
+           'due' => \Carbon\Carbon::parse($data['tasklist_due_date'] . " " . $data['tasklist_due_time'])->format('Y-m-d H:i:s'),
+        ]);
+
+        return redirect('/dashboard/tasklists/'.$tl_uuid)->with('status', 'Tasklist created successfully.');
+    }
 }
