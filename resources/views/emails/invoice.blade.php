@@ -132,7 +132,7 @@
         <div class="row no-print">
             <div class="col-xs-12">
                 <a href="javascript:window.print()" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                <a href="/nonuser/payment/firm/{{ $firm->id }}/invoice/{{ $invoice->invoice_uuid }}/pay" type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</a>
+                <a href="https://{{ env('APP_DOMAIN') }}/nonuser/payment/firm/{{ $firm->id }}/invoice/{{ $invoice->invoice_uuid }}/pay" type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</a>
                 @if(!$invoice->paid)
                 @else
                     <div class="background">
@@ -140,7 +140,7 @@
                     </div>
                 @endif
                 <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                    <a href="/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/download" style="color:#FFF;">
+                    <a href="https://{{ env('APP_DOMAIN') }}/dashboard/invoices/invoice/{{ $invoice->invoice_uuid }}/download" style="color:#FFF;">
                         <i class="fa fa-download"></i> Generate PDF
                     </a>
                 </button>

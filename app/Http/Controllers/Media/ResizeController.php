@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Media;
 
 use Intervention\Image\Facades\Image;
-use Unisharp\Laravelfilemanager\Events\ImageIsResizing;
-use Unisharp\Laravelfilemanager\Events\ImageWasResized;
+use Unisharp\LaravelFilemanager\Events\ImageIsResizing;
+use Unisharp\LaravelFilemanager\Events\ImageWasResized;
 
 /**
  * Class ResizeController.

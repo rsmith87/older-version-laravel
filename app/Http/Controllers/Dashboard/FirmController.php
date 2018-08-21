@@ -190,7 +190,7 @@ class FirmController extends Controller
 		    'name' => $data['name'],
 		    'email' => $data['email'],
 		    'password' => $pw,
-			  'verified' => 1,
+            'verified' => 1,
 		  ]);
 
 
@@ -206,7 +206,7 @@ class FirmController extends Controller
 		    'user_id' => $id->id,
 	    ]);
 
-
+        $id->sendPasswordResetNotification($id);
 		
       $status = 'Please provide payment details for your new user below';
 	    return view('vendor.adminlte.payment-user', [

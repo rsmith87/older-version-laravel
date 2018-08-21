@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Media;
 
 use Illuminate\Support\Facades\File;
-use Unisharp\Laravelfilemanager\Events\ImageIsRenaming;
-use Unisharp\Laravelfilemanager\Events\ImageWasRenamed;
-use Unisharp\Laravelfilemanager\Events\FolderIsRenaming;
-use Unisharp\Laravelfilemanager\Events\FolderWasRenamed;
+use Unisharp\LaravelFilemanager\Events\ImageIsRenaming;
+use Unisharp\LaravelFilemanager\Events\ImageWasRenamed;
+use Unisharp\LaravelFilemanager\Events\FolderIsRenaming;
+use Unisharp\LaravelFilemanager\Events\FolderWasRenamed;
 
 /**
  * Class RenameController.

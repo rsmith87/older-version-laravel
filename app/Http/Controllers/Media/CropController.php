@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Media;
 
 use Intervention\Image\Facades\Image;
-use Unisharp\Laravelfilemanager\Events\ImageIsCropping;
-use Unisharp\Laravelfilemanager\Events\ImageWasCropped;
+use Unisharp\LaravelFilemanager\Events\ImageIsCropping;
+use Unisharp\LaravelFilemanager\Events\ImageWasCropped;
 
 /**
  * Class CropController.
