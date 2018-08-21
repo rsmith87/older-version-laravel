@@ -2,7 +2,7 @@
 
 @section('content')
 
-  <div class="container fill dashboard col-sm-12 col-12 offset-sm-2">
+  <div class="container fill dashboard profile col-sm-12 col-12 offset-sm-2">
 
 	@include('dashboard.includes.alerts')
 
@@ -69,7 +69,7 @@
 		<div class="nav-tabs-custom">
 		  <ul class="nav nav-tabs">
 			<li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a></li>
-			<!--<li><a href="#social-media" data-toggle="tab" aria-expanded="false">Social Media</a></li>-->
+			<!--<li><a href="#password-reset" data-toggle="tab" aria-expanded="false">Password reset</a></li>-->
 
 		  </ul>
 		  <div class="tab-content">
@@ -121,22 +121,17 @@
 				</div>
 			  </form>
 			</div>
-			<div class="tab-pane" id="social-media">
+			<div class="tab-pane" id="password-reset">
 
 			  <form method="POST" action="/dashboard/settings/social-media">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-				<label>Facebook URL</label>
-				<input type="text" class="form-control" value="{{ count($settings->fb) > 0 ? $settings->fb : "" }}"
-					   name="fb"/>
-				<label>Twitter URL</label>
-				<input type="text" class="form-control"
-					   value="{{ count($settings->twitter) > 0 ? $settings->twitter : "" }}" name="twitter"/>
-				<label>Instagram URL</label>
-				<input type="text" class="form-control"
-					   value="{{ count($settings->instagram) > 0 ? $settings->instagram : "" }}" name="instagram"/>
-				<label>Avvo URL</label>
-				<input type="text" class="form-control" value="{{ count($settings->avvo) > 0 ? $settings->avvo : "" }}"
-					   name="avvo"/>
+				<label>Original password</label>
+				<input type="text" class="form-control" name="password_original"/>
+				<label>New password</label>
+				<input type="text" class="form-control" name="new_password"/>
+				<label>New password (again)</label>
+				<input type="text" class="form-control" name="new_password_second"/>
+
 				<div class="clearfix"></div>
 				<button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">
 				  Submit

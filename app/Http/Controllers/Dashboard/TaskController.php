@@ -130,6 +130,14 @@ class TaskController extends Controller
     $task = Task::where('id', $name)->update(['complete' => Carbon\Carbon::now()]);
     return $task;
   }
+
+    public function delete_tl(Request $request)
+    {
+        $data = $request->all();
+        //delete any tasks associated with tasklist
+        $task = TaskList::where('task_list_uuid', $data['tl_uuid'])->delete();
+        return redirect('/dashboard/tasklists')->with('status', "Tasklist deleted successfully");
+    }
   
  public function view_single_task($id, $t_id)
   {

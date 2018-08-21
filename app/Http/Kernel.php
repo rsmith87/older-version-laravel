@@ -32,6 +32,7 @@ class Kernel extends HttpKernel
 	          \App\Http\Middleware\IsSubscribed::class,
 	          \Jrean\UserVerification\Middleware\IsVerified::class,
 	          \App\Http\Middleware\LogLastUserActivity::class,
+            //\Pbmedia\SingleSession\Middleware\VerifyUserSession::class
 	          //\App\Http\Middleware\Lock::class
         ],
 

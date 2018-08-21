@@ -26,52 +26,31 @@
       <form class="form-horizontal" method="POST" id="payment-form" role="form" action="/dashboard/firm/add-user-payment" >
         {{ csrf_field() }}
 
-        <input  type='hidden' name="amount" value="15.00">
         <input type="hidden" name="firm_id" value="{{ $firm_id }}" />
         <input type="hidden" name="sa_id" value="{{ $sa_id->id }}" />
+        <input  type='hidden' name="account_type">
+
+        <input  type='hidden' name="amount" value="16.24">
+
+        <p>Complete registration by submitting your payment details below.  You will not be charged if you cancel before 14 days from registration.</p>
+        <br /><br />
         <p><strong>Legalkeeper Starter Plan:</strong></p>
         <p>$15 a month</p>
         <p>Tax: 8.25% : $1.24 </p>
         <p>Total: $16.24 per month per user</p>
 
-        <p>We do not store your credit card information in any means, so unfortunately we require you to input it again.  Thanks for your understanding.</p>
-
-        <div class='col-xs-12 form-group card required'>
-          <label class='control-label'>Card Number</label>
-          <input autocomplete='off' class='form-control card-number' size='20' type='text' name="card_no">
+        <label for="card-element">
+          Credit or debit card
+        </label>
+        <div id="card-element">
+          <!-- A Stripe Element will be inserted here. -->
         </div>
 
-        <div class='col-xs-4 form-group cvc required'>
-          <label class='control-label'>CVV</label>
-          <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4' type='text' name="cvvNumber">
-        </div>
-        <div class='col-xs-4 form-group expiration required'>
-          <label class='control-label'>Expiration</label>
-          <input class='form-control card-expiry-month' placeholder='MM' size='2' type='text' name="ccExpiryMonth">
-        </div>
+        <!-- Used to display Element errors. -->
+        <div id="card-errors" role="alert"></div>
+        <br />
+        <button class='form-control btn btn-primary submit-button' type='submit'>Pay »</button>
 
-        <div class='col-xs-4 form-group expiration required'>
-          <label class='control-label'> &nbsp;</label>
-          <input class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text' name="ccExpiryYear">
-        </div>
-        <div class="clearfix"></div>
-        <div class='col-xs-12 form-group'>
-          <label class='control-label'> Coupon code</label>
-          <input class='form-control card-expiry-year'  type='text' name="cc_coupon_code">
-        </div>
-
-
-
-        <div class='col-md-12 form-group'>
-          <button class='form-control btn btn-primary submit-button' type='submit'>Pay »</button>
-        </div>
-
-
-        <div class='col-md-12 error form-group hide'>
-          <div class='alert-danger alert'>
-            Please correct the errors and try again.
-          </div>
-        </div>
 
       </form>
 
@@ -81,4 +60,57 @@
     </div>
       <!-- /.login-box-body -->
   </div><!-- /.login-box -->
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script type="text/javascript">
+
+      var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+      var elements = stripe.elements();
+
+      // Create an instance of the card Element.
+      var card = elements.create('card');
+
+      // Add an instance of the card Element into the `card-element` <div>.
+      card.mount('#card-element');
+
+      card.addEventListener('change', function(event) {
+          var displayError = document.getElementById('card-errors');
+          if (event.error) {
+              displayError.textContent = event.error.message;
+          } else {
+              displayError.textContent = '';
+          }
+      });
+
+
+      // Create a token or display an error when the form is submitted.
+      var form = document.getElementById('payment-form');
+      form.addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          stripe.createToken(card).then(function(result) {
+              if (result.error) {
+                  // Inform the customer that there was an error.
+                  var errorElement = document.getElementById('card-errors');
+                  errorElement.textContent = result.error.message;
+              } else {
+                  // Send the token to your server.
+                  stripeTokenHandler(result.token);
+              }
+          });
+      });
+
+      function stripeTokenHandler(token) {
+          // Insert the token ID into the form so it gets submitted to the server
+          var form = document.getElementById('payment-form');
+          var hiddenInput = document.createElement('input');
+          hiddenInput.setAttribute('type', 'hidden');
+          hiddenInput.setAttribute('name', 'stripeToken');
+          hiddenInput.setAttribute('value', token.id);
+          form.appendChild(hiddenInput);
+
+          // Submit the form
+          form.submit();
+      }
+  </script>
 @stop

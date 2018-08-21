@@ -17,7 +17,7 @@
 
   <div class="col-md-6 col-xs-12">
           <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user-2">
+          <div class="box box-widget box-shadow widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
               @if(Gravatar::exists($user->email))
@@ -42,7 +42,7 @@
  </div>
     
       <div class="col-md-3 col-xs-12 hidden-xs">
-      <div class="small-box bg-yellow">
+      <div class="small-box bg-yellow box-shadow">
             <div class="inner">
               <h3>{{ count($clients) }}</h3>
 
@@ -55,7 +55,7 @@
           </div>
       </div>
       <div class="col-md-3 col-xs-12 hidden-xs">
-          <div class="small-box bg-aqua">
+          <div class="small-box box-shadow bg-aqua">
             <div class="inner">
               <h3>{{ $task_count }}</h3>
 
@@ -68,7 +68,7 @@
           </div>
       </div>
       <div class="col-md-3 col-xs-12 hidden-xs">
-          <div class="small-box bg-red">
+          <div class="small-box box-shadow bg-red">
             <div class="inner">
               <h3>{{ count($events) }}</h3>
 
@@ -81,7 +81,7 @@
           </div>
       </div>
       <div class="col-md-3 col-xs-12 hidden-xs">
-      <div class="small-box bg-green">
+      <div class="small-box box-shadow bg-green">
             <div class="inner">
               <h3>{{ count($invoices) }}</h3>
 
@@ -95,7 +95,7 @@
     </div>
 @if(!empty($firm_message) || $firm_message === "")
 <div class="col-md-6 col-xs-12">
-  <div class="box box-warning">
+  <div class="box box-warning box-shadow">
     <div class="box-header with-border">
       <h3 class="box-title">{{ $firm->name }}</h3>
 
@@ -117,7 +117,7 @@
 
       @if(count($tasklists) > 0)
     <div class="col-sm-6 col-xs-12 mb-4">
-   <div class="box box-primary">
+   <div class="box box-primary box-shadow">
             <div class="box-header ui-sortable-handle" style="cursor: move;">
               <i class="ion ion-clipboard"></i>
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "560e085aa4dbe3ce48848a9d98d64b43",
+    "content-hash": "b0f6d0951bfe0672316494de90d3bb90",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -3931,6 +3931,66 @@
                 "side-channel resistant"
             ],
             "time": "2018-06-06T17:30:29+00:00"
+        },
+        {
+            "name": "pbmedia/laravel-single-session",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pascalbaljetmedia/laravel-single-session.git",
+                "reference": "986f4fd86811ea4c1fe364bf75b47325f3600fc0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pascalbaljetmedia/laravel-single-session/zipball/986f4fd86811ea4c1fe364bf75b47325f3600fc0",
+                "reference": "986f4fd86811ea4c1fe364bf75b47325f3600fc0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "~5.6.0",
+                "illuminate/config": "~5.6.0",
+                "illuminate/support": "~5.6.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3",
+                "laravel/passport": "^5.0|^6.0",
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^3.6",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pbmedia\\SingleSession\\SingleSessionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pbmedia\\SingleSession\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@pascalbaljetmedia.com",
+                    "homepage": "https://pascalbaljetmedia.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Prevent a User from being logged in more than once",
+            "homepage": "https://github.com/pascalbaljetmedia/laravel-single-session",
+            "keywords": [
+                "laravel-single-session",
+                "pascalbaljetmedia"
+            ],
+            "time": "2018-06-25T12:45:16+00:00"
         },
         {
             "name": "pclzip/pclzip",

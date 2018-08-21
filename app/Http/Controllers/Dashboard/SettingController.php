@@ -36,7 +36,9 @@ class SettingController extends Controller
 						//return redirect('/dashboard')->withErrors(['You don\'t have permission to access that page.']);
 					//}
 					$this->settings = Settings::where('user_id', $this->user['id'])->first();
-					return $next($request);
+            $this->event_types = ['court', 'client meeting', 'blocker', 'lunch', 'meeting', 'research', 'booked'];
+
+            return $next($request);
         });
     }
     
@@ -366,7 +368,7 @@ class SettingController extends Controller
         foreach ($permissions as $permission) {
           
           $p = Permission::where('id', $permission)->first(); //Get corresponding form //permission in db
-          print_r($p);
+          //print_r($p);
           $role->givePermissionTo($p);  //Assign permission to role
         }
 

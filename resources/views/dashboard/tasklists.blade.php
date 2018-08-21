@@ -30,7 +30,7 @@
         </div>
        @endif		       
         @foreach ($tasks as $task)
-        <div class="col-md-4 col-xs-6 tasklist">
+        <div class="col-md-4 col-xs-5 tasklist">
           <div class="hidden" id="guid">{{ $task->task_list_uuid }}</div>
               <h3>Name: {{ $task->task_list_name }}</h3>
           <label>Due</label>

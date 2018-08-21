@@ -36,7 +36,7 @@
 	  <section class="content">
 		<div class="row">
 		  <div class="col-md-3">
-			<div class="box box-solid">
+			<div class="box box-solid box-shadow">
 			  <div class="box-header with-border">
 				<h4 class="box-title">Draggable Events</h4>
 			  </div>
@@ -58,7 +58,7 @@
 			  <!-- /.box-body -->
 			</div>
 			<!-- /. box -->
-			<div class="box box-solid">
+			<div class="box box-solid box-shadow hide">
 			  <div class="box-header with-border">
 				<h3 class="box-title">Create Event</h3>
                 <p>This creates a draggable event above</p>
@@ -97,7 +97,7 @@
 		  </div>
 		  <!-- /.col -->
 		  <div class="col-md-9">
-			<div class="box box-primary">
+			<div class="box box-primary box-shadow">
 			  <div class="box-body no-padding">
 				<!-- THE CALENDAR -->
 				<div id="calendar" class="fc fc-unthemed fc-ltr"></div>

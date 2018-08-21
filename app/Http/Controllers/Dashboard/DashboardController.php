@@ -141,6 +141,7 @@ class DashboardController extends Controller {
         'table_color' => $this->settings->table_color,
         'table_size' => $this->settings->table_size,
         'types' => $this->case_types,
+        'event_types' => $this->event_types,
     ]);
   }
 

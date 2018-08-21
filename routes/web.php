@@ -75,7 +75,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/logout', 'Auth\LoginController@logout');
 
 	Route::get('/home', 'HomeController@index');
-
+    Route::get('/password/reset', function () {
+        return view('auth/password/reset');
+    });
 
 	/*Route::get('message/{id}', 'MessageController@chatHistory')->name('message.read');
 	Route::group(['prefix'=>'ajax', 'as'=>'ajax::'], function() {
@@ -172,6 +174,7 @@ Route::group(['middleware' => ['web']], function () {
 
 		Route::group(['prefix' => 'tasklists'], function () {
 			Route::get('/', 'Dashboard\TaskController@index');
+			Route::post('/delete', 'Dashboard\TaskController@delete_tl');
 			//Route::get('/{id}', 'Dashboard\TaskController@view_tasklist');
 			Route::post('/add', 'Dashboard\TaskController@add_tasklist');
 			Route::post('/task/add', 'Dashboard\TaskController@add_task');

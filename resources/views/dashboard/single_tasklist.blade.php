@@ -7,6 +7,8 @@
   <nav class="nav nav-pills">
        <a class="nav-item nav-link btn btn-info" href="/dashboard/tasklists"><i class="fas fa-arrow-left"></i> Back to task boards</a>
        <a class="nav-item nav-link btn btn-info" href="#">Print task board</a>
+       <a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-tasklist-modal" href="#">Delete task board</a>
+
   </nav>    
  
   			@include('dashboard.includes.alerts')	
@@ -76,11 +78,15 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   <!-- checkbox -->
-                  @if($task->complete != null)
-                  <input type="checkbox" class="task-checkbox" checked="checked" name="task_complete_{{ $task->id }}" />
-                  @else
-                  <input type="checkbox" class="task-checkbox" name="task_complete_{{ $task->id }}" />
-                  @endif
+                <div class="pretty p-primary">
+
+                @if($task->complete != null)
+                        <input type="checkbox" checked="checked" name="{{ $task->id }}" />
+
+                 @else
+                        <input type="checkbox"  name="{{ $task->id }}" />
+
+                @endif
                   <!-- todo text -->
                   <span class="text">{{ $task->task_name }}</span>
                   <!-- Emphasis label -->
@@ -102,6 +108,7 @@
                     <i class="fa fa-edit" data-toggle="modal" data-target="#task-modal-{{ $task->task_uuid }}"></i>
                     <i class="fa fa-trash" data-toggle="modal" data-target="#delete-task-modal-{{ $task->task_uuid }}"></i>
                   </div>
+                </div>
                 </li>
 
               @endforeach
@@ -118,7 +125,25 @@
  
 
 @include('dashboard.includes.task-modal')
-  
+  <div class="modal fade" id="delete-tasklist-modal">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-body">
+                  <h3>
+                      <i class="fas fa-tasks"></i> Delete tasklist
+                  </h3>
+                  <hr />
+                  <div class="clearfix"></div>
+                  <p>Really delete tasklist: {{ $task_list->task_list_name }} ? </p>
+                  <form method="POST" action="/dashboard/tasklists/delete" />
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                  <input type="hidden" name="tl_uuid" value="{{ $task_list->task_list_uuid }}" />
+                  <input type="submit" class="btn btn-block btn-danger" value="Delete tasklist">
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
 @foreach($tasks as $task)
 <div class="modal fade" id="delete-task-modal-{{ $task->task_uuid }}">
     <div class="modal-dialog">
