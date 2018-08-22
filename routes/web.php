@@ -88,7 +88,7 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@get_payment_details');
 	Route::post('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@post_payment_details');
-
+    Route::get('/payment/{id}/complete', 'PaymentController@payment_complete');
 	Route::get('/dashboard/api_passport', 'Dashboard\DashboardController@api_passport');
 
 	Route::group(['prefix' => 'dashboard', 'middleware' => ['web']], function () {

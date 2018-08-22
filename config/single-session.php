@@ -2,7 +2,7 @@
 
 return [
 
-    'destroy_event' => 'UserSessionWasDestroyed',
+    'destroy_event' => null,
 
     'prune_and_revoke_tokens' => true,
 

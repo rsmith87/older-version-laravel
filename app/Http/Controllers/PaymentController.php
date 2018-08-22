@@ -74,7 +74,7 @@ class PaymentController extends Controller
             Invoice::where('invoice_uuid', $invoice_id)->update([
                 'paid' => 1,
             ]);
-            return redirect()->back()->with('status', 'Thank you for your payment!  Your payment has been submitted successfully.  You can now close this window.');
+            return redirect('/payment/'. $invoice_id .'/complete')->with('status', 'Thank you for your payment!  Your payment has been submitted successfully.  You can now close this window.');
 
         } catch (Exception $e) {
             //charge failed
@@ -84,12 +84,19 @@ class PaymentController extends Controller
             return redirect()->back()->with('status', 'Your payment was not completed.  Please try again');
         }
 
-
-
-        //IF CHARGE IS SUCCESSFUL THEN SET THE INVOICE TO PAID
-        //THERE IS A "PAID" column on the invoice table in the DB - that will determine if invoice has been fulfilled
-
-
     }
 
+    public function payment_complete(Request $request, $id)
+    {
+        $invoice = Invoice::where('invoice_uuid', $id)->first();
+        $case = LawCase::where('case_uuid', $invoice->invoicable_id)->first();
+        $client = Contact::where(['is_client' => 1, 'case_id' => $case->id])->first();
+        $firm = Firm::where('id', $case->firm_id)->first();
+
+        return view('common.payment-complete', [
+           'invoice' => $invoice,
+           'firm' => $firm,
+           'client' => $client,
+        ]);
+    }
 }

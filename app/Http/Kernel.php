@@ -29,11 +29,11 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-	          \App\Http\Middleware\IsSubscribed::class,
-	          \Jrean\UserVerification\Middleware\IsVerified::class,
-	          \App\Http\Middleware\LogLastUserActivity::class,
-            //\Pbmedia\SingleSession\Middleware\VerifyUserSession::class
-	          //\App\Http\Middleware\Lock::class
+	        \App\Http\Middleware\IsSubscribed::class,
+	        \Jrean\UserVerification\Middleware\IsVerified::class,
+	        \App\Http\Middleware\LogLastUserActivity::class,
+            //\App\Http\Middleware\VerifyUserSession::class
+	        //\App\Http\Middleware\Lock::class
         ],
 
         'api' => [

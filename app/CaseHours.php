@@ -8,7 +8,7 @@ class CaseHours extends Model
 {
     protected $fillable = [
       'case_uuid',
-      'hours',
+      'timespan',
       'note',
       'timer_id',
     ];

@@ -221,7 +221,7 @@
 
 			  @foreach($case_hours as $case_hour)
 				<div>
-				@if($case_hour->hours != 0)
+				@if($case_hour->timespan > 0)
 				  <div class="card-body">
 					<a class="pull-right" data-toggle="modal" data-target="#delete-hours-modal-{{ $case_hour->id }}"><i
 							  class="fas fa-trash-alt"></i></a>
@@ -229,7 +229,7 @@
 							  class="fas fa-edit"></i></a>
 					<h5 class="card-title">
 					  Created: {{ \Carbon\Carbon::parse($case_hour->created_at)->format('m/d/Y g:i A') }}</h5>
-					<p class="card-text"><strong>Hours</strong>: {{ $case_hour->hours }} <br /> <strong>Note</strong>: {{ $case_hour->note }}</p>
+					<p class="card-text"><strong>Hours</strong>: {{ (float) $case_hour->timespan/3600 }} <br /> <strong>Note</strong>: {{ $case_hour->note }}</p>
 				  </div>
 				</div>
 				@endif

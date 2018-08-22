@@ -156,15 +156,15 @@ class CaseController extends Controller
             // so timers are showing right
             $stop_time =  \Carbon\Carbon::parse(Carbon::now(), str_replace("\\", "/", $this->settings->tz))->format('Y-m-d H:i:s');
 
-			$timer->update(['started_at' => $timer->started_at, 'stopped_at' => $stop_time]);
+			$timer->update(['stopped_at' => $stop_time]);
 			$timer = Timer::where(['user_id' => \Auth::id(), 'stopped_at' => $stop_time])->orderBy('updated_at', 'desc')->first();
 
-            $started = \Carbon\Carbon::parse($timer->started_at);
-            $stopped = \Carbon\Carbon::parse($timer->stopped_at);
+            $started = \Carbon\Carbon::parse($timer->created_at, str_replace('\\', '/', $this->settings->tz));
+            $stopped = \Carbon\Carbon::parse($timer->stopped_at, str_replace('\\', '/', $this->settings->tz));
             $diff = $stopped->diff($started);
-            $diff_secs = $started->getTimestamp() - $stopped->getTimestamp();
+            //$diff_secs = $started->getTimestamp() - $stopped->getTimestamp();
            // $diff_to_seconds = \Carbon\Carbon::parse($diff)->total('seconds');
-            $secs = 3600 + $diff_secs;
+            //$secs = 3600 + $diff_secs;
             $hour_time = $diff->format('%h');
             $minute_time = $diff->format('%m');
             $second_time = $diff->format('%s');
@@ -178,14 +178,20 @@ class CaseController extends Controller
             $time_elapsed = $hour_time . ":" . $minute_time . ":" . $second_time;
             //convert seconds to match a 100 scale rather than 60 so it can match with the format in the database
 
-            $decmial_time =  $this->time_to_decimal($time_elapsed);
+            //$decmial_time =  $this->time_to_decimal($time_elapsed);
+            $hours_to_seconds = $hour_time * 3600;
+            $minutes_to_seconds = $minute_time * 60;
+
+            $seconds = $hours_to_seconds + $minutes_to_seconds + $second_time;
 
             //test this more becace the house didn't come through - something messed up
             //UPDATE CASE HOURS TABLE HERE
             $case_hours = CaseHours::insert([
                 'case_uuid' => $timer->law_case_id,
-                'hours' => $decmial_time,
+                'timespan' => $seconds,
                 'note' => 'from app timer',
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
             ]);
 
             return $timer;
@@ -196,7 +202,7 @@ class CaseController extends Controller
 
 	private function time_to_decimal($time) {
         $hms = explode(":", $time);
-        return ($hms[0] + ($hms[1]/60) + ($hms[2]/3600));
+        return (float) ($hms[0] + ((float) $hms[1]/60) + ((float) $hms[2]/3600));
     }
 
 	public function case_timers(Request $request)
@@ -374,7 +380,7 @@ class CaseController extends Controller
 		$case_hours = CaseHours::where('case_uuid', $id)->get();
 		$hours_amount = '0';
 		foreach ($case_hours as $ch) {
-			$hours_amount += $ch->hours;
+			$hours_amount += $ch->timespan;
 		}
 
 		if ($requested_case->billing_type === 'fixed') {
@@ -729,7 +735,7 @@ class CaseController extends Controller
 	private function fix_date($dts)
 	{
 		$d = Carbon::parse($dts)->format('Y-m-d');
-		$dt = Carbon::parse($dts . " " . '00:00:00', 'America/Chicago')->format('Y-m-d H:i:s');
+		$dt = Carbon::parse($dts . " " . '00:00:00', str_replace('\\', '/', $this->settings->tz))->format('Y-m-d H:i:s');
 		return $dt;
 	}
 
@@ -758,7 +764,7 @@ class CaseController extends Controller
            'user_id' => \Auth::id(),
            'f_id' => $this->settings->firm_id,
            'c_id' => $data['case_id'],
-           'due' => \Carbon\Carbon::parse($data['tasklist_due_date'] . " " . $data['tasklist_due_time'])->format('Y-m-d H:i:s'),
+           'due' => \Carbon\Carbon::parse($data['tasklist_due_date'] . " " . $data['tasklist_due_time'], str_replace('\\', '/', $this->settings->tz))->format('Y-m-d H:i:s'),
         ]);
 
         return redirect('/dashboard/tasklists/'.$tl_uuid)->with('status', 'Tasklist created successfully.');
