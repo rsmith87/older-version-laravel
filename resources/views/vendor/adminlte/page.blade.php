@@ -96,7 +96,7 @@
 								class="fas fa-stopwatch"></i></a>
 					</li>
 
-					  <li class="dropdown">
+					  <!--<li class="dropdown">
 						<a id="dLabel" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true"
 						   aria-expanded="false">
 						  <i class="fas fa-comments"></i>
@@ -105,7 +105,7 @@
 
 
 						</ul>
-					  </li>
+					  </li>-->
 
 					<li>
 					  <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>

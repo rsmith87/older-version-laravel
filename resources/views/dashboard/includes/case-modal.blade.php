@@ -88,12 +88,12 @@
 					  <div class="clearfix"></div>
 					  <span>This will create a <a href="/dashboard/tasklists">task list</a> named by the case name.</span>
 					</div>
-				  <div class="col-sm-6 col-xs-12">
+				  <!--<div class="col-sm-6 col-xs-12">
 					<label>Create document/media directory?</label>
 					<input type="checkbox" class="form-control" name="create_case_document_directory">
 					<div class="clearfix"></div>
 					<span>This will create a document/media directory named after the case in your user <a href="/dashboard/documents">document repository</a>.</span>
-				  </div>
+				  </div>-->
 					<div class="col-12">
 						<button class="btn btn-primary mt-3"><i class="fas fa-check"></i> Submit</button>
 					</div>
