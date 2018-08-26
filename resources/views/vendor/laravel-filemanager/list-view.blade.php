@@ -28,9 +28,9 @@
       <a href="#" data-toggle="modal" data-target="#relate-modal-{{ preg_replace("/[^ \w]+/", "", $item->name) }}" href="#" title="Relate to case/contact/client">
         <i class="fa fa-sitemap fa-fw"></i>
       </a>
-      <a href="#" data-toggle="modal" data-target="#share-modal-{{ preg_replace("/[^ \w]+/", "", $item->name) }}" href="#" title="Share with user/client/contact">
+      <!--<a href="#" data-toggle="modal" data-target="#share-modal-" href="#" title="Share with user/client/contact">
         <i class="fa fa-share"></i>
-      </a>
+      </a>-->
       @if($item->thumb)
       <a href="javascript:fileView('{{ $item->url }}', '{{ $item->updated }}')" title="{{ Lang::get('laravel-filemanager::lfm.menu-view') }}">
         <i class="fa fa-image fa-fw"></i>

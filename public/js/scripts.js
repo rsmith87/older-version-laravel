@@ -135,6 +135,13 @@ $(function($){
       $this.val("1");
     }
   });
+
+  $('.user-row-messages').click(function(){
+     var $this = $(this);
+     $this.find('.icheckbox_square-blue').attr('checked', true);
+
+     $('.selected-users').html($this.html());
+  });
   
     var pathArray = window.location.pathname.split( '/' );
 

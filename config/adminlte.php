@@ -142,14 +142,14 @@ return [
             'icon' => 'calendar-alt',
             'can'  => 'view calendar',
         ],
-        [
+        /*[
             'text'        => 'Messages',
             'url'         => 'dashboard/messages',
             'icon'        => 'comments',
             //'label'       => 4,
             //'label_color' => 'success',
 	          'can' => 'view messages',
-        ],
+        ],*/
         /*[
             'text'        => 'Gmail',
             'url'         => 'dashboard/mail',
@@ -179,12 +179,12 @@ return [
             //'label_color' => 'success',
 	          'can' => 'view documents',
         ],
-        [
-            'text' => 'Reports and analytics',
+        /*[
+            'text' => 'Reporting',
             'url'  => 'dashboard/reports',
             'icon' => 'chart-line',
             'can'  => 'view cases',
-        ],      
+        ],*/
         'PREFERENCES',
         [
             'text' => 'Profile',

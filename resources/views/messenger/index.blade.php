@@ -10,8 +10,8 @@
   <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <i class="fas fa-quote-left"></i> Mailbox
-        <small>13 new messages</small>
+        <i class="fas fa-quote-left"></i> Messages
+        <small>{{ count($threads) }} new messages</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -59,6 +59,7 @@
               <!-- /.box-tools -->
             </div>
             <!-- /.box-header -->
+            @if(count($threads) > 0)
             <div class="box-body no-padding">
               <div class="mailbox-controls">
                 <!-- Check all button -->
@@ -95,6 +96,9 @@
               </div>
               <!-- /.mail-box-messages -->
             </div>
+            @else
+            <p>No messages!</p>
+            @endif
             <!-- /.box-body -->
             <div class="box-footer no-padding">
               <div class="mailbox-controls">
@@ -143,26 +147,36 @@
           <form action="{{ route('messages.store') }}" method="post">
           {{ csrf_field() }}
           <!-- Subject Form Input -->
-            <div class="form-group">
+            <div class="col-sm-6 col-xs-12">
               <label class="control-label">Subject</label>
               <input type="text" class="form-control" name="subject" placeholder="Subject"
                      value="{{ old('subject') }}">
-            </div>
-
-
-            <!-- Message Form Input -->
-            <div class="form-group">
               <label class="control-label">Message</label>
               <textarea name="message" class="form-control">{{ old('message') }}</textarea>
+
             </div>
 
+
+
             @if(count($users) > 0)
+              <div class="col-sm-6 col-xs-12">
+                <label>Firm users</label>
               <div class="checkbox">
                 @foreach($users as $u)
-                  <label title="{{ $u[0]['name'] }}">
-                    <input type="checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{!! $u[0]['name'] !!}</label>
+                  <div class="user-row-messages">
+                    <label title="{{ $u[0]['name'] }}">
+                      <i class="fas fa-user-circle"></i>
+
+                      <input type="checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{!! $u[0]['name'] !!}</label>
+                    <div class="clearfix"></div>
+                  </div>
                 @endforeach
               </div>
+              </div>
+              <div class="selected-users">
+
+              </div>
+
           @endif
 
           <!-- Submit Form Input -->

@@ -93,7 +93,11 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::group(['prefix' => 'dashboard', 'middleware' => ['web']], function () {
 		//Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
-		Route::get('/lock', 'Dashboard\DashboardController@lock');
+
+        Route::post('/account/cancel', 'Dashboard\DashboardController@cancel_account');
+
+
+        Route::get('/lock', 'Dashboard\DashboardController@lock');
 		Route::post('/unlock', 'Dashboard\DashboardController@unlock');
 
 		Route::get('/', 'Dashboard\DashboardController@index');

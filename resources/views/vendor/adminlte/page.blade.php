@@ -132,9 +132,9 @@
 						</form>
 					  @endif
 					</li>
-					<li>
+					<!--<li>
 					  <a data-toggle="control-sidebar"><i class="fas fa-cogs"></i></a>
-					</li>
+					</li>-->
 				  </ul>
 				</div>
 			  @if(config('adminlte.layout') == 'top-nav')

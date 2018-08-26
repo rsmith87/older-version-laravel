@@ -208,4 +208,14 @@ class DashboardController extends Controller {
 		  'user' => $this->user,
 	  ]);
   }
+
+  public function cancel_account(Request $request)
+  {
+      $user = \Auth::user();
+
+      $cancel = $user->subscription('main')->cancel();
+
+      \Auth::logout();
+      return redirect('/login')->with('status', "Your subscription has been cancelled.  Please renew your membership to access your account.");
+  }
 }

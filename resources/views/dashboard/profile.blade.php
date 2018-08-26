@@ -69,7 +69,7 @@
 		<div class="nav-tabs-custom">
 		  <ul class="nav nav-tabs">
 			<li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a></li>
-			<!--<li><a href="#password-reset" data-toggle="tab" aria-expanded="false">Password reset</a></li>-->
+			<li><a href="#cancel-account" data-toggle="tab" aria-expanded="false">Cancel account</a></li>
 
 		  </ul>
 		  <div class="tab-content">
@@ -121,21 +121,18 @@
 				</div>
 			  </form>
 			</div>
-			<div class="tab-pane" id="password-reset">
+			<div class="tab-pane" id="cancel-account">
 
-			  <form method="POST" action="/dashboard/settings/social-media">
-				<input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-				<label>Original password</label>
-				<input type="text" class="form-control" name="password_original"/>
-				<label>New password</label>
-				<input type="text" class="form-control" name="new_password"/>
-				<label>New password (again)</label>
-				<input type="text" class="form-control" name="new_password_second"/>
 
-				<div class="clearfix"></div>
-				<button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">
-				  Submit
-				</button>
+				<form class="form-horizontal" method="post" action="/dashboard/account/cancel">
+					  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+					  <p>To cancel your Litimate subscription, click the button below.</p>
+
+
+					  <button id="submit" name="submit" class="btn btn-danger">Cancel account</button>
+
 			  </form>
 			</div>
 			<!-- /.tab-pane -->
@@ -148,5 +145,28 @@
 	</div>
 
   @include('dashboard.includes.event-modal')
+	  <div class="modal fade" id="cancel-subscription">
+		  <div class="modal-dialog">
+			  <div class="modal-content">
+				  <div class="modal-body">
+					  <h3>
+						  <i class="fas fa-building"></i> Edit firm information
+					  </h3>
 
+					  <div class="clearfix"></div>
+					  <hr />
+					  <form class="form-horizontal" method="post" action="/dashboard/firm/message/add">
+						  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+						  <p>To cancel your Litimate subscription, click the button below.</p>
+
+
+						  <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+
+					  </form>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
 @endsection
