@@ -88,6 +88,11 @@ class RegisterController extends Controller
         'theme' => 'flatly',
         'table_color' => 'light',
         'table_size' => 'lg',
+        'address_1' => $data['address_1'],
+        'address_2' => $data['address_2'],
+        'city' => $data['city'],
+        'state' => $data['state'],
+        'zip' => $data['zip'],
         'tz' => $data['timezone_register'],
       ]);
       View::create([

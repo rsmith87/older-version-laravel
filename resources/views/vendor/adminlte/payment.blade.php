@@ -27,14 +27,13 @@
                 {{ csrf_field() }}
                 <input  type='hidden' name="account_type">
 
-                <input  type='hidden' name="amount" value="16.24">
+                <input  type='hidden' name="amount" value="20.00">
 
                 <p>Complete registration by submitting your payment details below.  You will not be charged if you cancel before 14 days from registration.</p>
                 <br /><br />
                 <p><strong>Legalkeeper Starter Plan:</strong></p>
-                <p>$15 a month</p>
-                <p>Tax: 8.25% : $1.24 </p>
-                <p>Total: $16.24 per month per user</p>
+                <p>$20 a month (Tax included)</p>
+                <p>Total: $20.00 per month per user</p>
 
                 <label for="card-element">
                     Credit or debit card

@@ -24,6 +24,11 @@ class Settings extends Migration
           $table->text('focus');
           $table->text('title');
           $table->text('profile_image');
+          $table->longText('address_1');
+          $table->longText('address_2');
+          $table->text('city');
+          $table->text('state');
+          $table->text('zip');
           $table->longText('state_of_bar');
           $table->longText('bar_number');
           $table->longText('practice_areas');

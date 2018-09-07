@@ -58,7 +58,52 @@
                         </span>
                     @endif
                 </div>
-                
+                <div class="form-group has-feedback {{ $errors->has('address_1') ? 'has-error' : '' }}">
+                    <input type="text" name="address_1" class="form-control"
+                           placeholder="Address 1" value="{{ old('address_1') }}">
+                    <span class="glyphicon glyphicons-address-book form-control-feedback"></span>
+                    @if ($errors->has('address_1'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('address_1') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('address_2') ? 'has-error' : '' }}">
+                    <input type="text" name="address_2" placeholder="Address 2" class="form-control" value="{{ old('address_2') }}">
+                    <span class="glyphicon glyphicons-address-book form-control-feedback"></span>
+                    @if ($errors->has('address_2'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('address_2') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('city') ? 'has-error' : '' }}">
+                    <input type="text" name="city" placeholder="City" class="form-control" value="{{ old('city') }}">
+                    <span class="glyphicon glyphicons-address-book form-control-feedback"></span>
+                    @if ($errors->has('city'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('city') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('state') ? 'has-error' : '' }}">
+                    <input type="text" name="state" placeholder="State" class="form-control" value="{{ old('state') }}">
+                    <span class="glyphicon glyphicons-address-book form-control-feedback"></span>
+                    @if ($errors->has('state'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('state') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('zip') ? 'has-error' : '' }}">
+                    <input type="text" name="zip" placeholder="Zip" class="form-control" value="{{ old('zip') }}">
+                    <span class="glyphicon glyphicons-address-book form-control-feedback"></span>
+                    @if ($errors->has('zip'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('zip') }}</strong>
+                        </span>
+                    @endif
+                </div>
                 <div class="form-group has-feedback {{ $errors->has('timezone_register') ? ' has-error' : '' }}">
            
 

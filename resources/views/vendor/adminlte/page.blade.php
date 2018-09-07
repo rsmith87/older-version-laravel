@@ -3,20 +3,20 @@
 @section('adminlte_css')
   <link rel="stylesheet"
 		href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link href="{{ asset('css/select2.css') }}" rel="stylesheet" />
 
   @stack('css')
   @yield('css')
 
   <style>
-	@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');
+	/*@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');*/
   </style>
   <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet"
 		type="text/css">
   <link href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css">
-  <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
-  <link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+  <!--<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>-->
+  <link href="{{ asset('css/pretty-checkbox.min.css') }}" />
   <script src="{{ asset('js/popper.js') }}"></script>
   <script src="{{ asset('js/select2.js') }}"></script>
   <script src="{{ asset('js/timer.js') }}"></script>
@@ -245,7 +245,7 @@
 <script src="{{ asset('js/fullcalendar.js') }}"></script>
 <script src="{{ asset('js/Chart.js') }}" charset=utf-8></script>
 <script src="{{ asset('js/highcharts.js') }}" charset=utf-8></script>
-<script src="{{ asset('js//fusioncharts.js') }}" charset=utf-8></script>
+<!--<script src="{{  asset('js//fusioncharts.js')  }}" charset=utf-8></script>-->
 <script src="{{ asset('js/echarts.min.js') }}" charset=utf-8></script>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('ckeditor/adapters/jquery.js') }}"></script>

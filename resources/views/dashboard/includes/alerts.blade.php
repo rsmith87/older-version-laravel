@@ -20,7 +20,7 @@
 
 @if ($firm_id === "" || $firm_id === 0)
 	<div class="alert alert-danger alert-dismissible fade in mb-4" role="alert">
-		You have not created or assigned yourself to a firm!
+		You have not created or assigned yourself to a firm!  Create a firm by clicking "Edit Firm" to the left.
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>

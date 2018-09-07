@@ -109,7 +109,7 @@
 			  </div>
 
 			  <div class="col-sm-12"><!-- Text input-->
-				  <label class="control-label" for="billing-details">Billing details</label>
+				  <label class="control-label" for="billing-details">Billing details (ex. Days until invoice are past due)</label>
 				  <input id="billing-details" name="billing_details" type="text" value="{{ $firm['billing_details'] }}" placeholder="Billing details" class="form-control input-md">
 			  </div>
 			
@@ -150,7 +150,6 @@
 	</div>
   </div>
 </div>
-    @hasanyrole('administrator')
 
 	<hr />
 <div class="col-sm-12">
@@ -289,7 +288,6 @@
 <div class="clearfix"></div>
 
 
- @endhasanyrole
 
 
 
