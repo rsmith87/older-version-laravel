@@ -96,13 +96,11 @@
 
 
 						</ul>
-<<<<<<< HEAD
 					  </li>-->
 
-=======
+
 					  </li>
-                    -->
->>>>>>> dev
+
 					<li>
 					  <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
 					</li>
