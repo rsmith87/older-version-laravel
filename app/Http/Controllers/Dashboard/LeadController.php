@@ -67,6 +67,11 @@ class LeadController extends Controller
 
     public function add(Request $request)
     {
+				$validatedData = $request->validate([
+					'first_name' => 'required',
+					'last_name' => 'required',
+				]);
+
         $data = $request->all();
         $lead_uuid = Uuid::generate()->string;
         $lead = Lead::create(

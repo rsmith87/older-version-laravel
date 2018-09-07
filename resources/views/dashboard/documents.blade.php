@@ -1,6 +1,9 @@
 @extends('adminlte::page')
 
 @section('content')
+    <script type="text/javascript">
+        var $ = jQuery;
+        </script>
 <script src="{{ asset('vendor/laravel-filemanager/js/lfm.js') }}"></script>
 
  		

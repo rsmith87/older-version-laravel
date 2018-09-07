@@ -68,6 +68,8 @@ class MessagesController extends Controller
       } else {
         $usrs = [];
       }
+
+      //$clients = Contact::where(['user_id' => \Auth::id()])->get();
       
 
       //$users = User::where('id',  '!=', \Auth::id())->get();
@@ -79,7 +81,7 @@ class MessagesController extends Controller
 
       return view('messenger.index', [
         'user' => $this->user,
-
+        //'clients' => $clients,
         //'inboxes' => $inboxes,
         'users' => $usrs,
         'theme' => $this->settings->theme,
@@ -105,23 +107,36 @@ class MessagesController extends Controller
         Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
         return redirect()->route('messages');
       }
-      // show current user in list if not a current participant
+      $threads = \App\Thread::getAllLatest()->get();
+
+        // show current user in list if not a current participant
       // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
       // don't show the current user in list
       $userId = Auth::id();
       $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
       $thread->markAsRead($userId);
 
+        $firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
+
+        //print_r($firm_users);
+
+        if(count($firm_users) > 0) {
+            foreach($firm_users as $u){
+                $usrs[] = User::where('id', $u->user_id)->with('settings')->get();
+            }
+        } else {
+            $usrs = [];
+        }
+
       return view('messenger.show', [
         'user' => $this->user,
-        'users' => $usrs, 
+        'users' => $users,
         'thread' => $thread, 
         'threads' => $threads,
-        'message' => $message,
         'theme' => $this->settings->theme,
         'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
-        'firm_users' => $firm_users,
+        'firm_users' => $usrs,
       ]);
     }
 	

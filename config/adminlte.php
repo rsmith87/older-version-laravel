@@ -149,7 +149,7 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
 	          'can' => 'view messages',
-        ],*/
+        ],
         /*[
             'text'        => 'Gmail',
             'url'         => 'dashboard/mail',
@@ -164,7 +164,7 @@ return [
             'can'  => 'view invoices',
         ],
         [
-            'text'        => 'Task boards',
+            'text'        => 'Task lists',
             'url'         => 'dashboard/tasklists',
             'icon'        => 'clipboard-list',
             //'label'       => 4,
@@ -179,12 +179,12 @@ return [
             //'label_color' => 'success',
 	          'can' => 'view documents',
         ],
-        /*[
-            'text' => 'Reporting',
+        [
+            'text' => 'Reports and analytics',
             'url'  => 'dashboard/reports',
             'icon' => 'chart-line',
             'can'  => 'view cases',
-        ],*/
+        ],
         'PREFERENCES',
         [
             'text' => 'Profile',
@@ -290,8 +290,8 @@ return [
     */
 
     'plugins' => [
-        'datatables' => true,
-        'select2'    => true,
-        'chartjs'    => true,
+        'datatables' => false,
+        'select2'    => false,
+        'chartjs'    => false,
     ],
 ];

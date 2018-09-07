@@ -11,28 +11,18 @@
   <style>
 	@import url('https://fonts.googleapis.com/css?family=Montserrat:300|Open+Sans:300');
   </style>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet"
+  <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet"
 		type="text/css">
   <link href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
   <link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
-
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		  crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  <script src="{{ asset('js/popper.js') }}"></script>
+  <script src="{{ asset('js/select2.js') }}"></script>
   <script src="{{ asset('js/timer.js') }}"></script>
-  <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/timeline-min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script src="{{ asset('js/list.min.js') }}"></script>
   <script src="{{ asset('js/moment.js') }}"></script>
   <script src="{{ asset('js/autocomplete.js') }}"></script>
-
-
 
 @stop
 
@@ -86,6 +76,7 @@
 						  class="sr-only">{{ trans('adminlte::adminlte.toggle_navigation') }}</span>
 				</a>
 			  @endif
+
 			  <!-- Navbar Right Menu -->
 				<div class="navbar-custom-menu">
 
@@ -105,8 +96,13 @@
 
 
 						</ul>
+<<<<<<< HEAD
 					  </li>-->
 
+=======
+					  </li>
+                    -->
+>>>>>>> dev
 					<li>
 					  <a href="/dashboard/lock"><i class="fas fa-lock"></i></a>
 					</li>
@@ -151,18 +147,21 @@
 		<section class="sidebar">
 		  <!-- Sidebar user panel -->
 		  <div class="user-panel">
-			<div class="pull-left image">
 
-			@if(Gravatar::exists($user->email))
-				<img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image">
+				@if($settings->profile_image != "")
+				  <div class="pull-left image">
 
-			@elseif(isset($settings->profile_image))
-				<img src="/storage{{ $settings->profile_image }}" class="img-circle" alt="User Image">
-			@elseif((isset($settings->profile_image)) && Gravatar::exists($user->email))
-				<img src="{{ Gravatar::get($user->email) }}" class="img-circle" alt="User Image">
+				  <img class="img-circle" src="{{ env('HTTP_TYPE') }}://{{ env('APP_DOMAIN') }}{{ $settings->profile_image }}"
+						 alt="User profile picture">
+				  </div>
 
-			@endif
-			</div>
+
+				@else
+				  <i class="fas fa-user-circle fa-3x"></i>
+
+			  @endif
+
+
 
 			<div class="pull-left info">
 			  <p>{{ $user->name }}</p>
@@ -245,11 +244,11 @@
 
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 @stack('js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-<script src=//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js charset=utf-8></script>
-<script src=//cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js charset=utf-8></script>
-<script src=//cdn.jsdelivr.net/npm/fusioncharts@3.12.2/fusioncharts.js charset=utf-8></script>
-<script src=//cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js charset=utf-8></script>
+<script src="{{ asset('js/fullcalendar.js') }}"></script>
+<script src="{{ asset('js/Chart.js') }}" charset=utf-8></script>
+<script src="{{ asset('js/highcharts.js') }}" charset=utf-8></script>
+<script src="{{ asset('js//fusioncharts.js') }}" charset=utf-8></script>
+<script src="{{ asset('js/echarts.min.js') }}" charset=utf-8></script>
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('js/input-mask/dist/inputmask/inputmask.js') }}"></script>
@@ -261,7 +260,7 @@
 <script src="{{ asset('js/input-mask/dist/inputmask/phone-codes/phone.js') }}"></script>
 <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
 <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
-<script src="https://www.datejs.com/build/date.js" type="text/javascript"></script>
+<script src="{{ asset('js/date.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/tablesorter.js') }}"></script>
 <script src="{{ asset('js/tagify.js') }}"></script>
 <script src="{{ asset('js/match-height.js') }}"></script>

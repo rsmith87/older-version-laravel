@@ -71,9 +71,17 @@
   <div class="lockscreen-item">
     <!-- lockscreen image -->
     <div class="lockscreen-image">
-      @if(Gravatar::exists($user->email))
-        <img src="{{ Gravatar::get($user->email) }}" alt="User Image">
-      @endif
+        @if($settings->profile_image != "")
+
+            <img class="img-circle" src="{{ env('HTTP_TYPE') }}://{{ env('APP_DOMAIN') }}{{ $settings->profile_image }}"
+                 alt="User profile picture">
+
+
+
+        @else
+            <i class="fas fa-user-circle fa-4x"></i>
+
+        @endif
     </div>
     <!-- /.lockscreen-image -->
 

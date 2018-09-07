@@ -42,4 +42,9 @@ class TaskList extends Model
     {
       return $this->hasMany('App\Task', 'task_list_uuid', 'task_list_uuid'); 
     }
+
+    public function case()
+		{
+			return $this->hasOne('App\Lawcase', 'id', 'c_id');
+		}
 }

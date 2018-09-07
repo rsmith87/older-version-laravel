@@ -162,9 +162,13 @@ $(function($){
   });   
   $('table#documents tr td').click(function(){
     //window.location='/dashboard/documents';
-  });     
+  });
+  $('table#non-click').click(function(){
+      return;
+  })
   $('table#main tr td').click(function(){
     var $this = $(this);
+
     
     $id = $this.parent().find('td:nth-child(1)').text();
     if(pathArray[2] == 'cases'){
@@ -173,8 +177,6 @@ $(function($){
       window.location="/dashboard/contacts/contact/"+$id;
     } else if (pathArray[2] == 'leads') {
       window.location='/dashboard/leads/lead/'+$id;
-    } else if (pathArray[2] == 'clients'){
-      window.location='/dashboard/clients/client/'+$id;
     } else if (pathArray[2] == 'documents'){
       window.location='/dashboard/documents/document/'+$id;
     } else if (pathArray[2] == 'invoices'){

@@ -48,7 +48,7 @@ class TaskController extends Controller
     //return the task list name for the table rows
     //handle redirect in JS file like the others
     
-		$tasks = TaskList::where('user_id', $this->user['id'])->with('task')->get();
+		$tasks = TaskList::where('user_id', $this->user['id'])->where('complete', null)->with('task')->with('case')->get();
 		//$subtasks = Subtask::where('user_id', $this->user['id'])->get();
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
 		$contacts = Contact::where('firm_id', $this->settings->firm_id)->select('id', 'first_name', 'last_name')->get();
@@ -65,7 +65,25 @@ class TaskController extends Controller
       'settings' => $this->settings,
 		]);
 	}
-  
+
+	public function completed(Request $request)
+	{
+		$tasks = TaskList::where('user_id', \Auth::id())->where('complete', '!=', null)->get();
+		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
+		$contacts = Contact::where('firm_id', $this->settings->firm_id)->select('id', 'first_name', 'last_name')->get();
+		return view('dashboard/tasklists', [
+			'tasks'=> $tasks,
+			//'subtasks' => $subtasks,
+			'user' => $this->user,
+			'theme' => $this->settings->theme,
+			'table_color' => $this->settings->table_color,
+			'table_size' => $this->settings->table_size,
+			'cases' => $cases,
+			'contacts' => $contacts,
+			'firm_id' => $this->settings->firm_id,
+			'settings' => $this->settings,
+		]);
+	}
   
 	public function view_tasklist($id)
 	{
@@ -100,6 +118,12 @@ class TaskController extends Controller
       }
 		}
 
+		if($task_list->c_id != 0 || $task_list->c_id != ""){
+			$case = LawCase::where('id', $task_list->c_id)->first();
+		} else {
+			$case = [];
+		}
+
     	return view('dashboard/single_tasklist', [
 				'tasks' => !empty($tasks) ? $tasks : [],
         'task_list' => $task_list,
@@ -111,6 +135,7 @@ class TaskController extends Controller
 				'table_color' => $this->settings->table_color,
 				'table_size' => $this->settings->table_size,
 				'cases' => !empty($cases) ? $cases : [],
+				'case' => $case,
 				'contacts' => !empty($contacts) ? $contacts : "",
 				'firm_id' => $this->settings->firm_id,
         'user_id' => $this->user['id'],
@@ -131,13 +156,12 @@ class TaskController extends Controller
     return $task;
   }
 
-    public function delete_tl(Request $request)
-    {
-        $data = $request->all();
-        //delete any tasks associated with tasklist
-        $task = TaskList::where('task_list_uuid', $data['tl_uuid'])->delete();
-        return redirect('/dashboard/tasklists')->with('status', "Tasklist deleted successfully");
-    }
+	public function delete_tl($id)
+	{
+		$task = TaskList::where('task_list_uuid', $id)->delete();
+		$tasks_deleted = Task::where('task_list_uuid', $id)->delete();
+		return redirect('/dashboard/tasklists')->with('status', "Tasklist deleted successfully");
+	}
   
  public function view_single_task($id, $t_id)
   {
@@ -184,6 +208,10 @@ class TaskController extends Controller
   
 	public function add_tasklist(Request $request)
 	{
+		$validatedData = $request->validate([
+			'task_name' => 'required',
+		]);
+
 		$data = $request->all();
 		$status = "updated";
 		
@@ -369,11 +397,19 @@ class TaskController extends Controller
 		return "deleted";
 	}
 
+	public function complete_tasklist(Request $request, $id)
+	{
+		$now_datetime = \Carbon\Carbon::now();
+		$tasklist = TaskList::where(['task_list_uuid' => $id])->update(['complete' => $now_datetime]);
+		$tasks = Task::where(['task_list_uuid' => $id, 'complete' => null])->update(['complete' => $now_datetime]);
+		return redirect()->back()->with('status', 'Taskboard  completed');
+	}
+
 	private function fix_date($dts, $dte)
 	{
 		$d = Carbon\Carbon::parse($dts)->format('Y-m-d');
 		$hour = Carbon\Carbon::parse($dte)->format('H:i:s');
-		$dt = Carbon\Carbon::parse($d. " " . $hour, 'America/Chicago')->format('Y-m-d H:i:s');
+		$dt = Carbon\Carbon::parse($d. " " . $hour, str_replace('\\', '/', $this->settings->tz))->format('Y-m-d H:i:s');
 		return $dt;
 	}
 

@@ -5,11 +5,7 @@
   <div class="container dashboard col-sm-12 offset-sm-2">
 	@if (count($cases) > 0)
 
-	<nav class="nav nav-pills">
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#client-modal" href="#"><i
-				class="fa fa-plus"></i> <i class="fa fa-user"></i> Add client</a>
-	  <a class="nav-item nav-link btn btn-info" href="/dashboard/client/mine"><i class="fa fa-users"></i> My clients</a>
-	</nav>
+	@include('dashboard.type_navigation.contacts')
 
 	@endif
 
@@ -42,7 +38,7 @@
 
 	  @elseif (count($contacts) >= 1)
 		<div>
-		  <table id="main"
+		  <table id="clients"
 				 class="table dataTable table-responsive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 			<thead>
 			<tr>

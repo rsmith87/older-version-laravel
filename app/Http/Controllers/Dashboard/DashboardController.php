@@ -154,8 +154,8 @@ class DashboardController extends Controller {
       $imageFileName = time() . '.' . $request->file('file_upload')->getClientOriginalExtension();
       $filePath = '/avatars/' . $this->settings->firm_id . '/users/' . $imageFileName;
       $fileMimeType = $request->file('file_upload')->getMimeType();
-	    \Storage::disk('local')->put($filePath, file_get_contents($request->file('file_upload')));
-	    \Storage::disk('local')->url($filePath);
+	    \Storage::disk('public')->put($filePath, file_get_contents($request->file('file_upload')));
+	    \Storage::disk('public')->url($filePath);
     }
 
 
@@ -179,6 +179,7 @@ class DashboardController extends Controller {
       \Session::put('locked', true);
       return view('dashboard.lock', [
           'user' => $this->user,
+				  'settings' => $this->settings,
       ]);
     } else {
       return redirect('/login');
@@ -191,10 +192,10 @@ class DashboardController extends Controller {
     if (!\Auth::check()) {
       return redirect('/dashboard/lock')->withErrors(['You must be logged in to unlock your account.']);
     }
-    $password = $data['password'];
 
-    if (\Hash::check($password, \Auth::user()->password)) {
-      \Session::forget('locked');
+
+    if (\Hash::check($data['password'], \Auth::user()->password)) {
+      \Session::put('locked', false);
       return redirect('/dashboard');
     } else {
       return redirect()->back()->withErrors(['Your password was incorrect!']);

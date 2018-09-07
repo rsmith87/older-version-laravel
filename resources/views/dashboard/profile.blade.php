@@ -19,15 +19,11 @@
 		<!-- Profile Image -->
 		<div class="box box-primary">
 		  <div class="box-body box-profile">
-			  @if(isset($settings->profile_image) && !Gravatar::exists($user->email))
-				<img class="profile-user-img img-responsive img-circle" src="/storage{{ $settings->profile_image }}"
+			  @if($settings->profile_image != "")
+				<img class="profile-user-img img-responsive img-circle" src="https://{{ env('APP_DOMAIN') }}{{ $settings->profile_image }}"
 					 alt="User profile picture">
-			  @elseif(isset($settings->profile_image) && Gravatar::exists($user->email))
-				<img class="profile-user-img img-responsive img-circle" src="{{ Gravatar::get($user->email) }}"
-					 alt="User profile picture">
-			  @elseif(Gravatar::exists($user->email))
-				<img class="profile-user-img img-responsive img-circle" src="{{ Gravatar::get($user->email) }}"
-					 alt="User profile picture">
+			  @else
+				<i class="fas fa-user-circle fa-7x"></i>
 			  @endif
 
 			<h3 class="profile-username text-center">{{ $user->name }}</h3>

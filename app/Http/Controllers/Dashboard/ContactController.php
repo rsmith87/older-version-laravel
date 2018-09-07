@@ -49,9 +49,8 @@ class ContactController extends Controller
 	public function index(Request $request)
 	{
 		$columns = [];
-		$views = View::where(['u_id' => $this->user['id'], 'view_type' => 'contact'])->get();
-
 		$view_data_columns = [];
+		$views = View::where(['u_id' => $this->user['id'], 'view_type' => 'contact'])->get();
 
 		if (count($views) > 0 && $views[0]->view_data != "") {
 			foreach ($views as $view_data) {
@@ -65,15 +64,12 @@ class ContactController extends Controller
 
 		$array_cases = [];
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
-
 		foreach ($cases as $case) {
 			$array_cases[$case->id] = $case->name;
 		}
 
-
 		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('documents')->with('tasks')->get();
 		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->get();
-
 
 		return view('dashboard/contacts', [
 			'user' => $this->user,
@@ -112,7 +108,7 @@ class ContactController extends Controller
 		$cases = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => $this->user['id']])->get();
 		$logs = CommLog::where(['type' => 'contact_client', 'type_id' => $requested_contact->id])->get();
 		$task_lists = TaskList::where('contact_client_id', $id)->with('task')->get();
-		$notes = Note::where('contlient_uuid', $id)->get();
+		$notes = Note::where('contlient_uuid', $requested_contact->contlient_uuid)->get();
 		$case = LawCase::where(['firm_id' => $this->settings->firm_id, 'id' => $requested_contact->case_id])->first();
 
 		return view('dashboard.contact', [
@@ -175,6 +171,106 @@ class ContactController extends Controller
 		]);
 	}
 
+	public function firm_contacts(Request $request)
+	{
+		$firm_clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 0])->get();
+
+		$columns = [];
+		$views = View::where(['u_id' => $this->user['id'], 'view_type' => 'contact'])->get();
+
+		$view_data_columns = [];
+
+		if (count($views) > 0 && $views[0]->view_data != "") {
+			foreach ($views as $view_data) {
+				$data = $view_data->view_data;
+			}
+			$columns = json_decode($data, true);
+			//array_unshift($columns, 'contlient_uuid');
+		} else {
+			$columns = ["contlient_uuid", "first_name", "last_name", "phone", "email"];
+		}
+
+		$array_cases = [];
+		$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
+
+		foreach ($cases as $case) {
+			$array_cases[$case->id] = $case->name;
+		}
+
+
+		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('documents')->with('tasks')->get();
+		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->get();
+
+
+		return view('dashboard/contacts', [
+			'user' => $this->user,
+			'columns' => $columns,
+			'views' => $views,
+			'contacts' => $firm_clients,
+			'other_data' => $other_data,
+			'user_name' => $this->user['name'],
+			'cases' => $cases,
+			'firm_id' => $this->settings->firm_id,
+			'theme' => $this->settings->theme,
+			'table_color' => $this->settings->table_color,
+			'table_size' => $this->settings->table_size,
+			'array_cases' => $array_cases,
+			'settings' => $this->settings,
+
+
+		]);
+	}
+
+	public function firm_clients(Request $request)
+	{
+		$firm_clients = Contact::where(['firm_id' => $this->settings->firm_id, 'is_client' => 1])->get();
+
+		$columns = [];
+		$views = View::where(['u_id' => $this->user['id'], 'view_type' => 'contact'])->get();
+
+		$view_data_columns = [];
+
+		if (count($views) > 0 && $views[0]->view_data != "") {
+			foreach ($views as $view_data) {
+				$data = $view_data->view_data;
+			}
+			$columns = json_decode($data, true);
+			//array_unshift($columns, 'contlient_uuid');
+		} else {
+			$columns = ["contlient_uuid", "first_name", "last_name", "phone", "email"];
+		}
+
+		$array_cases = [];
+		$cases = LawCase::where('firm_id', $this->settings->firm_id)->get();
+
+		foreach ($cases as $case) {
+			$array_cases[$case->id] = $case->name;
+		}
+
+
+		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('documents')->with('tasks')->get();
+		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->get();
+
+
+		return view('dashboard/contacts', [
+			'user' => $this->user,
+			'columns' => $columns,
+			'views' => $views,
+			'contacts' => $firm_clients,
+			'other_data' => $other_data,
+			'user_name' => $this->user['name'],
+			'cases' => $cases,
+			'firm_id' => $this->settings->firm_id,
+			'theme' => $this->settings->theme,
+			'table_color' => $this->settings->table_color,
+			'table_size' => $this->settings->table_size,
+			'array_cases' => $array_cases,
+			'settings' => $this->settings,
+
+
+		]);
+	}
+
 	public function relate(Request $request)
 	{
 		$data = $request->all();
@@ -194,7 +290,7 @@ class ContactController extends Controller
 		$view_data_columns = [];
 
 
-		$columns = ["id", "first_name", "last_name", "phone", "email"];
+		$columns = ["contlient_uuid", "first_name", "last_name", "phone", "email"];
 
 
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
@@ -220,8 +316,14 @@ class ContactController extends Controller
 
 	public function add(Request $request)
 	{
-		$data = $request->all();
 
+
+		$validatedData = $request->validate([
+			'first_name' => 'required',
+			'last_name' => 'required',
+		]);
+
+		$data = $request->all();
 		$user = $this->user;
 		$firm = $this->settings->firm_id;
 
@@ -330,7 +432,7 @@ class ContactController extends Controller
 		}
 		$contact->delete();
 
-		return redirect()->back()->with('status', $type . ' deleted successfully');
+		return redirect()->back()->with('status', $type . ' deleted');
 	}
 
 	public function note_add(Request $request)
@@ -345,7 +447,7 @@ class ContactController extends Controller
 			'firm_id' => $this->settings->firm_id,
 		]);
 
-		return back();
+		return back()->with('status', 'Note added');
 
 	}
 
@@ -354,7 +456,7 @@ class ContactController extends Controller
 		$data = $request->all();
 
 		$note = Note::where('id', $data['id'])->update(['note' => $data['note']]);
-		return redirect()->back()->with('status', 'Note edited successfully');
+		return redirect()->back()->with('status', 'Note edited');
 	}
 
 	public function note_delete(Request $request)
@@ -362,7 +464,7 @@ class ContactController extends Controller
 		$data = $request->all();
 
 		$note = Note::where('id', $data['id'])->delete();
-		return redirect()->back()->with('status', 'Note deleted successfully');
+		return redirect()->back()->with('status', 'Note deleted');
 	}
 
 	public function log_communication(Request $request)

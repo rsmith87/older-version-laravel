@@ -24,24 +24,6 @@
         <div class="col-md-3">
           <a class="btn btn-primary btn-block margin-bottom" data-toggle="modal" data-target="#create-message-modal">Compose</a>
 
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Folders</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                    <span class="label label-primary pull-right">{{ count($threads) }}</span></a></li>
-                <li><a href="#"><i class="far fa-share-square"></i> Threads</a></li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
           <!-- /. box -->
         </div>
         <!-- /.col -->
@@ -51,42 +33,21 @@
               <h3 class="box-title">Inbox</h3>
 
               <div class="box-tools pull-right">
-                <div class="has-feedback">
-                  <input type="text" class="form-control input-sm" placeholder="Search Mail">
-                  <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                </div>
+
               </div>
               <!-- /.box-tools -->
             </div>
             <!-- /.box-header -->
             @if(count($threads) > 0)
             <div class="box-body no-padding">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-sync-alt"></i></button>
-                <div class="pull-right">
-                  1- {{ count($threads) }}/{{ count($threads) }}
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.pull-right -->
-              </div>
+
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                   <tbody>
                   @foreach($threads as $thread)
                     <tr class="thread">
                       <td><input type="checkbox" class="checkbox" /></td>
-                      <td class="mailbox-subject"><b><a href="/dashboard/messages/{{ $thread->thread_uuid }}">{{ $thread->subject }}</a></td>
+                      <td class="mailbox-subject"><b><a href="/dashboard/messages/{{ $thread->id }}">{{ $thread->subject }}</a></td>
                       <td class="mailbox-date">{{ \Carbon\Carbon::parse($thread->created_at)->diffForHumans() }}</td>
                     </tr>
                   @endforeach
@@ -160,11 +121,11 @@
 
             @if(count($users) > 0)
               <div class="col-sm-6 col-xs-12">
-                <label>Firm users</label>
+                <label>Send to:</label>
               <div class="checkbox">
                 @foreach($users as $u)
                   <div class="user-row-messages">
-                    <label title="{{ $u[0]['name'] }}">
+                    <label title="{{ $u[0]->name }}">
                       <i class="fas fa-user-circle"></i>
 
                       <input type="checkbox" name="recipients[]" value="{{ $u[0]['id'] }}">{!! $u[0]['name'] !!}</label>

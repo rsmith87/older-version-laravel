@@ -4,7 +4,7 @@
 
   <div class="container fill calendar dashboard col-sm-12 offset-sm-2">
 	<nav class="nav nav-pills">
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i
+	  <a class="nav-item nav-link btn-sm btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i
 				class="fas fa-calendar-plus"></i> Add event</a>
 
 
