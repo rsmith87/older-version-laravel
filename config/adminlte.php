@@ -142,7 +142,7 @@ return [
             'icon' => 'calendar-alt',
             'can'  => 'view calendar',
         ],
-        [
+        /*[
             'text'        => 'Messages',
             'url'         => 'dashboard/messages',
             'icon'        => 'comments',
@@ -164,7 +164,7 @@ return [
             'can'  => 'view invoices',
         ],
         [
-            'text'        => 'Task boards',
+            'text'        => 'Task lists',
             'url'         => 'dashboard/tasklists',
             'icon'        => 'clipboard-list',
             //'label'       => 4,
@@ -290,8 +290,8 @@ return [
     */
 
     'plugins' => [
-        'datatables' => true,
-        'select2'    => true,
-        'chartjs'    => true,
+        'datatables' => false,
+        'select2'    => false,
+        'chartjs'    => false,
     ],
 ];

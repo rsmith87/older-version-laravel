@@ -3,34 +3,8 @@
 @section('content')
 
   <div class="container dashboard contact col-sm-12 offset-sm-2">
-	<nav class="nav nav-pills">
-	  <a class="nav-item nav-link btn btn-info" href="/dashboard/{{ Request::segment(3) }}s"><i
-				class="fas fa-arrow-left"></i> Back to {{ Request::segment(3) }}s</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#contacts-modal" href="#"><i
-				class="fa fa-user"></i> Edit {{ Request::segment(3) }}</a>
-	  <a class="nav-item nav-link btn btn-info" href="#"><i class="fas fa-print"></i> Print {{ Request::segment(3) }}
-	  </a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-notes-modal" href="#"><i
-				class="fas fa-sticky-note"></i> Add note</a>
-	  <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#add-communication-modal" href="#"><i
-				class="fas fa-comments"></i> Log communication</a>
 
-
-	  @if(count($case) > 0)
-		<a class="nav-item nav-link btn btn-info" href="/dashboard/cases/case/{{ $case->case_uuid }}"><i
-				  class="fa fa-gavel"></i> View case</a>
-	  @endif
-	  @if(empty($contact->case_id) || $contact->case_id === 0)
-		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#relate-client-to-case" href="#"><i
-				  class="fa fa-user"></i> <i class="fa fa-plus"></i> <i class="fa fa-gavel"></i>
-		  Relate {{ Request::segment(3) }} to case</a>
-	  @endif
-
-	  <a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#delete-modal" href="#"><i
-				class="fas fa-trash-alt"></i> Delete {{ Request::segment(3) }}</a>
-
-	</nav>
-
+	@include('dashboard.type_navigation.contact')
 	@include('dashboard.includes.alerts')
 
 	<div>
@@ -44,7 +18,7 @@
 		  information.</p>
 
 	  </div>
-	  <div>
+	  <div id="contact-information">
 
 
 		<div class="col-sm-6 col-12">
@@ -86,8 +60,8 @@
 			<h3 class="mt-5 ml-3">
 			  <i class="fas fa-user"></i>Communication Logs
 			</h3>
-			<table id="tasks"
-				   class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }}">
+			<table id="non-click"
+				   class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }}">
 			  <thead>
 			  <tr class="bg-primary">
 				<th>ID</th>
@@ -100,7 +74,17 @@
 				@if($log->type_id != 0)
 				  <tr>
 					<td>{{ $log->id }}</td>
-					<td>{{ $log->comm_type }}</td>
+					<td>
+						@if($log->comm_type === 'phone')
+							<i class="fas fa-phone"></i>
+						@elseif($log->comm_type === 'email')
+							<i class="fas fa-envelope"></i>
+						@elseif($log->comm_type === 'text')
+
+						@elseif($log->comm_type === 'fax')
+							<i class="fas fa-fax"></i>
+						@endif
+					</td>
 					<td>{{ $log->log }}</td>
 				  </tr>
 				@endif
@@ -121,7 +105,7 @@
 
 
 			  @foreach($notes as $note)
-				@if($note->contlient_uuid != 0)
+
 				<div>
 
 				  <div class="card-body">
@@ -130,11 +114,10 @@
 					<a data-toggle="modal" class="pull-right" data-target="#edit-note-modal-{{ $note->id }}"><i
 							  class="fas fa-edit"></i></a>
 					<h5 class="card-title">
-					  Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y H:i:s') }}</h5>
+					  Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y g:i a') }}</h5>
 					<p class="card-text">{{ $note->note }}</p>
 				  </div>
 				</div>
-				@endif
 
 
 			  @endforeach
@@ -144,7 +127,6 @@
 
 		<div class="clearfix"></div>
 
-		<div class="clearfix"></div>
 		@if(count($contact->Documentsclients) > 0)
 
 		  <h3 class="mt-5 ml-3">
@@ -480,7 +462,7 @@
 			<label>Type</label>
 
 
-			{{ $log->comm_type }}
+			{{ ucfirst($log->comm_type) }}
 
 			<label>Log</label>
 

@@ -140,6 +140,11 @@ class EventController extends Controller
 	
   public function add(Request $request)
   {
+		$validatedData = $request->validate([
+			'name' => 'required',
+			'start_date' => 'required',
+		]);
+
     $data = $request->all();
     $start_date = $this->fix_date($data['start_date'] . " " . $data['start_time']);
 

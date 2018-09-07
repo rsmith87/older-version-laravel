@@ -71,8 +71,8 @@
               </div>
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
-                @if(count($message) > 0)
-                  @foreach($message as $m)
+                @if(count($thread->message) > 0)
+                  @foreach($thread->message as $m)
                     <div class="media">
                     <img src="//www.gravatar.com/avatar/{{ md5($m->user->email) }} ?s=100" alt="{{ $m->user->name }}" class="img-circle">
                       <div class="media-body">
@@ -99,7 +99,7 @@
                         @if(count($firm_users) > 0)
                           <div class="checkbox">
                             @foreach($firm_users as $f_u)
-                              @foreach($f_u->Firm as $u)
+                              @foreach($f_u as $u)
                                 <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
                                   <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name : $u->email }}</label>
                                 <br />
@@ -172,7 +172,7 @@
             @if(count($firm_users) > 0)
               <div class="checkbox">
                 @foreach($firm_users as $f_u)
-                  @foreach($f_u->Firm as $u)
+                  @foreach($f_u as $u)
                     <label title="{{ !empty($u->name) ? $u->name : $u->email }}">
                       <input type="checkbox" name="recipients[]" value="{{ $u->id }}">{{ !empty($u->name) ? $u->name : $u->email }}</label>
                     <br />

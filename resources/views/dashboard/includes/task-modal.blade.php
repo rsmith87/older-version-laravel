@@ -10,7 +10,7 @@
         <form role="form" method="post" action="{{ null !== Request::segment(3) ?'/dashboard/tasklists/task/add' : '/dashboard/tasklists/add' }} ">
           
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          @if(null !== Request::segment(3))
+          @if(null !== Request::segment(3) && Request::segment(3) != 'completed')
           <input type="hidden" name="tl_uuid" value="{{ $task_list->task_list_uuid }}" />
           @endif
 
@@ -33,20 +33,23 @@
             <label><i class="fas fa-clock"></i> Due time</label>
             <input type="text" class="form-control timepicker-start" id="due_time" name="due_time" aria-label="Time due">
           </div>          
-          @if(null !== Request::segment(3))
+          @if(null !== Request::segment(3) && Request::segment(3) != 'completed')
             @hasanyrole('authenticated_user|administrator')
-              @if(count($cases) > 0)  
+              @if(count($case) > 0)
                 <div class="col-sm-6 col-12">
                   <label for="case_name"><i class="fas fa-briefcase"></i> Case link</label>
-                  @if(!isset($case))
+
+                        <input type="hidden" name="case_id" value="{{ $case->id }}" />
+                    <input type="text" name="case_name" class="form-control" value="{{ $case->name }}" />
+
+                </div>
+              @else
+                    <div class="col-sm-6 col-12">
+                        <label for="case_name"><i class="fas fa-briefcase"></i> Case link</label>
                     <input type="hidden" name="case_id" />
                     <input type="text" name="case_name" class="form-control" placeholder="Case name" />
-                  @else
-                    <input type="hidden" name="case_id" value={{ $case->id }}" />
-                    <input type="text" name="case_name" class="form-control" value="{{ $case->name }}" />            
-                  @endif
-                </div>
-              @endif          
+                    </div>
+                @endif
               @if(count($contacts) > 0)
                 <div class="col-sm-6 col-12">
                   <label for="contact_name"><i class="fas fa-user"></i> Client link</label>
@@ -64,19 +67,19 @@
           @endif
           <div class="clearfix"></div>
 
-           @if(null != Request::segment(3))
-            <hr class="{{ null === Request::segment(3) ? 'd-none' : ''  }}" />
 
-            <div class="{{ null === Request::segment(3) ? 'd-none' : ''  }}">
+            @if(Request::segment(3) === "" || Request::segment(3) === null)
+              <hr />
+
             <label class="ml-3"><i class="fas fa-tags"></i> Categories</label>
           <div class="col-sm-12 tasklist-categories">
             <select class="js-category-tasklist" name="categories[]" multiple="multiple">
 
             </select>
           </div>
-            </div>
 
-          @endif
+           @endif
+
           @if(null === Request::segment(3))
           <div class="col-sm-6 col-xs-12">
             <input type="checkbox" name="show_dashboard" class="form-control">

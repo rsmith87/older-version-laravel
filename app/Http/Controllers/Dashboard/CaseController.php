@@ -186,13 +186,19 @@ class CaseController extends Controller
 
             //test this more becace the house didn't come through - something messed up
             //UPDATE CASE HOURS TABLE HERE
-            $case_hours = CaseHours::insert([
+
+			/*
+			 * I DONT THINK I NEED TO UPDATE CASE HOURS HERE
+			 * SINCE WHEN I AM FIGURING OUT BILLABLE HOURS IM LOOKING AT BOTH
+			 * TIMERS AND INPUT CASE HOURS NOW
+			 */
+            /*$case_hours = CaseHours::insert([
                 'case_uuid' => $timer->law_case_id,
                 'timespan' => $seconds,
                 'note' => 'from app timer',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
-            ]);
+            ]);*/
 
             return $timer;
 
@@ -241,8 +247,11 @@ class CaseController extends Controller
 
 	public function add(Request $request)
 	{
-		$data = $request->all();
 
+		$validatedData = $request->validate([
+			'name' => 'required',
+			'open_date' => 'required',
+		]);
 
 
 
@@ -377,19 +386,52 @@ class CaseController extends Controller
 			}
 		}
 
+
+	/*
+	 * This combines the case hours table and the timers down and creates
+	 * an array of
+	 * $full_case_hours[$i] = [
+	 * 'time',
+	 * 'readable'
+	 * ], and a variable of $total_time which holds the total of the time from all in seconds
+	 * to get out of seconds and into hours take $total_time / 60 (for seconds to minutes)/ 60 (for minutes to hours);
+	 */
 		$case_hours = CaseHours::where('case_uuid', $id)->get();
-		$hours_amount = '0';
-		foreach ($case_hours as $ch) {
-			$hours_amount += $ch->timespan;
+		$timers = Timer::where('law_case_id', $id)->get();
+		$total_time = 0;
+		$full_case_hours = [];
+		//building the $timer_to_hours array with $timers
+		for($i=0; $i<count($timers); $i++){
+			$full_case_hours[$i]['time'] = \Carbon\Carbon::parse($timers[$i]->stopped_at)->diffInSeconds($timers[$i]->created_at);
+			$full_case_hours[$i]['readable'] = round($full_case_hours[$i]['time'] / 60 / 60, 2);
+			$full_case_hours[$i]['description'] = 'From case timer';
+			$full_case_hours[$i]['id'] = $timers[$i]->id;
+			$full_case_hours[$i]['type'] = 'timer';
+			$full_case_hours[$i]['created_at'] = $timers[$i]->created_at;
+			$total_time += $full_case_hours[$i]['time'];
 		}
+
+		foreach($case_hours as $hours){
+			array_push($full_case_hours, [
+				'time' => $hours->timespan*3600,
+				'readable' => round($hours->timespan, 2),
+				'description' => $hours->note,
+				'id' => $hours->id,
+				'type' => 'user_hours',
+				'created_at' => $hours->created_at
+			]);
+			$total_time += $hours->timespan * 60 * 60;
+		}
+
+
 
 		if ($requested_case->billing_type === 'fixed') {
 			$invoice_amount = $requested_case->billing_rate;
 		} else {
-			$invoice_amount = $requested_case->billing_rate * $hours_amount;
+			$invoice_amount = round($requested_case->billing_rate * $total_time / 60 / 60, 2);
 		}
 
-		$client_id = Contact::where(['case_id' => $id, 'is_client' => 1])->select('id')->first();
+		$client = Contact::where(['case_id' => $requested_case->id, 'is_client' => 1])->first();
 		$order = Order::where('case_uuid', $id)->first();
 		$invoices = Invoice::where('invoicable_id', $id)->get();
 		$documents = Document::where('case_id', $id)->get();
@@ -401,6 +443,7 @@ class CaseController extends Controller
 			$invoice_amount = $invoice_amount - $line->amount;
 		}
 
+		/*timers items */
 		$project = $requested_case;
 		$project = $project ? array_merge($project->toArray(), ['timers' => []]) : false;
 
@@ -419,11 +462,11 @@ class CaseController extends Controller
 
 			'contacts' => $case_contacts,
 			'cases' => $this->cases,
-
+			'client' => $client,
 			'clients' => $this->clients,
 
 			'project' => $project,
-			'hours_worked' => $hours_amount,
+			'hours_worked' => round($total_time / 60 / 60, 2),
 			'order' => $order,
 			'status_values' => $this->status_values,
 			'case_types' => $this->case_types,
@@ -432,7 +475,8 @@ class CaseController extends Controller
 			'invoices' => $invoices,
 			'invoice_amount' => $invoice_amount,
 			'case_hours' => $case_hours,
-            'events' => $events,
+			'full_case_hours' => $full_case_hours,
+			'events' => $events,
 
 			'documents' => $documents,
 			'media' => isset($all_media) ? $all_media : [],
@@ -467,14 +511,28 @@ class CaseController extends Controller
 	{
 		$data = $request->all();
 
-		$case = LawCase::where('case_uuid', $data['case_uuid'])->select(['billing_rate'])->first();
+		$case = LawCase::where('case_uuid', $data['case_uuid'])->first();
 
-		CaseHours::create(['case_uuid' => $data['case_uuid'], 'hours' => number_format($data['hours_worked'], 2), 'note' => $data['hours_note']]);
 		$hours_amount = '0';
-		$case_hours = CaseHours::where('case_uuid', $data['case_uuid'])->get();
 
+		$hours_added = CaseHours::create([
+			'case_uuid' => $data['case_uuid'],
+			'timespan' => $data['hours_worked'],
+			'note' => $data['hours_note']
+		]);
+
+		/*
+		 * TODO: need to get timers and add the time to the $hours_amount variable
+		 */
+		$timers = Timer::where('law_case_id', $data['case_uuid'])->get();
+
+		foreach($timers as $timer) {
+			$hours_amount += round(\Carbon\Carbon::parse($timer->stopped_at)->diffInSeconds($timer->created_at)/60/60, 2);
+		}
+
+		$case_hours = CaseHours::where('case_uuid', $data['case_uuid'])->get();
 		foreach ($case_hours as $ch) {
-			$hours_amount += $ch->hours;
+			$hours_amount += $ch->timespan;
 		}
 
 		$order = Order::where('case_uuid', $data['case_uuid'])->first();
@@ -489,7 +547,7 @@ class CaseController extends Controller
 	public function timeline($id)
 	{
 
-		//todo: create new timeline
+		//complete
 		//complete: will need to get all objects into a singular array ordered by date //complete
 		//complete: each item of the object will have an attribute determining the type of item (case added, hours added, etc)
 		//then the view will colorize based on type
@@ -509,7 +567,8 @@ class CaseController extends Controller
 		$events = Event::where('c_id', $requested_case->id)->get();
 
 
-		//init timeline data = cant have a case timeline without a case so it has to have this to be made
+		//init timeline data = cant have a case timeline without a case so
+		//the case itself is the init data
 		$timeline_data[0]['date'] = $requested_case->created_at;
 		$timeline_data[0]['headline'] = $requested_case->name;
 		$timeline_data[0]['type'] = 'lawcase';
@@ -701,7 +760,13 @@ class CaseController extends Controller
 	{
 		$data = $request->all();
 
-		$hours = CaseHours::where('id', $data['id'])->update(['hours' => $data['hours'], 'note' => $data['note']]);
+		if($data['type'] === 'timer'){
+			//$hours = Timer::where('id', $data['id'])->update('
+		}
+
+		if($data['type'] === 'user_hours'){
+			$hours = CaseHours::where('id', $data['id'])->update(['timespan' => $data['hours'], 'note' => $data['note']]);
+		}
 		return redirect()->back()->with('status', 'Hours edited successfully');
 	}
 
@@ -709,7 +774,13 @@ class CaseController extends Controller
 	{
 		$data = $request->all();
 
-		$case_hours = CaseHours::where('id', $data['id'])->delete();
+		if($data['type'] === 'timer'){
+			Timer::where('id', $data['id'])->delete();
+		}
+
+		if($data['type'] === 'user_hours'){
+			CaseHours::where('id', $data['id'])->delete();
+		}
 		return redirect()->back()->with('status', 'Hours deleted succesfully!');
 	}
 

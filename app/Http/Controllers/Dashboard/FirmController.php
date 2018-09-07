@@ -66,7 +66,8 @@ class FirmController extends Controller
 				$c = json_decode($clients, true);
       	$firm = Firm::where('id', $this->settings->firm_id)->first();
 				$firm_users = Settings::where('firm_id', $this->settings->firm_id)->select('user_id')->get();
-				
+
+				$message = FirmMessage::where('firm_id', $this->settings->firm_id)->first();
 				//prepping data for client/user compare to list clients in client area and users in user area on firm page
 				foreach($c as $test){
 					$names[] = $test['first_name'] . " " . $test['last_name'];
@@ -93,6 +94,7 @@ class FirmController extends Controller
         'user' => $this->user, 
         'firm_id' => $this->settings->firm_id,
         'settings' => $this->settings,
+        'message' => $message,
         'firm' => $firm,
         'theme' => $this->settings->theme,
         'table_color' => $this->settings->table_color,

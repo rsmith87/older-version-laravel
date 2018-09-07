@@ -23,18 +23,17 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-	        \App\Http\Middleware\IsSubscribed::class,
-	        \Jrean\UserVerification\Middleware\IsVerified::class,
-	        \App\Http\Middleware\LogLastUserActivity::class,
-            //\App\Http\Middleware\VerifyUserSession::class
-	        //\App\Http\Middleware\Lock::class
-        ],
+			'web' => [
+				\App\Http\Middleware\EncryptCookies::class,
+				\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+				\Illuminate\Session\Middleware\StartSession::class,
+				\Illuminate\View\Middleware\ShareErrorsFromSession::class,
+				\App\Http\Middleware\VerifyCsrfToken::class,
+				\App\Http\Middleware\IsSubscribed::class,
+				\Jrean\UserVerification\Middleware\IsVerified::class,
+				\App\Http\Middleware\LogLastUserActivity::class,
+				//\App\Http\Middleware\VerifyUserSession::class
+			],
 
         'api' => [
             'throttle:60,1',
@@ -54,6 +53,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'isVerified' => \Jrean\UserVerification\Middleware\IsVerified::class,
-        'lock' => \App\Http\Middleware\LockAccount::class,
+        'lock' => \App\Http\Middleware\Lock::class,
     ];
 }

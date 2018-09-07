@@ -20,11 +20,17 @@
           <div class="box box-widget box-shadow widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
-              @if(Gravatar::exists($user->email))
-              <div class="widget-user-image">
-                <img class="img-circle" src="{{ Gravatar::get($user->email) }}" alt="User Avatar">
-              </div>
-              @endif
+                @if($settings->profile_image != "")
+
+                        <img class="img-circle" src="{{ env('HTTP_TYPE') }}://{{ env('APP_DOMAIN') }}{{ $settings->profile_image }}"
+                             alt="User profile picture">
+
+
+
+                @else
+                    <i class="fas fa-user-circle fa-4x"></i>
+
+            @endif
               <!-- /.widget-user-image -->
               <h3 class="widget-user-username">{{ $user->name }}</h3>
               <h5 class="widget-user-desc">{{ $settings->title }}</h5>

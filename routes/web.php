@@ -86,19 +86,19 @@ Route::group(['middleware' => ['web']], function () {
 	});*/
 
 
+	Route::post('/dashboard/unlock', 'Dashboard\DashboardController@unlock');
 	Route::get('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@get_payment_details');
 	Route::post('/payment/firm/{firm_id}/invoice/{invoice_id}', 'PaymentController@post_payment_details');
     Route::get('/payment/{id}/complete', 'PaymentController@payment_complete');
 	Route::get('/dashboard/api_passport', 'Dashboard\DashboardController@api_passport');
 
-	Route::group(['prefix' => 'dashboard', 'middleware' => ['web']], function () {
+	Route::group(['prefix' => 'dashboard', 'middleware' => ['web', 'lock']], function () {
 		//Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');
 
         Route::post('/account/cancel', 'Dashboard\DashboardController@cancel_account');
 
 
         Route::get('/lock', 'Dashboard\DashboardController@lock');
-		Route::post('/unlock', 'Dashboard\DashboardController@unlock');
 
 		Route::get('/', 'Dashboard\DashboardController@index');
 		//Route::post('/', 'Auth\AuthController@create');
@@ -116,10 +116,12 @@ Route::group(['middleware' => ['web']], function () {
 		Route::post('/clients/client/note/edit', 'Dashboard\ContactController@note_edit');
 		Route::post('/clients/add', 'Dashboard\ContactController@add');
 		Route::post('/clients/client/{id}/log-communication', 'Dashboard\ContactController@log_communication');
+		Route::get('/clients/firm', 'Dashboard\ContactController@firm_clients');
 
 		Route::group(['prefix' => 'contacts'], function () {
 			Route::get('/', 'Dashboard\ContactController@index');
 			Route::get('/contact/{id}', 'Dashboard\ContactController@contact');
+			Route::get('/firm', 'Dashboard\ContactController@firm_contacts');
 			Route::post('/add', 'Dashboard\ContactController@add');
 			Route::post('/contact/delete', 'Dashboard\ContactController@delete');
 			Route::post('/contact/notes/note/add', 'Dashboard\ContactController@note_add');
@@ -179,7 +181,9 @@ Route::group(['middleware' => ['web']], function () {
 
 		Route::group(['prefix' => 'tasklists'], function () {
 			Route::get('/', 'Dashboard\TaskController@index');
-			Route::post('/delete', 'Dashboard\TaskController@delete_tl');
+			Route::get('/{id}/delete', 'Dashboard\TaskController@delete_tl');
+			Route::get('/completed', 'Dashboard\TaskController@completed');
+			Route::get('/{id}/complete', 'Dashboard\TaskController@complete_tasklist');
 			//Route::get('/{id}', 'Dashboard\TaskController@view_tasklist');
 			Route::post('/add', 'Dashboard\TaskController@add_tasklist');
 			Route::post('/task/add', 'Dashboard\TaskController@add_task');
@@ -232,6 +236,7 @@ Route::group(['middleware' => ['web']], function () {
 		});
 
 
+		Route::get('/invoices/invoice/{id}/delete', 'Dashboard\InvoiceController@delete');
 		Route::get('/invoices', 'Dashboard\InvoiceController@index');
 		Route::get('/invoices/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');
 		Route::get('/invoices/invoice/{id}/download', 'Dashboard\InvoiceController@invoice_pdf_download');

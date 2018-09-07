@@ -6,7 +6,6 @@
 	<nav class="nav nav-pills">
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-modal" href="#"><i class="fas fa-building"></i> Edit firm</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#edit-firm-message-modal" href="#"><i class="fas fa-comment"></i> Edit firm message</a>
-		<a class="nav-item nav-link btn btn-danger" data-toggle="modal" data-target="#cancel-subscription" href="#"><i class="fas fa-ban"></i> Cancel account</a>
 	</nav>
   
   @include('dashboard.includes.alerts')
@@ -130,7 +129,7 @@
 	<div class="modal-content">
 	  <div class="modal-body">
 		<h3>
-		  <i class="fas fa-building"></i> Edit firm information
+		  <i class="fas fa-building"></i> Edit firm message
 		</h3>
 
 		<div class="clearfix"></div>
@@ -141,7 +140,7 @@
 
 
 			<label class=" control-label" for="firm_name">Message</label>
-			<textarea name="firm_message" class="form-control"></textarea>
+			<textarea name="firm_message" class="form-control">{{ isset($message) ? $message->firm_message : "" }}</textarea>
 
 
 			<button id="submit" name="submit" class="btn btn-primary">Submit</button>
@@ -233,7 +232,7 @@
 			@endif	 
 </div>
 
-<div id="add-client-user" class="col-md-5 col-sm-12 box-shadow">
+<!--<div id="add-client-user" class="col-md-5 col-sm-12 box-shadow">
         <h2 class="pull-left ml-3 mt-3">
          <i class="fas fa-users"></i> Give a client login access
         </h2>
@@ -243,7 +242,7 @@
 			<form class="form-horizontal" method="post" action="/dashboard/firm/user/client/add">
 				 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-			<div class="col-sm-12"><!-- Text input-->
+			<div class="col-sm-12">
 			<div class="form-group">
 				<label  for="firm_name">Name</label>
 				<div class="col-sm-12">
@@ -252,7 +251,7 @@
 				</div>
 			</div>
 			</div>
-			<div class="col-sm-12 mt-4"><!-- Button -->
+			<div class="col-sm-12 mt-4">
 			<div class="form-group">
 				<div class="col-md-4">
 					<button id="submit" name="submit" class="btn btn-success">Submit</button>
@@ -260,9 +259,9 @@
 			</div>
 			</div>
 				</form>
-			 </fieldset>
+			 </fieldset>-->
 
-  <h3><strong>Client Users</strong></h3>
+ <!-- <h3><strong>Client Users</strong></h3>
 			 @if(count($clients) > 0)
 				<table class="table table-responsive table-resposive table-striped table-hover table-{{ $table_color }} table-{{ $table_size }}">
 					<thead> 
@@ -285,7 +284,7 @@
 					</tbody> 
 				</table>
 			@endif	 
-</div>
+</div>-->
 
 <div class="clearfix"></div>
 
