@@ -190,7 +190,7 @@
 	@if(!empty($contacts))
 	  @foreach($contacts as $contact)
 		@if($contact->is_client != 1)
-		  <div class="col-xs-12">
+		  <div class="col-xs-12 contacts-case">
 			<div class="clearfix"></div>
 			<h3 class="mt-5">
 			  <i class="fa fa-address-card"></i> Contacts
@@ -222,37 +222,16 @@
 	@endif
 
 	@if(!empty($events))
-	  @if(count($events) > 0)
-		<div class="col-xs-12">
-		  <h3 class="mt-5">
-			<i class="fa fa-file"></i> Events
-		  </h3>
-		  <table id="events"
-				 class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }} mb-3">
-			<thead>
-			<tr class="bg-primary">
-			  <th>Id</th>
-			  <th>Name</th>
-			  <th>Start date</th>
-			  <th>Complete</th>
-			</tr>
-			</thead>
-			<tbody>
-			@foreach($events as $i)
-			  <tr>
-				<td>{{ $i->id  }}</td>
-				<td>{{ $i->name }}</td>
-				<td>${{ $i->start_date }}</td>
-				<td>{{ $i->complete != 0 ? "Yes" : "No" }}</td>
-			  </tr>
-			@endforeach
-			</tbody>
-		  </table>
-		</div>
+
+      @if(count($events) > 0)
+              <div id="calendar" class=" col-md-6 col-xs-12 col-sm-6 fc fc-unthemed fc-ltr"></div>
+
 	  @endif
 	@endif
 
-	@if(count($case->Documents) > 0)
+
+
+  @if(count($case->Documents) > 0)
 	  <div class="col-xs-12">
 		<h3 class="mt-5">
 		  <i class="fa fa-file"></i> Documents
@@ -366,6 +345,7 @@
 @include('dashboard.includes.client-modal')
 @include('dashboard.includes.contact-modal')
 @include('dashboard.includes.case-modal')
+
 
 
 <div class="modal fade" id="add-document">
@@ -1039,6 +1019,76 @@
   </div>
 </div>
 </div>
+
+<script type="text/javascript">
+    var events =  {!! json_encode($events->toArray()) !!};
+    var u_id =
+            {!! json_encode($user['id']) !!}
+    var user =
+    {!! json_encode($user) !!}
+    /*if (show_task_calendar.length > 0) {
+        //events.concat(show_task_calendar);
+        events = $.merge(events, show_task_calendar);
+    }*/
+
+    //console.log(show_task_calendar);
+    for (var i = 0; i < events.length; i++) {
+
+        events[i].id = events[i]['id'];
+        events[i].title = events[i]['name'];
+        //events[i].client;
+        events[i].start = events[i]['start_date'];
+        events[i].end = events[i]['end_date'];
+        console.log(events[i]);
+
+        if (events[i].approved == '0') {
+            events[i].color = 'gray';
+        } else if (events[i].approved == '2') {
+            events[i].color = 'red';
+        }
+
+        if(events[i].type == 'lunch') {
+            events[i].color = 'green';
+            events[i].textColor = 'white';
+        } else if (events[i].type == 'blocker') {
+            events[i].color = 'red';
+            events[i].textColor = 'white';
+        } else if (events[i].type == 'research') {
+            events[i].color = 'aqua';
+            events[i].textColor = 'black';
+        } else if (events[i].type == 'booked') {
+            events[i].color = 'light-blue';
+            events[i].textColor = 'white';
+        }
+
+        if (events[i].hasOwnProperty('task_name')) {
+            events[i].title = events[i]['task_name'];
+            events[i].start = events[i]['due'];
+            events[i].end = events[i]['due'];
+            events[i].color = "purple";
+        }
+    }
+    var $editable = true;
+
+</script>
+
+@hasanyrole('client')
+<script type="text/javascript">
+    for (var i = 0; i < events.length; i++) {
+        if (events[i]['co_id'] != u_id) {
+            events[i].title = "Blocked";
+            events[i].color = "orange";
+        } else {
+            events[i].title = events[i]['name'];
+            //events[i].color = 'blue';
+        }
+
+    }
+    var $editable = false;
+</script>
+@endhasrole
+
+
 
 
 @endsection

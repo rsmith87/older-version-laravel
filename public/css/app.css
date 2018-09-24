@@ -279,6 +279,9 @@ table#main tr.table-dark td:active {
   padding-left: 0;
   padding-right: 10px;
 }
+.dashboard.case #calendar {
+  float: left;
+}
 .dashboard.task .tags {
   overflow: hidden;
 }
@@ -1583,5 +1586,15 @@ nav.btn-primary:active {
   margin-bottom: 0;
   border-radius: 0;
   margin-top: 0px;
+}
+.case#calendar {
+  float: left;
+  padding: 20px;
+}
+.case .contacts-case {
+  margin-bottom: 35px;
+}
+.fc-scroller {
+  height: auto !important;
 }
 /*# sourceMappingURL=app.css.map */

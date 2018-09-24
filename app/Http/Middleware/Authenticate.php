@@ -24,11 +24,7 @@ class Authenticate
             } else {
                 return redirect()->guest('login');
             }
-        } else {
-           if(\Session::get('locked') === true){
-            return redirect('/dashboard/lock');
-           }
-        }
+        } 
         return $next($request);
     }
 }

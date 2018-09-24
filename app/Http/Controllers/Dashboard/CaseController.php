@@ -448,8 +448,8 @@ class CaseController extends Controller
 		$project = $project ? array_merge($project->toArray(), ['timers' => []]) : false;
 
 		$firm_users = Settings::where('firm_id', $this->settings->firm_id)->with('firm')->get();
-        $events = Event::where('c_id', $requested_case->id)->get();
-        $firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
+		$events = Event::where('c_id', $requested_case->id)->get();
+		$firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
 
 		//print_r($firm_users);
 		foreach($firm_users as $u){

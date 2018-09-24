@@ -350,8 +350,8 @@ $('.todo-list .pretty input').change(function(){
       init_events($('#external-events div.external-event'))
       $('#calendar').fullCalendar({
         themeSystem: 'bootstrap3',
-        weekends: false,
-        showNonCurrentDates: false,
+        weekends: true,
+        showNonCurrentDates: true,
         businessHours: {
           // days of week. an array of zero-based day of week integers (0=Sunday)
           dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
@@ -551,6 +551,149 @@ $('.todo-list .pretty input').change(function(){
     $('html,body').animate({scrollTop:$(target).offset().top}, 500);
   }
 
+
+if(pathArray[3] == 'case'){
+    $('#calendar').fullCalendar({
+        themeSystem: 'bootstrap3',
+        weekends: true,
+        showNonCurrentDates: true,
+        businessHours: {
+            // days of week. an array of zero-based day of week integers (0=Sunday)
+            dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+            start: '09:00', // a start time (10am in this example)
+            end: '17:00', // an end time (6pm in this example)
+        },
+        header: {
+            left: 'prev,next today fullScreen',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay,listMonth'
+        },
+        timezone: 'America/Chicago',
+        defaultDate: today,
+        defaultView: 'listMonth',
+        navLinks: true, // can click day/week names to navigate views
+        eventLimit: 4, // allow "more" link when too many events
+        events: events,
+        draggable: true,
+        /*contentHeight: 600,*/
+        nowIndicator: true,
+        editable  : true,
+        droppable : true, // this allows things to be dropped onto the calendar !!!
+        eventResize: function(event, delta, revertFunc) {
+            console.log(delta._data);
+            //event is object
+            //array ()
+            var new_end_date = delta._data;
+            var uuid = event.uuid;
+            var end_date = event.end_date;
+
+            var updated_end_moment = moment(end_date).add(new_end_date);
+            $.ajax(
+                {
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        'event': uuid,
+                        'new_end_date': updated_end_moment._d,
+                    },
+                    url: '/dashboard/calendar/extend-event',
+                    success:function(data){
+                        console.log('success');
+                        //console.log(data);
+                    },
+                });
+        },
+        eventDrop : function( event, delta )  {
+            console.log(delta._data);
+            //event is object
+            //array ()
+            var new_date = delta._data;
+            var e = event;
+            var uuid = event.uuid;
+            var start_date = event.start_date;
+            var end_date = event.end_date;
+            var name = e.name;
+            var type = name.toLowerCase();
+            if(type == 'office hour booked'){
+                type = 'booked';
+            }
+
+            var updated_start_moment = moment(start_date).add(new_date);
+            var updated_end_moment = moment(end_date).add(new_date);
+            //need to parse out time with both of these so i can update the time - really should just use one startdate and one enddate to handle datetime
+
+            $.ajax(
+                {
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        'name': name,
+                        'type': type,
+                        'uuid': uuid,
+                        'new_start_date': updated_start_moment._d,
+                        'new_end_date': updated_end_moment._d,
+                    },
+                    url: '/dashboard/calendar/modify-event',
+                    success:function(data){
+                        console.log('success');
+                        //console.log(data);
+                    },
+                });
+
+        },
+        eventClick: function( calEvent, jsEvent, view) {
+          doModal("Event update", calEvent, 'case');
+        },
+        drop : function (date, allDay)
+        {
+            // retrieve the dropped element's stored Event Object
+            var originalEventObject = $(this).data('eventObject');
+
+
+            //console.log(date);
+
+            // we need to copy it, so that multiple events don't have a reference to the same object
+            var copiedEventObject = $.extend({}, originalEventObject);
+            var start = moment(date.format('YYYY-MM-DD hh:mm:ss'));
+            var end = moment(start).add(moment.duration("01:00:00"));
+            // var startPlusHour = start
+            // assign it the date that was reported
+            copiedEventObject.start           = start._i;
+            copiedEventObject.end             = end._i;
+            copiedEventObject.allDay          = false;
+            copiedEventObject.backgroundColor = $(this).css('background-color');
+            copiedEventObject.borderColor     = $(this).css('border-color');
+
+
+            // render the event on the calendar
+            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+            // is the "remove after drop" checkbox checked?
+            if ($('#drop-remove').is(':checked')) {
+                // if so, remove the element from the "Draggable Events" list
+                $(this).remove()
+            }
+
+            $.ajax(
+                {
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        'start': copiedEventObject.start,
+                        'end': copiedEventObject.end,
+                        'allDay': copiedEventObject.allDay,
+                        'title': copiedEventObject.title,
+                    },
+                    url: '/dashboard/calendar/drop-event',
+                    success:function(data){
+                        console.log('success');
+                        //console.log(data);
+                    },
+                });
+        }
+    });
+}
   
 if(pathArray[3] == 'task' || pathArray[2] == 'tasks'){
 var input1 = document.querySelector('input[name=tags]'),
@@ -597,14 +740,25 @@ function onRemoveAllTagsClick(e){
     tagify1.removeAllTags();
 }
 
- function doModal(heading, formContent) {
-    html =  '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
+ function doModal(heading, formContent, type) {
+      console.log(formContent);
+      newContent = '<input type="hidden" value='+formContent.uuid+' name="id" />';
+      newContent += '<label>Event name</label><input type="text" value='+formContent.name+' name="name" class="form-control" />';
+      newContent += '<label>Description</label><input type="text" value='+formContent.description+' name="description" class="form-control" />';
+      newContent += '<label>Start date</label><input type="text" class="dp form-control" value='+formContent.start_date+' name="start_date" />';
+      newContent += '<label>End date</label><input type="text" class="dp form-control" value='+formContent.end_date+' name="end_date" />';
+      newContent += '<label>Start time</label><input type="text" class="form-control" value='+formContent.start_time+' name="start_time" />';
+      newContent += '<label>End time</label><input type="text" class="form-control" value='+formContent.end_time+' name="end_date" />';
+      newContent += '<input type="submit" class="form-control btn btn-primary" />';
+
+
+     html =  '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
     html += '<div class="modal-dialog">';
     html += '<div class="modal-content">';
     html += '<div class="modal-body">';
     html += '<h2><i class="fa fa-calendar-alt"></i> '+heading+'</h2>';
     html += '<hr />';
-    html += formContent;
+    html += newContent;
     html += '</div>';
     html += '</div>';  // dialog
     html += '</div>';  // footer
@@ -616,8 +770,7 @@ function onRemoveAllTagsClick(e){
     $('#dynamicModal').on('hidden.bs.modal', function (e) {
         $(this).remove();
     });
-
-}
+  }
   
 /*$('.approve').on('click', function(e){
  e.preventDefault();

@@ -149,7 +149,7 @@
 				@if($settings->profile_image != "")
 				  <div class="pull-left image">
 
-				  <img class="img-circle" src="{{ env('HTTP_TYPE') }}://{{ env('APP_DOMAIN') }}{{ $settings->profile_image }}"
+				  <img class="img-circle" src="{{ $settings->profile_image }}"
 						 alt="User profile picture">
 				  </div>
 
