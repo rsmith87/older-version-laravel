@@ -253,6 +253,7 @@ class CaseController extends Controller
 			'open_date' => 'required',
 		]);
 
+		$data = $request->all();
 
 
 		$check = 0;

@@ -68,11 +68,13 @@
 	</div>
 
 	<div class="col-sm-6 col-12">
+        @if(count($client) > 0)
         <label>Client</label>
         <p>
         <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal" data-target="#view-client-modal-full" href="/dashboard/clients/client/{{ $client->contlient_uuid }}#contact-information"><i
                     class="fas fa-user"></i> {{ $client->first_name }} {{ $client->last_name }}</a>
         </p>
+        @endif
 	  <label>Created</label>
 		<p>{{ \Carbon\Carbon::parse($case->created_at)->format('m/d/Y g:i A') }}</p>
 	  <label>Total cost</label>
@@ -636,7 +638,7 @@
 	  </div>
   </div>
 </div>
-
+@if(count($client) > 0)
 <div class="modal fade" id="view-client-modal-full">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -677,7 +679,7 @@
 		</div>
 	</div>
 </div>
-
+@endif
 
 <div class="modal fade" id="case-edit-modal">
 <div class="modal-dialog modal-lg">
