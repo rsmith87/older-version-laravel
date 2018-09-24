@@ -702,6 +702,7 @@ class CaseController extends Controller
 			'case' => $requested_case,
 			'firm_id' => $this->settings->firm_id,
 			'theme' => $this->settings->theme,
+			'event_types' => $this->event_types,
 			'clients' => $clients,
 			'order' => $order,
 			'status_values' => $this->status_values,
