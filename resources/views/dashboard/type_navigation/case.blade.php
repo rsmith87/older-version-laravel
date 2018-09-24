@@ -26,14 +26,14 @@
     @if(count($client) > 0)
         @if(count($firm_stripe) > 0)
             <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal" data-target="#payment-modal-full" href="#"><i
-                        class="fas fa-dollar-sign"></i> Bill client {{ $contact->first_name }} {{ $contact->last_name }}</a>
+                        class="fas fa-dollar-sign"></i> Bill client {{ $client->first_name }} {{ $client->last_name }}</a>
         @else
             <a class="nav-item nav-link btn btn-sm btn-success disabled" disabled="disabled" data-toggle="tooltip" data-html="true" data-placement="right" title="<em>You must complete your firm's signup for stripe. <a href='/dashboard/firm'>Click here</a>"><i
-                        class="fas fa-dollar-sign"></i> Bill client {{ $contact->first_name }} {{ $contact->last_name }}</a>
+                        class="fas fa-dollar-sign"></i> Bill client {{ $client->first_name }} {{ $client->last_name }}</a>
 
         @endif
-        <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal" data-target="#view-client-modal-full" href="/dashboard/clients/client/{{ $contact->contlient_uuid }}#contact-information"><i
-                    class="fas fa-user"></i> View client {{ $contact->first_name }} {{ $contact->last_name }}</a>
+        <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal" data-target="#view-client-modal-full" href="/dashboard/clients/client/{{ $client->contlient_uuid }}#contact-information"><i
+                    class="fas fa-user"></i> View client {{ $client->first_name }} {{ $client->last_name }}</a>
         <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal" data-target="#change-client-modal" href="#">
             <i class="fas fa-user"></i> Change client
         </a>
