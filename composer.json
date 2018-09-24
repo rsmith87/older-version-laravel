@@ -33,7 +33,7 @@
         "creativeorange/gravatar": "~1.0",
         "pusher/pusher-php-server": "^3.0",
         "sebastian-berc/repositories": "*",
-        "jrean/laravel-user-verification": "dev-master",
+        "jrean/laravel-user-verification": "^6.0",
         "dacastro4/laravel-gmail": "^0.4.1",
         "laravel/passport": "^6.0",
         "cmgmyr/messenger": "^2.15",
