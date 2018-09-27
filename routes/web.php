@@ -170,6 +170,7 @@ Route::group(['middleware' => ['web']], function () {
 			Route::get('/', 'Dashboard\EventController@index');
 			Route::post('/drop-event', 'Dashboard\EventController@drop_event');
 			Route::post('/modify-event', 'Dashboard\EventController@modify_event');
+            Route::post('/modify-event-from-case', 'Dashboard\EventController@modify_event_from_case');
 			Route::post('/extend-event', 'Dashboard\EventController@extend_event');
 			Route::get('/events', 'Dashboard\EventController@client_events');
 			Route::post('/event/add', 'Dashboard\EventController@add');

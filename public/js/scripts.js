@@ -374,6 +374,21 @@ $('.todo-list .pretty input').change(function(){
         nowIndicator: true,
         editable  : true,
         droppable : true, // this allows things to be dropped onto the calendar !!!
+          eventClick: function( calEvent, jsEvent, view) {
+
+              doModal("Update"+calEvent.name, calEvent, 'calendar');
+              $('.timepicker-start').clockpicker({
+                  'default': 'now',
+                  donetext: 'Done',
+                  placement: 'top',
+                  autoclose: true,
+                  twelvehour: true,
+              });
+              $('.dp').datepicker({
+                  container: $(this),
+                  zIndex: 1999,
+              });
+          },
         eventResize: function(event, delta, revertFunc) {
           console.log(delta._data);
           //event is object
@@ -642,7 +657,19 @@ if(pathArray[3] == 'case'){
 
         },
         eventClick: function( calEvent, jsEvent, view) {
+
           doModal("Event update", calEvent, 'case');
+            $('.timepicker-start').clockpicker({
+                'default': 'now',
+                donetext: 'Done',
+                placement: 'top',
+                autoclose: true,
+                twelvehour: true,
+            });
+            $('.dp').datepicker({
+                container: $(this),
+                zIndex: 1999,
+            });
         },
         drop : function (date, allDay)
         {
@@ -741,16 +768,30 @@ function onRemoveAllTagsClick(e){
 }
 
  function doModal(heading, formContent, type) {
-      console.log(formContent);
-      newContent = '<input type="hidden" value='+formContent.uuid+' name="id" />';
-      newContent += '<label>Event name</label><input type="text" value='+formContent.name+' name="name" class="form-control" />';
-      newContent += '<label>Description</label><input type="text" value='+formContent.description+' name="description" class="form-control" />';
-      newContent += '<label>Start date</label><input type="text" class="dp form-control" value='+formContent.start_date+' name="start_date" />';
-      newContent += '<label>End date</label><input type="text" class="dp form-control" value='+formContent.end_date+' name="end_date" />';
-      newContent += '<label>Start time</label><input type="text" class="form-control" value='+formContent.start_time+' name="start_time" />';
-      newContent += '<label>End time</label><input type="text" class="form-control" value='+formContent.end_time+' name="end_date" />';
-      newContent += '<input type="submit" class="form-control btn btn-primary" />';
+      var token = $('meta[name="csrf-token"]').attr('content');
+      if(type == 'case') {
+          var action = '/dashboard/calendar/modify-event-from-case';
+      } else {
+          var action = '/dashboard/calendar/modify-event';
+      }
+      newContent = "<form method='POST' action='"+action+"'>";
+     newContent += "<div class='col-sm-6 col-xs-12'>";
+     newContent += '<input type="hidden" value='+token+' name="_token" />';
+      newContent += '<input type="hidden" value='+formContent.uuid+' name="uuid" />';
+      newContent += '<label>Event name</label><input type="text" name="name" value="'+formContent.name+'" name="name" class="form-control" />';
+      newContent += "<label>Description</label><input type='text' name='description' id='event-description' value='"+formContent.description+"' class='form-control' />";
+      newContent += '<label>Start date</label><input type="text" class="dp form-control" value='+moment(formContent.start_date).format("MM/DD/YYYY")+' name="start_date" />';
+      newContent += '</div>';
+      newContent += "<div class='col-sm-6 col-xs-12'>";
 
+     newContent += '<label>End date</label><input type="text" class="dp form-control" value='+moment(formContent.end_date).format("MM/DD/YYYY")+' name="end_date" />';
+     newContent += '<label>Start time</label><input type="text" class="form-control timepicker-start" value='+moment(formContent.start_date).format("hh:mmA")+' name="start_time" />';
+     newContent += '<label>End time</label><input type="text" class="form-control timepicker-start" value='+moment(formContent.end_date).format("hh:mmA")+' name="end_time" />';
+      newContent += '</div>';
+      newContent += '<div class="col-xs-12">';
+     newContent += '<input type="submit" class="form-control btn btn-primary" />';
+     newContent += '</div>';
+      newContent += '</form>';
 
      html =  '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
     html += '<div class="modal-dialog">';

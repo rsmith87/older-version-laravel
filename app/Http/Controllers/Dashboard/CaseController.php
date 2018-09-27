@@ -327,7 +327,7 @@ class CaseController extends Controller
 		if ($data['hours'] != "" || $data['hours'] > 0 || $data['hours'] != 0) {
 			CaseHours::create([
 				'case_uuid' => $case_uuid,
-				'hours' => $data['hours'],
+				'timespan' => $data['hours'],
 				'note' => "from case edit",
 			]);
 		}
@@ -388,15 +388,15 @@ class CaseController extends Controller
 		}
 
 
-	/*
-	 * This combines the case hours table and the timers down and creates
-	 * an array of
-	 * $full_case_hours[$i] = [
-	 * 'time',
-	 * 'readable'
-	 * ], and a variable of $total_time which holds the total of the time from all in seconds
-	 * to get out of seconds and into hours take $total_time / 60 (for seconds to minutes)/ 60 (for minutes to hours);
-	 */
+        /*
+         * This combines the case hours table and the timers down and creates
+         * an array of
+         * $full_case_hours[$i] = [
+         * 'time',
+         * 'readable'
+         * ], and a variable of $total_time which holds the total of the time from all in seconds
+         * to get out of seconds and into hours take $total_time / 60 (for seconds to minutes)/ 60 (for minutes to hours);
+         */
 		$case_hours = CaseHours::where('case_uuid', $id)->get();
 		$timers = Timer::where('law_case_id', $id)->get();
 		$total_time = 0;
