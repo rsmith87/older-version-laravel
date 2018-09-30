@@ -369,10 +369,10 @@ $('.todo-list .pretty input').change(function(){
         navLinks: true, // can click day/week names to navigate views
         eventLimit: 4, // allow "more" link when too many events
         events: events,
-        draggable: true,
+        draggable: false,
         contentHeight: 600,
         nowIndicator: true,
-        editable  : true,
+        editable  : false,
         droppable : true, // this allows things to be dropped onto the calendar !!!
           eventClick: function( calEvent, jsEvent, view) {
 
@@ -413,6 +413,9 @@ $('.todo-list .pretty input').change(function(){
             },        
           });         
         },
+      /*
+        When an existing calendar object is moved
+       */
         eventDrop : function( event, delta )  { 
           console.log(delta._data);
           //event is object
@@ -579,9 +582,9 @@ if(pathArray[3] == 'case'){
             end: '17:00', // an end time (6pm in this example)
         },
         header: {
-            left: 'prev,next today fullScreen',
+            left: 'prev,next today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay,listMonth'
+            right: 'agendaWeek,agendaDay,listMonth'
         },
         timezone: 'America/Chicago',
         defaultDate: today,
@@ -589,11 +592,11 @@ if(pathArray[3] == 'case'){
         navLinks: true, // can click day/week names to navigate views
         eventLimit: 4, // allow "more" link when too many events
         events: events,
-        draggable: true,
+        draggable: false,
         /*contentHeight: 600,*/
         nowIndicator: true,
-        editable  : true,
-        droppable : true, // this allows things to be dropped onto the calendar !!!
+        editable  : false,
+        droppable : false, // this allows things to be dropped onto the calendar !!!
         eventResize: function(event, delta, revertFunc) {
             console.log(delta._data);
             //event is object

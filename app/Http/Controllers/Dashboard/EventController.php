@@ -74,6 +74,20 @@ class EventController extends Controller
       ]);
 	}
 
+	public function event_list(Request $request)
+    {
+        $events = Event::where(['u_id' => $this->user->id])->get();
+        return view('dashboard/calendar', [
+            'user' => $this->user,
+            'events' => $events,
+            'theme' => $this->settings->theme,
+            'firm_id' => $this->settings->firm_id,
+            //'user' => $contact
+            'event_types' => $this->event_types,
+            'settings' => $this->settings,
+        ]);
+    }
+
 	public function client_events()
 	{
 		//0 is not seen by lawyer
@@ -257,16 +271,15 @@ class EventController extends Controller
   
   public function modify_event(Request $request)
   {
+    
       $e = $request->input('uuid');
       $name = $request->input('name');
       $new_start_date = $request->input('start_date');
       $new_end_date = $request->input('end_date');
       $new_start_time = $request->input('start_time');
       $new_end_time = $request->input('end_time');
-      $loaded_event = Event::where('uuid', $e)->first();
-      $start_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_start_date);
-      $end_date_without_tz = preg_replace("/\([^*]+\)/", '', $new_end_date);
 
+      $loaded_event = Event::where('uuid', $e)->first();
       $new_start_date_parsed = \Carbon\Carbon::parse($new_start_date . " " . $new_start_time, str_replace("\\", "/", $this->settings->tz))->format('Y-m-d H:i:s');
       $new_end_date_parsed = \Carbon\Carbon::parse($new_end_date . " " . $new_end_time, str_replace("\\", "/", $this->settings->tz))->format('Y-m-d H:i:s');
 
