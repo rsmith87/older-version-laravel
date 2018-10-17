@@ -27,6 +27,9 @@ body .fc {
 body.login-page {
   display: block;
 }
+tr:first-child > td > .fc-day-grid-event {
+  cursor: pointer;
+}
 strong {
   font-weight: bold;
 }
@@ -253,6 +256,9 @@ table#main tr.table-dark td:active {
 }
 .dashboard.home button svg {
   margin-right: 0;
+}
+.dashboard.home .todo-list .tools {
+  display: none;
 }
 .dashboard.messages .col-sm-6 {
   float: none;
