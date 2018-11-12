@@ -179,6 +179,14 @@ strong{
     -moz-transition: all 2s; // Mozilla
     -o-transition: all 2s; // Opera
     transition: all 2s;
+  .fc-day-number{
+    font-size:1em;
+  }
+  .alert{
+    position:relative;
+    top:0;
+    right:0;
+  }
 }
 
 .dashboard-navigation .navbar-nav span.glyphicon,
@@ -348,6 +356,9 @@ table{
       }
       #calendar{
         float:left;
+      }
+      nav .btn-primary:not(:disabled):not(.disabled):active, nav .btn-primary:not(:disabled):not(.disabled):hover, nav .btn-primary:not(:disabled):not(.disabled).active, nav .show > .btn-primary.dropdown-toggle{
+        border-left:1px solid;
       }
     }
 	&.task{
@@ -1452,6 +1463,22 @@ table{
       }
     }
   }
+  .user-selection{
+    display:none;
+  }
+  .email-selection{
+    display: none;
+  }
+  .form-group{
+    width:100% !important;
+  }
+  input[name=message_email_user]{
+    position: relative;
+    top: 2px;
+    &:nth-child(2){
+      margin-left:10px;
+    }
+  }
 }
 
 #payment-modal-full{
@@ -1929,6 +1956,7 @@ nav{
 .case-document{
   img{
     min-width:100%;
+    max-width:100%;
   }
   .btn{
     border-radius:0;
@@ -1977,4 +2005,12 @@ nav{
 
 .fc-scroller{
   height: auto !important;
+}
+
+table{
+  &.communcation-log{
+    th:nth-child(1), td:nth-child(1){
+      display:table-cell;
+    }
+  }
 }

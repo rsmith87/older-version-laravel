@@ -34,6 +34,8 @@ Route::post('/register/payment', [
 	]
 );
 
+Route::get('/dashboard/mail-test', 'TestController@test_mail');
+
 Route::get('/roles-permissions', 'Controller@create_roles_and_permissions');
 
 Route::get('/password/reset', function () {
@@ -156,8 +158,11 @@ Route::group(['middleware' => ['web']], function () {
 		});
 		Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
 		Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+
 		Route::group(['prefix' => 'firm'], function () {
 			Route::get('/', 'Dashboard\FirmController@index');
+			Route::get('/user/{id}', 'Dashboard\FirmController@user');
+			Route::post('/user/cancel', 'Dashboard\FirmController@cancel_user_subscription');
 			Route::post('/add', 'Dashboard\FirmController@add');
 			Route::post('/user/add', 'Dashboard\FirmController@add_user');
 			Route::post('/user/client/add', 'Dashboard\FirmController@create_client_login');
@@ -217,14 +222,14 @@ Route::group(['middleware' => ['web']], function () {
 		});
 
 		Route::group(['prefix' => 'documents'], function () {
-			Route::get('/', 'Dashboard\DocumentController@index');
-			Route::get('/document/{id}', 'Dashboard\DocumentController@single');
+			Route::get('/', 'Media\ItemsController@index');
+			/*Route::get('/document/{id}', 'Dashboard\DocumentController@single');
 			Route::get('/document/{id}/send', 'Dashboard\DocumentController@create_download_link');
 			Route::post('/create', 'Dashboard\DocumentController@create');
 			Route::post('/{type}/upload', 'Dashboard\DocumentController@upload');
 			Route::post('/document/delete', 'Dashboard\DocumentController@delete');
 			Route::post('/document/relate', 'Dashboard\DocumentController@relate');
-			Route::post('/document/send', 'Dashboard\DocumentController@send_email');
+			Route::post('/document/send', 'Dashboard\DocumentController@send_email');*/
 		});
 
 
@@ -237,13 +242,16 @@ Route::group(['middleware' => ['web']], function () {
 		});
 
 
-		Route::get('/invoices/invoice/{id}/delete', 'Dashboard\InvoiceController@delete');
-		Route::get('/invoices', 'Dashboard\InvoiceController@index');
-		Route::get('/invoices/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');
-		Route::get('/invoices/invoice/{id}/download', 'Dashboard\InvoiceController@invoice_pdf_download');
-		Route::post('/invoices/invoice/create', 'Dashboard\InvoiceController@create');
-		Route::get('/invoices/paid', 'Dashboard\InvoiceController@paid_invoices');
-		Route::post('/invoices/invoice/{id}/send', 'Dashboard\InvoiceController@send_invoice');
+        Route::group(['prefix' => 'invoices'], function () {
+            Route::get('/invoice/{id}/delete', 'Dashboard\InvoiceController@delete');
+            Route::get('/', 'Dashboard\InvoiceController@index');
+            Route::get('/invoice/{id}', 'Dashboard\InvoiceController@invoice_view');
+            Route::get('/invoice/{id}/download', 'Dashboard\InvoiceController@invoice_pdf_download');
+            Route::post('/invoice/create', 'Dashboard\InvoiceController@create');
+            Route::get('/paid', 'Dashboard\InvoiceController@paid_invoices');
+            Route::post('/invoice/{id}/send', 'Dashboard\InvoiceController@send_invoice');
+        });
+
 
 		Route::get('/marketing', 'Dashboard\MarketingController@index');
 

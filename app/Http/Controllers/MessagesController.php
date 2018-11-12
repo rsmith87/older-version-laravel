@@ -188,30 +188,40 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-       $input = Input::all();
-        $thread = Thread::create([
-            'subject' => $input['subject'],
-        ]);
-        // Message
-        Message::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => $input['message'],
-        ]);
-        // Sender
-        Participant::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'last_read' => new Carbon,
-        ]);
-        // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipant($input['recipients']);
-        }
-        $message_uuid = Uuid::generate()->string;
 
-        return redirect()->route('messages');
+
+        $data = $request->all();
+        if($data['message_email_user'] === 'email') {
+
+        }
+
+        if($data['message_email_user'] === 'user') {
+            $input = Input::all();
+            $thread = Thread::create([
+                'subject' => $input['subject'],
+            ]);
+            // Message
+            Message::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'body' => $input['message'],
+            ]);
+            // Sender
+            Participant::create([
+                'thread_id' => $thread->id,
+                'user_id' => Auth::id(),
+                'last_read' => new Carbon,
+            ]);
+            // Recipients
+            if (Input::has('recipients')) {
+                $thread->addParticipant($input['recipients']);
+            }
+            $message_uuid = Uuid::generate()->string;
+
+            return redirect()->route('messages');
+        }
+
+
     }
 
     /**

@@ -29,13 +29,9 @@
 			{{ !empty($contact->relationship) ? ucfirst($contact->relationship) : "Not set" }}
 		  </p>
 		  <label>Address</label>
-		  <p><a href="#" class="mapThis"
-				place="{{ $contact->address_1 }} {{ $contact->address_2 }} {{ $contact->city }} {{ $contact->state }} {{ $contact->zip }}"
-				zoom="16">{{ $contact->address_1 }}
+		  <p>{{ $contact->address_1 }}
 			  {{ $contact->address_2 }}<br/>
-			  {{ $contact->city }}<br/>
-			  {{ $contact->state }}<br/>
-			  {{ $contact->zip }}</a></p>
+			  {{ $contact->city }}, {{ $contact->state }} {{ $contact->zip }}</p>
 		  <label>Phone</label>
 		  <p><a href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a></p>
 
@@ -61,7 +57,7 @@
 			  <i class="fas fa-user"></i>Communication Logs
 			</h3>
 			<table id="non-click"
-				   class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }}">
+				   class="communcation-log table table-responsive table-striped">
 			  <thead>
 			  <tr class="bg-primary">
 				<th>ID</th>
@@ -73,14 +69,14 @@
 			  @foreach($logs as $log)
 				@if($log->type_id != 0)
 				  <tr>
-					<td>{{ $log->id }}</td>
+					  <td>{{ \Carbon\Carbon::parse($log->created_at)->format('m/d/Y g:i A') }}</td>
 					<td>
 						@if($log->comm_type === 'phone')
 							<i class="fas fa-phone"></i>
 						@elseif($log->comm_type === 'email')
 							<i class="fas fa-envelope"></i>
 						@elseif($log->comm_type === 'text')
-
+							<i class="fas fa-comment"></i>
 						@elseif($log->comm_type === 'fax')
 							<i class="fas fa-fax"></i>
 						@endif
@@ -553,61 +549,6 @@
 
   </script>
 
-
-
-  <script type="" text/javascript">
-
-  var cursorX;
-  var cursorY;
-  if (window.Event) {
-  document.captureEvents(Event.MOUSEMOVE);
-  }
-  document.onmousemove = getCursorXY;
-  $(".mapThis").each(function() {
-  var dPlace = $(this).attr("place");
-  var dZoom = $(this).attr("zoom");
-  var dText = $(this).html();
-  $(this).html('<a onmouseover="mapThis.show(this);" style="text-decoration:none; href="
-				   http://maps.google.com/maps?q=' + dPlace + '&z=' + dZoom + '">' + dText + '</a>');
-  });
-
-  var mapThis=function(){
-  var tt;
-  var errorBox;
-  return{
-  show:function(v){
-  if (tt == null) {
-  var pNode = v.parentNode;
-  pPlace = $(pNode).attr("place");
-  pZoom = parseInt($(pNode).attr("zoom"));
-  pText = $(v).html();
-  tt = document.createElement('div');
-  $(tt).html('<a href="http://maps.google.com/maps?q=' + pPlace + '&z='+pZoom+'" target="new"><img border=0
-																								   src="http://maps.google.com/maps/api/staticmap?center=' + pPlace + '&zoom=' + pZoom + '&size=200x200&sensor=false&key=AIzaSyBHrSRGRuZmx2mHt7xnTy5aMKL1jYhFMqE&format=png&markers=color:blue|' + pPlace + '"></a>');
-  tt.addEventListener('mouseover', function() { mapHover = 1; }, true);
-  tt.addEventListener('mouseout', function() { mapHover = 0; }, true);
-  tt.addEventListener('mouseout', mapThis.hide, true);
-  document.body.appendChild(tt);
-  }
-  fromleft = cursorX;
-  fromtop = cursorY;
-  fromleft = fromleft - 25;
-  fromtop = fromtop - 25;
-  tt.style.cssText = "position:absolute; left:" + fromleft + "px; top:" + fromtop + "px; z-index:999; display:block; padding:1px; margin-left:5px; width:200px; -moz-box-shadow:0 1px 10px rgba(0, 0, 0, 0.5);";
-  tt.style.display = 'block';
-  },
-  hide:function(){
-  tt.style.display = 'none';
-  tt = null;
-  }
-  };
-  }();
-  function getCursorXY(e) {
-  cursorX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
-  cursorY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
-  }
-
-  </script>
 
 
 

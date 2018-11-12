@@ -65,13 +65,6 @@ class LawCase extends Model
           'is_client' => 1,
         ]);
     }
-    /**
-     * Get all of the contacts for the case.
-     */
-    public function documents()
-    {
-        return $this->hasMany('App\Document', 'case_id');
-    }
   
     public function tasks()
     {

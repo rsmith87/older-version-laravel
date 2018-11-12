@@ -40,7 +40,7 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiiable)
     {
-      print_r($notifiiable);
+      //print_r($notifiiable);
         // Generate a new reset password token
         $this->token = app('auth.password.broker')->createToken($notifiiable);
         return (new MailMessage)

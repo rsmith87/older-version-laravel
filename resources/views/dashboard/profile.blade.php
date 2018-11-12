@@ -124,7 +124,7 @@
 					  <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 
-					  <p>To cancel your Litimate subscription, click the button below.</p>
+					  <p>To cancel your Legalkeeper subscription, click the button below.</p>
 
 
 					  <button id="submit" name="submit" class="btn btn-danger">Cancel account</button>
@@ -155,7 +155,7 @@
 						  <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 
-						  <p>To cancel your Litimate subscription, click the button below.</p>
+						  <p>To cancel your Legalkeeper subscription, click the button below.</p>
 
 
 						  <button id="submit" name="submit" class="btn btn-primary">Submit</button>

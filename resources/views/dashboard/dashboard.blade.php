@@ -10,8 +10,13 @@
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#event-modal" href="#"><i class="fas fa-calendar-plus"></i> Add event</a>
 		<a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#document-modal" href="#"><i class="fas fa-cloud-upload-alt"></i> Add document</a>
     <a class="nav-item nav-link btn btn-info" data-toggle="modal" data-target="#task-modal" href="#"><i class="fas fa-tasks"></i> Add Task</a>
+    /dashboard/mail-test
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/mail-test"><i class="fas fa-tasks"></i> Test Mail</a>
 	</nav>  	-->
-  	@include('dashboard.includes.alerts')
+    <nav class="nav nav-pills">
+    <a class="nav-item nav-link btn btn-info" href="/dashboard/mail-test"><i class="fas fa-tasks"></i> Test Mail</a>
+    </nav>
+    @include('dashboard.includes.alerts')
   
   <div id="dashbaord-main">
 
@@ -124,7 +129,7 @@
       @if(count($tasklists) > 0)
     <div class="col-sm-6 col-xs-12 mb-4">
    <div class="box box-primary box-shadow">
-            <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <div class="box-header ui-sortable-handle">
               <i class="ion ion-clipboard"></i>
 
               <h3 class="box-title">Tasklists</h3>

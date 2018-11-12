@@ -18,7 +18,19 @@ $(function($){
   $('.task-checkbox').click(function(){
 
   });
-  
+
+  $("input[name=message_email_user]").change(function(){
+      var $this = $(this);
+      if($this.val() === 'user'){
+          $('.user-selection').css({"display":"block"});
+          $('.email-selection').css({"display":"none"});
+      }
+      if($this.val() === 'email'){
+          $('.email-selection').css({"display":"block"});
+          $('.user-selection').css({"display":"none"});
+      }
+  });
+
   $('.download').click(function(e){
     e.preventDefault();
   });
@@ -163,6 +175,13 @@ $(function($){
   $('table#documents tr td').click(function(){
     //window.location='/dashboard/documents';
   });
+
+  $('table#firm-users tr td').click(function(){
+      var $this = $(this);
+      $id = $this.parent().find('td:nth-child(1)').text();
+      window.location='/dashboard/firm/user/'+$id;
+  });
+
   $('table#non-click').click(function(){
       return;
   })

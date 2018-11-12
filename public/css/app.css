@@ -158,6 +158,14 @@ strong {
   -o-transition: all 2s;
   transition: all 2s;
 }
+#calendar .fc-day-number {
+  font-size: 1em;
+}
+#calendar .alert {
+  position: relative;
+  top: 0;
+  right: 0;
+}
 .dashboard-navigation .navbar-nav span.glyphicon,
 .dashboard-navigation .navbar-nav svg {
   margin-right: 10px;
@@ -287,6 +295,12 @@ table#main tr.table-dark td:active {
 }
 .dashboard.case #calendar {
   float: left;
+}
+.dashboard.case nav .btn-primary:not(:disabled):not(.disabled):active,
+.dashboard.case nav .btn-primary:not(:disabled):not(.disabled):hover,
+.dashboard.case nav .btn-primary:not(:disabled):not(.disabled).active,
+.dashboard.case nav .show > .btn-primary.dropdown-toggle {
+  border-left: 1px solid;
 }
 .dashboard.task .tags {
   overflow: hidden;
@@ -1188,6 +1202,22 @@ table#documents th:nth-child(1) {
 #create-message-modal .checkbox label .icheckbox_square-blue {
   margin-right: 5px;
 }
+#create-message-modal .user-selection {
+  display: none;
+}
+#create-message-modal .email-selection {
+  display: none;
+}
+#create-message-modal .form-group {
+  width: 100% !important;
+}
+#create-message-modal input[name=message_email_user] {
+  position: relative;
+  top: 2px;
+}
+#create-message-modal input[name=message_email_user]:nth-child(2) {
+  margin-left: 10px;
+}
 #payment-modal-full input.btn {
   margin-top: 15px;
 }
@@ -1559,6 +1589,7 @@ nav.btn-primary:active {
 }
 .case-document img {
   min-width: 100%;
+  max-width: 100%;
 }
 .case-document .btn {
   border-radius: 0;
@@ -1602,5 +1633,9 @@ nav.btn-primary:active {
 }
 .fc-scroller {
   height: auto !important;
+}
+table.communcation-log th:nth-child(1),
+table.communcation-log td:nth-child(1) {
+  display: table-cell;
 }
 /*# sourceMappingURL=app.css.map */
