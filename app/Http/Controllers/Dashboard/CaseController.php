@@ -10,11 +10,9 @@ use App\User;
 use App\View;
 use App\Timer;
 use App\Order;
-use App\Document;
 use App\Invoice;
 use App\InvoiceLine;
 use App\TaskList;
-//use App\Thread;
 use App\CaseHours;
 use App\Note;
 use App\FirmStripe;
@@ -89,7 +87,7 @@ class CaseController extends Controller
 			return redirect('/dashboard/firm/')->with('status', 'You must provide your firm information before proceeding.');
 		}
 
-		$all_case_data = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('contacts')->with('documents')->with('tasks')->get();
+		$all_case_data = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('contacts')->with('tasks')->get();
 		$columns = [];
 		$views = View::where(['u_id' => $this->user['id'], 'view_type' => 'case'])->get();
 		$view_data_columns = [];
@@ -103,7 +101,7 @@ class CaseController extends Controller
 		}
 
 
-		$cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('timers')->with('contacts')->with('documents')->get();
+		$cases = LawCase::where(["firm_id" => $this->settings->firm_id, 'u_id' => \Auth::id()])->select($columns)->with('timers')->with('contacts')->get();
 
 		return view('dashboard/cases',
 			[
@@ -375,7 +373,7 @@ class CaseController extends Controller
 	public function lawcase($id, Request $request)
 	{
 		//$all_media = [];
-		$requested_case = LawCase::where(['firm_id' => $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
+		$requested_case = LawCase::where(['firm_id' => $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->first();
 		if (count($requested_case) === 0) {
 			return redirect('/dashboard/cases')->withErrors(['You don\'t have access to this case.']);
 		}
@@ -435,7 +433,6 @@ class CaseController extends Controller
 		$client = Contact::where(['case_id' => $requested_case->id, 'is_client' => 1])->first();
 		$order = Order::where('case_uuid', $id)->first();
 		$invoices = Invoice::where('invoicable_id', $id)->get();
-		$documents = Document::where('case_id', $id)->get();
 		$notes = Note::where('case_uuid', $id)->get();
 		$task_lists = TaskList::where('c_id', $requested_case->id)->with('task')->get();
 		$case_contacts = Contact::where('case_id', $requested_case->id)->get();
@@ -479,7 +476,6 @@ class CaseController extends Controller
 			'full_case_hours' => $full_case_hours,
 			'events' => $events,
 
-			'documents' => $documents,
 			'media' => isset($all_media) ? $all_media : [],
 			'notes' => $notes,
 			'task_lists' => $task_lists,
@@ -556,13 +552,12 @@ class CaseController extends Controller
 		//init array to create the data array
 		$timeline_data = [];
 
-		$requested_case = LawCase::where(['firm_id' => $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->with('documents')->first();
+		$requested_case = LawCase::where(['firm_id' => $this->settings->firm_id, 'case_uuid' => $id])->with('contacts')->with('client')->first();
 		$case_hours = CaseHours::where('case_uuid', $id)->get();
 		$case_notes = Note::where('case_uuid', $id)->get();
 		$clients = Contact::where(['case_id' => $requested_case->id, 'is_client' => 1])->first();
 		$contacts = Contact::where(['case_id' => $requested_case->id, 'is_client' => 0])->get();
 		$order = Order::where('case_uuid', $id)->first();
-		$documents = Document::where('case_id', $id)->get();
 		$invoices = Invoice::where('invoicable_id', $id)->select('created_at', 'receiver_info', 'total')->get();
 		$task_lists = TaskList::where('c_id', $id)->with('task')->get();
 		$events = Event::where('c_id', $requested_case->id)->get();
@@ -653,19 +648,7 @@ class CaseController extends Controller
 				]);
 			}
 		}
-
-		if (count($documents) > 0) {
-			foreach ($documents as $document) {
-				$document_created_time = $document->created_at;
-				array_push($timeline_data, [
-					'date' => $document_created_time,
-					'headline' => 'Added ' . $document->name . ' document.',
-					'type' => 'document',
-					'link' => '/dashboard/documents',
-				]);
-			}
-		}
-
+		
 		if (count($contacts) > 0) {
 			foreach ($contacts as $contact) {
 				$contact_created_time = $contact->created_at;
@@ -713,7 +696,6 @@ class CaseController extends Controller
 			'contacts' => $this->contacts,
 			'clients' => $this->clients,
 			'case_uuid' => $requested_case->case_uuid,
-			'documents' => $requested_case->Documents,
 			'timeline_data' => $timeline_data,
 			'settings' => $this->settings,
 			'case_types' => $this->case_types,

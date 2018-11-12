@@ -9,12 +9,10 @@ use App\User;
 use App\View;
 use App\LawCase;
 use App\Note;
-use App\Document;
 use App\Settings;
 use App\TaskList;
 use App\CommLog;
 use App\FirmStripe;
-//use App\Thread;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
@@ -68,7 +66,7 @@ class ContactController extends Controller
 			$array_cases[$case->id] = $case->name;
 		}
 
-		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('documents')->with('tasks')->get();
+		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('tasks')->get();
 		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->get();
 
 		return view('dashboard/contacts', [
@@ -92,7 +90,7 @@ class ContactController extends Controller
 
 	public function contact(Request $request, $id)
 	{
-		$requested_contact = Contact::where(['firm_id' => $this->settings->firm_id, 'contlient_uuid' => $id, 'user_id' => $this->user['id']])->with('documents')->first();
+		$requested_contact = Contact::where(['firm_id' => $this->settings->firm_id, 'contlient_uuid' => $id, 'user_id' => $this->user['id']])->first();
 
 		if (!$requested_contact) {
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
@@ -132,7 +130,7 @@ class ContactController extends Controller
 
 	public function client(Request $request, $id)
 	{
-		$requested_contact = Contact::where(['firm_id' => $this->settings->firm_id, 'contlient_uuid' => $id, 'is_client' => '1', 'user_id' => $this->user['id']])->with('documentsclients')->with('tasks')->first();
+		$requested_contact = Contact::where(['firm_id' => $this->settings->firm_id, 'contlient_uuid' => $id, 'is_client' => '1', 'user_id' => $this->user['id']])->with('tasks')->first();
 
 		if (!$requested_contact) {
 			return redirect('/dashboard/contacts')->withError('You don\'t have access to this case.');
@@ -294,7 +292,7 @@ class ContactController extends Controller
 
 
 		$cases = LawCase::where('firm_id', $this->settings->firm_id)->select('id', 'name')->get();
-		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '1', 'user_id' => $this->user['id']])->select($columns)->with('documentsclients')->with('tasks')->get();
+		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '1', 'user_id' => $this->user['id']])->select($columns)->with('tasks')->get();
 		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '1'])->get();
 
 		return view('dashboard/clients', [

@@ -149,8 +149,8 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
 	          'can' => 'view messages',
-        ],
-        /*[
+        ],/*
+        [
             'text'        => 'Gmail',
             'url'         => 'dashboard/mail',
             'icon'        => 'envelope',

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\View;
 use App\Contact;
 use App\LawCase;
-use App\Http\Requests;
 use App\User;
 use App\Settings;
 use App\FirmStripe;
@@ -14,9 +13,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-use App\Thread;
+
 
 class SettingController extends Controller
 {

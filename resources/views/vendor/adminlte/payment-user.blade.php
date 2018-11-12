@@ -38,6 +38,8 @@
         <p>$20 a month (Tax included)</p>
         <p>Total: $20.00 per month per user</p>
 
+        <p class="label-danger">Cancel within 14 days to receieve a full refund of your first month's subscription.</p>
+
         <label for="card-element">
           Credit or debit card
         </label>

@@ -56,16 +56,6 @@ class Contact extends Model
       return $this->hasOne('App\Case', 'id', 'case_id');
     }
   
-    public function documents()
-    {
-        return $this->hasMany('App\Document', 'contact_id');
-    }
-  
-    public function documentsclients()
-    {
-        return $this->hasMany('App\Document', 'client_id');
-    }  
-  
     public function getTableColumns() {
         return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
     }

@@ -29,11 +29,6 @@ class Task extends Model
       'updated_at',
     ];
   
-    public function subtasks()
-    {
-      return $this->hasMany('App\Subtask', 't_id', 'id');
-    }
-  
     public function categories()
     {
       return $this->hasMany('App\Category', 'task_id', 'id');

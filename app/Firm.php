@@ -38,11 +38,7 @@ class Firm extends Model
     protected $hidden = [
      
     ];
-  
-    public function documents()
-    {
-      return $this->hasMany('App\Document', 'firm_id');
-    }  
+
     public function users()
     {
       return $this->hasMany('App\User', 'f_id');
