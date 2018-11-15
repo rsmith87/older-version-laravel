@@ -13,9 +13,9 @@
     /dashboard/mail-test
     <a class="nav-item nav-link btn btn-info" href="/dashboard/mail-test"><i class="fas fa-tasks"></i> Test Mail</a>
 	</nav>  	-->
-    <nav class="nav nav-pills">
+    <!--<nav class="nav nav-pills">
     <a class="nav-item nav-link btn btn-info" href="/dashboard/mail-test"><i class="fas fa-tasks"></i> Test Mail</a>
-    </nav>
+    </nav>-->
     @include('dashboard.includes.alerts')
   
   <div id="dashbaord-main">
