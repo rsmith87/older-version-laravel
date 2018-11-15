@@ -66,8 +66,8 @@ class ContactController extends Controller
 			$array_cases[$case->id] = $case->name;
 		}
 
-		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->select($columns)->with('tasks')->get();
-		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0'])->get();
+		$contacts = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0', 'user_id' => $this->user['id']])->select($columns)->with('tasks')->get();
+		$other_data = Contact::where(["firm_id" => $this->settings->firm_id, 'is_client' => '0', 'user_id' => $this->user['id']])->get();
 
 		return view('dashboard/contacts', [
 			'user' => $this->user,

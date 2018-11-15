@@ -1,4 +1,8 @@
 <nav class="nav nav-pills">
+    @if(Request::segment(3) === 'case')
+        <a class="nav-item nav-link btn btn-sm btn-primary" href="/dashboard/cases/case/{{ $case->case_uuid }}"><i
+                    class="fas fa-step-backward"></i> Back to case</a>
+    @endif
     <a class="nav-item nav-link btn btn-sm btn-warning" data-toggle="modal" data-target="#case-edit-modal" href="#"><i
                 class="fas fa-balance-scale"></i> Edit case</a>
     <a class="nav-item nav-link btn btn-sm btn-info" data-toggle="modal" data-target='#add-hours-modal' href='#'><i

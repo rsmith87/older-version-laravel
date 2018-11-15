@@ -385,7 +385,6 @@ class CaseController extends Controller
 			}
 		}
 
-
         /*
          * This combines the case hours table and the timers down and creates
          * an array of

@@ -25,22 +25,39 @@
 
 
         <div class="col-sm-6 col-12">
+
             <label>Name</label>
-            <p>{{ $firm['name'] }}</p>
+            @if($firm->name)
+            <p>{{ $firm->name }}</p>
+            @endif
+
+            @if($firm->phone)
             <label>Phone</label>
-            <p>{{ $firm['phone'] }}</p>
+            <p>{{ $firm->phone }}</p>
+            @endif
+
+            @if($firm->fax)
             <label>Fax</label>
-            <p>{{ $firm['fax'] }}</p>
+            <p>{{ $firm->fax }}</p>
+            @endif
+
+            @if($firm->email)
             <label>Email</label>
-            <p>{{ $firm['email'] }}</p>
+            <p>{{ $firm->email }}</p>
+            @endif
         </div>
         <div class="col-sm-6 col-12">
+            @if($firm->address_1)
             <label>Address</label>
-            <p>{{ $firm['address_1'] }}<br/>
-                {{ isset($firm['address_2']) ? $firm['address_2'] : "" }}<br/>
-                {{ $firm['city'] }}, {{ $firm['state'] }} {{ $firm['zip'] }}</p>
+            <p>{{ $firm->address_1 }}<br/>
+                {{ isset($firm->address_2) ? $firm->address_2 : "" }}<br/>
+                {{ $firm->city }}, {{ $firm->state }} {{ $firm->zip }}</p>
+            @endif
+
+            @if($firm->billing_details)
             <label>Invoice Details</label>
-            <p>{{ $firm['billing_details'] }}</p>
+            <p>{{ $firm->billing_details }}</p>
+            @endif
         </div>
 
 

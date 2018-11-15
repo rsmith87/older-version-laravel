@@ -26,10 +26,11 @@
                             <!-- timeline time label -->
                             @foreach($timeline_data as $td)
                                 <li class="time-label">
-                                    @if(\Carbon\Carbon::parse($td['date']) === \Carbon\Carbon::parse(prev($td['date'])))
+
+                                    @if(!empty(prev($td)) && \Carbon\Carbon::parse($td['date']) === \Carbon\Carbon::parse(prev($td['date'])))
                                         <span class="bg-blue">
-                     			{{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
-                  			</span>
+                                            {{  \Carbon\Carbon::parse($td['date'])->format('m/d/Y') }}
+                                        </span>
                                     @endif
                                 </li>
                                 <!-- timeline item -->

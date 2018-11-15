@@ -75,7 +75,6 @@ class FirmController extends Controller
         //loop through each user id that came from settings
         foreach ($firm_users as $user) {
             $users = json_decode(User::where('id', $user->user_id)->get(), true);
-
             //loop through each user data info
             foreach ($users as $u) {
 
@@ -84,7 +83,6 @@ class FirmController extends Controller
                 if (!in_array($u['name'], $names)) {
                     $firm_staff[] = $u;
                 }
-
             }
         }
 
@@ -209,6 +207,7 @@ class FirmController extends Controller
             'firm_id' => $this->settings->firm_id,
             'theme' => $this->settings->theme,
             'user_id' => $id->id,
+            'tz' => $this->settings->tz,
         ]);
 
         $id->sendPasswordResetNotification($id);

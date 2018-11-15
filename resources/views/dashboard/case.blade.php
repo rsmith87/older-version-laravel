@@ -29,12 +29,34 @@
                 <div class="list-group navbar" id="sidebar">
                     <ul class="nav nav-pills" id="mynav">
                         <li><a href="#case-information" class="list-group-item">Case Information</a></li>
+
+                        @if(count($full_case_hours) > 0)
                         <li><a href="#timers-and-hours" class="list-group-item">Timers and worked hours</a></li>
+                        @endif
+
+                        @if(count($notes) > 0)
                         <li><a href="#notes" class="list-group-item">Notes</a></li>
+                        @endif
+
+                        @if(count($contacts) > 0)
                         <li><a href="#contacts" class="list-group-item">Contacts</a></li>
+                        @endif
+
+                        @if(count($events) > 0)
                         <li><a href="#calendar" class="list-group-item">Events</a></li>
+                        @endif
+
+                        @if(count($media) > 0)
                         <li><a href="#media-and-documents" class="list-group-item">Media and Documents</a></li>
+                        @endif
+
+                        @if(count($invoices) > 0)
                         <li><a href="#invoices" class="list-group-item">Invoices</a></li>
+                        @endif
+
+                        @if(count($task_lists) > 0)
+                            <li><a href="#tasklists" class="list-group-item">Tasklists</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
