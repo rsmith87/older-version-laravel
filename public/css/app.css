@@ -293,6 +293,13 @@ table#main tr.table-dark td:active {
   padding-left: 0;
   padding-right: 10px;
 }
+.dashboard.case .affix {
+  top: 60px;
+  z-index: 1080;
+}
+.dashboard.case .affix-top .navbar {
+  margin-bottom: 0;
+}
 .dashboard.case #calendar {
   float: left;
 }
@@ -1637,5 +1644,29 @@ nav.btn-primary:active {
 table.communcation-log th:nth-child(1),
 table.communcation-log td:nth-child(1) {
   display: table-cell;
+}
+#uploadModal .form-group {
+  width: auto;
+  float: none;
+  margin-right: 0px;
+}
+.right-side-hide {
+  display: none;
+}
+.list-group.navbar {
+  z-index: 1;
+}
+.scroll-spy {
+  overflow: hidden;
+  position: relative;
+}
+#case-information,
+#timers-and-hours,
+#notes,
+.contacts-case,
+#calendar,
+#media-and-documents,
+#invoices {
+  height: 100vh;
 }
 /*# sourceMappingURL=app.css.map */

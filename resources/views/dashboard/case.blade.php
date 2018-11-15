@@ -16,7 +16,7 @@
             </div>
         @endif
 
-        <div>
+        <div data-spy="scroll" class="scroll-spy" data-target="#mynav">
             <h1 class="pull-left ml-3 mt-4 mb-2">
                 <i class="fas fa-balance-scale"></i> Case
             </h1>
@@ -24,315 +24,331 @@
             <p class="ml-3 mb-4">
                 Case information for {{ $case->name }}
             </p>
-        </div>
-        <div>
-            <div class="col-sm-6 col-12">
-                @if($case->status)
-                    <label>Status</label>
-                    <p>{{ ucfirst($case->status) }}</p>
-                @endif
 
-                @if($case->type)
-                    <label>Type</label>
-                    <p>{{ str_replace('_', ' ', ucfirst($case->type)) }}</p>
-                @endif
-
-                @if($case->name)
-                    <label>Name</label>
-                    <p>{{ $case->name }}</p>
-                @endif
-
-                @if($case->number)
-                    <label>Case number</label>
-                    <p>{{ $case->number }}</p>
-                @endif
-
-                @if($case->description)
-                    <label>Case description</label>
-                    <p>{{ $case->description }}</p>
-                @endif
-
-                @if($case->court_name)
-                    <label>Court name</label>
-                    <p>{{ $case->court_name }}</p>
-                @endif
-
-                @if($case->opposing_councel)
-                    <label>Opposing Councel</label>
-                    <p>{{ $case->opposing_councel }}</p>
-                @endif
-
-                @if($case->location)
-                    <label>Location</label>
-                    <p>{{ $case->location }}</p>
-                @endif
+            <div class="col-xs-12" data-spy="affix" data-offset="180">
+                <div class="list-group navbar" id="sidebar">
+                    <ul class="nav nav-pills" id="mynav">
+                        <li><a href="#case-information" class="list-group-item">Case Information</a></li>
+                        <li><a href="#timers-and-hours" class="list-group-item">Timers and worked hours</a></li>
+                        <li><a href="#notes" class="list-group-item">Notes</a></li>
+                        <li><a href="#contacts" class="list-group-item">Contacts</a></li>
+                        <li><a href="#calendar" class="list-group-item">Events</a></li>
+                        <li><a href="#media-and-documents" class="list-group-item">Media and Documents</a></li>
+                        <li><a href="#invoices" class="list-group-item">Invoices</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="col-sm-6 col-12">
-                @if(count($client) > 0)
-                    <label>Client</label>
-                    <p>
-                        <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal"
-                           data-target="#view-client-modal-full"
-                           href="/dashboard/clients/client/{{ $client->contlient_uuid }}#contact-information"><i
-                                    class="fas fa-user"></i> {{ $client->first_name }} {{ $client->last_name }}</a>
-                    </p>
-                @endif
-                <label>Created</label>
-                <p>{{ \Carbon\Carbon::parse($case->created_at)->format('m/d/Y g:i A') }}</p>
-                <label>Total cost</label>
-                @if($case->billing_type === 'hourly')
-                    @if($case->billing_rate === "")
-                        <p>N/A</p>
-                    @else
-                        <p>${{ number_format($hours_worked * $case->billing_rate, 2) }}</p>
-                    @endif
-                @else
-                    @if($case->billing_rate === "")
-                        <p>N/A</p>
-                    @else
-                        <p>${{ (float) number_format($case->billing_rate, 2) }}</p>
-                    @endif
-                @endif
+            <div class="col-xs-12">
+                <div id="case-information">
+                    <div class="col-sm-6 col-xs-12">
+                        @if($case->status)
+                            <label>Status</label>
+                            <p>{{ ucfirst($case->status) }}</p>
+                        @endif
 
-                @if($case->claim_reference_number)
-                    <label>Claim reference number</label>
-                    <p>{{ $case->claim_reference_number }}</p>
-                @endif
+                        @if($case->type)
+                            <label>Type</label>
+                            <p>{{ str_replace('_', ' ', ucfirst($case->type)) }}</p>
+                        @endif
 
-                @if($case->statute_of_limitations)
-                    <label>Statute of Limitations</label>
-                    <p>{{ $case->statute_of_limitations ? "Complete" : "Not complete" }}</p>
-                @endif
+                        @if($case->name)
+                            <label>Name</label>
+                            <p>{{ $case->name }}</p>
+                        @endif
 
-                @if($case->open_date != "0000-00-00 00:00:00")
-                    <label>Open date</label>
-                    <p>{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}</p>
-                @endif
+                        @if($case->number)
+                            <label>Case number</label>
+                            <p>{{ $case->number }}</p>
+                        @endif
 
-                @if($case->close_date != "0000-00-00 00:00:00")
-                    <label>Close date</label>
-                    <p>{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}</p>
-                @endif
+                        @if($case->description)
+                            <label>Case description</label>
+                            <p>{{ $case->description }}</p>
+                        @endif
 
-                @if($case->billing_rate)
-                    <label>Rate</label>
-                    <p>${{ $case->billing_rate }}</p>
-                @endif
+                        @if($case->court_name)
+                            <label>Court name</label>
+                            <p>{{ $case->court_name }}</p>
+                        @endif
 
-                @if($hours_worked)
-                    <label>Hours</label>
-                    <p>{{ $hours_worked }} hours</p>
-                @endif
+                        @if($case->opposing_councel)
+                            <label>Opposing Councel</label>
+                            <p>{{ $case->opposing_councel }}</p>
+                        @endif
 
-                @if($case->billing_type)
-                    <label>Rate type</label>
-                    <p>{{ ucfirst($case->billing_type) }}</p>
-                @endif
+                        @if($case->location)
+                            <label>Location</label>
+                            <p>{{ $case->location }}</p>
+                        @endif
+                    </div>
 
-            </div>
+                    <div class="col-sm-6 col-xs-12" id="client">
+                        @if(count($client) > 0)
+                            <label>Client</label>
+                            <p>
+                                <a class="nav-item nav-link btn btn-sm btn-success" data-toggle="modal"
+                                   data-target="#view-client-modal-full"
+                                   href="/dashboard/clients/client/{{ $client->contlient_uuid }}#contact-information"><i
+                                            class="fas fa-user"></i> {{ $client->first_name }} {{ $client->last_name }}
+                                </a>
+                            </p>
+                        @endif
+                        <label>Created</label>
+                        <p>{{ \Carbon\Carbon::parse($case->created_at)->format('m/d/Y g:i A') }}</p>
+                        <label>Total cost</label>
+                        @if($case->billing_type === 'hourly')
+                            @if($case->billing_rate === "")
+                                <p>N/A</p>
+                            @else
+                                <p>${{ number_format($hours_worked * $case->billing_rate, 2) }}</p>
+                            @endif
+                        @else
+                            @if($case->billing_rate === "")
+                                <p>N/A</p>
+                            @else
+                                <p>${{ (float) number_format($case->billing_rate, 2) }}</p>
+                            @endif
+                        @endif
 
-            <div class="clearfix"></div>
+                        @if($case->claim_reference_number)
+                            <label>Claim reference number</label>
+                            <p>{{ $case->claim_reference_number }}</p>
+                        @endif
 
-            @if(count($notes) > 0)
-                <div class="col-xs-12 col-sm-6">
-                    <h3 class="mt-5 ml-3">
-                        <i class="fas fa-sticky-note"></i> Notes
-                    </h3>
-                    <div class="clearfix"></div>
-                    <div class="mb-3 ml-3" style="overflow:hidden;">
+                        @if($case->statute_of_limitations)
+                            <label>Statute of Limitations</label>
+                            <p>{{ $case->statute_of_limitations ? "Complete" : "Not complete" }}</p>
+                        @endif
 
+                        @if($case->open_date != "0000-00-00 00:00:00")
+                            <label>Open date</label>
+                            <p>{{ \Carbon\Carbon::parse($case->open_date)->format('m/d/Y') }}</p>
+                        @endif
 
-                        @foreach($notes as $note)
-                            <div>
+                        @if($case->close_date != "0000-00-00 00:00:00")
+                            <label>Close date</label>
+                            <p>{{ \Carbon\Carbon::parse($case->close_date)->format('m/d/Y') }}</p>
+                        @endif
 
-                                <div class="card-body">
-                                    <a class="pull-right" data-toggle="modal"
-                                       data-target="#delete-note-modal-{{ $note->id }}"><i
-                                                class="fas fa-trash-alt"></i></a>
-                                    <a data-toggle="modal" class="pull-right"
-                                       data-target="#edit-note-modal-{{ $note->id }}"><i
-                                                class="fas fa-edit"></i></a>
-                                    <h5 class="card-title">
-                                        Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y g:i A') }}</h5>
-                                    <p class="card-text">{{ $note->note }}</p>
-                                </div>
-                            </div>
+                        @if($case->billing_rate)
+                            <label>Rate</label>
+                            <p>${{ $case->billing_rate }}</p>
+                        @endif
 
+                        @if($hours_worked)
+                            <label>Hours</label>
+                            <p>{{ $hours_worked }} hours</p>
+                        @endif
 
-                        @endforeach
+                        @if($case->billing_type)
+                            <label>Rate type</label>
+                            <p>{{ ucfirst($case->billing_type) }}</p>
+                        @endif
+
                     </div>
                 </div>
-            @endif
 
-            @if(count($full_case_hours) > 0)
-                <div class="col-xs-12 col-sm-6">
-                    <h3 class="mt-5 ml-3">
-                        <i class="fas fa-clock"></i> Hours and Timers
-                    </h3>
-                    <div class="clearfix"></div>
-                    <div class="mb-3 ml-3" style="overflow:hidden;">
-                        @for($i=0;$i<count($full_case_hours);$i++)
-                            <div>
-                                <div class="card-body">
-                                    <a class="pull-right" data-toggle="modal"
-                                       data-target="#delete-hours-modal-{{ $full_case_hours[$i]['id'] }}"><i
-                                                class="fas fa-trash-alt"></i></a>
-                                    @if($full_case_hours[$i]['type'] != 'timer')
+                @if(count($full_case_hours) > 0)
+                    <div class="col-xs-12" id="timers-and-hours">
+                        <h3 class="mt-5 ml-3">
+                            <i class="fas fa-clock"></i> Hours and Timers
+                        </h3>
+                        <div class="clearfix"></div>
+                        <div class="mb-3 ml-3" style="overflow:hidden;">
+                            @for($i=0;$i<count($full_case_hours);$i++)
+                                <div>
+                                    <div class="card-body">
+                                        <a class="pull-right" data-toggle="modal"
+                                           data-target="#delete-hours-modal-{{ $full_case_hours[$i]['id'] }}"><i
+                                                    class="fas fa-trash-alt"></i></a>
+                                        @if($full_case_hours[$i]['type'] != 'timer')
+                                            <a data-toggle="modal" class="pull-right"
+                                               data-target="#edit-hours-modal-{{ $full_case_hours[$i]['id'] }}"><i
+                                                        class="fas fa-edit"></i></a>
+                                        @endif
+                                        <h5 class="card-title">
+                                            Created: {{ \Carbon\Carbon::parse($full_case_hours[$i]['created_at'])->format('m/d/Y g:i A') }}</h5>
+                                        <p class="card-text">
+                                            <strong>Hours</strong>: {{ round((float) $full_case_hours[$i]['time']/3600, 2) }}
+                                            <br/> <strong>Note</strong>: {{ $full_case_hours[$i]['description'] }}</p>
+                                    </div>
+                                </div>
+                            @endfor
+
+                        </div>
+                    </div>
+                @endif
+
+                @if(count($notes) > 0)
+                    <div class="col-xs-12" id="notes">
+                        <h3 class="mt-5 ml-3">
+                            <i class="fas fa-sticky-note"></i> Notes
+                        </h3>
+                        <div class="clearfix"></div>
+                        <div class="mb-3 ml-3" style="overflow:hidden;">
+
+
+                            @foreach($notes as $note)
+                                <div>
+
+                                    <div class="card-body">
+                                        <a class="pull-right" data-toggle="modal"
+                                           data-target="#delete-note-modal-{{ $note->id }}"><i
+                                                    class="fas fa-trash-alt"></i></a>
                                         <a data-toggle="modal" class="pull-right"
-                                           data-target="#edit-hours-modal-{{ $full_case_hours[$i]['id'] }}"><i
+                                           data-target="#edit-note-modal-{{ $note->id }}"><i
                                                     class="fas fa-edit"></i></a>
-                                    @endif
-                                    <h5 class="card-title">
-                                        Created: {{ \Carbon\Carbon::parse($full_case_hours[$i]['created_at'])->format('m/d/Y g:i A') }}</h5>
-                                    <p class="card-text">
-                                        <strong>Hours</strong>: {{ round((float) $full_case_hours[$i]['time']/3600, 2) }}
-                                        <br/> <strong>Note</strong>: {{ $full_case_hours[$i]['description'] }}</p>
+                                        <h5 class="card-title">
+                                            Created: {{ \Carbon\Carbon::parse($note->created_at)->format('m/d/Y g:i A') }}</h5>
+                                        <p class="card-text">{{ $note->note }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        @endfor
 
+
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            @endif
+                @endif
 
-            <div class="clearfix"></div>
 
-            @if(!empty($contacts))
-                @foreach($contacts as $contact)
-                    @if($contact->is_client != 1)
-                        <div class="col-xs-12 contacts-case">
-                            <div class="clearfix"></div>
+                @if(!empty($contacts))
+                    @foreach($contacts as $contact)
+                        @if($contact->is_client != 1)
+                            <div class="col-xs-12 contacts-case" id="contacts">
+                                <div class="clearfix"></div>
+                                <h3 class="mt-5">
+                                    <i class="fa fa-address-card"></i> Contacts
+                                </h3>
+                                <table id="contacts"
+                                       class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
+                                    <thead>
+                                    <tr class="bg-primary">
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Email</th>
+                                        <th>Relationship</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ $contact->contlient_uuid }}</td>
+                                        <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                                        <td>{{ !empty($contact->phone) ? $contact->phone : "Not set" }}</td>
+                                        <td>{{ !empty($contact->email) ? $contact->email : "Not set" }}</td>
+                                        <td>{{ !empty($contact->relationship) ? $contact->relationship : "Not set" }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
+
+                @if(!empty($events))
+
+                    @if(count($events) > 0)
+                        <div id="calendar" class="col-xs-12 col-sm-6 fc fc-unthemed fc-ltr"></div>
+
+                    @endif
+                @endif
+
+
+                @if(!empty($media))
+                    @if(count($media) > 0)
+                        <div class="col-xs-12" id="media-and-documents">
                             <h3 class="mt-5">
-                                <i class="fa fa-address-card"></i> Contacts
+                                <i class="fa fa-file"></i> Media and Documents
                             </h3>
-                            <table id="contacts"
-                                   class="table table-{{ $table_size }} table-hover table-responsive table-striped table-{{ $table_color }} mb-3">
+                            @foreach($media as $m)
+
+                                <div class="col-sm-4 col-xs-12 col-md-4 case-document">
+                                    @if($m[0]->mime_type === 'png' || $m[0]->mime_type === 'jpg' || $m[0]->mime_type === 'gif')
+                                        <img src="{{ env('HTTP_TYPE') }}://{{ env('APP_DOMAIN') . '/files/user/'.\Auth::id(). '/' . $m[0]->name }}"/>
+                                    @elseif($m[0]->mime_type==='docx')
+                                        <p>Name: {{ $m[0]->file_name }}</p>
+                                        <p>Size: {{ round($m[0]->size / 1000, 2) }} KB</p>
+                                    @endif
+
+                                    <a data-toggle="modal" class="btn btn-block btn-primary"
+                                       data-target='#view-media-modal-{{ $m[0]->uuid }}' href='#'>View</a>
+                                    <a data-toggle="modal" class="btn btn-block btn-danger"
+                                       data-target='#delete-media-modal-{{ $m[0]->uuid }}' href='#'>Delete</a>
+
+                                </div>
+                                @endforeach
+                                </tbody>
+                                </table>
+                        </div>
+                    @endif
+                @endif
+
+                @if(!empty($invoices))
+                    @if(count($invoices) > 0)
+                        <div class="col-xs-12" id="invoices">
+                            <h3 class="mt-5">
+                                <i class="fa fa-file"></i> Invoices
+                            </h3>
+                            @foreach($invoices as $invoice)
+                                <div class="invoice-small invoice-small-case col-md-3 col-sm-5 col-xs-12 box-shadow box-white">
+                                    @if($invoice->paid)
+                                        <p class="text-green text-center text-bold">PAID</p>
+                                    @else
+                                        <p class="text-center text-red text-bold">UNPAID</p>
+                                    @endif
+                                    <label>To</label>
+                                    <p>{{ $invoice->receiver_info }}</p>
+                                    <p>{{ $invoice->sender_info }}</p>
+                                    <label>Due</label>
+                                    <p>{{ \Carbon\Carbon::parse($invoice->due_date)->format('m/d/Y g:i A') }}</p>
+                                    <label>Description</label>
+                                    <p>{{ $invoice->description }}</p>
+                                    <label>Total</label>
+                                    <p>$ {{ $invoice->total }}.00</p>
+                                    <a class="btn btn-primary btn-block"
+                                       href="/dashboard/invoices/invoice/{{$invoice->invoice_uuid}}">View</a>
+                                    <a class="btn btn-danger btn-block"
+                                       href="/dashboard/invoices/invoice/{{$invoice->invoice_uuid}}/delete">Delete</a>
+                                </div>
+                                @endforeach
+                                </tbody>
+                                </table>
+                        </div>
+                    @endif
+                @endif
+
+                @if(count($task_lists) > 0)
+                    @foreach($task_lists as $task_list)
+                        <div class="col-xs-12" id="tasklists">
+                            <h3 class="mt-5">
+                                <i class="fa fa-clipboard-list"></i> Task list {{ $task_list->task_list_name }}
+                            </h3>
+                            <table id="tasks"
+                                   class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }}">
                                 <thead>
                                 <tr class="bg-primary">
-                                    <th>Id</th>
+                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>Relationship</th>
+                                    <th>Description</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>{{ $contact->contlient_uuid }}</td>
-                                    <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
-                                    <td>{{ !empty($contact->phone) ? $contact->phone : "Not set" }}</td>
-                                    <td>{{ !empty($contact->email) ? $contact->email : "Not set" }}</td>
-                                    <td>{{ !empty($contact->relationship) ? $contact->relationship : "Not set" }}</td>
-                                </tr>
+                                @foreach($task_list->Task as $task)
+                                    <tr>
+                                        <td>{{ $task_list->id }}</td>
+                                        <td>{{ $task->task_name }}</td>
+                                        <td>{{ $task->task_description }}</td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    @endif
-                @endforeach
-            @endif
-
-            @if(!empty($events))
-
-                @if(count($events) > 0)
-                    <div id="calendar" class=" col-md-6 col-xs-12 col-sm-6 fc fc-unthemed fc-ltr"></div>
-
+                    @endforeach
                 @endif
-            @endif
 
 
-            @if(!empty($media))
-                @if(count($media) > 0)
-                    <div class="col-xs-12">
-                        <h3 class="mt-5">
-                            <i class="fa fa-file"></i> Media and Documents
-                        </h3>
-                        @foreach($media as $m)
-
-                            <div class="col-sm-4 col-xs-12 col-md-4 case-document">
-                                @if($m[0]->mime_type === 'png' || $m[0]->mime_type === 'jpg' || $m[0]->mime_type === 'gif')
-                                    <img src="{{ env('HTTP_TYPE') }}://{{ env('APP_DOMAIN') . '/files/user/'.\Auth::id(). '/' . $m[0]->name }}"/>
-                                @else
-                                    <i class="fas fa-file"></i>
-                                @endif
-
-                                <a data-toggle="modal" class="btn btn-block btn-primary"
-                                   data-target='#view-media-modal-{{ $m[0]->uuid }}' href='#'>View</a>
-                                <a data-toggle="modal" class="btn btn-block btn-danger"
-                                   data-target='#delete-media-modal-{{ $m[0]->uuid }}' href='#'>Delete</a>
-
-                            </div>
-                            @endforeach
-                            </tbody>
-                            </table>
-                    </div>
-                @endif
-            @endif
-
-            @if(!empty($invoices))
-                @if(count($invoices) > 0)
-                    <div class="col-xs-12">
-                        <h3 class="mt-5">
-                            <i class="fa fa-file"></i> Invoices
-                        </h3>
-                        @foreach($invoices as $invoice)
-                            <div class="invoice-small invoice-small-case col-md-3 col-sm-5 col-xs-12 box-shadow box-white">
-                                @if($invoice->paid)
-                                    <p class="text-green text-center text-bold">PAID</p>
-                                @else
-                                    <p class="text-center text-red text-bold">UNPAID</p>
-                                @endif
-                                <label>To</label>
-                                <p>{{ $invoice->receiver_info }}</p>
-                                <p>{{ $invoice->sender_info }}</p>
-                                <label>Due</label>
-                                <p>{{ \Carbon\Carbon::parse($invoice->due_date)->format('m/d/Y g:i A') }}</p>
-                                <label>Description</label>
-                                <p>{{ $invoice->description }}</p>
-                                <label>Total</label>
-                                <p>$ {{ $invoice->total }}.00</p>
-                                <a class="btn btn-primary btn-block"
-                                   href="/dashboard/invoices/invoice/{{$invoice->invoice_uuid}}">View</a>
-                                <a class="btn btn-danger btn-block"
-                                   href="/dashboard/invoices/invoice/{{$invoice->invoice_uuid}}/delete">Delete</a>
-                            </div>
-                            @endforeach
-                            </tbody>
-                            </table>
-                    </div>
-                @endif
-            @endif
-
-            @if(count($task_lists) > 0)
-                @foreach($task_lists as $task_list)
-                    <div class="col-xs-12">
-                        <h3 class="mt-5">
-                            <i class="fa fa-clipboard-list"></i> Task list {{ $task_list->task_list_name }}
-                        </h3>
-                        <table id="tasks"
-                               class="table table-{{ $table_size }} table-responsive table-striped table-{{ $table_color }}">
-                            <thead>
-                            <tr class="bg-primary">
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($task_list->Task as $task)
-                                <tr>
-                                    <td>{{ $task_list->id }}</td>
-                                    <td>{{ $task->task_name }}</td>
-                                    <td>{{ $task->task_description }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @endforeach
-            @endif
-
-
+            </div>
         </div>
     </div>
 

@@ -167,7 +167,7 @@
 			</div>
 		  </div>
 		  <!-- search form -->
-		  <form action="#" method="get" class="sidebar-form">
+		  <!--<form action="#" method="get" class="sidebar-form">
 			<div class="input-group">
 			  <input type="text" name="q" class="form-control" placeholder="Search...">
 			  <span class="input-group-btn">
@@ -175,7 +175,7 @@
             </button>
           </span>
 			</div>
-		  </form>
+		  </form>-->
 		  <!-- /.search form -->
 		  <!-- Sidebar Menu -->
 		  <ul class="sidebar-menu" data-widget="tree">
@@ -265,7 +265,6 @@
 <script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
 <script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
-<script src="{{ asset('js/dropzone.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
 @yield('js')
 @stop

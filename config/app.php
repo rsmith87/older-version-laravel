@@ -163,7 +163,7 @@ return [
          * Roberto Added Service Providers
          */
 
-        Aloha\Twilio\Support\Laravel\ServiceProvider::class,
+        //Aloha\Twilio\Support\Laravel\ServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
@@ -171,17 +171,17 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Shivella\Bitly\BitlyServiceProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
+        //Shivella\Bitly\BitlyServiceProvider::class,
+        //Laravel\Scout\ScoutServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
-        Creativeorange\Gravatar\GravatarServiceProvider::class,
+        //Creativeorange\Gravatar\GravatarServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         Jrean\UserVerification\UserVerificationServiceProvider::class,
         Dacastro4\LaravelGmail\LaravelGmailServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         //Lubusin\Decomposer\DecomposerServiceProvider::class,
-        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
-	      ConsoleTVs\Charts\ChartsServiceProvider::class,
+        //Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+        //ConsoleTVs\Charts\ChartsServiceProvider::class,
 
 
 
@@ -231,21 +231,21 @@ return [
       'Validator' => Illuminate\Support\Facades\Validator::class,
       'View'      => Illuminate\Support\Facades\View::class,
       'auth.password.tokens' => Illuminate\Auth\Passwords\TokenRepositoryInterface::class,
-      'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
+      //'Twilio' => 'Aloha\Twilio\Support\Laravel\Facade',
       'Notification' => Illuminate\Support\Facades\Notification::class,
       'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
       'Form' => Collective\Html\FormFacade::class,
       'Html' => Collective\Html\HtmlFacade::class,
-      'Bitly' => Shivella\Bitly\Facade\Bitly::class,
-      'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
+      //'Bitly' => Shivella\Bitly\Facade\Bitly::class,
+      //'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
       'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
       //'Pusher' => Pusher::class,
       'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
       'LaravelGmail' => Dacastro4\LaravelGmail\Facades\LaravelGmail::class,
-      'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+      //'Socialite' => Laravel\Socialite\Facades\Socialite::class,
       'Uuid' => Webpatser\Uuid\Uuid::class,
-      'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
-	    'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+      //'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+       //'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
 
 
 

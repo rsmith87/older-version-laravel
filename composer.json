@@ -12,7 +12,6 @@
         "laravel/framework": "5.6.*",
         "league/flysystem-aws-s3-v3": "~1.0",
         "guzzlehttp/guzzle": "^6.3",
-        "aloha/twilio": "*",
         "phpoffice/phpword": "^0.14.0",
         "dompdf/dompdf": "^0.8.2",
         "snowfire/beautymail": "dev-master",

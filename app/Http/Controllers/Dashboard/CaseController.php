@@ -687,6 +687,7 @@ class CaseController extends Controller
 			'theme' => $this->settings->theme,
 			'event_types' => $this->event_types,
 			'clients' => $clients,
+			'client' => $clients,
 			'order' => $order,
 			'status_values' => $this->status_values,
 			'invoice_amount' => $invoice_amount,
@@ -700,6 +701,7 @@ class CaseController extends Controller
 			'settings' => $this->settings,
 			'case_types' => $this->case_types,
             'types' => $this->case_types,
+            'firm_stripe' => $this->firm_stripe,
 		]);
 	}
 

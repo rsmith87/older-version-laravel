@@ -20,8 +20,6 @@
 @if($user->hasRole('administrator') || $user->hasRole('authenticated_user'))
 <script type="text/javascript">
 	var $ = jQuery;
-   $('#lfm').filemanager('image');
-
    $('#lfm').filemanager('file');
  
 	

@@ -226,10 +226,10 @@ Route::group(['middleware' => ['web']], function () {
 			/*Route::get('/document/{id}', 'Dashboard\DocumentController@single');
 			Route::get('/document/{id}/send', 'Dashboard\DocumentController@create_download_link');
 			Route::post('/create', 'Dashboard\DocumentController@create');
-			Route::post('/{type}/upload', 'Dashboard\DocumentController@upload');
+			Route::post('/{type}/upload', 'Dashboard\DocumentController@upload');*/
 			Route::post('/document/delete', 'Dashboard\DocumentController@delete');
 			Route::post('/document/relate', 'Dashboard\DocumentController@relate');
-			Route::post('/document/send', 'Dashboard\DocumentController@send_email');*/
+			Route::post('/document/send', 'Dashboard\DocumentController@send_email');
 		});
 
 

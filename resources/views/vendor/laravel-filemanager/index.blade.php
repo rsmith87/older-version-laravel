@@ -149,7 +149,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
   <script src="{{ asset('vendor/laravel-filemanager/js/cropper.min.js') }}"></script>
   <script src="{{ asset('vendor/laravel-filemanager/js/jquery.form.min.js') }}"></script>
-  <script src="{{ asset('vendor/laravel-filemanager/js/dropzone.min.js') }}"></script>
+  <script src="{{ asset('js/dropzone.js') }}"></script>
   <script>
     var route_prefix = "{{ url('/') }}";
     var lfm_route = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
@@ -204,7 +204,6 @@
           }
       });
       },
-acceptedFiles: "{{ lcfirst(str_singular(request('type') ? request('type') : '')) == 'image' ? implode(',', config('lfm.valid_image_mimetypes')) : implode(',', config('lfm.valid_file_mimetypes')) }}",
 maxFilesize: ({{ lcfirst(str_singular(request('type') ? request('type') : '')) == 'image' ? config('lfm.max_image_size') : config('lfm.max_file_size') }} / 1000)
     }
   </script>
