@@ -1660,13 +1660,14 @@ table.communcation-log td:nth-child(1) {
   overflow: hidden;
   position: relative;
 }
-#case-information,
-#timers-and-hours,
-#notes,
-.contacts-case,
-#calendar,
-#media-and-documents,
-#invoices {
+.case #case-information,
+.case #timers-and-hours,
+.case #notes,
+.case #contact,
+.case #calendar-case,
+.case #media-and-documents,
+.case #invoices {
   height: 100vh;
+  position: relative;
 }
 /*# sourceMappingURL=app.css.map */

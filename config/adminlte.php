@@ -172,9 +172,9 @@ return [
 	          'can' => 'view tasks',
         ],
         [
-            'text'        => 'Documents',
-            'url'         => 'dashboard/documents',
-            'icon'        => 'file',
+            'text'        => 'Media',
+            'url'         => 'dashboard/media',
+            'icon'        => 'compact-disc',
             //'label'       => 4,
             //'label_color' => 'success',
 	          'can' => 'view documents',

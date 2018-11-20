@@ -2,10 +2,11 @@
 
 @section('content')
 
-    <div class="container dashboard case col-sm-12 col-12 offset-sm-2">
+    <div class="container dashboard case col-sm-12 col-12 offset-sm-2 scroll-spy" data-spy="scroll" data-target="#sidebar">
 
         @include('dashboard.type_navigation.case')
         @include('dashboard.includes.alerts')
+
         @if(count($firm_stripe) <1 )
             <div class="alert alert-warning fade in ml-3 mr-3 mb-4" role="alert'">
                 Your firm has not completed the Stripe signup to connect payments. You will be unable to invoice clients
@@ -15,19 +16,19 @@
                 </button>
             </div>
         @endif
+        <h1 class="pull-left ml-3 mt-4 mb-2">
+            <i class="fas fa-balance-scale"></i> Case
+        </h1>
+        <div class="clearfix"></div>
+        <p class="ml-3 mb-4">
+            Case information for {{ $case->name }}
+        </p>
+        <div>
 
-        <div data-spy="scroll" class="scroll-spy" data-target="#mynav">
-            <h1 class="pull-left ml-3 mt-4 mb-2">
-                <i class="fas fa-balance-scale"></i> Case
-            </h1>
-            <div class="clearfix"></div>
-            <p class="ml-3 mb-4">
-                Case information for {{ $case->name }}
-            </p>
 
             <div class="col-xs-12" data-spy="affix" data-offset="180">
                 <div class="list-group navbar" id="sidebar">
-                    <ul class="nav nav-pills" id="mynav">
+                    <ul class="nav nav-pills">
                         <li><a href="#case-information" class="list-group-item">Case Information</a></li>
 
                         @if(count($full_case_hours) > 0)
@@ -39,11 +40,11 @@
                         @endif
 
                         @if(count($contacts) > 0)
-                        <li><a href="#contacts" class="list-group-item">Contacts</a></li>
+                        <li><a href="#contact" class="list-group-item">Contacts</a></li>
                         @endif
 
                         @if(count($events) > 0)
-                        <li><a href="#calendar" class="list-group-item">Events</a></li>
+                        <li><a href="#calendar-case" class="list-group-item">Events</a></li>
                         @endif
 
                         @if(count($media) > 0)
@@ -62,6 +63,7 @@
             </div>
 
             <div class="col-xs-12">
+
                 <div id="case-information">
                     <div class="col-sm-6 col-xs-12">
                         @if($case->status)
@@ -172,7 +174,7 @@
                 </div>
 
                 @if(count($full_case_hours) > 0)
-                    <div class="col-xs-12" id="timers-and-hours">
+                    <div id="timers-and-hours">
                         <h3 class="mt-5 ml-3">
                             <i class="fas fa-clock"></i> Hours and Timers
                         </h3>
@@ -203,7 +205,7 @@
                 @endif
 
                 @if(count($notes) > 0)
-                    <div class="col-xs-12" id="notes">
+                    <div id="notes">
                         <h3 class="mt-5 ml-3">
                             <i class="fas fa-sticky-note"></i> Notes
                         </h3>
@@ -237,7 +239,7 @@
                 @if(!empty($contacts))
                     @foreach($contacts as $contact)
                         @if($contact->is_client != 1)
-                            <div class="col-xs-12 contacts-case" id="contacts">
+                            <div id="contact">
                                 <div class="clearfix"></div>
                                 <h3 class="mt-5">
                                     <i class="fa fa-address-card"></i> Contacts
@@ -271,15 +273,19 @@
                 @if(!empty($events))
 
                     @if(count($events) > 0)
-                        <div id="calendar" class="col-xs-12 col-sm-6 fc fc-unthemed fc-ltr"></div>
-
+                        <div id="calendar-case">
+                            <h3>
+                                <i class="fas fa-calendar"></i> Events
+                            </h3>
+                            <div id="calendar" class="col-xs-12 fc fc-unthemed fc-ltr"></div>
+                        </div>
                     @endif
                 @endif
 
 
                 @if(!empty($media))
                     @if(count($media) > 0)
-                        <div class="col-xs-12" id="media-and-documents">
+                        <div id="media-and-documents">
                             <h3 class="mt-5">
                                 <i class="fa fa-file"></i> Media and Documents
                             </h3>
@@ -308,7 +314,8 @@
 
                 @if(!empty($invoices))
                     @if(count($invoices) > 0)
-                        <div class="col-xs-12" id="invoices">
+                        <div class="clearfix"></div>
+                        <div id="invoices">
                             <h3 class="mt-5">
                                 <i class="fa fa-file"></i> Invoices
                             </h3>

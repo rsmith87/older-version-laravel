@@ -29,7 +29,7 @@ class ItemsController extends LfmController
             //$cases = LawCase::where('id', $contact->case_id)->get();
         }
 
-        return view('dashboard/documents', [
+        return view('dashboard/media', [
             'user' => $user,
             'firm_id' => $user->firm_id,
             'theme' => $settings->theme,
@@ -55,12 +55,12 @@ class ItemsController extends LfmController
         $clients = Contact::where(['user_id' => \Auth::id(), 'is_client' => 1])->get();
         $files = parent::sortFilesAndDirectories(parent::getFilesWithInfo($path), $sort_type);
         $directories = parent::sortFilesAndDirectories(parent::getDirectories($path), $sort_type);
-        
+
         return [
-            'html' => (string) view($this->getView())->with([
-                'files'       => $files,
+            'html' => (string)view($this->getView())->with([
+                'files' => $files,
                 'directories' => $directories,
-                'items'       => array_merge($directories, $files),
+                'items' => array_merge($directories, $files),
                 'cases' => $cases,
                 'contacts' => $contacts,
                 'clients' => $clients,

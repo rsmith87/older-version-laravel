@@ -221,15 +221,15 @@ Route::group(['middleware' => ['web']], function () {
 
 		});
 
-		Route::group(['prefix' => 'documents'], function () {
+		Route::group(['prefix' => 'media'], function () {
 			Route::get('/', 'Media\ItemsController@index');
-			/*Route::get('/document/{id}', 'Dashboard\DocumentController@single');
-			Route::get('/document/{id}/send', 'Dashboard\DocumentController@create_download_link');
-			Route::post('/create', 'Dashboard\DocumentController@create');
-			Route::post('/{type}/upload', 'Dashboard\DocumentController@upload');*/
-			Route::post('/document/delete', 'Dashboard\DocumentController@delete');
-			Route::post('/document/relate', 'Dashboard\DocumentController@relate');
-			Route::post('/document/send', 'Dashboard\DocumentController@send_email');
+			/*Route::get('/document/{id}', 'Dashboard\MediaController@single');
+			Route::get('/document/{id}/send', 'Dashboard\MediaController@create_download_link');
+			Route::post('/create', 'Dashboard\MediaController@create');
+			Route::post('/{type}/upload', 'Dashboard\MediaController@upload');*/
+			Route::post('/media/delete', 'Dashboard\MediaController@delete');
+			Route::post('/media/relate', 'Dashboard\MediaController@relate');
+			Route::post('/media/send', 'Dashboard\MediaController@send_email');
 		});
 
 
