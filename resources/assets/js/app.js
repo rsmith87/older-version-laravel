@@ -8,7 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+Vue.config.productionTip = false;
 
 //import Icon from 'vue-awesome/components/Icon'
 

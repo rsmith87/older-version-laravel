@@ -23,7 +23,7 @@
         "spatie/laravel-permission": "*",
         "cartalyst/stripe-laravel": "*",
         "google/apiclient": "^2.0",
-        "laravelcollective/html": "^5.4",
+        "laravelcollective/html": "^5.4.0",
         "shivella/laravel-bitly": "^1.0",
         "thiagoalessio/tesseract_ocr": "^2.2",
         "laravel/scout": "^4.0",
@@ -53,7 +53,8 @@
         "barryvdh/laravel-dompdf": "^0.8.2",
         "mpociot/laravel-apidoc-generator": "^2.0",
         "pbmedia/laravel-single-session": "^2.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "mikehaertl/php-pdftk": "^0.5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

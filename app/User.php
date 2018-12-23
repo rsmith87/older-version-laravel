@@ -31,7 +31,7 @@ use HasApiTokens, Notifiable, Billable, HasRoles, Messagable, SoftDeletes, UserV
     'email', 
     'provider',
     'provider_id',
-	  'verified',
+    'verified',
     'password', 
     'created_at',
   ];

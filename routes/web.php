@@ -295,112 +295,24 @@ Route::group(['middleware' => ['web']], function () {
 			Route::get('/ajax/{id}', 'MessagesController@show_ajax');
 			Route::post('/store/{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
 		});
-	});
+
+		Route::group(['prefix' => 'forms'], function() {
+            Route::get('/', ['as' => 'forms', 'uses' => 'Dashboard\FormController@index']);
+            Route::post('/post', ['as' => 'forms_upload', 'uses' => 'Dashboard\FormController@post']);
+            Route::get('/view/{id}', ['as' => 'form_view', 'uses' => 'Dashboard\FormController@view']);
+            Route::get('/view/{id}/results', ['as' => 'form_results_view', 'uses' => 'Dashboard\FormController@view_form_results']);
+            Route::get('/view/{form_id}/results/{id}', ['as' => 'form_results_single_view', 'uses' => 'Dashboard\FormController@view_single_form_results']);
+            Route::post('/user/post', ['as' => 'form_user_post', 'uses' => 'Dashboard\FormController@store_user_input']);
+            Route::get('/form_builder/{id}', ['uses' => 'Dashboard\FormController@form_builder']);
+
+        });
 
 
-	$middleware = array_merge(\Config::get('lfm.middlewares'), [
-		'\App\Http\Middleware\MultiUser',
-		'\App\Http\Middleware\CreateDefaultFolder',
-	]);
-	$prefix = \Config::get('lfm.url_prefix', \Config::get('lfm.prefix', 'laravel-filemanager'));
-	$as = 'unisharp.lfm.';
-	$namespace = 'Media';
 
-	// make sure authenticated
-	Route::group(compact('middleware', 'prefix', 'as', 'namespace'), function () {
+    });
 
-		// Show LFM
-		Route::get('/', [
-			'uses' => 'LfmController@show',
-			'as' => 'show',
-		]);
 
-		// Show integration error messages
-		Route::get('/errors', [
-			'uses' => 'LfmController@getErrors',
-			'as' => 'getErrors',
-		]);
-
-		// upload
-		Route::any('/upload', [
-			'uses' => 'UploadController@upload',
-			'as' => 'upload',
-		]);
-
-		// list images & files
-		Route::get('/jsonitems', [
-			'uses' => 'ItemsController@getItems',
-			'as' => 'getItems',
-		]);
-
-		// folders
-		Route::get('/newfolder', [
-			'uses' => 'FolderController@getAddfolder',
-			'as' => 'getAddfolder',
-		]);
-		Route::get('/deletefolder', [
-			'uses' => 'FolderController@getDeletefolder',
-			'as' => 'getDeletefolder',
-		]);
-		Route::get('/folders', [
-			'uses' => 'FolderController@getFolders',
-			'as' => 'getFolders',
-		]);
-
-		// crop
-		Route::get('/crop', [
-			'uses' => 'CropController@getCrop',
-			'as' => 'getCrop',
-		]);
-		Route::get('/cropimage', [
-			'uses' => 'CropController@getCropimage',
-			'as' => 'getCropimage',
-		]);
-		Route::get('/cropnewimage', [
-			'uses' => 'CropController@getNewCropimage',
-			'as' => 'getCropimage',
-		]);
-
-		// rename
-		Route::get('/rename', [
-			'uses' => 'RenameController@getRename',
-			'as' => 'getRename',
-		]);
-
-		// scale/resize
-		Route::get('/resize', [
-			'uses' => 'ResizeController@getResize',
-			'as' => 'getResize',
-		]);
-		Route::get('/doresize', [
-			'uses' => 'ResizeController@performResize',
-			'as' => 'performResize',
-		]);
-
-		// download
-		Route::get('/download', [
-			'uses' => 'DownloadController@getDownload',
-			'as' => 'getDownload',
-		]);
-
-		// delete
-		Route::get('/delete', [
-			'uses' => 'DeleteController@getDelete',
-			'as' => 'getDelete',
-		]);
-
-		// Route::get('/demo', 'DemoController@index');
-	});
-
-	Route::group(compact('prefix', 'as', 'namespace'), function () {
-		// Get file when base_directory isn't public
-		$images_url = '/' . \Config::get('lfm.images_folder_name') . '/{base_path}/{image_name}';
-		$files_url = '/' . \Config::get('lfm.files_folder_name') . '/{base_path}/{file_name}';
-		Route::get($images_url, 'RedirectController@getImage')
-			->where('image_name', '.*');
-		Route::get($files_url, 'RedirectController@getFile')
-			->where('file_name', '.*');
-	});
+    include('lfm_web.php');
 });
 
 

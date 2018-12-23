@@ -150,8 +150,6 @@ $(function ($) {
     });
 
 
-    $('.dashboard.home .col-sm-6').matchHeight();
-
     $('#theme-update').change(function () {
         var $this = $(this);
 
@@ -256,12 +254,25 @@ $(function ($) {
         window.location = '/dashboard/firm/user/' + $id;
     });
 
+    $('table#user-forms tr td').click(function () {
+        var $this = $(this);
+        $id = $this.parent().find('td:nth-child(1)').text();
+        window.location = '/dashboard/forms/view/' + $id;
+    });
+
+    $('table#user-forms-completed tr td').click(function () {
+        var $this = $(this);
+        $id = $this.parent().find('td:nth-child(1)').text();
+        $form_id = $this.parent().find('#f-uuid').text();
+        //window.location = '/dashboard/forms/view/' + $id;
+        window.location = '/dashboard/forms/view/' + $form_id + '/results/' + $id;
+    });
+
     $('table#non-click').click(function () {
         return;
     })
     $('table#main tr td').click(function () {
         var $this = $(this);
-
 
         $id = $this.parent().find('td:nth-child(1)').text();
         if (pathArray[2] == 'cases') {
@@ -272,6 +283,8 @@ $(function ($) {
             window.location = '/dashboard/leads/lead/' + $id;
         } else if (pathArray[2] == 'documents') {
             window.location = '/dashboard/documents/document/' + $id;
+        } else if (pathArray[2] == 'forms') {
+          window.location='/dashbaord/forms/'+$id;
         } else if (pathArray[2] == 'invoices') {
             window.location = '/dashboard/invoices/invoice/' + $id;
         } else if (pathArray[2] == 'tasklists') {

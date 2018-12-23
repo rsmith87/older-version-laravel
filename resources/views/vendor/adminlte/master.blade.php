@@ -34,7 +34,6 @@
     
     <link rel="stylesheet" href="{{ asset('css/sass.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
 
     <!-- Scripts -->
     <script>
@@ -42,8 +41,10 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
- 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     @yield('adminlte_css')
 
     <!--[if lt IE 9]>
@@ -56,12 +57,10 @@
 
     @yield('body')
 
-    <script src="{{ asset('js/vue.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('js/vue.min.js') }}"></script>
     <script src="{{ asset('js/fontawesome-all.min.js') }}"></script>
 
-    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
 
 
 

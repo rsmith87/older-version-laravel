@@ -15,7 +15,6 @@
                 <p class="ml-3 mb-2">Cases shows all of your case information regarding all cases. Click on a case to
                     show information about that case.</p>
 
-                <select name="case_sort"
 
             </div>
             <div>

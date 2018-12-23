@@ -88,6 +88,8 @@ class CaseController extends Controller
 		}
 
 		$all_case_data = LawCase::where(['firm_id' => $this->settings->firm_id, 'u_id' => \Auth::id()])->with('contacts')->with('tasks')->get();
+
+
 		$columns = [];
 		$views = View::where(['u_id' => $this->user['id'], 'view_type' => 'case'])->get();
 		$view_data_columns = [];

@@ -17,12 +17,7 @@
   <!--<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>-->
   <link href="{{ asset('css/pretty-checkbox.min.css') }}" />
-  <script src="{{ asset('js/popper.js') }}"></script>
-  <script src="{{ asset('js/select2.js') }}"></script>
-  <script src="{{ asset('js/timer.js') }}"></script>
-  <script src="{{ asset('js/list.min.js') }}"></script>
-  <script src="{{ asset('js/moment.js') }}"></script>
-  <script src="{{ asset('js/autocomplete.js') }}"></script>
+
 
 @stop
 
@@ -242,13 +237,12 @@
 
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 @stack('js')
+<script src="{{ asset('js/popper.js') }}"></script>
+<script src="{{ asset('js/select2.js') }}"></script>
+<script src="{{ asset('js/list.min.js') }}"></script>
+<script src="{{ asset('js/moment.js') }}"></script>
+<script src="{{ asset('js/autocomplete.js') }}"></script>
 <script src="{{ asset('js/fullcalendar.js') }}"></script>
-<script src="{{ asset('js/Chart.js') }}" charset=utf-8></script>
-<script src="{{ asset('js/highcharts.js') }}" charset=utf-8></script>
-<!--<script src="{{  asset('js//fusioncharts.js')  }}" charset=utf-8></script>-->
-<script src="{{ asset('js/echarts.min.js') }}" charset=utf-8></script>
-<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('ckeditor/adapters/jquery.js') }}"></script>
 <script src="{{ asset('js/input-mask/dist/inputmask/inputmask.js') }}"></script>
 <script src="{{ asset('js/input-mask/dist/inputmask/inputmask.extensions.js') }}"></script>
 <script src="{{ asset('js/input-mask/dist/inputmask/inputmask.numeric.extensions.js') }}"></script>
@@ -261,10 +255,8 @@
 <script src="{{ asset('js/date.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/tablesorter.js') }}"></script>
 <script src="{{ asset('js/tagify.js') }}"></script>
-<script src="{{ asset('js/match-height.js') }}"></script>
-<script src="{{ asset('js/timepicker/jquery.timepicker.min.js') }}"></script>
-<script src="{{ asset('js/datepicker/datepicker.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
 @yield('js')
 @stop

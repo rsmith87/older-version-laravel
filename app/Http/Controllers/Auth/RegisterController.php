@@ -74,13 +74,14 @@ class RegisterController extends Controller
       
       $data = $request->all();
    
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+      $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password']),
+      ]);
       
       $inserted = User::where('email', $data['email'])->first();
+
       $inserted->assignRole('firm_manager');
 
       Settings::create([
@@ -95,6 +96,7 @@ class RegisterController extends Controller
         'zip' => $data['zip'],
         'tz' => $data['timezone_register'],
       ]);
+
       View::create([
         'view_type' => 'contact',
         'view_data' => json_encode(['contlient_uuid', 'first_name', 'last_name', 'phone'], true),
