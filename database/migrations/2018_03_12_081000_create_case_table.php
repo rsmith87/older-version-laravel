@@ -23,7 +23,8 @@ class CreateCaseTable extends Migration
         $table->longText('court_name');
         $table->longText('opposing_councel');
         $table->longText('claim_reference_number');
-        $table->longText('location');
+        $table->text('city');
+        $table->text('state');
         $table->dateTime('open_date');
         $table->dateTime('close_date');
         $table->text('statute_of_limitations');

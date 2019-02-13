@@ -51,7 +51,8 @@ class CaseController extends Controller
 				'potential',
 				'active',
 				'closed',
-				'rejected'];
+				'rejected'
+			];
 
 			$this->case_types = [
 				'choose..',
@@ -71,6 +72,10 @@ class CaseController extends Controller
 				'social_security',
 				'tax',
 				'other'
+			];
+
+			$this->states = [
+				'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY', 'AE', 'AA', 'AP'
 			];
 
 			$this->firm_stripe = FirmStripe::where('firm_id', $this->settings->firm_id)->first();
@@ -118,7 +123,9 @@ class CaseController extends Controller
 				'table_color' => $this->settings->table_color,
 				'table_size' => $this->settings->table_size,
 				'settings' => $this->settings,
-			]);
+				'states' => $this->states,
+			]
+		);
 	}
 
 	public function timer_cases(Request $request)
@@ -280,18 +287,19 @@ class CaseController extends Controller
 				'id' => $id,
 			],
 			[
-				'status' => $data['status'],
-				'type' => $data['type'],
-				'number' => $data['case_number'],
-				'name' => $data['name'],
-				'description' => $data['description'],
-				'court_name' => $data['court_name'],
-				'opposing_councel' => $data['opposing_councel'],
-				'claim_reference_number' => $data['claim_reference_number'],
-				'location' => $data['location'],
-				'open_date' => $data['open_date'] != "" ? $this->fix_date($data['open_date']) : "",
-				'close_date' => $data['close_date'] != "" ? $this->fix_date($data['close_date']): "",
-				'statute_of_limitations' => $date,
+				'status' => $data['status'] ?? "",
+				'type' => $data['type'] ?? "",
+				'number' => $data['case_number'] ?? "",
+				'name' => $data['name'] ?? "",
+				'description' => $data['description'] ?? "",
+				'court_name' => $data['court_name'] ?? "",
+				'opposing_councel' => $data['opposing_councel'] ?? "",
+				'claim_reference_number' => $data['claim_reference_number'] ?? "",
+				'city' => $data['city'] ?? "",
+				'state' => $data['state'] ?? "",
+				'open_date' => $this->fix_date($data['open_date']) ?? "",
+				'close_date' => $this->fix_date($data['close_date']) ?? "",
+				'statute_of_limitations' => $date ?? "",
 				'is_billable' => isset($data['rate']) ? "1" : "0",
 				'billing_type' => isset($data['rate_type']) ? $data['rate_type'] : 'fixed',
 				'billing_rate' =>  isset($data['billing_rate']) ? $data['billing_rate'] : 0.00,
@@ -489,6 +497,7 @@ class CaseController extends Controller
 			'settings' => $this->settings,
 			'firm_users' => $usrs,
 			'types' => $this->case_types,
+			'states' => $this->states,
 		]);
 
 	}

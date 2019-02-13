@@ -1695,4 +1695,13 @@ body {
   background: lightgrey;
   font-family: sans-serif;
 }
-/*# sourceMappingURL=app.css.map */
+.col-no-pad {
+  padding-left: 0;
+  padding-right: 0;
+}
+.col-no-pad-left {
+  padding-left: 0;
+}
+.col-no-pad-right {
+  padding-right: 0;
+}

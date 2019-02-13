@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LawCase extends Model
 {
-    use Searchable, SoftDeletes;
+    use SoftDeletes;
   
     protected $table = 'lawcase';
     
@@ -31,7 +31,8 @@ class LawCase extends Model
         'court_name', 
         'opposing_councel', 
         'claim_reference_number', 
-        'location',
+        'city',
+        'state',
         'open_date',
         'close_date',
         'created_at',

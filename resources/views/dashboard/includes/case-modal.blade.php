@@ -46,8 +46,18 @@
 						<input type="text" class="form-control" id="opposing_councel" name="opposing_councel" aria-label="Opposing Councel">
 					</div>              
 					<div class="col-sm-6 col-xs-12">
-						<label>Location</label>
-						<input type="text" class="form-control" id="location" name="location" aria-label="Location">
+						<div class="col-sm-6 col-xs-12 col-no-pad-left">
+							<label>City</label>
+							<input type="text" class="form-control" id="city" name="city" aria-label="City">
+						</div>
+						<div class="col-sm-6 col-xs-12 col-no-pad">
+								<label>State</label>
+								<select name="state" class="form-control">
+								@foreach($states as $state)
+									<option value="{{ $state }}">{{ $state }}</option>
+								@endforeach
+								</select>
+							</div>
 					</div>   
 					<div class="col-sm-6 col-xs-12">
 						<label>Claim Reference Number</label>
@@ -69,7 +79,7 @@
 					  </div>
 					</div>
 					<div class="col-sm-6 col-xs-12">
-						<label>Hours</label>
+						<label>Hours worked</label>
 						<input type="text" class="form-control" name="hours" aria-label="Hours worked">
 					</div>
 					<div class="col-sm-6 col-xs-12 mt-4">

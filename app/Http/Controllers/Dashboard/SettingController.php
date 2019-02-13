@@ -477,36 +477,34 @@ class SettingController extends Controller
 
     public function stripe_account_create(Request $request)
     {
-        $s_client_id = env('STRIPE_CLIENT_ID');
-        return redirect()->away('https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://' . env('APP_DOMAIN') . '/dashboard/stripe/redirect&client_id=' . $s_client_id . '&state=' . csrf_token());
+        return redirect()->away('https://connect.stripe.com/express/oauth/authorize?redirect_uri='. \URL::to('/') . '/dashboard/stripe/redirect&client_id=' . env('STRIPE_CLIENT_ID') . '&state=' . csrf_token());
     }
 
     public function stripe_return(Request $request)
     {
 
         //make guzzle call to get account_id for the firm
-        $code = $_REQUEST['code'];
-        //print_r($code);
         $client = new Client(); //GuzzleHttp\Client
         $response = $client->post('https://connect.stripe.com/oauth/token', [
             'form_params' => [
                 'client_secret' => env('STRIPE_SECRET'),
-                'code' => $code,
+                'code' => $_REQUEST['code'],
                 'grant_type' => 'authorization_code',
             ]
         ]);
 
         if ($response) {
             $data = json_decode($response->getBody()->getContents(), true);
-            $id = $data['stripe_user_id'];
+
+            $fs = FirmStripe::updateOrCreate([
+                'firm_id' => $this->settings->firm_id,
+            ], [
+                'stripe_account_id' => $data['stripe_user_id'],
+                'user_id' => $this->user['id'],
+            ]);
         }
 
-        $fs = FirmStripe::updateOrCreate([
-            'firm_id' => $this->settings->firm_id,
-        ], [
-            'stripe_account_id' => $id,
-            'user_id' => $this->user['id'],
-        ]);
+        
         return redirect('/dashboard/firm')->with('status', 'Your Stripe account is created and has been connected!');
     }
 

@@ -101,9 +101,9 @@
                             <p>{{ $case->opposing_councel }}</p>
                         @endif
 
-                        @if($case->location)
+                        @if($case->city)
                             <label>Location</label>
-                            <p>{{ $case->location }}</p>
+                            <p>{{ $case->city."," }} {{ $case->state ?? null}}</p>
                         @endif
                     </div>
 
