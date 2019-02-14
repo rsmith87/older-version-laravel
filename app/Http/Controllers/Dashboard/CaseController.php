@@ -711,7 +711,8 @@ class CaseController extends Controller
 			'settings' => $this->settings,
 			'case_types' => $this->case_types,
             'types' => $this->case_types,
-            'firm_stripe' => $this->firm_stripe,
+			'firm_stripe' => $this->firm_stripe,
+			'states' => $this->states,
 		]);
 	}
 
