@@ -9,7 +9,7 @@ use App\Notifications\ResetPasswordNotification;
 use App\Notifications\EventConfirmNotification;
 use App\Notifications\EventDenyNotification;
 use Laravel\Cashier\Billable;
-use Cmgmyr\Messenger\Traits\Messagable;
+//use Cmgmyr\Messenger\Traits\Messagable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Jrean\UserVerification\Traits\UserVerification;
@@ -19,7 +19,7 @@ class User extends Authenticatable
   
 {
   
-use HasApiTokens, Notifiable, Billable, HasRoles, Messagable, SoftDeletes, UserVerification;
+use HasApiTokens, Notifiable, Billable, HasRoles, SoftDeletes, UserVerification;
   /**
    * The attributes that are mass assignable.
    *
@@ -82,10 +82,10 @@ use HasApiTokens, Notifiable, Billable, HasRoles, Messagable, SoftDeletes, UserV
     return $this->hasMany('App\Note', 'id', 'user_id');
   }
   
-  public function messages()
+  /*public function messages()
   {
       return $this->hasMany(Message::class);
-  }
+  }*/
   
   public static function generatePassword()
   {
