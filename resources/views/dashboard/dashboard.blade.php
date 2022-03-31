@@ -19,6 +19,11 @@
     @include('dashboard.includes.alerts')
   
   <div id="dashbaord-main">
+    <div class="col-xs-12">
+        <h1>
+        <i class="far fa-chart-bar"></i> Dashboard</h1>
+
+    </div>
 
   <div class="col-md-6 col-xs-12">
           <!-- Widget: user widget style 1 -->

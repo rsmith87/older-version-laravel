@@ -179,12 +179,12 @@ return [
             //'label_color' => 'success',
 	          'can' => 'view documents',
         ],
-        [
+        /*[
             'text' => 'Forms',
             'url'  => 'dashboard/forms',
             'icon' => 'file-contract',
             'can'  => 'view cases',
-        ],
+        ],*/
         'PREFERENCES',
         [
             'text' => 'Profile',

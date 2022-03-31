@@ -118,7 +118,7 @@
 
 	<script type="text/javascript">
 	  var events =  {!! json_encode($events->toArray()) !!};
-	  var show_task_calendar = {!! count($show_task_calendar) > 0 ? json_encode($show_task_calendar->toArray()) : 0 !!};
+	  var show_task_calendar = {!! is_countable($show_task_calendar) && ($show_task_calendar) > 0 ? json_encode($show_task_calendar->toArray()) : 0 !!};
 	  var u_id =
 			  {!! json_encode($user['id']) !!}
 	  var user =

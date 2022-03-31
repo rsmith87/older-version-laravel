@@ -81,7 +81,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<label>Case</label>
 						<input type="hidden" name="case_id" />
-						<input type="text" name="case_name" class="form-control" />
+						<input type="text" name="case_name" class="form-control" placeholder="Start typing for autocomplete" />
 					</div>   
           			@endif
 					<button class="btn btn-primary mt-3 mb-1">
